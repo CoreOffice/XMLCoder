@@ -13,6 +13,27 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        guard let fileURL = Bundle.main.url(forResource: "RJI_RSS_Sample", withExtension: "xml"),
+              let data = try? Data(contentsOf: fileURL) else { return }
+        
+        let parser = XMLStackParser()
+        
+        let node: XMLNode?
+        
+        do {
+            node = try parser.parse(with: data)
+            
+            print("Success")
+        } catch let error {
+            print(error)
+            
+            node = nil
+        }
+        
+        
+        print("Hello")
+        
     }
 
     override func didReceiveMemoryWarning() {
