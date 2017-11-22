@@ -25,7 +25,7 @@ internal class _XMLNode {
             for value in property {
                 if let content = value.content {
                     node[key] = content
-                } else {
+                } else if !value.attributes.isEmpty || !value.properties.isEmpty {
                     let newValue = value.flatten()
                     
                     if let existingValue = node[key] {
