@@ -12,7 +12,7 @@ struct CDCatalog: Codable {
     var cds: [CD]
     
     enum CodingKeys: String, CodingKey {
-        case cds = "cds"
+        case cds = "CD"
     }
 }
 
@@ -23,4 +23,13 @@ struct CD: Codable {
     var company: String
     var price: Double
     var year: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case title = "TITLE"
+        case artist = "ARTIST"
+        case country = "COUNTRY"
+        case company = "COMPANY"
+        case price = "PRICE"
+        case year = "YEAR"
+    }
 }

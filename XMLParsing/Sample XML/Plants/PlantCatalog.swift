@@ -12,25 +12,28 @@ struct PlantCatalog: Codable {
     var plants: [Plant]
     
     enum CodingKeys: String, CodingKey {
-        case plants = "plant"
+        case plants = "PLANT"
     }
 }
 
 struct Plant: Codable {
     var common: String
     var botanical: String
-    var zone: Int
+    var zone: String
     var light: String
     var price: Double
     var amountAvailable: Int
     
     enum CodingKeys: String, CodingKey {
-        case common, botanical, zone, light, price
-        
-        case amountAvailable = "availability"
+        case common = "COMMON"
+        case botanical = "BOTANICAL"
+        case zone = "ZONE"
+        case light = "LIGHT"
+        case price = "PRICE"
+        case amountAvailable = "AVAILABILITY"
     }
     
-    init(common: String, botanical: String, zone: Int, light: String, price: Double, amountAvailable: Int) {
+    init(common: String, botanical: String, zone: String, light: String, price: Double, amountAvailable: Int) {
         self.common = common
         self.botanical = botanical
         self.zone = zone
@@ -50,7 +53,7 @@ struct Plant: Codable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let common = try values.decode(String.self, forKey: .common)
         let botanical = try values.decode(String.self, forKey: .botanical)
-        let zone = try values.decode(Int.self, forKey: .zone)
+        let zone = try values.decode(String.self, forKey: .zone)
         let light = try values.decode(String.self, forKey: .light)
         let priceString = try values.decode(String.self, forKey: .price)
         let price = Plant.currencyFormatter.number(from: priceString)?.doubleValue ?? 0.0
