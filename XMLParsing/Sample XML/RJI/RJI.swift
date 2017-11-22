@@ -15,12 +15,22 @@ struct RSS: Decodable {
     var rdf: URL
     var content: URL
     var channel: Channel
+    
+    enum CodingKeys: String, CodingKey {
+        case channel = "channel"
+        
+        case dc = "xmlns:dc"
+        case sy = "xmlns:sy"
+        case admin = "xmlns:admin"
+        case rdf = "xmlns:rdf"
+        case content = "xmlns:content"
+    }
 }
 
 struct Channel: Decodable {
     var title: String
     var link: URL
-    var description: String
+    var description: String?
     var language: String
     var creator: String
     var rights: String
@@ -61,7 +71,7 @@ struct Channel: Decodable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         title = try values.decode(String.self, forKey: .title)
         link = try values.decode(URL.self, forKey: .link)
-        description = try values.decode(String.self, forKey: .description)
+        description = try values.decodeIfPresent(String.self, forKey: .description)
         language = try values.decode(String.self, forKey: .language)
         creator = try values.decode(String.self, forKey: .creator)
         rights = try values.decode(String.self, forKey: .rights)
@@ -86,12 +96,19 @@ struct Image: Decodable {
 struct Item: Decodable {
     var title: String
     var link: URL
-    var GUID: URL
-    var enclousre: Enclosure
+    var guid: URL
+    var enclosure: Enclosure?
     var description: String
-    var subject: String
+    var subject: String?
     var date: Date
-    var author: String
+    var author: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case title, link, guid, enclosure, description, author
+        
+        case subject = "dc:subject"
+        case date = "dc:date"
+    }
 }
 
 struct Enclosure: Decodable {
