@@ -17,7 +17,7 @@ class ViewController: UIViewController {
         guard let fileURL = Bundle.main.url(forResource: "RJI_RSS_Sample", withExtension: "xml"),
               let data = try? Data(contentsOf: fileURL) else { return }
         
-        let dict: [String: Any]
+        var dict: [String: Any] = [:]
         
         do {
             dict = try _XMLStackParser.parse(with: data)
@@ -25,7 +25,7 @@ class ViewController: UIViewController {
             print(error)
         }
         
-        print("Hello")
+        print("Dict is empty: \(dict.isEmpty)")
         
     }
 
