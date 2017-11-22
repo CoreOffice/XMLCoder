@@ -44,11 +44,11 @@ internal struct _XMLKeyedDecodingContainer<K : CodingKey> : KeyedDecodingContain
     }
     
     public func decodeNil(forKey key: Key) throws -> Bool {
-        guard let entry = self.container[key.stringValue] else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: self.decoder.codingPath, debugDescription: "No value associated with key \(key) (\"\(key.stringValue)\")."))
+        if let entry = self.container[key.stringValue] {
+            return entry is NSNull
+        } else {
+            return true
         }
-        
-        return entry is NSNull
     }
     
     public func decode(_ type: Bool.Type, forKey key: Key) throws -> Bool {
