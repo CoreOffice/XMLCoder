@@ -16,9 +16,9 @@ class ViewController: UIViewController {
         
 //        let dict = parseToDict(retrieveData(for: "book")!)
         
-//        let dict = parseToDict(retrieveData(for: "breakfast")!)
+        let dict = parseToDict(retrieveData(for: "RJI_RSS_Sample")!)
         
-        let catalog: CDCatalog! = parseCDCatalog()
+        let rss: RSS! = parseRJI()
         
         print("finished")
     }
@@ -180,6 +180,28 @@ class ViewController: UIViewController {
         }
         
         return catalog
+    }
+
+    func parseRJI() -> RSS? {
+        guard let data = retrieveData(for: "RJI_RSS_Sample") else { return nil }
+        
+        let decoder = XMLDecoder()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        decoder.dateDecodingStrategy = .formatted(dateFormatter)
+        
+        let rss: RSS?
+        
+        do {
+            rss = try decoder.decode(RSS.self, from: data)
+        } catch {
+            print(error)
+            
+            rss = nil
+        }
+        
+        return rss
     }
 }
 
