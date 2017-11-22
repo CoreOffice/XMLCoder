@@ -14,18 +14,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        guard let fileURL = Bundle.main.url(forResource: "RJI_RSS_Sample", withExtension: "xml"),
+        guard let fileURL = Bundle.main.url(forResource: "note", withExtension: "xml"),
               let data = try? Data(contentsOf: fileURL) else { return }
         
-        var dict: [String: Any] = [:]
-        
-        do {
-            dict = try _XMLStackParser.parse(with: data)
-        } catch {
-            print(error)
-        }
-        
-        print("Dict is empty: \(dict.isEmpty)")
         
     }
 
@@ -34,6 +25,35 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    func parseToDict(_ data: Data) -> [String: Any] {
+        var dict: [String: Any] = [:]
+        
+        do {
+            dict = try _XMLStackParser.parse(with: data)
+        } catch {
+            print(error)
+        }
+        
+        return dict
+    }
 
+    func parseNote() -> Note? {
+        guard let fileURL = Bundle.main.url(forResource: "note", withExtension: "xml"),
+            let data = try? Data(contentsOf: fileURL) else { return nil }
+        
+        let decoder = XMLDecoder()
+        
+        let note: Note?
+        
+        do {
+            note = try decoder.decode(Note.self, from: data)
+        } catch {
+            print(error)
+            
+            note = nil
+        }
+        
+        return note
+    }
 }
 
