@@ -14,10 +14,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        guard let fileURL = Bundle.main.url(forResource: "note", withExtension: "xml"),
-              let data = try? Data(contentsOf: fileURL) else { return }
-        
-        
+        parseNoteError()
     }
 
     override func didReceiveMemoryWarning() {
@@ -54,6 +51,23 @@ class ViewController: UIViewController {
         }
         
         return note
+    }
+    
+    func parseNoteError() {
+        guard let fileURL = Bundle.main.url(forResource: "note_error", withExtension: "xml"),
+            let data = try? Data(contentsOf: fileURL) else { return }
+        
+        let decoder = XMLDecoder()
+        
+        let note: Note?
+        
+        do {
+            note = try decoder.decode(Note.self, from: data)
+        } catch {
+            print(error)
+            
+            note = nil
+        }
     }
 }
 
