@@ -17,20 +17,13 @@ class ViewController: UIViewController {
         guard let fileURL = Bundle.main.url(forResource: "RJI_RSS_Sample", withExtension: "xml"),
               let data = try? Data(contentsOf: fileURL) else { return }
         
-//        let parser = _XMLStackParser()
-//
-//        let node: _XMLNode?
-//
-//        do {
-//            node = try parser.parse(with: data)
-//
-//            print("Success")
-//        } catch let error {
-//            print(error)
-//
-//            node = nil
-//        }
+        let dict: [String: Any]
         
+        do {
+            dict = try _XMLStackParser.parse(with: data)
+        } catch {
+            print(error)
+        }
         
         print("Hello")
         
