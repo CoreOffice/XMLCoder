@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct RSS {
+struct RSS: Codable {
     var dc: URL
     var sy: URL
     var admin: URL
@@ -17,7 +17,7 @@ struct RSS {
     var channel: Channel
 }
 
-struct Channel {
+struct Channel: Codable {
     var title: String
     var link: URL
     var description: String
@@ -30,11 +30,11 @@ struct Channel {
     var item: [Item]
 }
 
-struct GeneratorAgent {
+struct GeneratorAgent: Codable {
     var resource: URL
 }
 
-struct Image {
+struct Image: Codable {
     var url: URL
     var height: Int
     var width: Int
@@ -42,7 +42,7 @@ struct Image {
     var title: String
 }
 
-struct Item {
+struct Item: Codable {
     var title: String
     var link: URL
     var GUID: URL
@@ -53,7 +53,7 @@ struct Item {
     var author: String
 }
 
-struct Enclosure {
+struct Enclosure: Codable {
     var url: URL
     var length: String
     var type: String

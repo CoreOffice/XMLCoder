@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct PlantCatalog {
+struct PlantCatalog: Codable {
     var plants: [Plant]
     
     enum CodingKeys: String, CodingKey {

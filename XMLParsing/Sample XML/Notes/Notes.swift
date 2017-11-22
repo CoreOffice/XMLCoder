@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Note {
+struct Note: Codable {
     var to: String
     var from: String
     var heading: String
