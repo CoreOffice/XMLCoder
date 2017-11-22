@@ -6,12 +6,16 @@
 //  Copyright © 2017 Shawn Moore. All rights reserved.
 //
 
+//===----------------------------------------------------------------------===//
+// Data Representation
+//===----------------------------------------------------------------------===//
+
 import Foundation
 
-class XMLNode {
+internal class _XMLNode {
     var name = ""
     var content: String?
-    var properties = [String:[XMLNode]]()
+    var properties = [String:[_XMLNode]]()
     var attributes = [String:String]()
     
     func flatten() -> [String: Any] {
@@ -42,15 +46,29 @@ class XMLNode {
     }
 }
 
-class XMLStackParser: NSObject, XMLParserDelegate {
-    var root: XMLNode?
-    var stack = [XMLNode]()
-    var currentNode: XMLNode?
+internal class _XMLStackParser: NSObject, XMLParserDelegate {
+    var root: _XMLNode?
+    var stack = [_XMLNode]()
+    var currentNode: _XMLNode?
     
     var currentElementName: String?
     var currentElementData = ""
     
-    func parse(with data: Data) throws -> XMLNode?  {
+    static func parse(with data: Data) throws -> [String: Any] {
+        let parser = _XMLStackParser()
+        
+        do {
+            if let node = try parser.parse(with: data) {
+                return node.flatten()
+            } else {
+                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: "The given data could not be parsed into XML."))
+            }
+        } catch {
+            throw error
+        }
+    }
+    
+    func parse(with data: Data) throws -> _XMLNode?  {
         let xmlParser = XMLParser(data: data)
         xmlParser.delegate = self
         
@@ -65,11 +83,11 @@ class XMLStackParser: NSObject, XMLParserDelegate {
     
     func parserDidStartDocument(_ parser: XMLParser) {
         root = nil
-        stack = [XMLNode]()
+        stack = [_XMLNode]()
     }
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
-        let node = XMLNode()
+        let node = _XMLNode()
         node.name = elementName
         node.attributes = attributeDict
         stack.append(node)

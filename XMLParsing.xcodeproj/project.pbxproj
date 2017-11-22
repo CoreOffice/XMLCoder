@@ -25,9 +25,16 @@
 		589D29FE1FBCF8160050E664 /* CDCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589D29FD1FBCF8160050E664 /* CDCatalog.swift */; };
 		589D2A001FBCF93E0050E664 /* PlantCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589D29FF1FBCF93E0050E664 /* PlantCatalog.swift */; };
 		589D2A021FBCF9D50050E664 /* breakfast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589D2A011FBCF9D50050E664 /* breakfast.swift */; };
-		58D005851FC08DDA0048711F /* XMLDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D005841FC08DD90048711F /* XMLDecoder.swift */; };
+		58AD27291FC394C70072AD90 /* XMLDecodingStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AD27281FC394C70072AD90 /* XMLDecodingStorage.swift */; };
+		58AD272B1FC46B190072AD90 /* DecodingErrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AD272A1FC46B190072AD90 /* DecodingErrorExtension.swift */; };
+		58AD272D1FC46B8A0072AD90 /* ISO8601DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AD272C1FC46B8A0072AD90 /* ISO8601DateFormatter.swift */; };
+		58AD272F1FC46BCD0072AD90 /* XMLKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AD272E1FC46BCD0072AD90 /* XMLKey.swift */; };
+		58AD27311FC46D9A0072AD90 /* XMLUnkeyedDecodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AD27301FC46D9A0072AD90 /* XMLUnkeyedDecodingContainer.swift */; };
+		58AD27331FC4728F0072AD90 /* XMLKeyedDecodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AD27321FC4728F0072AD90 /* XMLKeyedDecodingContainer.swift */; };
+		58D005851FC08DDA0048711F /* XMLDecoderV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D005841FC08DD90048711F /* XMLDecoderV1.swift */; };
 		58D005871FC37AE10048711F /* book.xml in Resources */ = {isa = PBXBuildFile; fileRef = 58D005861FC37AE10048711F /* book.xml */; };
 		58D005891FC3839D0048711F /* RJI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D005881FC3839D0048711F /* RJI.swift */; };
+		58D0058D1FC390200048711F /* XMLDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D0058C1FC390200048711F /* XMLDecoder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,9 +58,16 @@
 		589D29FD1FBCF8160050E664 /* CDCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDCatalog.swift; sourceTree = "<group>"; };
 		589D29FF1FBCF93E0050E664 /* PlantCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantCatalog.swift; sourceTree = "<group>"; };
 		589D2A011FBCF9D50050E664 /* breakfast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = breakfast.swift; sourceTree = "<group>"; };
-		58D005841FC08DD90048711F /* XMLDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLDecoder.swift; sourceTree = "<group>"; };
+		58AD27281FC394C70072AD90 /* XMLDecodingStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLDecodingStorage.swift; sourceTree = "<group>"; };
+		58AD272A1FC46B190072AD90 /* DecodingErrorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingErrorExtension.swift; sourceTree = "<group>"; };
+		58AD272C1FC46B8A0072AD90 /* ISO8601DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISO8601DateFormatter.swift; sourceTree = "<group>"; };
+		58AD272E1FC46BCD0072AD90 /* XMLKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLKey.swift; sourceTree = "<group>"; };
+		58AD27301FC46D9A0072AD90 /* XMLUnkeyedDecodingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLUnkeyedDecodingContainer.swift; sourceTree = "<group>"; };
+		58AD27321FC4728F0072AD90 /* XMLKeyedDecodingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLKeyedDecodingContainer.swift; sourceTree = "<group>"; };
+		58D005841FC08DD90048711F /* XMLDecoderV1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLDecoderV1.swift; sourceTree = "<group>"; };
 		58D005861FC37AE10048711F /* book.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = book.xml; sourceTree = "<group>"; };
 		58D005881FC3839D0048711F /* RJI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RJI.swift; sourceTree = "<group>"; };
+		58D0058C1FC390200048711F /* XMLDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLDecoder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,10 +100,10 @@
 		589881691FBCB5C8003154DE /* XMLParsing */ = {
 			isa = PBXGroup;
 			children = (
-				5898817E1FBCB611003154DE /* Sample XML */,
-				5898818B1FBCD514003154DE /* XMLStackParser.swift */,
-				58D005841FC08DD90048711F /* XMLDecoder.swift */,
 				5898816C1FBCB5C8003154DE /* ViewController.swift */,
+				5898817E1FBCB611003154DE /* Sample XML */,
+				58D0058B1FC3900F0048711F /* Decoder */,
+				58D0058A1FC38FF30048711F /* Previous Attempts */,
 				5898818D1FBCD518003154DE /* Support */,
 			);
 			path = XMLParsing;
@@ -176,6 +190,29 @@
 			path = BreakfastMenu;
 			sourceTree = "<group>";
 		};
+		58D0058A1FC38FF30048711F /* Previous Attempts */ = {
+			isa = PBXGroup;
+			children = (
+				58D005841FC08DD90048711F /* XMLDecoderV1.swift */,
+			);
+			path = "Previous Attempts";
+			sourceTree = "<group>";
+		};
+		58D0058B1FC3900F0048711F /* Decoder */ = {
+			isa = PBXGroup;
+			children = (
+				58D0058C1FC390200048711F /* XMLDecoder.swift */,
+				58AD27281FC394C70072AD90 /* XMLDecodingStorage.swift */,
+				5898818B1FBCD514003154DE /* XMLStackParser.swift */,
+				58AD27321FC4728F0072AD90 /* XMLKeyedDecodingContainer.swift */,
+				58AD27301FC46D9A0072AD90 /* XMLUnkeyedDecodingContainer.swift */,
+				58AD272A1FC46B190072AD90 /* DecodingErrorExtension.swift */,
+				58AD272C1FC46B8A0072AD90 /* ISO8601DateFormatter.swift */,
+				58AD272E1FC46BCD0072AD90 /* XMLKey.swift */,
+			);
+			path = Decoder;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -257,15 +294,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				589D29FE1FBCF8160050E664 /* CDCatalog.swift in Sources */,
-				58D005851FC08DDA0048711F /* XMLDecoder.swift in Sources */,
+				58D005851FC08DDA0048711F /* XMLDecoderV1.swift in Sources */,
+				58AD272B1FC46B190072AD90 /* DecodingErrorExtension.swift in Sources */,
 				589881971FBCDC23003154DE /* Books.swift in Sources */,
 				589D29FC1FBCF7240050E664 /* Notes.swift in Sources */,
 				5898816D1FBCB5C8003154DE /* ViewController.swift in Sources */,
+				58AD27311FC46D9A0072AD90 /* XMLUnkeyedDecodingContainer.swift in Sources */,
 				589D2A001FBCF93E0050E664 /* PlantCatalog.swift in Sources */,
+				58AD27331FC4728F0072AD90 /* XMLKeyedDecodingContainer.swift in Sources */,
 				589D2A021FBCF9D50050E664 /* breakfast.swift in Sources */,
 				5898818C1FBCD514003154DE /* XMLStackParser.swift in Sources */,
+				58AD272D1FC46B8A0072AD90 /* ISO8601DateFormatter.swift in Sources */,
 				5898816B1FBCB5C8003154DE /* AppDelegate.swift in Sources */,
 				58D005891FC3839D0048711F /* RJI.swift in Sources */,
+				58AD272F1FC46BCD0072AD90 /* XMLKey.swift in Sources */,
+				58AD27291FC394C70072AD90 /* XMLDecodingStorage.swift in Sources */,
+				58D0058D1FC390200048711F /* XMLDecoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
