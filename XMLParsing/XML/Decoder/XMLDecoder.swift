@@ -8,6 +8,10 @@
 
 import Foundation
 
+//===----------------------------------------------------------------------===//
+// XML Decoder
+//===----------------------------------------------------------------------===//
+
 /// `XMLDecoder` facilitates the decoding of XML into semantic `Decodable` types.
 open class XMLDecoder {
     // MARK: Options

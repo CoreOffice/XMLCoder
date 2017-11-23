@@ -31,6 +31,8 @@
 		58AD272F1FC46BCD0072AD90 /* XMLKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AD272E1FC46BCD0072AD90 /* XMLKey.swift */; };
 		58AD27311FC46D9A0072AD90 /* XMLUnkeyedDecodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AD27301FC46D9A0072AD90 /* XMLUnkeyedDecodingContainer.swift */; };
 		58AD27331FC4728F0072AD90 /* XMLKeyedDecodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AD27321FC4728F0072AD90 /* XMLKeyedDecodingContainer.swift */; };
+		58AD27361FC63DAB0072AD90 /* EncodingErrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AD27351FC63DAB0072AD90 /* EncodingErrorExtension.swift */; };
+		58AD27391FC6416E0072AD90 /* XMLEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AD27381FC6416E0072AD90 /* XMLEncoder.swift */; };
 		58D005851FC08DDA0048711F /* XMLDecoderV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D005841FC08DD90048711F /* XMLDecoderV1.swift */; };
 		58D005871FC37AE10048711F /* book.xml in Resources */ = {isa = PBXBuildFile; fileRef = 58D005861FC37AE10048711F /* book.xml */; };
 		58D005891FC3839D0048711F /* RJI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D005881FC3839D0048711F /* RJI.swift */; };
@@ -64,6 +66,8 @@
 		58AD272E1FC46BCD0072AD90 /* XMLKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLKey.swift; sourceTree = "<group>"; };
 		58AD27301FC46D9A0072AD90 /* XMLUnkeyedDecodingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLUnkeyedDecodingContainer.swift; sourceTree = "<group>"; };
 		58AD27321FC4728F0072AD90 /* XMLKeyedDecodingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLKeyedDecodingContainer.swift; sourceTree = "<group>"; };
+		58AD27351FC63DAB0072AD90 /* EncodingErrorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodingErrorExtension.swift; sourceTree = "<group>"; };
+		58AD27381FC6416E0072AD90 /* XMLEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLEncoder.swift; sourceTree = "<group>"; };
 		58D005841FC08DD90048711F /* XMLDecoderV1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLDecoderV1.swift; sourceTree = "<group>"; };
 		58D005861FC37AE10048711F /* book.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = book.xml; sourceTree = "<group>"; };
 		58D005881FC3839D0048711F /* RJI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RJI.swift; sourceTree = "<group>"; };
@@ -102,8 +106,8 @@
 			children = (
 				5898816C1FBCB5C8003154DE /* ViewController.swift */,
 				5898817E1FBCB611003154DE /* Sample XML */,
-				58D0058B1FC3900F0048711F /* Decoder */,
-				58D0058A1FC38FF30048711F /* Previous Attempts */,
+				58AD27371FC63DFF0072AD90 /* XML */,
+				58D0058A1FC38FF30048711F /* Previous XML Attempts */,
 				5898818D1FBCD518003154DE /* Support */,
 			);
 			path = XMLParsing;
@@ -190,12 +194,31 @@
 			path = BreakfastMenu;
 			sourceTree = "<group>";
 		};
-		58D0058A1FC38FF30048711F /* Previous Attempts */ = {
+		58AD27341FC637CC0072AD90 /* Encoder */ = {
+			isa = PBXGroup;
+			children = (
+				58AD27351FC63DAB0072AD90 /* EncodingErrorExtension.swift */,
+				58AD27381FC6416E0072AD90 /* XMLEncoder.swift */,
+			);
+			path = Encoder;
+			sourceTree = "<group>";
+		};
+		58AD27371FC63DFF0072AD90 /* XML */ = {
+			isa = PBXGroup;
+			children = (
+				58AD272C1FC46B8A0072AD90 /* ISO8601DateFormatter.swift */,
+				58AD27341FC637CC0072AD90 /* Encoder */,
+				58D0058B1FC3900F0048711F /* Decoder */,
+			);
+			path = XML;
+			sourceTree = "<group>";
+		};
+		58D0058A1FC38FF30048711F /* Previous XML Attempts */ = {
 			isa = PBXGroup;
 			children = (
 				58D005841FC08DD90048711F /* XMLDecoderV1.swift */,
 			);
-			path = "Previous Attempts";
+			path = "Previous XML Attempts";
 			sourceTree = "<group>";
 		};
 		58D0058B1FC3900F0048711F /* Decoder */ = {
@@ -207,7 +230,6 @@
 				58AD27321FC4728F0072AD90 /* XMLKeyedDecodingContainer.swift */,
 				58AD27301FC46D9A0072AD90 /* XMLUnkeyedDecodingContainer.swift */,
 				58AD272A1FC46B190072AD90 /* DecodingErrorExtension.swift */,
-				58AD272C1FC46B8A0072AD90 /* ISO8601DateFormatter.swift */,
 				58AD272E1FC46BCD0072AD90 /* XMLKey.swift */,
 			);
 			path = Decoder;
@@ -304,12 +326,14 @@
 				58AD27331FC4728F0072AD90 /* XMLKeyedDecodingContainer.swift in Sources */,
 				589D2A021FBCF9D50050E664 /* breakfast.swift in Sources */,
 				5898818C1FBCD514003154DE /* XMLStackParser.swift in Sources */,
+				58AD27391FC6416E0072AD90 /* XMLEncoder.swift in Sources */,
 				58AD272D1FC46B8A0072AD90 /* ISO8601DateFormatter.swift in Sources */,
 				5898816B1FBCB5C8003154DE /* AppDelegate.swift in Sources */,
 				58D005891FC3839D0048711F /* RJI.swift in Sources */,
 				58AD272F1FC46BCD0072AD90 /* XMLKey.swift in Sources */,
 				58AD27291FC394C70072AD90 /* XMLDecodingStorage.swift in Sources */,
 				58D0058D1FC390200048711F /* XMLDecoder.swift in Sources */,
+				58AD27361FC63DAB0072AD90 /* EncodingErrorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
