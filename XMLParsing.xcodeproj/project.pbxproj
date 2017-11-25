@@ -33,6 +33,7 @@
 		58AD27331FC4728F0072AD90 /* XMLKeyedDecodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AD27321FC4728F0072AD90 /* XMLKeyedDecodingContainer.swift */; };
 		58AD27361FC63DAB0072AD90 /* EncodingErrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AD27351FC63DAB0072AD90 /* EncodingErrorExtension.swift */; };
 		58AD27391FC6416E0072AD90 /* XMLEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AD27381FC6416E0072AD90 /* XMLEncoder.swift */; };
+		58AD273B1FC67DBA0072AD90 /* XMLEncodingStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AD273A1FC67DBA0072AD90 /* XMLEncodingStorage.swift */; };
 		58D005851FC08DDA0048711F /* XMLDecoderV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D005841FC08DD90048711F /* XMLDecoderV1.swift */; };
 		58D005871FC37AE10048711F /* book.xml in Resources */ = {isa = PBXBuildFile; fileRef = 58D005861FC37AE10048711F /* book.xml */; };
 		58D005891FC3839D0048711F /* RJI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D005881FC3839D0048711F /* RJI.swift */; };
@@ -68,6 +69,7 @@
 		58AD27321FC4728F0072AD90 /* XMLKeyedDecodingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLKeyedDecodingContainer.swift; sourceTree = "<group>"; };
 		58AD27351FC63DAB0072AD90 /* EncodingErrorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodingErrorExtension.swift; sourceTree = "<group>"; };
 		58AD27381FC6416E0072AD90 /* XMLEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLEncoder.swift; sourceTree = "<group>"; };
+		58AD273A1FC67DBA0072AD90 /* XMLEncodingStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLEncodingStorage.swift; sourceTree = "<group>"; };
 		58D005841FC08DD90048711F /* XMLDecoderV1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLDecoderV1.swift; sourceTree = "<group>"; };
 		58D005861FC37AE10048711F /* book.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = book.xml; sourceTree = "<group>"; };
 		58D005881FC3839D0048711F /* RJI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RJI.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 			children = (
 				58AD27351FC63DAB0072AD90 /* EncodingErrorExtension.swift */,
 				58AD27381FC6416E0072AD90 /* XMLEncoder.swift */,
+				58AD273A1FC67DBA0072AD90 /* XMLEncodingStorage.swift */,
 			);
 			path = Encoder;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 				58D005851FC08DDA0048711F /* XMLDecoderV1.swift in Sources */,
 				58AD272B1FC46B190072AD90 /* DecodingErrorExtension.swift in Sources */,
 				589881971FBCDC23003154DE /* Books.swift in Sources */,
+				58AD273B1FC67DBA0072AD90 /* XMLEncodingStorage.swift in Sources */,
 				589D29FC1FBCF7240050E664 /* Notes.swift in Sources */,
 				5898816D1FBCB5C8003154DE /* ViewController.swift in Sources */,
 				58AD27311FC46D9A0072AD90 /* XMLUnkeyedDecodingContainer.swift in Sources */,
