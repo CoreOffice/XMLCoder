@@ -210,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				58AD272C1FC46B8A0072AD90 /* ISO8601DateFormatter.swift */,
+				5898818B1FBCD514003154DE /* XMLStackParser.swift */,
 				58AD27341FC637CC0072AD90 /* Encoder */,
 				58D0058B1FC3900F0048711F /* Decoder */,
 			);
@@ -229,7 +230,6 @@
 			children = (
 				58D0058C1FC390200048711F /* XMLDecoder.swift */,
 				58AD27281FC394C70072AD90 /* XMLDecodingStorage.swift */,
-				5898818B1FBCD514003154DE /* XMLStackParser.swift */,
 				58AD27321FC4728F0072AD90 /* XMLKeyedDecodingContainer.swift */,
 				58AD27301FC46D9A0072AD90 /* XMLUnkeyedDecodingContainer.swift */,
 				58AD272A1FC46B190072AD90 /* DecodingErrorExtension.swift */,

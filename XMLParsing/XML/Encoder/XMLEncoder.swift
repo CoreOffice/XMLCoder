@@ -203,8 +203,26 @@ open class XMLEncoder {
     /// - returns: A new `Data` value containing the encoded XML data.
     /// - throws: `EncodingError.invalidValue` if a non-conforming floating-point value is encountered during encoding, and the encoding strategy is `.throw`.
     /// - throws: An error if any value throws an error during encoding.
-    /*open func encode<T : Encodable>(_ value: T) throws -> Data {
+    /*open func encode<T : Encodable>(_ value: T, version: Double? = nil, encoding: String? = nil, standalone: String? = nil) throws -> Data {
         let encoder = _XMLEncoder(options: self.options)
+     
+         let header: String = {
+            var string = "<?xml "
+     
+             if let version = version {
+                 string += version=\"\(version)\ "
+             }
+     
+             if let encoding = encoding {
+                 string += encoding=\"\(encoding)\ "
+             }
+     
+             if let standalone = standalone {
+                string += standalone=\"\(standalone)\"
+             }
+     
+             return string.trimmingCharacters(in: .whitespaces) + "?>"
+         }()
         
         guard let topLevel = try encoder.box_(value) else {
             throw EncodingError.invalidValue(value, EncodingError.Context(codingPath: [], debugDescription: "Top-level \(T.self) did not encode any values."))
