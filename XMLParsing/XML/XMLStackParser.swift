@@ -40,7 +40,7 @@ internal class _XMLElement {
             for child in childElement.value {
                 if let content = child.value {
                     node[childElement.key] = content
-                } else if !child.attributes.isEmpty || !child.attributes.isEmpty {
+                } else if !child.children.isEmpty || !child.attributes.isEmpty {
                     let newValue = child.flatten()
                     
                     if let existingValue = node[childElement.key] {
