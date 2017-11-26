@@ -12,31 +12,46 @@
 
 import Foundation
 
-internal class _XMLNode {
-    var name = ""
-    var content: String?
-    var properties = [String:[_XMLNode]]()
-    var attributes = [String:String]()
+internal class _XMLElement {
+    var key: String
+    var value: String? = nil
+    var attributes: [String: String] = [:]
+    var children: [String: [_XMLElement]] = [:]
+    
+    fileprivate init(key: String, value: String? = nil, attributes: [String: String] = [:], children: [String: [_XMLElement]] = [:]) {
+        self.key = key
+        self.value = value
+        self.attributes = attributes
+        self.children = children
+    }
+    
+    convenience init(key: String, value: Optional<CustomStringConvertible>, attributes: [String: CustomStringConvertible] = [:]) {
+        self.init(key: key, value: value?.description, attributes: attributes.mapValues({ $0.description }), children: [:])
+    }
+    
+    convenience init(key: String, children: [String: [_XMLElement]], attributes: [String: CustomStringConvertible] = [:]) {
+        self.init(key: key, value: nil, attributes: attributes.mapValues({ $0.description }), children: children)
+    }
     
     func flatten() -> [String: Any] {
         var node: [String: Any] = attributes
         
-        for (key, property) in properties {
-            for value in property {
-                if let content = value.content {
-                    node[key] = content
-                } else if !value.attributes.isEmpty || !value.properties.isEmpty {
-                    let newValue = value.flatten()
+        for childElement in children {
+            for child in childElement.value {
+                if let content = child.value {
+                    node[childElement.key] = content
+                } else if !child.attributes.isEmpty || !child.attributes.isEmpty {
+                    let newValue = child.flatten()
                     
-                    if let existingValue = node[key] {
+                    if let existingValue = node[childElement.key] {
                         if var array = existingValue as? Array<Any> {
                             array.append(newValue)
-                            node[key] = array
+                            node[childElement.key] = array
                         } else {
-                            node[key] = [existingValue, newValue]
+                            node[childElement.key] = [existingValue, newValue]
                         }
                     } else {
-                        node[key] = newValue
+                        node[childElement.key] = newValue
                     }
                 }
             }
@@ -47,9 +62,9 @@ internal class _XMLNode {
 }
 
 internal class _XMLStackParser: NSObject, XMLParserDelegate {
-    var root: _XMLNode?
-    var stack = [_XMLNode]()
-    var currentNode: _XMLNode?
+    var root: _XMLElement?
+    var stack = [_XMLElement]()
+    var currentNode: _XMLElement?
     
     var currentElementName: String?
     var currentElementData = ""
@@ -68,7 +83,7 @@ internal class _XMLStackParser: NSObject, XMLParserDelegate {
         }
     }
     
-    func parse(with data: Data) throws -> _XMLNode?  {
+    func parse(with data: Data) throws -> _XMLElement?  {
         let xmlParser = XMLParser(data: data)
         xmlParser.delegate = self
         
@@ -83,20 +98,19 @@ internal class _XMLStackParser: NSObject, XMLParserDelegate {
     
     func parserDidStartDocument(_ parser: XMLParser) {
         root = nil
-        stack = [_XMLNode]()
+        stack = [_XMLElement]()
     }
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
-        let node = _XMLNode()
-        node.name = elementName
+        let node = _XMLElement(key: elementName)
         node.attributes = attributeDict
         stack.append(node)
         
         if let currentNode = currentNode {
-            if currentNode.properties[elementName] != nil {
-                currentNode.properties[elementName]?.append(node)
+            if currentNode.children[elementName] != nil {
+                currentNode.children[elementName]?.append(node)
             } else {
-                currentNode.properties[elementName] = [node]
+                currentNode.children[elementName] = [node]
             }
         }
         currentNode = node
@@ -104,11 +118,11 @@ internal class _XMLStackParser: NSObject, XMLParserDelegate {
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if let poppedNode = stack.popLast(){
-            if let content = poppedNode.content?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) {
+            if let content = poppedNode.value?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) {
                 if content.isEmpty {
-                    poppedNode.content = nil
+                    poppedNode.value = nil
                 } else {
-                    poppedNode.content = content
+                    poppedNode.value = content
                 }
             }
             
@@ -122,12 +136,12 @@ internal class _XMLStackParser: NSObject, XMLParserDelegate {
     }
     
     func parser(_ parser: XMLParser, foundCharacters string: String) {
-        currentNode?.content = (currentNode?.content ?? "") + string
+        currentNode?.value = (currentNode?.value ?? "") + string
     }
     
     func parser(_ parser: XMLParser, foundCDATA CDATABlock: Data) {
         if let string = String(data: CDATABlock, encoding: .utf8) {
-            currentNode?.content = (currentNode?.content ?? "") + string
+            currentNode?.value = (currentNode?.value ?? "") + string
         }
     }
     
