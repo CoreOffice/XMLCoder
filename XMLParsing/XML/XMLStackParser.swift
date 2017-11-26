@@ -12,7 +12,52 @@
 
 import Foundation
 
+public struct XMLHeader {
+    /// the XML standard that the produced document conforms to.
+    var version: Double? = nil
+    /// the encoding standard used to represent the characters in the produced document.
+    var encoding: String? = nil
+    /// indicates whetehr a document relies on information from an external source.
+    var standalone: String? = nil
+    
+    init(version: Double? = nil) {
+        self.version = version
+    }
+    
+    init(version: Double?, encoding: String?, standalone: String? = nil) {
+        self.version = version
+        self.encoding = encoding
+        self.standalone = standalone
+    }
+    
+    internal func isEmpty() -> Bool {
+        return version == nil && encoding == nil && standalone == nil
+    }
+    
+    internal func toXML() -> String? {
+        guard !self.isEmpty() else { return nil }
+        
+        var string = "<?xml "
+        
+        if let version = version {
+            string += "version=\"\(version)\" "
+        }
+        
+        if let encoding = encoding {
+            string += "encoding=\"\(encoding)\" "
+        }
+        
+        if let standalone = standalone {
+            string += "standalone=\"\(standalone)\""
+        }
+        
+        return string.trimmingCharacters(in: .whitespaces) + "?>\n"
+    }
+}
+
 internal class _XMLElement {
+    fileprivate static let escapedCharacterSet = [("&", "&amp"), ("<", "&lt;"), (">", "&gt;"), /*( "'", "&apos;"),*/ ("\"", "&quot;")]
+    
     var key: String
     var value: String? = nil
     var attributes: [String: String] = [:]
@@ -60,34 +105,32 @@ internal class _XMLElement {
         return node
     }
     
-    func toXMLString(indented level: Int = 0) -> String {
-        func escapeString(_ string: String) -> String {
-            var string = string
-            
-            for (character, escapedCharacter) in [("&", "&amp"), ("<", "&lt;"), (">", "&gt;"), /*( "'", "&apos;"),*/ ("\"", "&quot;")] {
-                string = string.replacingOccurrences(of: character, with: escapedCharacter, options: .literal)
-            }
-            
-            return string
+    func toXMLString(with header: XMLHeader? = nil) -> String {
+        if let header = header, let headerXML = header.toXML() {
+            return headerXML + _toXMLString()
+        } else {
+            return _toXMLString()
         }
-        
+    }
+    
+    fileprivate func _toXMLString(indented level: Int = 0) -> String {
         var string = String(repeating: " ", count: level * 4)
         string += "<\(key)"
         
         for (key, value) in attributes {
-            string += " \(key)=\"\(escapeString(value))\""
+            string += " \(key)=\"\(value.escape(_XMLElement.escapedCharacterSet))\""
         }
         
         if let value = value {
             string += ">"
-            string += /*(isCDATA == true ? "<![CDATA[\(value)]]>" :*/ "\(escapeString(value))" /*)*/
+            string += /*(isCDATA == true ? "<![CDATA[\(value)]]>" :*/ "\(value.escape(_XMLElement.escapedCharacterSet))" /*)*/
             string += "</\(key)>"
         } else if !children.isEmpty {
             string += ">\n"
             
             for childElement in children {
                 for child in childElement.value {
-                    string += child.toXMLString(indented: level + 1)
+                    string += child._toXMLString(indented: level + 1)
                     string += "\n"
                 }
             }
@@ -96,6 +139,18 @@ internal class _XMLElement {
             string += "</\(key)>"
         } else {
             string += " />"
+        }
+        
+        return string
+    }
+}
+
+fileprivate extension String {
+    func escape(_ characterSet: [(character: String, escapedCharacter: String)]) -> String {
+        var string = self
+        
+        for set in characterSet {
+            string = string.replacingOccurrences(of: set.character, with: set.escapedCharacter, options: .literal)
         }
         
         return string

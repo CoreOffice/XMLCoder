@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		585926461FCA638100D72B34 /* XMLReferencingEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585926451FCA638100D72B34 /* XMLReferencingEncoder.swift */; };
 		5898816B1FBCB5C8003154DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5898816A1FBCB5C8003154DE /* AppDelegate.swift */; };
 		5898816D1FBCB5C8003154DE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5898816C1FBCB5C8003154DE /* ViewController.swift */; };
 		589881701FBCB5C8003154DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5898816E1FBCB5C8003154DE /* Main.storyboard */; };
@@ -41,6 +42,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		585926451FCA638100D72B34 /* XMLReferencingEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLReferencingEncoder.swift; sourceTree = "<group>"; };
 		589881671FBCB5C8003154DE /* XMLParsing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XMLParsing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5898816A1FBCB5C8003154DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5898816C1FBCB5C8003154DE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 			children = (
 				58AD27351FC63DAB0072AD90 /* EncodingErrorExtension.swift */,
 				58AD27381FC6416E0072AD90 /* XMLEncoder.swift */,
+				585926451FCA638100D72B34 /* XMLReferencingEncoder.swift */,
 				58AD273A1FC67DBA0072AD90 /* XMLEncodingStorage.swift */,
 			);
 			path = Encoder;
@@ -211,6 +214,7 @@
 			children = (
 				58AD272C1FC46B8A0072AD90 /* ISO8601DateFormatter.swift */,
 				5898818B1FBCD514003154DE /* XMLStackParser.swift */,
+				58AD272E1FC46BCD0072AD90 /* XMLKey.swift */,
 				58AD27341FC637CC0072AD90 /* Encoder */,
 				58D0058B1FC3900F0048711F /* Decoder */,
 			);
@@ -233,7 +237,6 @@
 				58AD27321FC4728F0072AD90 /* XMLKeyedDecodingContainer.swift */,
 				58AD27301FC46D9A0072AD90 /* XMLUnkeyedDecodingContainer.swift */,
 				58AD272A1FC46B190072AD90 /* DecodingErrorExtension.swift */,
-				58AD272E1FC46BCD0072AD90 /* XMLKey.swift */,
 			);
 			path = Decoder;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				589881971FBCDC23003154DE /* Books.swift in Sources */,
 				58AD273B1FC67DBA0072AD90 /* XMLEncodingStorage.swift in Sources */,
 				589D29FC1FBCF7240050E664 /* Notes.swift in Sources */,
+				585926461FCA638100D72B34 /* XMLReferencingEncoder.swift in Sources */,
 				5898816D1FBCB5C8003154DE /* ViewController.swift in Sources */,
 				58AD27311FC46D9A0072AD90 /* XMLUnkeyedDecodingContainer.swift in Sources */,
 				589D2A001FBCF93E0050E664 /* PlantCatalog.swift in Sources */,
