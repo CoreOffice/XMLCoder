@@ -59,6 +59,45 @@ internal class _XMLElement {
         
         return node
     }
+    
+    func toXMLString(indented level: Int = 0) -> String {
+        func escapeString(_ string: String) -> String {
+            var string = string
+            
+            for (character, escapedCharacter) in [("&", "&amp"), ("<", "&lt;"), (">", "&gt;"), /*( "'", "&apos;"),*/ ("\"", "&quot;")] {
+                string = string.replacingOccurrences(of: character, with: escapedCharacter, options: .literal)
+            }
+            
+            return string
+        }
+        
+        var string = String(repeating: " ", count: level * 4)
+        string += "<\(key)"
+        
+        for (key, value) in attributes {
+            string += " \(key)=\"\(escapeString(value))\""
+        }
+        
+        if let value = value {
+            string += ">\(escapeString(value))</\(key)>"
+        } else if !children.isEmpty {
+            string += ">\n"
+            
+            for childElement in children {
+                for child in childElement.value {
+                    string += child.toXMLString(indented: level + 1)
+                    string += "\n"
+                }
+            }
+            
+            string += String(repeating: " ", count: level * 4)
+            string += "</\(key)>"
+        } else {
+            string += " />"
+        }
+        
+        return string
+    }
 }
 
 internal class _XMLStackParser: NSObject, XMLParserDelegate {
