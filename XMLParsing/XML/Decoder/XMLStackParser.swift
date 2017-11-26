@@ -79,7 +79,9 @@ internal class _XMLElement {
         }
         
         if let value = value {
-            string += ">\(escapeString(value))</\(key)>"
+            string += ">"
+            string += /*(isCDATA == true ? "<![CDATA[\(value)]]>" :*/ "\(escapeString(value))" /*)*/
+            string += "</\(key)>"
         } else if !children.isEmpty {
             string += ">\n"
             
