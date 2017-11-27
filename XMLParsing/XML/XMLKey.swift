@@ -25,6 +25,11 @@ internal struct _XMLKey : CodingKey {
         self.stringValue = "\(intValue)"
         self.intValue = intValue
     }
+    
+    public init(stringValue: String, intValue: Int?) {
+        self.stringValue = stringValue
+        self.intValue = intValue
+    }
 
     internal init(index: Int) {
         self.stringValue = "Index \(index)"
