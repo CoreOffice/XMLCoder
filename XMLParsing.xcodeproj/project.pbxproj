@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		585926461FCA638100D72B34 /* XMLReferencingEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585926451FCA638100D72B34 /* XMLReferencingEncoder.swift */; };
+		5882B9D61FCBCEFE0045F93B /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5882B9D51FCBCEFE0045F93B /* DataExtension.swift */; };
 		5898816B1FBCB5C8003154DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5898816A1FBCB5C8003154DE /* AppDelegate.swift */; };
 		5898816D1FBCB5C8003154DE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5898816C1FBCB5C8003154DE /* ViewController.swift */; };
 		589881701FBCB5C8003154DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5898816E1FBCB5C8003154DE /* Main.storyboard */; };
@@ -43,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		585926451FCA638100D72B34 /* XMLReferencingEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLReferencingEncoder.swift; sourceTree = "<group>"; };
+		5882B9D51FCBCEFE0045F93B /* DataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
 		589881671FBCB5C8003154DE /* XMLParsing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XMLParsing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5898816A1FBCB5C8003154DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5898816C1FBCB5C8003154DE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				589881711FBCB5C8003154DE /* Assets.xcassets */,
 				589881731FBCB5C8003154DE /* LaunchScreen.storyboard */,
 				589881761FBCB5C8003154DE /* Info.plist */,
+				5882B9D51FCBCEFE0045F93B /* DataExtension.swift */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				589D29FE1FBCF8160050E664 /* CDCatalog.swift in Sources */,
 				58D005851FC08DDA0048711F /* XMLDecoderV1.swift in Sources */,
 				58AD272B1FC46B190072AD90 /* DecodingErrorExtension.swift in Sources */,
+				5882B9D61FCBCEFE0045F93B /* DataExtension.swift in Sources */,
 				589881971FBCDC23003154DE /* Books.swift in Sources */,
 				58AD273B1FC67DBA0072AD90 /* XMLEncodingStorage.swift in Sources */,
 				589D29FC1FBCF7240050E664 /* Notes.swift in Sources */,

@@ -33,3 +33,37 @@ struct CD: Codable {
         case year = "YEAR"
     }
 }
+
+extension CD {
+    static func parseCDCatalog() -> CDCatalog? {
+        guard let data = Data(forResource: "cd_catalog", withExtension: "xml") else { return nil }
+        
+        let decoder = XMLDecoder()
+        
+        let catalog: CDCatalog?
+        
+        do {
+            catalog = try decoder.decode(CDCatalog.self, from: data)
+        } catch {
+            print(error)
+            
+            catalog = nil
+        }
+        
+        return catalog
+    }
+    
+    func toXML() -> String? {
+        let encoder = XMLEncoder()
+        
+        do {
+            let data = try encoder.encode(self, withRootKey: "CATALOG", header: XMLHeader(version: 1.0))
+            
+            return String(data: data, encoding: .utf8)
+        } catch {
+            print(error)
+            
+            return nil
+        }
+    }
+}

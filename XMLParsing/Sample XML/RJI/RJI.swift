@@ -27,6 +27,30 @@ struct RSS: Decodable {
     }
 }
 
+extension RSS {
+    static func retrieveRSS() -> RSS? {
+        guard let data = Data(forResource: "RJI_RSS_Sample", withExtension: "xml") else { return nil }
+        
+        let decoder = XMLDecoder()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        decoder.dateDecodingStrategy = .formatted(dateFormatter)
+        
+        let rss: RSS?
+        
+        do {
+            rss = try decoder.decode(RSS.self, from: data)
+        } catch {
+            print(error)
+            
+            rss = nil
+        }
+        
+        return rss
+    }
+}
+
 struct Channel: Decodable {
     var title: String
     var link: URL

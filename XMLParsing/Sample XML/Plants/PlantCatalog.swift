@@ -62,3 +62,37 @@ struct Plant: Codable {
         self.init(common: common, botanical: botanical, zone: zone, light: light, price: price, amountAvailable: availability)
     }
 }
+
+extension PlantCatalog {
+    static func retreievePlantCatalog() -> PlantCatalog? {
+        guard let data = Data(forResource: "plant_catalog", withExtension: "xml") else { return nil }
+        
+        let decoder = XMLDecoder()
+        
+        let plantCatalog: PlantCatalog?
+        
+        do {
+            plantCatalog = try decoder.decode(PlantCatalog.self, from: data)
+        } catch {
+            print(error)
+            
+            plantCatalog = nil
+        }
+        
+        return plantCatalog
+    }
+    
+    func toXML() -> String? {
+        let encoder = XMLEncoder()
+        
+        do {
+            let data = try encoder.encode(self, withRootKey: "CATALOG", header: XMLHeader(version: 1.0, encoding: "UTF-8"))
+            
+            return String(data: data, encoding: .utf8)
+        } catch {
+            print(error)
+            
+            return nil
+        }
+    }
+}
