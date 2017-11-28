@@ -213,7 +213,13 @@ internal class _XMLDecoder : Decoder {
                                                                     debugDescription: "Cannot get unkeyed decoding container -- found null value instead."))
         }
         
-        guard let topContainer = self.storage.topContainer as? [Any] else {
+        let topContainer: [Any]
+        
+        if let container = self.storage.topContainer as? [Any] {
+            topContainer = container
+        } else if let container = self.storage.topContainer as? [AnyHashable: Any]  {
+            topContainer = [container]
+        } else {
             throw DecodingError._typeMismatch(at: self.codingPath, expectation: [Any].self, reality: self.storage.topContainer)
         }
         
@@ -743,3 +749,4 @@ extension _XMLDecoder {
         return decoded
     }
 }
+
