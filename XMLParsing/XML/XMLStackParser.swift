@@ -6,11 +6,11 @@
 //  Copyright © 2017 Shawn Moore. All rights reserved.
 //
 
+import Foundation
+
 //===----------------------------------------------------------------------===//
 // Data Representation
 //===----------------------------------------------------------------------===//
-
-import Foundation
 
 public struct XMLHeader {
     /// the XML standard that the produced document conforms to.
