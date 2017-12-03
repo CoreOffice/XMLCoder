@@ -56,12 +56,14 @@ public struct XMLHeader {
 }
 
 internal class _XMLElement {
+    static let attributesKey = "___ATTRIBUTES"
     fileprivate static let escapedCharacterSet = [("&", "&amp"), ("<", "&lt;"), (">", "&gt;"), /*( "'", "&apos;"),*/ ("\"", "&quot;")]
     
     var key: String
     var value: String? = nil
     var attributes: [String: String] = [:]
     var children: [String: [_XMLElement]] = [:]
+    var isCDATA: Bool = false
     
     internal init(key: String, value: String? = nil, attributes: [String: String] = [:], children: [String: [_XMLElement]] = [:]) {
         self.key = key
@@ -97,8 +99,10 @@ internal class _XMLElement {
     }
     
     fileprivate static func modifyElement(element: _XMLElement, parentElement: _XMLElement?, key: String?, object: NSDictionary) {
+        element.attributes = (object[_XMLElement.attributesKey] as? [String: Any])?.mapValues({ String(describing: $0) }) ?? [:]
+        
         let objects: [(String, NSObject)] = object.flatMap({
-            guard let key = $0 as? String, let value = $1 as? NSObject else { return nil }
+            guard let key = $0 as? String, let value = $1 as? NSObject, key != _XMLElement.attributesKey else { return nil }
             
             return (key, value)
         })
@@ -199,7 +203,7 @@ internal class _XMLElement {
         
         if let value = value {
             string += ">"
-            string += /*(isCDATA == true ? "<![CDATA[\(value)]]>" :*/ "\(value.escape(_XMLElement.escapedCharacterSet))" /*)*/
+            string += (isCDATA == true ? "<![CDATA[\(value)]]>" : "\(value.escape(_XMLElement.escapedCharacterSet))" )
             string += "</\(key)>"
         } else if !children.isEmpty {
             string += ">\n"

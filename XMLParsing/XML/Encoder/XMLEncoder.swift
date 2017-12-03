@@ -57,6 +57,15 @@ open class XMLEncoder {
         case custom((Date, Encoder) throws -> Void)
     }
     
+    /// The strategy to use for encoding `String` values.
+    public enum StringEncodingStrategy {
+        /// Defer to `String` for choosing an encoding. This is the default strategy.
+        case deferredToString
+        
+        /// Encoded the `String` as a CData-encoded string.
+        case cdata
+    }
+    
     /// The strategy to use for encoding `Data` values.
     public enum DataEncodingStrategy {
         /// Defer to `Data` for choosing an encoding.
@@ -156,6 +165,15 @@ open class XMLEncoder {
         }
     }
     
+    /// The strategy to use for encoding attributes on a node.
+    public enum AttributeEncodingStrategy {
+        /// Defer to `Encoder` for choosing an encoding. This is the default strategy.
+        case deferredToEncoder
+        
+        /// Return true to encode the value as an attribute.
+        case custom((Encoder) -> Bool)
+    }
+    
     /// The output format to produce. Defaults to `[]`.
     open var outputFormatting: OutputFormatting = []
     
@@ -171,6 +189,12 @@ open class XMLEncoder {
     /// The strategy to use for encoding keys. Defaults to `.useDefaultKeys`.
     open var keyEncodingStrategy: KeyEncodingStrategy = .useDefaultKeys
     
+    /// The strategy to use in encoding encoding attributes. Defaults to `.deferredToEncoder`.
+    open var attributeEncodingStrategy: AttributeEncodingStrategy = .deferredToEncoder
+    
+    /// The strategy to use in encoding strings. Defaults to `.deferredToString`.
+    open var stringEncodingStrategy: StringEncodingStrategy = .deferredToString
+    
     /// Contextual user-provided information for use during encoding.
     open var userInfo: [CodingUserInfoKey : Any] = [:]
     
@@ -180,6 +204,8 @@ open class XMLEncoder {
         let dataEncodingStrategy: DataEncodingStrategy
         let nonConformingFloatEncodingStrategy: NonConformingFloatEncodingStrategy
         let keyEncodingStrategy: KeyEncodingStrategy
+        let attributeEncodingStrategy: AttributeEncodingStrategy
+        let stringEncodingStrategy: StringEncodingStrategy
         let userInfo: [CodingUserInfoKey : Any]
     }
     
@@ -189,6 +215,8 @@ open class XMLEncoder {
                         dataEncodingStrategy: dataEncodingStrategy,
                         nonConformingFloatEncodingStrategy: nonConformingFloatEncodingStrategy,
                         keyEncodingStrategy: keyEncodingStrategy,
+                        attributeEncodingStrategy: attributeEncodingStrategy,
+                        stringEncodingStrategy: stringEncodingStrategy,
                         userInfo: userInfo)
     }
     
@@ -223,6 +251,13 @@ open class XMLEncoder {
         
         guard let element = _XMLElement.createRootElement(rootKey: rootKey, object: topLevel) else {
             throw EncodingError.invalidValue(value, EncodingError.Context(codingPath: [], debugDescription: "Unable to encode the given top-level value to XML."))
+        }
+        
+        switch stringEncodingStrategy {
+        case .deferredToString:
+            element.isCDATA = false
+        case .cdata:
+            element.isCDATA = true
         }
         
         string += element.toXMLString()
@@ -355,41 +390,209 @@ fileprivate struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingCont
     public mutating func encodeNil(forKey key: Key) throws {
         self.container[_converted(key).stringValue] = NSNull()
     }
+    
     public mutating func encode(_ value: Bool, forKey key: Key) throws {
-        self.container[_converted(key).stringValue] = self.encoder.box(value)
+        self.encoder.codingPath.append(key)
+        defer { self.encoder.codingPath.removeLast() }
+        switch self.encoder.options.attributeEncodingStrategy {
+        case .custom(let closure) where closure(self.encoder):
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+            } else {
+                let attributesContainer = NSMutableDictionary()
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+                self.container[_XMLElement.attributesKey] = attributesContainer
+            }
+        default:
+            self.container[_converted(key).stringValue] = self.encoder.box(value)
+        }
     }
+    
     public mutating func encode(_ value: Int, forKey key: Key) throws {
-        self.container[_converted(key).stringValue] = self.encoder.box(value)
+        self.encoder.codingPath.append(key)
+        defer { self.encoder.codingPath.removeLast() }
+        switch self.encoder.options.attributeEncodingStrategy {
+        case .custom(let closure) where closure(self.encoder):
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+            } else {
+                let attributesContainer = NSMutableDictionary()
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+                self.container[_XMLElement.attributesKey] = attributesContainer
+            }
+        default:
+            self.container[_converted(key).stringValue] = self.encoder.box(value)
+        }
     }
+    
     public mutating func encode(_ value: Int8, forKey key: Key) throws {
-        self.container[_converted(key).stringValue] = self.encoder.box(value)
+        self.encoder.codingPath.append(key)
+        defer { self.encoder.codingPath.removeLast() }
+        switch self.encoder.options.attributeEncodingStrategy {
+        case .custom(let closure) where closure(self.encoder):
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+            } else {
+                let attributesContainer = NSMutableDictionary()
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+                self.container[_XMLElement.attributesKey] = attributesContainer
+            }
+        default:
+            self.container[_converted(key).stringValue] = self.encoder.box(value)
+        }
     }
+    
     public mutating func encode(_ value: Int16, forKey key: Key) throws {
-        self.container[_converted(key).stringValue] = self.encoder.box(value)
+        self.encoder.codingPath.append(key)
+        defer { self.encoder.codingPath.removeLast() }
+        switch self.encoder.options.attributeEncodingStrategy {
+        case .custom(let closure) where closure(self.encoder):
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+            } else {
+                let attributesContainer = NSMutableDictionary()
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+                self.container[_XMLElement.attributesKey] = attributesContainer
+            }
+        default:
+            self.container[_converted(key).stringValue] = self.encoder.box(value)
+        }
     }
+    
     public mutating func encode(_ value: Int32, forKey key: Key) throws {
-        self.container[_converted(key).stringValue] = self.encoder.box(value)
+        self.encoder.codingPath.append(key)
+        defer { self.encoder.codingPath.removeLast() }
+        switch self.encoder.options.attributeEncodingStrategy {
+        case .custom(let closure) where closure(self.encoder):
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+            } else {
+                let attributesContainer = NSMutableDictionary()
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+                self.container[_XMLElement.attributesKey] = attributesContainer
+            }
+        default:
+            self.container[_converted(key).stringValue] = self.encoder.box(value)
+        }
     }
+    
     public mutating func encode(_ value: Int64, forKey key: Key) throws {
-        self.container[_converted(key).stringValue] = self.encoder.box(value)
+        self.encoder.codingPath.append(key)
+        defer { self.encoder.codingPath.removeLast() }
+        switch self.encoder.options.attributeEncodingStrategy {
+        case .custom(let closure) where closure(self.encoder):
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+            } else {
+                let attributesContainer = NSMutableDictionary()
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+                self.container[_XMLElement.attributesKey] = attributesContainer
+            }
+        default:
+            self.container[_converted(key).stringValue] = self.encoder.box(value)
+        }
     }
+    
     public mutating func encode(_ value: UInt, forKey key: Key) throws {
-        self.container[_converted(key).stringValue] = self.encoder.box(value)
+        self.encoder.codingPath.append(key)
+        defer { self.encoder.codingPath.removeLast() }
+        switch self.encoder.options.attributeEncodingStrategy {
+        case .custom(let closure) where closure(self.encoder):
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+            } else {
+                let attributesContainer = NSMutableDictionary()
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+                self.container[_XMLElement.attributesKey] = attributesContainer
+            }
+        default:
+            self.container[_converted(key).stringValue] = self.encoder.box(value)
+        }
     }
+    
     public mutating func encode(_ value: UInt8, forKey key: Key) throws {
-        self.container[_converted(key).stringValue] = self.encoder.box(value)
+        self.encoder.codingPath.append(key)
+        defer { self.encoder.codingPath.removeLast() }
+        switch self.encoder.options.attributeEncodingStrategy {
+        case .custom(let closure) where closure(self.encoder):
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+            } else {
+                let attributesContainer = NSMutableDictionary()
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+                self.container[_XMLElement.attributesKey] = attributesContainer
+            }
+        default:
+            self.container[_converted(key).stringValue] = self.encoder.box(value)
+        }
     }
+    
     public mutating func encode(_ value: UInt16, forKey key: Key) throws {
-        self.container[_converted(key).stringValue] = self.encoder.box(value)
+        self.encoder.codingPath.append(key)
+        defer { self.encoder.codingPath.removeLast() }
+        switch self.encoder.options.attributeEncodingStrategy {
+        case .custom(let closure) where closure(self.encoder):
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+            } else {
+                let attributesContainer = NSMutableDictionary()
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+                self.container[_XMLElement.attributesKey] = attributesContainer
+            }
+        default:
+            self.container[_converted(key).stringValue] = self.encoder.box(value)
+        }
     }
+    
     public mutating func encode(_ value: UInt32, forKey key: Key) throws {
-        self.container[_converted(key).stringValue] = self.encoder.box(value)
+        self.encoder.codingPath.append(key)
+        defer { self.encoder.codingPath.removeLast() }
+        switch self.encoder.options.attributeEncodingStrategy {
+        case .custom(let closure) where closure(self.encoder):
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+            } else {
+                let attributesContainer = NSMutableDictionary()
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+                self.container[_XMLElement.attributesKey] = attributesContainer
+            }
+        default:
+            self.container[_converted(key).stringValue] = self.encoder.box(value)
+        }
     }
+    
     public mutating func encode(_ value: UInt64, forKey key: Key) throws {
-        self.container[_converted(key).stringValue] = self.encoder.box(value)
+        self.encoder.codingPath.append(key)
+        defer { self.encoder.codingPath.removeLast() }
+        switch self.encoder.options.attributeEncodingStrategy {
+        case .custom(let closure) where closure(self.encoder):
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+            } else {
+                let attributesContainer = NSMutableDictionary()
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+                self.container[_XMLElement.attributesKey] = attributesContainer
+            }
+        default:
+            self.container[_converted(key).stringValue] = self.encoder.box(value)
+        }
     }
+    
     public mutating func encode(_ value: String, forKey key: Key) throws {
-        self.container[_converted(key).stringValue] = self.encoder.box(value)
+        self.encoder.codingPath.append(key)
+        defer { self.encoder.codingPath.removeLast() }
+        switch self.encoder.options.attributeEncodingStrategy {
+        case .custom(let closure) where closure(self.encoder):
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+            } else {
+                let attributesContainer = NSMutableDictionary()
+                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+                self.container[_XMLElement.attributesKey] = attributesContainer
+            }
+        default:
+            self.container[_converted(key).stringValue] = self.encoder.box(value)
+        }
     }
     
     public mutating func encode(_ value: Float, forKey key: Key) throws {
@@ -403,13 +606,40 @@ fileprivate struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingCont
         // Since the double may be invalid and throw, the coding path needs to contain this key.
         self.encoder.codingPath.append(key)
         defer { self.encoder.codingPath.removeLast() }
-        self.container[_converted(key).stringValue] = try self.encoder.box(value)
+        switch self.encoder.options.attributeEncodingStrategy {
+        case .custom(let closure) where closure(self.encoder):
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
+                attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
+            } else {
+                let attributesContainer = NSMutableDictionary()
+                attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
+                self.container[_XMLElement.attributesKey] = attributesContainer
+            }
+        default:
+            self.container[_converted(key).stringValue] = try self.encoder.box(value)
+        }
     }
     
     public mutating func encode<T : Encodable>(_ value: T, forKey key: Key) throws {
         self.encoder.codingPath.append(key)
         defer { self.encoder.codingPath.removeLast() }
-        self.container[_converted(key).stringValue] = try self.encoder.box(value)
+        
+        if T.self == Date.self || T.self == NSDate.self {
+            switch self.encoder.options.attributeEncodingStrategy {
+            case .custom(let closure) where closure(self.encoder):
+                if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
+                    attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
+                } else {
+                    let attributesContainer = NSMutableDictionary()
+                    attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
+                    self.container[_XMLElement.attributesKey] = attributesContainer
+                }
+            default:
+                self.container[_converted(key).stringValue] = try self.encoder.box(value)
+            }
+        } else {
+            self.container[_converted(key).stringValue] = try self.encoder.box(value)
+        }
     }
     
     public mutating func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type, forKey key: Key) -> KeyedEncodingContainer<NestedKey> {
