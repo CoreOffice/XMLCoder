@@ -247,22 +247,11 @@ open class XMLEncoder {
             throw EncodingError.invalidValue(value, EncodingError.Context(codingPath: [], debugDescription: "Top-level \(T.self) encoded as string XML fragment."))
         }
         
-        var string = header?.toXML() ?? ""
-        
         guard let element = _XMLElement.createRootElement(rootKey: rootKey, object: topLevel) else {
             throw EncodingError.invalidValue(value, EncodingError.Context(codingPath: [], debugDescription: "Unable to encode the given top-level value to XML."))
         }
         
-        switch stringEncodingStrategy {
-        case .deferredToString:
-            element.isCDATA = false
-        case .cdata:
-            element.isCDATA = true
-        }
-        
-        string += element.toXMLString()
-        
-        return string.data(using: .utf8, allowLossyConversion: true)!
+        return element.toXMLString(with: header, withCDATA: stringEncodingStrategy != .deferredToString).data(using: .utf8, allowLossyConversion: true)!
     }
 }
 
