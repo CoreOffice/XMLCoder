@@ -896,7 +896,11 @@ extension _XMLEncoder {
         case .millisecondsSince1970:
             return NSNumber(value: value.timeIntervalSince1970 * 1000.0)
         case .iso8601:
-            return _iso8601Formatter.string(from: value) as NSObject
+            if #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
+                return _iso8601Formatter.string(from: value) as NSObject
+            } else {
+                fatalError("ISO8601DateFormatter is unavailable on this platform.")
+            }
         case .formatted(let formatter):
             return formatter.string(from: value) as NSObject
         case .custom(let closure):
