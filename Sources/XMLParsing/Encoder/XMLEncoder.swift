@@ -29,7 +29,7 @@ open class XMLEncoder {
         public static let prettyPrinted = OutputFormatting(rawValue: 1 << 0)
         
         /// Produce XML with dictionary keys sorted in lexicographic order.
-        @available(OSX 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)
+        @available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)
         public static let sortedKeys    = OutputFormatting(rawValue: 1 << 1)
     }
     
@@ -45,7 +45,7 @@ open class XMLEncoder {
         case millisecondsSince1970
         
         /// Encode the `Date` as an ISO-8601-formatted string (in RFC 3339 format).
-        @available(OSX 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
+        @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
         case iso8601
         
         /// Encode the `Date` as a string formatted by the given formatter.
