@@ -36,7 +36,7 @@ internal struct _XMLKeyedDecodingContainer<K : CodingKey> : KeyedDecodingContain
     // MARK: - KeyedDecodingContainerProtocol Methods
     
     public var allKeys: [Key] {
-        return self.container.keys.flatMap { Key(stringValue: $0) }
+        return self.container.keys.compactMap { Key(stringValue: $0) }
     }
     
     public func contains(_ key: Key) -> Bool {
