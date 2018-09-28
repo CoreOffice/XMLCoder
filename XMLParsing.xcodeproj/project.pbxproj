@@ -72,7 +72,7 @@
 		OBJ_26 /* Sample XML */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Sample XML"; sourceTree = SOURCE_ROOT; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		"XMLParsing::XMLParsing::Product" /* XMLParsing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = XMLParsing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"XMLParsing::XMLParsingTests::Product" /* XMLParsingTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = XMLParsingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"XMLParsing::XMLParsingTests::Product" /* XMLParsingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = XMLParsingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,6 +237,9 @@
 					"XMLParsing::XMLParsing" = {
 						LastSwiftMigration = 1000;
 					};
+					"XMLParsing::XMLParsingTests" = {
+						LastSwiftMigration = 1000;
+					};
 				};
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "XMLParsing" */;
@@ -364,7 +367,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGET_NAME = XMLParsingTests;
 			};
 			name = Debug;
@@ -382,7 +385,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGET_NAME = XMLParsingTests;
 			};
 			name = Release;
