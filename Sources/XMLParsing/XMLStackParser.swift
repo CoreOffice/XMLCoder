@@ -14,17 +14,13 @@ import Foundation
 
 public struct XMLHeader {
     /// the XML standard that the produced document conforms to.
-    var version: Double? = nil
+    public let version: Double?
     /// the encoding standard used to represent the characters in the produced document.
-    var encoding: String? = nil
-    /// indicates whetehr a document relies on information from an external source.
-    var standalone: String? = nil
-    
-    init(version: Double? = nil) {
-        self.version = version
-    }
-    
-    init(version: Double?, encoding: String?, standalone: String? = nil) {
+    public let encoding: String?
+    /// indicates whether a document relies on information from an external source.
+    public let standalone: String?
+
+    public init(version: Double? = nil, encoding: String? = nil, standalone: String? = nil) {
         self.version = version
         self.encoding = encoding
         self.standalone = standalone
@@ -157,7 +153,7 @@ internal class _XMLElement {
         parentElement.children[key] = (parentElement.children[key] ?? []) + [element]
     }
     
-    func flatten() -> [String: Any] {
+    fileprivate func flatten() -> [String: Any] {
         var node: [String: Any] = attributes
         
         for childElement in children {
@@ -192,7 +188,7 @@ internal class _XMLElement {
         return node
     }
     
-    func toXMLString(with header: XMLHeader? = nil, withCDATA cdata: Bool, ignoreEscaping: Bool = false) -> String {
+    internal func toXMLString(with header: XMLHeader? = nil, withCDATA cdata: Bool, ignoreEscaping: Bool = false) -> String {
         if let header = header, let headerXML = header.toXML() {
             return headerXML + _toXMLString(withCDATA: cdata)
         } else {
@@ -237,7 +233,7 @@ internal class _XMLElement {
 }
 
 extension String {
-    func escape(_ characterSet: [(character: String, escapedCharacter: String)]) -> String {
+    internal func escape(_ characterSet: [(character: String, escapedCharacter: String)]) -> String {
         var string = self
         
         for set in characterSet {
