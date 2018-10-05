@@ -35,20 +35,36 @@ internal class _XMLReferencingEncoder : _XMLEncoder {
     // MARK: - Initialization
     
     /// Initializes `self` by referencing the given array container in the given encoder.
-    internal init(referencing encoder: _XMLEncoder, at index: Int, wrapping array: NSMutableArray) {
+    internal init(
+        referencing encoder: _XMLEncoder,
+        at index: Int,
+        wrapping array: NSMutableArray
+    ) {
         self.encoder = encoder
         self.reference = .array(array, index)
-        super.init(options: encoder.options, codingPath: encoder.codingPath)
+        super.init(
+            options: encoder.options,
+            nodeEncodings: encoder.nodeEncodings,
+            codingPath: encoder.codingPath
+        )
         
         self.codingPath.append(_XMLKey(index: index))
     }
     
     /// Initializes `self` by referencing the given dictionary container in the given encoder.
-    internal init(referencing encoder: _XMLEncoder,
-                     key: CodingKey, convertedKey: CodingKey, wrapping dictionary: NSMutableDictionary) {
+    internal init(
+        referencing encoder: _XMLEncoder,
+        key: CodingKey,
+        convertedKey: CodingKey,
+        wrapping dictionary: NSMutableDictionary
+    ) {
         self.encoder = encoder
         self.reference = .dictionary(dictionary, convertedKey.stringValue)
-        super.init(options: encoder.options, codingPath: encoder.codingPath)
+        super.init(
+            options: encoder.options,
+            nodeEncodings: encoder.nodeEncodings,
+            codingPath: encoder.codingPath
+        )
         
         self.codingPath.append(key)
     }
