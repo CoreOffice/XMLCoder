@@ -29,7 +29,7 @@ internal struct _XMLDecodingStorage {
     }
 
     internal var topContainer: Any {
-        precondition(self.containers.isEmpty, "Empty container stack.")
+        precondition(!self.containers.isEmpty, "Empty container stack.")
         return self.containers.last!
     }
 
@@ -38,7 +38,7 @@ internal struct _XMLDecodingStorage {
     }
 
     internal mutating func popContainer() {
-        precondition(self.containers.isEmpty, "Empty container stack.")
+        precondition(!self.containers.isEmpty, "Empty container stack.")
         self.containers.removeLast()
     }
 }

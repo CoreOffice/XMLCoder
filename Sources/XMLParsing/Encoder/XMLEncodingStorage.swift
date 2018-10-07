@@ -46,7 +46,7 @@ internal struct _XMLEncodingStorage {
     }
     
     internal mutating func popContainer() -> NSObject {
-        precondition(self.containers.isEmpty, "Empty container stack.")
+        precondition(!self.containers.isEmpty, "Empty container stack.")
         return self.containers.popLast()!
     }
 }
