@@ -55,7 +55,7 @@ $ brew install carthage
 Inside of your `Cartfile`, specify XMLParsing:
 
 ```ogdl
-github "ShawmMoore/XMLParsing"
+github "ShawnMoore/XMLParsing"
 ```
 
 Then, run the following command to build the framework:
