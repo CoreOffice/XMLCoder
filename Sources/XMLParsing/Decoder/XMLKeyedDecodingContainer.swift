@@ -38,6 +38,10 @@ internal struct _XMLKeyedDecodingContainer<K : CodingKey> : KeyedDecodingContain
             self.container = Dictionary(container.map {
                 key, value in (XMLDecoder.KeyDecodingStrategy._convertFromSnakeCase(key), value)
             }, uniquingKeysWith: { (first, _) in first })
+        case .convertFromCapitalized:
+            self.container = Dictionary(container.map {
+                key, value in (XMLDecoder.KeyDecodingStrategy._convertFromCapitalized(key), value)
+            }, uniquingKeysWith: { (first, _) in first })
         case .custom(let converter):
             self.container = Dictionary(container.map {
                 key, value in (converter(decoder.codingPath + [_XMLKey(stringValue: key, intValue: nil)]).stringValue, value)

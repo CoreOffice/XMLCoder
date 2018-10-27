@@ -119,13 +119,24 @@ open class XMLDecoder {
         ///
         /// - Note: Using a key decoding strategy has a nominal performance cost, as each string key has to be inspected for the `_` character.
         case convertFromSnakeCase
-        
+
+        /// Convert from "CodingKey" to "codingKey"
+        case convertFromCapitalized
+
         /// Provide a custom conversion from the key in the encoded JSON to the keys specified by the decoded types.
         /// The full path to the current decoding position is provided for context (in case you need to locate this key within the payload). The returned key is used in place of the last component in the coding path before decoding.
         /// If the result of the conversion is a duplicate key, then only one value will be present in the container for the type to decode from.
         case custom((_ codingPath: [CodingKey]) -> CodingKey)
+
+        static func _convertFromCapitalized(_ stringKey: String) -> String {
+            guard !stringKey.isEmpty else { return stringKey }
+            var result = stringKey
+            let range = result.startIndex...result.index(after: result.startIndex)
+            result.replaceSubrange(range, with: result[range].lowercased())
+            return result
+        }
         
-        internal static func _convertFromSnakeCase(_ stringKey: String) -> String {
+        static func _convertFromSnakeCase(_ stringKey: String) -> String {
             guard !stringKey.isEmpty else { return stringKey }
             
             // Find the first non-underscore character
