@@ -1,6 +1,6 @@
 import XCTest
-@testable import XMLParsingTests
+@testable import XMLCoderTests
 
 XCTMain([
-    testCase(XMLParsingTests.allTests),
+    testCase(XMLCoderTests.allTests),
 ])

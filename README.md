@@ -1,5 +1,5 @@
-# XMLParsing
-Encoder &amp; Decoder for XML using Swift's _codable_ protocol.
+# XMLCoder
+Encoder &amp; Decoder for XML using Swift's `Codable` protocol.
 
 ## Installation
 
@@ -17,7 +17,7 @@ Navigate to the project directory and create a _podfile_ with the following comm
 $ pod install
 ```
 
-Inside of your `Podfile`, specify the XMLParsing pod:
+Inside of your `Podfile`, specify the `XMLCoder` pod:
 
 ```ruby
 # Uncomment the next line to define a global platform for your project
@@ -28,7 +28,7 @@ target 'YourApp' do
   use_frameworks!
 
   # Pods for Test
-  pod 'XMLParsing', :git => 'https://github.com/ShawnMoore/XMLParsing.git'
+  pod 'XMLCoder'
 
 end
 ```
@@ -39,7 +39,9 @@ Then, run the following command:
 $ pod install
 ```
 
-Open the the _xcworkspace_ file that was created. This should be the file you use everyday to create your app, instead of the _xcodeproj_ file.
+Open the the `YourApp.xcworkspace` file that was created. This should be the
+file you use everyday to create your app, instead of the `YourApp.xcodeproj`
+file.
 
 ### Carthage
 
@@ -52,10 +54,10 @@ $ brew update
 $ brew install carthage
 ```
 
-Inside of your `Cartfile`, specify XMLParsing:
+Inside of your `Cartfile`, add GitHub path to `XMLCoder`:
 
 ```ogdl
-github "ShawnMoore/XMLParsing"
+github "MaxDesiatov/XMLCoder"
 ```
 
 Then, run the following command to build the framework:
@@ -68,27 +70,31 @@ Drag the built framework into your Xcode project.
 
 ### Swift Package Manager
 
-[Swift Package Manager](https://swift.org/package-manager/) is a tool for managing the distribution of Swift code. It’s integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies.
+[Swift Package Manager](https://swift.org/package-manager/) is a tool for
+managing the distribution of Swift code. It’s integrated with the Swift build
+system to automate the process of downloading, compiling, and linking
+dependencies.
 
-Once you have your Swift package set up, adding XMLParsing as a dependency is as easy as adding it to the `dependencies` value of your `Package.swift`.
+Once you have your Swift package set up, adding `XMLCoder` as a dependency is as
+easy as adding it to the `dependencies` value of your `Package.swift`.
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/ShawnMoore/XMLParsing.git", from: "0.0.3")
+    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.1.0")
 ]
 ```
 
 ## Example
 
 ```swift
-import XMLParsing
+import XMLCoder
 
 let xmlStr = """
 <note>
     <to>Bob</to>
     <from>Jane</from>
     <heading>Reminder</heading>
-    <body>Don't forget to use XMLParsing!</body>
+    <body>Don't forget to use XMLCoder!</body>
 </note>
 """
     

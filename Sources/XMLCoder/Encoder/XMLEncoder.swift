@@ -1,6 +1,6 @@
 //
 //  XMLEncoder.swift
-//  XMLParsing
+//  XMLCoder
 //
 //  Created by Shawn Moore on 11/22/17.
 //  Copyright © 2017 Shawn Moore. All rights reserved.

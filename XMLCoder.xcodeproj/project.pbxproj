@@ -7,23 +7,23 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		"XMLParsing::XMLParsingPackageTests::ProductTarget" /* XMLParsingPackageTests */ = {
+		"XMLParsing::XMLParsingPackageTests::ProductTarget" /* XMLCoderPackageTests */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = OBJ_64 /* Build configuration list for PBXAggregateTarget "XMLParsingPackageTests" */;
+			buildConfigurationList = OBJ_64 /* Build configuration list for PBXAggregateTarget "XMLCoderPackageTests" */;
 			buildPhases = (
 			);
 			dependencies = (
 				OBJ_67 /* PBXTargetDependency */,
 			);
-			name = XMLParsingPackageTests;
+			name = XMLCoderPackageTests;
 			productName = XMLParsingPackageTests;
 		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
 		OBJ_35 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
-		OBJ_41 /* XMLParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* XMLParsingTests.swift */; };
-		OBJ_43 /* XMLParsing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "XMLParsing::XMLParsing::Product" /* XMLParsing.framework */; };
+		OBJ_41 /* XMLCoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* XMLCoderTests.swift */; };
+		OBJ_43 /* XMLCoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "XMLParsing::XMLParsing::Product" /* XMLCoder.framework */; };
 		OBJ_50 /* DecodingErrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* DecodingErrorExtension.swift */; };
 		OBJ_51 /* XMLDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* XMLDecoder.swift */; };
 		OBJ_52 /* XMLDecodingStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* XMLDecodingStorage.swift */; };
@@ -56,7 +56,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8420DF4021761DF200757ECF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Sources/XMLParsing/Info.plist; sourceTree = "<group>"; };
+		D1BCEBCF21943CA6000B550F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D1BCEBD021943F09000B550F /* LinuxMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LinuxMain.swift; path = Tests/LinuxMain.swift; sourceTree = "<group>"; };
 		OBJ_10 /* DecodingErrorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingErrorExtension.swift; sourceTree = "<group>"; };
 		OBJ_11 /* XMLDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLDecoder.swift; sourceTree = "<group>"; };
 		OBJ_12 /* XMLDecodingStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLDecodingStorage.swift; sourceTree = "<group>"; };
@@ -69,11 +70,11 @@
 		OBJ_20 /* ISO8601DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISO8601DateFormatter.swift; sourceTree = "<group>"; };
 		OBJ_21 /* XMLKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLKey.swift; sourceTree = "<group>"; };
 		OBJ_22 /* XMLStackParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLStackParser.swift; sourceTree = "<group>"; };
-		OBJ_25 /* XMLParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParsingTests.swift; sourceTree = "<group>"; };
+		OBJ_25 /* XMLCoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLCoderTests.swift; sourceTree = "<group>"; };
 		OBJ_26 /* Sample XML */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Sample XML"; sourceTree = SOURCE_ROOT; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		"XMLParsing::XMLParsing::Product" /* XMLParsing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = XMLParsing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"XMLParsing::XMLParsingTests::Product" /* XMLParsingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = XMLParsingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"XMLParsing::XMLParsing::Product" /* XMLCoder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = XMLCoder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"XMLParsing::XMLParsingTests::Product" /* XMLCoderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = XMLCoderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_43 /* XMLParsing.framework in Frameworks */,
+				OBJ_43 /* XMLCoder.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,25 +110,26 @@
 		OBJ_23 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_24 /* XMLParsingTests */,
+				D1BCEBD021943F09000B550F /* LinuxMain.swift */,
+				OBJ_24 /* XMLCoderTests */,
 			);
 			name = Tests;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_24 /* XMLParsingTests */ = {
+		OBJ_24 /* XMLCoderTests */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_25 /* XMLParsingTests.swift */,
+				OBJ_25 /* XMLCoderTests.swift */,
 			);
-			name = XMLParsingTests;
-			path = Tests/XMLParsingTests;
+			name = XMLCoderTests;
+			path = Tests/XMLCoderTests;
 			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_27 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				"XMLParsing::XMLParsingTests::Product" /* XMLParsingTests.xctest */,
-				"XMLParsing::XMLParsing::Product" /* XMLParsing.framework */,
+				"XMLParsing::XMLParsingTests::Product" /* XMLCoderTests.xctest */,
+				"XMLParsing::XMLParsing::Product" /* XMLCoder.framework */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -141,28 +143,30 @@
 				OBJ_26 /* Sample XML */,
 				OBJ_27 /* Products */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				8420DF4021761DF200757ECF /* Info.plist */,
-				OBJ_8 /* XMLParsing */,
+				OBJ_8 /* XMLCoder */,
 			);
 			name = Sources;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_8 /* XMLParsing */ = {
+		OBJ_8 /* XMLCoder */ = {
 			isa = PBXGroup;
 			children = (
+				D1BCEBCF21943CA6000B550F /* Info.plist */,
 				OBJ_9 /* Decoder */,
 				OBJ_15 /* Encoder */,
 				OBJ_20 /* ISO8601DateFormatter.swift */,
 				OBJ_21 /* XMLKey.swift */,
 				OBJ_22 /* XMLStackParser.swift */,
 			);
-			name = XMLParsing;
-			path = Sources/XMLParsing;
+			name = XMLCoder;
+			path = Sources/XMLCoder;
 			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_9 /* Decoder */ = {
@@ -180,9 +184,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		"XMLParsing::SwiftPMPackageDescription" /* XMLParsingPackageDescription */ = {
+		"XMLParsing::SwiftPMPackageDescription" /* XMLCoderPackageDescription */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_31 /* Build configuration list for PBXNativeTarget "XMLParsingPackageDescription" */;
+			buildConfigurationList = OBJ_31 /* Build configuration list for PBXNativeTarget "XMLCoderPackageDescription" */;
 			buildPhases = (
 				OBJ_34 /* Sources */,
 			);
@@ -190,13 +194,13 @@
 			);
 			dependencies = (
 			);
-			name = XMLParsingPackageDescription;
+			name = XMLCoderPackageDescription;
 			productName = XMLParsingPackageDescription;
 			productType = "com.apple.product-type.framework";
 		};
-		"XMLParsing::XMLParsing" /* XMLParsing */ = {
+		"XMLParsing::XMLParsing" /* XMLCoder */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_46 /* Build configuration list for PBXNativeTarget "XMLParsing" */;
+			buildConfigurationList = OBJ_46 /* Build configuration list for PBXNativeTarget "XMLCoder" */;
 			buildPhases = (
 				OBJ_49 /* Sources */,
 				OBJ_62 /* Frameworks */,
@@ -205,14 +209,14 @@
 			);
 			dependencies = (
 			);
-			name = XMLParsing;
+			name = XMLCoder;
 			productName = XMLParsing;
-			productReference = "XMLParsing::XMLParsing::Product" /* XMLParsing.framework */;
+			productReference = "XMLParsing::XMLParsing::Product" /* XMLCoder.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		"XMLParsing::XMLParsingTests" /* XMLParsingTests */ = {
+		"XMLParsing::XMLParsingTests" /* XMLCoderTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_37 /* Build configuration list for PBXNativeTarget "XMLParsingTests" */;
+			buildConfigurationList = OBJ_37 /* Build configuration list for PBXNativeTarget "XMLCoderTests" */;
 			buildPhases = (
 				OBJ_40 /* Sources */,
 				OBJ_42 /* Frameworks */,
@@ -222,9 +226,9 @@
 			dependencies = (
 				OBJ_44 /* PBXTargetDependency */,
 			);
-			name = XMLParsingTests;
+			name = XMLCoderTests;
 			productName = XMLParsingTests;
-			productReference = "XMLParsing::XMLParsingTests::Product" /* XMLParsingTests.xctest */;
+			productReference = "XMLParsing::XMLParsingTests::Product" /* XMLCoderTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -243,7 +247,7 @@
 					};
 				};
 			};
-			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "XMLParsing" */;
+			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "XMLCoder" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -255,10 +259,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				"XMLParsing::SwiftPMPackageDescription" /* XMLParsingPackageDescription */,
-				"XMLParsing::XMLParsingTests" /* XMLParsingTests */,
-				"XMLParsing::XMLParsing" /* XMLParsing */,
-				"XMLParsing::XMLParsingPackageTests::ProductTarget" /* XMLParsingPackageTests */,
+				"XMLParsing::SwiftPMPackageDescription" /* XMLCoderPackageDescription */,
+				"XMLParsing::XMLParsingTests" /* XMLCoderTests */,
+				"XMLParsing::XMLParsing" /* XMLCoder */,
+				"XMLParsing::XMLParsingPackageTests::ProductTarget" /* XMLCoderPackageTests */,
 			);
 		};
 /* End PBXProject section */
@@ -276,7 +280,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_41 /* XMLParsingTests.swift in Sources */,
+				OBJ_41 /* XMLCoderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,12 +308,12 @@
 /* Begin PBXTargetDependency section */
 		OBJ_44 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = "XMLParsing::XMLParsing" /* XMLParsing */;
+			target = "XMLParsing::XMLParsing" /* XMLCoder */;
 			targetProxy = 580BB3EC215DDDBC00CA3804 /* PBXContainerItemProxy */;
 		};
 		OBJ_67 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = "XMLParsing::XMLParsingTests" /* XMLParsingTests */;
+			target = "XMLParsing::XMLParsingTests" /* XMLCoderTests */;
 			targetProxy = 580BB3ED215DDDBC00CA3804 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -345,6 +349,7 @@
 			buildSettings = {
 				LD = /usr/bin/true;
 				OTHER_SWIFT_FLAGS = "-swift-version 4 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				PRODUCT_NAME = XMLCoderPackageDescription;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -354,6 +359,7 @@
 			buildSettings = {
 				LD = /usr/bin/true;
 				OTHER_SWIFT_FLAGS = "-swift-version 4 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				PRODUCT_NAME = XMLCoderPackageDescription;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
@@ -367,12 +373,13 @@
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = XMLParsing.xcodeproj/XMLParsingTests_Info.plist;
+				INFOPLIST_FILE = XMLCoder.xcodeproj/XMLCoderTests_Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_NAME = XMLCoderTests;
 				SWIFT_VERSION = 4.2;
-				TARGET_NAME = XMLParsingTests;
+				TARGET_NAME = XMLCoderTests;
 			};
 			name = Debug;
 		};
@@ -385,12 +392,13 @@
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = XMLParsing.xcodeproj/XMLParsingTests_Info.plist;
+				INFOPLIST_FILE = XMLCoder.xcodeproj/XMLCoderTests_Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_NAME = XMLCoderTests;
 				SWIFT_VERSION = 4.2;
-				TARGET_NAME = XMLParsingTests;
+				TARGET_NAME = XMLCoderTests;
 			};
 			name = Release;
 		};
@@ -426,16 +434,16 @@
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = XMLParsing.xcodeproj/XMLParsing_Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/XMLCoder/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = XMLParsing;
+				PRODUCT_BUNDLE_IDENTIFIER = XMLCoder;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
-				TARGET_NAME = XMLParsing;
+				TARGET_NAME = XMLCoder;
 			};
 			name = Debug;
 		};
@@ -448,35 +456,37 @@
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = XMLParsing.xcodeproj/XMLParsing_Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/XMLCoder/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = XMLParsing;
+				PRODUCT_BUNDLE_IDENTIFIER = XMLCoder;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
-				TARGET_NAME = XMLParsing;
+				TARGET_NAME = XMLCoder;
 			};
 			name = Release;
 		};
 		OBJ_65 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				PRODUCT_NAME = XMLCoderPackageTests;
 			};
 			name = Debug;
 		};
 		OBJ_66 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				PRODUCT_NAME = XMLCoderPackageTests;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		OBJ_2 /* Build configuration list for PBXProject "XMLParsing" */ = {
+		OBJ_2 /* Build configuration list for PBXProject "XMLCoder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				OBJ_3 /* Debug */,
@@ -485,7 +495,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		OBJ_31 /* Build configuration list for PBXNativeTarget "XMLParsingPackageDescription" */ = {
+		OBJ_31 /* Build configuration list for PBXNativeTarget "XMLCoderPackageDescription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				OBJ_32 /* Debug */,
@@ -494,7 +504,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		OBJ_37 /* Build configuration list for PBXNativeTarget "XMLParsingTests" */ = {
+		OBJ_37 /* Build configuration list for PBXNativeTarget "XMLCoderTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				OBJ_38 /* Debug */,
@@ -503,7 +513,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		OBJ_46 /* Build configuration list for PBXNativeTarget "XMLParsing" */ = {
+		OBJ_46 /* Build configuration list for PBXNativeTarget "XMLCoder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				OBJ_47 /* Debug */,
@@ -512,7 +522,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		OBJ_64 /* Build configuration list for PBXAggregateTarget "XMLParsingPackageTests" */ = {
+		OBJ_64 /* Build configuration list for PBXAggregateTarget "XMLCoderPackageTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				OBJ_65 /* Debug */,

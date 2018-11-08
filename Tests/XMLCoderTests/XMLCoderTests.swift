@@ -1,5 +1,5 @@
 import XCTest
-@testable import XMLParsing
+@testable import XMLCoder
 
 let example = """
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
@@ -44,7 +44,7 @@ struct Relationship: Codable {
     }
 }
 
-class XMLParsingTests: XCTestCase {
+class XMLCoderTests: XCTestCase {
     func testExample() {
         do {
             guard let data = example.data(using: .utf8) else { return }

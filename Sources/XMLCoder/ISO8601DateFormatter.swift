@@ -1,6 +1,6 @@
 //
 //  ISO8601DateFormatter.swift
-//  XMLParsing
+//  XMLCoder
 //
 //  Created by Shawn Moore on 11/21/17.
 //  Copyright © 2017 Shawn Moore. All rights reserved.

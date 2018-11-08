@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "XMLParsing::XMLParsing"
-               BuildableName = "XMLParsing.framework"
-               BlueprintName = "XMLParsing"
-               ReferencedContainer = "container:XMLParsing.xcodeproj">
+               BuildableName = "XMLCoder.framework"
+               BlueprintName = "XMLCoder"
+               ReferencedContainer = "container:XMLCoder.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "XMLParsing::XMLParsingTests"
-               BuildableName = "XMLParsingTests.xctest"
-               BlueprintName = "XMLParsingTests"
-               ReferencedContainer = "container:XMLParsing.xcodeproj">
+               BuildableName = "XMLCoderTests.xctest"
+               BlueprintName = "XMLCoderTests"
+               ReferencedContainer = "container:XMLCoder.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "XMLParsing::XMLParsing"
-            BuildableName = "XMLParsing.framework"
-            BlueprintName = "XMLParsing"
-            ReferencedContainer = "container:XMLParsing.xcodeproj">
+            BuildableName = "XMLCoder.framework"
+            BlueprintName = "XMLCoder"
+            ReferencedContainer = "container:XMLCoder.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
