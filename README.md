@@ -1,6 +1,10 @@
 # XMLCoder
 Encoder &amp; Decoder for XML using Swift's `Codable` protocol.
 
+This package is a fork of the original 
+[ShawnMoore/XMLParsing](https://github.com/ShawnMoore/XMLParsing)
+with more options and tests added. 
+
 ## Installation
 
 ### CocoaPods
