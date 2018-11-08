@@ -59,6 +59,8 @@
 		D1BCEBCF21943CA6000B550F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1BCEBD021943F09000B550F /* LinuxMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LinuxMain.swift; path = Tests/LinuxMain.swift; sourceTree = "<group>"; };
 		D1BCEBD12194416E000B550F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D1BCEBD22194427A000B550F /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		D1BCEBD3219443E1000B550F /* XMLCoder.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = XMLCoder.podspec; sourceTree = "<group>"; };
 		OBJ_10 /* DecodingErrorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingErrorExtension.swift; sourceTree = "<group>"; };
 		OBJ_11 /* XMLDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLDecoder.swift; sourceTree = "<group>"; };
 		OBJ_12 /* XMLDecodingStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLDecodingStorage.swift; sourceTree = "<group>"; };
@@ -138,6 +140,8 @@
 		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
+				D1BCEBD22194427A000B550F /* CHANGELOG.md */,
+				D1BCEBD3219443E1000B550F /* XMLCoder.podspec */,
 				D1BCEBD12194416E000B550F /* README.md */,
 				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Sources */,

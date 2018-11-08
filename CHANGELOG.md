@@ -1,0 +1,13 @@
+#  0.1.0 (November 8, 2018)
+
+* Add support for decoupled, type-dependent node-encoding strategies (@regexident)
+* Add missing visibility declarations (@regexident)
+* Improve `.gitignore` and remove tracked `*.xcuserdata` files (@regexident)
+* Make `XMLEncoder.OutputFormatting.prettyPrinted` actually do something (@regexident)
+* Add tvOS deployment target to podspec (@edc1591)
+* Fix Carthage command (@salavert)
+* Set deployment versions to allow older SDKs (@Lutzifer)
+* Add Info.plist to allow Framework use in App Store Connect via Carthage (@Lutzifer)
+* Set `CURRENT_PROJECT_VERSION`  (@Lutzifer)
+* Add `convertFromCapitalized` strategy, simple test (@MaxDesiatov)
+* Allow older iOS/tvOS deployment targets in podspec (@MaxDesiatov) 
