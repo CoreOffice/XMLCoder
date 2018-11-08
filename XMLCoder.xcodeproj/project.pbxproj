@@ -61,6 +61,7 @@
 		D1BCEBD12194416E000B550F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D1BCEBD22194427A000B550F /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		D1BCEBD3219443E1000B550F /* XMLCoder.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = XMLCoder.podspec; sourceTree = "<group>"; };
+		D1BCEBD42194462D000B550F /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		OBJ_10 /* DecodingErrorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingErrorExtension.swift; sourceTree = "<group>"; };
 		OBJ_11 /* XMLDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLDecoder.swift; sourceTree = "<group>"; };
 		OBJ_12 /* XMLDecodingStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLDecodingStorage.swift; sourceTree = "<group>"; };
@@ -140,6 +141,7 @@
 		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
+				D1BCEBD42194462D000B550F /* .travis.yml */,
 				D1BCEBD22194427A000B550F /* CHANGELOG.md */,
 				D1BCEBD3219443E1000B550F /* XMLCoder.podspec */,
 				D1BCEBD12194416E000B550F /* README.md */,
@@ -247,6 +249,7 @@
 				TargetAttributes = {
 					"XMLParsing::XMLParsing" = {
 						LastSwiftMigration = 1000;
+						ProvisioningStyle = Automatic;
 					};
 					"XMLParsing::XMLParsingTests" = {
 						LastSwiftMigration = 1000;
@@ -434,6 +437,9 @@
 		OBJ_47 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -447,6 +453,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = XMLCoder;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 				TARGET_NAME = XMLCoder;
@@ -456,6 +463,9 @@
 		OBJ_48 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -469,6 +479,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = XMLCoder;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 				TARGET_NAME = XMLCoder;
