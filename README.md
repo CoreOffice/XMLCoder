@@ -15,7 +15,7 @@ with more options and tests added.
 $ gem install cocoapods
 ```
 
-Navigate to the project directory and create a _podfile_ with the following command:
+Navigate to the project directory and create `Podfile` with the following command:
 
 ```bash
 $ pod install
