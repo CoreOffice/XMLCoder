@@ -1,3 +1,7 @@
+#  0.1.1 (November 18, 2018)
+
+* Set iOS deployment target to 9.0 (@MaxDesiatov)
+
 #  0.1.0 (November 8, 2018)
 
 * Add support for decoupled, type-dependent node-encoding strategies (@regexident)
