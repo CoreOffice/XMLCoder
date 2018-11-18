@@ -6,6 +6,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/MaxDesiatov/XMLCoder"
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author       = { "Shawn Moore" => "sm5@me.com" }
+  s.watchos.deployment_target = "2.0"
   s.ios.deployment_target = "9.0"
   s.tvos.deployment_target = "9.0"
   s.osx.deployment_target = "10.11"
