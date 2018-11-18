@@ -1,3 +1,7 @@
+#  0.2.0 (November 18, 2018)
+
+* Add watchOS 2.0 deployment target (@MaxDesiatov)
+
 #  0.1.1 (November 18, 2018)
 
 * Set iOS deployment target to 9.0 (@MaxDesiatov)
