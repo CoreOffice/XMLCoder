@@ -350,6 +350,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				USE_HEADERMAP = NO;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -438,6 +439,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				USE_HEADERMAP = NO;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
