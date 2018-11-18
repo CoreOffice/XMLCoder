@@ -1,3 +1,7 @@
+#  0.2.1 (November 18, 2018)
+
+* watchOS deployment target set to 2.0 for Carthage (@MaxDesiatov)
+
 #  0.2.0 (November 18, 2018)
 
 * Add watchOS 2.0 deployment target (@MaxDesiatov)
