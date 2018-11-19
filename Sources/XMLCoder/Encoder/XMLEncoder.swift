@@ -796,7 +796,15 @@ fileprivate struct _XMLUnkeyedEncodingContainer : UnkeyedEncodingContainer {
     
     public mutating func encode<T : Encodable>(_ value: T) throws {
         self.encoder.codingPath.append(_XMLKey(index: self.count))
-        defer { self.encoder.codingPath.removeLast() }
+        let nodeEncodings = self.encoder.options.nodeEncodingStrategy.nodeEncodings(
+            forType: T.self,
+            with: self.encoder
+        )
+        self.encoder.nodeEncodings.append(nodeEncodings)
+        defer {
+            let _ = self.encoder.nodeEncodings.removeLast()
+            self.encoder.codingPath.removeLast()
+        }
         self.container.add(try self.encoder.box(value))
     }
     
