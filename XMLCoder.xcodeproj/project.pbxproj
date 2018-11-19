@@ -22,8 +22,9 @@
 
 /* Begin PBXBuildFile section */
 		BFE1C59121A4242300EA0458 /* NodeEncodingStrategyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE1C58F21A4232100EA0458 /* NodeEncodingStrategyTests.swift */; };
+		D15ACF3F21A2C97F003238FD /* BreakfastTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15ACF3E21A2C97F003238FD /* BreakfastTest.swift */; };
 		OBJ_35 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
-		OBJ_41 /* XMLCoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* XMLCoderTests.swift */; };
+		OBJ_41 /* RelationshipsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* RelationshipsTest.swift */; };
 		OBJ_43 /* XMLCoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "XMLParsing::XMLParsing::Product" /* XMLCoder.framework */; };
 		OBJ_50 /* DecodingErrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* DecodingErrorExtension.swift */; };
 		OBJ_51 /* XMLDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* XMLDecoder.swift */; };
@@ -58,6 +59,19 @@
 
 /* Begin PBXFileReference section */
 		BFE1C58F21A4232100EA0458 /* NodeEncodingStrategyTests.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = NodeEncodingStrategyTests.swift; sourceTree = "<group>"; tabWidth = 4; };
+		D15ACF2E21A2C7F2003238FD /* plant_catalog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = plant_catalog.xml; sourceTree = "<group>"; };
+		D15ACF2F21A2C7F2003238FD /* PlantCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantCatalog.swift; sourceTree = "<group>"; };
+		D15ACF3121A2C7F2003238FD /* book.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = book.xml; sourceTree = "<group>"; };
+		D15ACF3221A2C7F2003238FD /* books.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = books.xml; sourceTree = "<group>"; };
+		D15ACF3321A2C7F2003238FD /* Books.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Books.swift; sourceTree = "<group>"; };
+		D15ACF3521A2C7F2003238FD /* RJI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RJI.swift; sourceTree = "<group>"; };
+		D15ACF3621A2C7F2003238FD /* RJI_RSS_Sample.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = RJI_RSS_Sample.xml; sourceTree = "<group>"; };
+		D15ACF3821A2C7F2003238FD /* CDCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDCatalog.swift; sourceTree = "<group>"; };
+		D15ACF3921A2C7F2003238FD /* cd_catalog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = cd_catalog.xml; sourceTree = "<group>"; };
+		D15ACF3B21A2C7F2003238FD /* note.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = note.xml; sourceTree = "<group>"; };
+		D15ACF3C21A2C7F2003238FD /* Notes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notes.swift; sourceTree = "<group>"; };
+		D15ACF3D21A2C7F2003238FD /* note_error.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = note_error.xml; sourceTree = "<group>"; };
+		D15ACF3E21A2C97F003238FD /* BreakfastTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakfastTest.swift; sourceTree = "<group>"; };
 		D1BCEBCF21943CA6000B550F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1BCEBD021943F09000B550F /* LinuxMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LinuxMain.swift; path = Tests/LinuxMain.swift; sourceTree = "<group>"; };
 		D1BCEBD12194416E000B550F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -76,7 +90,7 @@
 		OBJ_20 /* ISO8601DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISO8601DateFormatter.swift; sourceTree = "<group>"; };
 		OBJ_21 /* XMLKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLKey.swift; sourceTree = "<group>"; };
 		OBJ_22 /* XMLStackParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLStackParser.swift; sourceTree = "<group>"; };
-		OBJ_25 /* XMLCoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLCoderTests.swift; sourceTree = "<group>"; };
+		OBJ_25 /* RelationshipsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipsTest.swift; sourceTree = "<group>"; };
 		OBJ_26 /* Sample XML */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Sample XML"; sourceTree = SOURCE_ROOT; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		"XMLParsing::XMLParsing::Product" /* XMLCoder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = XMLCoder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +116,65 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D15ACF2921A2C7F2003238FD /* Sample XML */ = {
+			isa = PBXGroup;
+			children = (
+				D15ACF2D21A2C7F2003238FD /* Plants */,
+				D15ACF3021A2C7F2003238FD /* Books */,
+				D15ACF3421A2C7F2003238FD /* RJI */,
+				D15ACF3721A2C7F2003238FD /* CDs */,
+				D15ACF3A21A2C7F2003238FD /* Notes */,
+			);
+			path = "Sample XML";
+			sourceTree = "<group>";
+		};
+		D15ACF2D21A2C7F2003238FD /* Plants */ = {
+			isa = PBXGroup;
+			children = (
+				D15ACF2E21A2C7F2003238FD /* plant_catalog.xml */,
+				D15ACF2F21A2C7F2003238FD /* PlantCatalog.swift */,
+			);
+			path = Plants;
+			sourceTree = "<group>";
+		};
+		D15ACF3021A2C7F2003238FD /* Books */ = {
+			isa = PBXGroup;
+			children = (
+				D15ACF3121A2C7F2003238FD /* book.xml */,
+				D15ACF3221A2C7F2003238FD /* books.xml */,
+				D15ACF3321A2C7F2003238FD /* Books.swift */,
+			);
+			path = Books;
+			sourceTree = "<group>";
+		};
+		D15ACF3421A2C7F2003238FD /* RJI */ = {
+			isa = PBXGroup;
+			children = (
+				D15ACF3521A2C7F2003238FD /* RJI.swift */,
+				D15ACF3621A2C7F2003238FD /* RJI_RSS_Sample.xml */,
+			);
+			path = RJI;
+			sourceTree = "<group>";
+		};
+		D15ACF3721A2C7F2003238FD /* CDs */ = {
+			isa = PBXGroup;
+			children = (
+				D15ACF3821A2C7F2003238FD /* CDCatalog.swift */,
+				D15ACF3921A2C7F2003238FD /* cd_catalog.xml */,
+			);
+			path = CDs;
+			sourceTree = "<group>";
+		};
+		D15ACF3A21A2C7F2003238FD /* Notes */ = {
+			isa = PBXGroup;
+			children = (
+				D15ACF3B21A2C7F2003238FD /* note.xml */,
+				D15ACF3C21A2C7F2003238FD /* Notes.swift */,
+				D15ACF3D21A2C7F2003238FD /* note_error.xml */,
+			);
+			path = Notes;
+			sourceTree = "<group>";
+		};
 		OBJ_15 /* Encoder */ = {
 			isa = PBXGroup;
 			children = (
@@ -127,6 +200,8 @@
 			children = (
 				OBJ_25 /* XMLCoderTests.swift */,
 				BFE1C58F21A4232100EA0458 /* NodeEncodingStrategyTests.swift */,
+				OBJ_25 /* RelationshipsTest.swift */,
+				D15ACF3E21A2C97F003238FD /* BreakfastTest.swift */,
 			);
 			name = XMLCoderTests;
 			path = Tests/XMLCoderTests;
@@ -149,6 +224,7 @@
 				D1BCEBD3219443E1000B550F /* XMLCoder.podspec */,
 				D1BCEBD12194416E000B550F /* README.md */,
 				OBJ_6 /* Package.swift */,
+				D15ACF2921A2C7F2003238FD /* Sample XML */,
 				OBJ_7 /* Sources */,
 				OBJ_23 /* Tests */,
 				OBJ_26 /* Sample XML */,
@@ -294,6 +370,8 @@
 			files = (
 				OBJ_41 /* XMLCoderTests.swift in Sources */,
 				BFE1C59121A4242300EA0458 /* NodeEncodingStrategyTests.swift in Sources */,
+				OBJ_41 /* RelationshipsTest.swift in Sources */,
+				D15ACF3F21A2C97F003238FD /* BreakfastTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
