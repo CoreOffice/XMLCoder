@@ -22,6 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		D15ACF3F21A2C97F003238FD /* BreakfastTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15ACF3E21A2C97F003238FD /* BreakfastTest.swift */; };
+		D15ACF4221A407AA003238FD /* BooksTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15ACF3321A2C7F2003238FD /* BooksTest.swift */; };
 		OBJ_35 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_41 /* RelationshipsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* RelationshipsTest.swift */; };
 		OBJ_43 /* XMLCoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "XMLParsing::XMLParsing::Product" /* XMLCoder.framework */; };
@@ -59,9 +60,7 @@
 /* Begin PBXFileReference section */
 		D15ACF2E21A2C7F2003238FD /* plant_catalog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = plant_catalog.xml; sourceTree = "<group>"; };
 		D15ACF2F21A2C7F2003238FD /* PlantCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantCatalog.swift; sourceTree = "<group>"; };
-		D15ACF3121A2C7F2003238FD /* book.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = book.xml; sourceTree = "<group>"; };
-		D15ACF3221A2C7F2003238FD /* books.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = books.xml; sourceTree = "<group>"; };
-		D15ACF3321A2C7F2003238FD /* Books.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Books.swift; sourceTree = "<group>"; };
+		D15ACF3321A2C7F2003238FD /* BooksTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksTest.swift; sourceTree = "<group>"; };
 		D15ACF3521A2C7F2003238FD /* RJI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RJI.swift; sourceTree = "<group>"; };
 		D15ACF3621A2C7F2003238FD /* RJI_RSS_Sample.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = RJI_RSS_Sample.xml; sourceTree = "<group>"; };
 		D15ACF3821A2C7F2003238FD /* CDCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDCatalog.swift; sourceTree = "<group>"; };
@@ -118,7 +117,6 @@
 			isa = PBXGroup;
 			children = (
 				D15ACF2D21A2C7F2003238FD /* Plants */,
-				D15ACF3021A2C7F2003238FD /* Books */,
 				D15ACF3421A2C7F2003238FD /* RJI */,
 				D15ACF3721A2C7F2003238FD /* CDs */,
 				D15ACF3A21A2C7F2003238FD /* Notes */,
@@ -133,16 +131,6 @@
 				D15ACF2F21A2C7F2003238FD /* PlantCatalog.swift */,
 			);
 			path = Plants;
-			sourceTree = "<group>";
-		};
-		D15ACF3021A2C7F2003238FD /* Books */ = {
-			isa = PBXGroup;
-			children = (
-				D15ACF3121A2C7F2003238FD /* book.xml */,
-				D15ACF3221A2C7F2003238FD /* books.xml */,
-				D15ACF3321A2C7F2003238FD /* Books.swift */,
-			);
-			path = Books;
 			sourceTree = "<group>";
 		};
 		D15ACF3421A2C7F2003238FD /* RJI */ = {
@@ -196,6 +184,7 @@
 		OBJ_24 /* XMLCoderTests */ = {
 			isa = PBXGroup;
 			children = (
+				D15ACF3321A2C7F2003238FD /* BooksTest.swift */,
 				OBJ_25 /* RelationshipsTest.swift */,
 				D15ACF3E21A2C97F003238FD /* BreakfastTest.swift */,
 			);
@@ -364,6 +353,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				D15ACF4221A407AA003238FD /* BooksTest.swift in Sources */,
 				OBJ_41 /* RelationshipsTest.swift in Sources */,
 				D15ACF3F21A2C97F003238FD /* BreakfastTest.swift in Sources */,
 			);
