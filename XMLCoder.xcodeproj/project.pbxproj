@@ -22,6 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		BFE1C59121A4242300EA0458 /* NodeEncodingStrategyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE1C58F21A4232100EA0458 /* NodeEncodingStrategyTests.swift */; };
+		BFE1C58E21A4203200EA0458 /* NoteTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE1C58D21A4203200EA0458 /* NoteTest.swift */; };
 		D15ACF3F21A2C97F003238FD /* BreakfastTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15ACF3E21A2C97F003238FD /* BreakfastTest.swift */; };
 		D15ACF4221A407AA003238FD /* BooksTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15ACF3321A2C7F2003238FD /* BooksTest.swift */; };
 		OBJ_35 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
@@ -60,6 +61,7 @@
 
 /* Begin PBXFileReference section */
 		BFE1C58F21A4232100EA0458 /* NodeEncodingStrategyTests.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = NodeEncodingStrategyTests.swift; sourceTree = "<group>"; tabWidth = 4; };
+		BFE1C58D21A4203200EA0458 /* NoteTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteTest.swift; sourceTree = "<group>"; };
 		D15ACF2E21A2C7F2003238FD /* plant_catalog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = plant_catalog.xml; sourceTree = "<group>"; };
 		D15ACF2F21A2C7F2003238FD /* PlantCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantCatalog.swift; sourceTree = "<group>"; };
 		D15ACF3321A2C7F2003238FD /* BooksTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksTest.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				D15ACF3321A2C7F2003238FD /* BooksTest.swift */,
 				OBJ_25 /* RelationshipsTest.swift */,
 				D15ACF3E21A2C97F003238FD /* BreakfastTest.swift */,
+				BFE1C58D21A4203200EA0458 /* NoteTest.swift */,
 			);
 			name = XMLCoderTests;
 			path = Tests/XMLCoderTests;
@@ -362,6 +365,7 @@
 				D15ACF4221A407AA003238FD /* BooksTest.swift in Sources */,
 				OBJ_41 /* RelationshipsTest.swift in Sources */,
 				D15ACF3F21A2C97F003238FD /* BreakfastTest.swift in Sources */,
+				BFE1C58E21A4203200EA0458 /* NoteTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
