@@ -1,3 +1,29 @@
+//
+//  Books.swift
+//  XMLCoder
+//
+//  Created by Shawn Moore on 11/15/17.
+//  Copyright © 2017 Shawn Moore. All rights reserved.
+//
+
+import Foundation
+import XCTest
+@testable import XMLCoder
+
+let bookXML = """
+<?xml version="1.0"?>
+<book id="bk101">
+    <author>Gambardella, Matthew</author>
+    <title>XML Developer's Guide</title>
+    <genre>Computer</genre>
+    <price>44.95</price>
+    <publish_date>2000-10-01</publish_date>
+    <description>An in-depth look at creating applications
+        with XML.</description>
+</book>
+""".data(using: .utf8)!
+
+let catalogXML = """
 <?xml version="1.0"?>
 <catalog>
     <book id="bk101">
@@ -118,3 +144,95 @@
             environment.</description>
     </book>
 </catalog>
+
+""".data(using: .utf8)!
+
+struct Catalog: Codable, Equatable {
+    var books: [Book]
+    
+    enum CodingKeys: String, CodingKey {
+        case books = "book"
+    }
+}
+
+struct Book: Codable, Equatable {
+    var id: String
+    var author: String
+    var title: String
+    var genre: Genre
+    var price: Double
+    var publishDate: Date
+    var description: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id, author, title, genre, price, description
+        
+        case publishDate = "publish_date"
+    }
+}
+
+enum Genre: String, Codable {
+    case computer = "Computer"
+    case fantasy = "Fantasy"
+    case romance = "Romance"
+    case horror = "Horror"
+    case sciFi = "Science Fiction"
+}
+
+class BooksTest: XCTestCase {
+    private let formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+
+    func testBookXML() {
+        let decoder = XMLDecoder()
+        let encoder = XMLEncoder()
+
+        decoder.dateDecodingStrategy = .formatted(formatter)
+        encoder.dateEncodingStrategy = .formatted(formatter)
+
+        do {
+            let book1 = try decoder.decode(Book.self, from: bookXML)
+            XCTAssertEqual(book1.publishDate,
+                           Date(timeIntervalSince1970: 970354800))
+
+            let data = try encoder.encode(book1, withRootKey: "book",
+                                          header: XMLHeader(version: 1.0,
+                                                            encoding: "UTF-8"))
+            let book2 = try decoder.decode(Book.self, from: data)
+            XCTAssertEqual(book1, book2)
+        } catch {
+            XCTAssert(false, "failed to decode test xml: \(error)")
+        }
+    }
+
+    func testCatalogXML() {
+        let decoder = XMLDecoder()
+        let encoder = XMLEncoder()
+
+        decoder.dateDecodingStrategy = .formatted(formatter)
+        encoder.dateEncodingStrategy = .formatted(formatter)
+
+        do {
+            let catalog1 = try decoder.decode(Catalog.self, from: catalogXML)
+            XCTAssertEqual(catalog1.books.count, 12)
+            XCTAssertEqual(catalog1.books[0].publishDate,
+                           Date(timeIntervalSince1970: 970354800))
+
+            let data = try encoder.encode(catalog1, withRootKey: "catalog",
+                                          header: XMLHeader(version: 1.0,
+                                                            encoding: "UTF-8"))
+            let catalog2 = try decoder.decode(Catalog.self, from: data)
+            XCTAssertEqual(catalog1, catalog2)
+        } catch {
+            XCTAssert(false, "failed to decode test xml: \(error)")
+        }
+    }
+
+    static var allTests = [
+        ("testBookXML", testBookXML),
+    ]
+
+}
