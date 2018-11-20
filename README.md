@@ -1,5 +1,5 @@
 # XMLCoder
-Encoder &amp; Decoder for XML using Swift's `Codable` protocol.
+Encoder &amp; Decoder for XML using Swift's `Codable` protocols.
 
 [![CI Status](https://img.shields.io/travis/MaxDesiatov/XMLCoder.svg?style=flat)](https://travis-ci.org/MaxDesiatov/XMLCoder)
 [![Version](https://img.shields.io/cocoapods/v/XMLCoder.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
@@ -9,6 +9,34 @@ Encoder &amp; Decoder for XML using Swift's `Codable` protocol.
 This package is a fork of the original 
 [ShawnMoore/XMLParsing](https://github.com/ShawnMoore/XMLParsing)
 with more options and tests added. 
+
+## Example
+
+```swift
+import XMLCoder
+
+let xmlStr = """
+<note>
+    <to>Bob</to>
+    <from>Jane</from>
+    <heading>Reminder</heading>
+    <body>Don't forget to use XMLCoder!</body>
+</note>
+"""
+    
+struct Note: Codable {
+    var to: String
+    var from: String
+    var heading: String
+    var body: String
+}
+
+guard let data = xmlStr.data(using: .utf8) else { return }
+
+let note = try? XMLDecoder().decode(Note.self, from: data)
+
+let returnData = try? XMLEncoder().encode(note, withRootKey: "note")
+```
 
 ## Installation
 
@@ -91,32 +119,4 @@ easy as adding it to the `dependencies` value of your `Package.swift`.
 dependencies: [
     .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.2.1")
 ]
-```
-
-## Example
-
-```swift
-import XMLCoder
-
-let xmlStr = """
-<note>
-    <to>Bob</to>
-    <from>Jane</from>
-    <heading>Reminder</heading>
-    <body>Don't forget to use XMLCoder!</body>
-</note>
-"""
-    
-struct Note: Codable {
-    var to: String
-    var from: String
-    var heading: String
-    var body: String
-}
-
-guard let data = xmlStr.data(using: .utf8) else { return }
-
-let note = try? XMLDecoder().decode(Note.self, from: data)
-
-let returnData = try? XMLEncoder().encode(note, withRootKey: "note")
 ```
