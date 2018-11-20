@@ -182,6 +182,7 @@ enum Genre: String, Codable {
 class BooksTest: XCTestCase {
     private let formatter: DateFormatter = {
         let formatter = DateFormatter()
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
@@ -196,7 +197,7 @@ class BooksTest: XCTestCase {
         do {
             let book1 = try decoder.decode(Book.self, from: bookXML)
             XCTAssertEqual(book1.publishDate,
-                           Date(timeIntervalSince1970: 970354800))
+                           Date(timeIntervalSince1970: 970358400))
 
             let data = try encoder.encode(book1, withRootKey: "book",
                                           header: XMLHeader(version: 1.0,
@@ -219,7 +220,7 @@ class BooksTest: XCTestCase {
             let catalog1 = try decoder.decode(Catalog.self, from: catalogXML)
             XCTAssertEqual(catalog1.books.count, 12)
             XCTAssertEqual(catalog1.books[0].publishDate,
-                           Date(timeIntervalSince1970: 970354800))
+                           Date(timeIntervalSince1970: 970358400))
 
             let data = try encoder.encode(catalog1, withRootKey: "catalog",
                                           header: XMLHeader(version: 1.0,
