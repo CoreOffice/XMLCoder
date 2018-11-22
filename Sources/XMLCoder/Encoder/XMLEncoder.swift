@@ -174,7 +174,7 @@ open class XMLEncoder {
     }
 
     /// Set of strategies to use for encoding of nodes.
-    public enum NodeEncodingStrategies {
+    public enum NodeEncodingStrategy {
         /// Defer to `Encoder` for choosing an encoding. This is the default strategy.
         case deferredToEncoder
 
@@ -210,7 +210,7 @@ open class XMLEncoder {
     open var keyEncodingStrategy: KeyEncodingStrategy = .useDefaultKeys
     
     /// The strategy to use in encoding encoding attributes. Defaults to `.deferredToEncoder`.
-    open var nodeEncodingStrategy: NodeEncodingStrategies = .deferredToEncoder
+    open var nodeEncodingStrategy: NodeEncodingStrategy = .deferredToEncoder
     
     /// The strategy to use in encoding strings. Defaults to `.deferredToString`.
     open var stringEncodingStrategy: StringEncodingStrategy = .deferredToString
@@ -224,7 +224,7 @@ open class XMLEncoder {
         let dataEncodingStrategy: DataEncodingStrategy
         let nonConformingFloatEncodingStrategy: NonConformingFloatEncodingStrategy
         let keyEncodingStrategy: KeyEncodingStrategy
-        let nodeEncodingStrategy: NodeEncodingStrategies
+        let nodeEncodingStrategy: NodeEncodingStrategy
         let stringEncodingStrategy: StringEncodingStrategy
         let userInfo: [CodingUserInfoKey : Any]
     }
