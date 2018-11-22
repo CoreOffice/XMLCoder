@@ -173,6 +173,9 @@ open class XMLEncoder {
         }
     }
 
+    @available(*, deprecated, renamed: "NodeEncodingStrategy")
+    public typealias NodeEncodingStrategies = NodeEncodingStrategy
+
     /// Set of strategies to use for encoding of nodes.
     public enum NodeEncodingStrategy {
         /// Defer to `Encoder` for choosing an encoding. This is the default strategy.
