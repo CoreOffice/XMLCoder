@@ -66,13 +66,9 @@
 /* Begin PBXFileReference section */
 		BFE1C58D21A4203200EA0458 /* NoteTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteTest.swift; sourceTree = "<group>"; };
 		BFE1C58F21A4232100EA0458 /* NodeEncodingStrategyTests.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = NodeEncodingStrategyTests.swift; sourceTree = "<group>"; tabWidth = 4; };
-		D15ACF2E21A2C7F2003238FD /* plant_catalog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = plant_catalog.xml; sourceTree = "<group>"; };
-		D15ACF2F21A2C7F2003238FD /* PlantCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantCatalog.swift; sourceTree = "<group>"; };
 		D15ACF3321A2C7F2003238FD /* BooksTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksTest.swift; sourceTree = "<group>"; };
 		D15ACF3521A2C7F2003238FD /* RJI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RJI.swift; sourceTree = "<group>"; };
 		D15ACF3621A2C7F2003238FD /* RJI_RSS_Sample.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = RJI_RSS_Sample.xml; sourceTree = "<group>"; };
-		D15ACF3821A2C7F2003238FD /* CDCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDCatalog.swift; sourceTree = "<group>"; };
-		D15ACF3921A2C7F2003238FD /* cd_catalog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = cd_catalog.xml; sourceTree = "<group>"; };
 		D15ACF3E21A2C97F003238FD /* BreakfastTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakfastTest.swift; sourceTree = "<group>"; };
 		D1BCEBCF21943CA6000B550F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1BCEBD021943F09000B550F /* LinuxMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LinuxMain.swift; path = Tests/LinuxMain.swift; sourceTree = "<group>"; };
@@ -125,20 +121,9 @@
 		D15ACF2921A2C7F2003238FD /* Sample XML */ = {
 			isa = PBXGroup;
 			children = (
-				D15ACF2D21A2C7F2003238FD /* Plants */,
 				D15ACF3421A2C7F2003238FD /* RJI */,
-				D15ACF3721A2C7F2003238FD /* CDs */,
 			);
 			path = "Sample XML";
-			sourceTree = "<group>";
-		};
-		D15ACF2D21A2C7F2003238FD /* Plants */ = {
-			isa = PBXGroup;
-			children = (
-				D15ACF2E21A2C7F2003238FD /* plant_catalog.xml */,
-				D15ACF2F21A2C7F2003238FD /* PlantCatalog.swift */,
-			);
-			path = Plants;
 			sourceTree = "<group>";
 		};
 		D15ACF3421A2C7F2003238FD /* RJI */ = {
@@ -148,15 +133,6 @@
 				D15ACF3621A2C7F2003238FD /* RJI_RSS_Sample.xml */,
 			);
 			path = RJI;
-			sourceTree = "<group>";
-		};
-		D15ACF3721A2C7F2003238FD /* CDs */ = {
-			isa = PBXGroup;
-			children = (
-				D15ACF3821A2C7F2003238FD /* CDCatalog.swift */,
-				D15ACF3921A2C7F2003238FD /* cd_catalog.xml */,
-			);
-			path = CDs;
 			sourceTree = "<group>";
 		};
 		OBJ_15 /* Encoder */ = {
