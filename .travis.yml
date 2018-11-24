@@ -1,16 +1,25 @@
-# references:
-# * https://www.objc.io/issues/6-build-tools/travis-ci/
-# * https://github.com/supermarin/xcpretty#usage
-
 osx_image: xcode10.1
 language: swift
-# cache: cocoapods
-# podfile: Example/Podfile
+env:
+  global:
+  - FRAMEWORK_NAME=XMLCoder
 before_install:
-- gem install cocoapods --pre # Since Travis is not always on latest version
-# - pod install --project-directory=Example
+- brew update
+- brew outdated carthage || brew upgrade carthage
 script:
 - pod lib lint
 - xcodebuild test -enableCodeCoverage YES -scheme XMLCoder
+before_deploy:
+- carthage build --no-skip-current
+- carthage archive $FRAMEWORK_NAME
 after_success:
 - bash <(curl -s https://codecov.io/bash)
+deploy:
+  provider: releases
+  api_key:
+    secure: yACVlrO+oqAPJ7NS2N2Cut8eCTO0yWWKuV9510tpwmsCKuHUJZ9fT1Z4zhteghGiDZJzZHzMteSK3YPHeCFBbZJAq95HeWV8ki0Cs+7tL8jO0U1zniilb/vk4MvT3z7QdzueXO+DHBw9nbszARwbfgBAWhkPbt9zKwk882Hoke5M9mfbQ9kUHNH+jTV5R7FdtkbkGpo1zzEglYZT0IshLTbBSlBjqEu9kJSJxTQjciKu6f/DvDYgV0AyXqi96hlmaSrTE9vM6bRxbN+t9QNAtlXxlB4mGiprKR8et1MFJHR9ECIpbzfsAWzehPtSksfXLgAfq0z0fIR3RRN4w76oMgAQcBS1xPnDFXjyMDv+QJHfXcGsACubU10FxZDHinF3odRzzAuQI2mxcvFJ7rcPVpe/Y1M1otxyRAlj3AE3yMp3eoTqoByjym/ckBSs9Ui5kgWIaQPtaGx6HkFFGjZlbxkNLcd6cQjrhAOUVF0FjABcdOi0ZM1HpBusdcdEx4aA68XcrZvWi9zWeG9rHb9Z20hJKme/zkuiAbKtwDFJ3y+WiQK27JtKTgz4VtDbtiWpjaj1Uw8FhbE/X+9fuN09HSfN5n/NDuIoDJtyAxBkalxGMggeWWHCb6vjYk9+jubyOYctGBh4jbRuSp2QMdR62GlghVa0ARSGiQOOWGEk6LU=
+  file: "$FRAMEWORK_NAME.framework.zip"
+  skip_cleanup: true
+  on:
+    repo: MaxDesiatov/XMLCoder
+    tags: true
