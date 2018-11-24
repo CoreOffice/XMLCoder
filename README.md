@@ -65,7 +65,7 @@ target 'YourApp' do
   use_frameworks!
 
   # Pods for Test
-  pod 'XMLCoder'
+  pod 'XMLCoder', '~> 0.2.1'
 
 end
 ```
@@ -94,7 +94,7 @@ $ brew install carthage
 Inside of your `Cartfile`, add GitHub path to `XMLCoder`:
 
 ```ogdl
-github "MaxDesiatov/XMLCoder"
+github "MaxDesiatov/XMLCoder" ~> 0.2.1
 ```
 
 Then, run the following command to build the framework:
