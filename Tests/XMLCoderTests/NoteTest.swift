@@ -29,14 +29,14 @@ private let invalidXml = """
 </note>
 """.data(using: .utf8)!
 
-struct Note: Codable, Equatable {
+private struct Note: Codable, Equatable {
     var to: String
     var from: String
     var heading: String
     var body: String
 }
 
-class NoteTest: XCTestCase {
+final class NoteTest: XCTestCase {
     func testValidXML() {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()

@@ -18,7 +18,7 @@ private let xml = """
 </Relationships>
 """.data(using: .utf8)!
 
-struct Relationships: Codable {
+private struct Relationships: Codable {
     let items: [Relationship]
 
     enum CodingKeys: String, CodingKey {
@@ -26,7 +26,7 @@ struct Relationships: Codable {
     }
 }
 
-struct Relationship: Codable {
+private struct Relationship: Codable {
     enum SchemaType: String, Codable {
         case officeDocument = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument"
         case extendedProperties = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties"
@@ -44,7 +44,7 @@ struct Relationship: Codable {
     }
 }
 
-class RelationshipsTest: XCTestCase {
+final class RelationshipsTest: XCTestCase {
     func testDecoder() {
         do {
             let decoder = XMLDecoder()

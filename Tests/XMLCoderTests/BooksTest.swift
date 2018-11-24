@@ -1,6 +1,6 @@
 //
 //  Books.swift
-//  XMLCoder
+//  XMLCoderTests
 //
 //  Created by Shawn Moore on 11/15/17.
 //  Copyright © 2017 Shawn Moore. All rights reserved.
@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 @testable import XMLCoder
 
-let bookXML = """
+private let bookXML = """
 <?xml version="1.0"?>
 <book id="bk101">
     <author>Gambardella, Matthew</author>
@@ -23,7 +23,7 @@ let bookXML = """
 </book>
 """.data(using: .utf8)!
 
-let catalogXML = """
+private let catalogXML = """
 <?xml version="1.0"?>
 <catalog>
     <book id="bk101">
@@ -147,7 +147,7 @@ let catalogXML = """
 
 """.data(using: .utf8)!
 
-struct Catalog: Codable, Equatable {
+private struct Catalog: Codable, Equatable {
     var books: [Book]
     
     enum CodingKeys: String, CodingKey {
@@ -155,7 +155,7 @@ struct Catalog: Codable, Equatable {
     }
 }
 
-struct Book: Codable, Equatable {
+private struct Book: Codable, Equatable {
     var id: String
     var author: String
     var title: String
@@ -171,7 +171,7 @@ struct Book: Codable, Equatable {
     }
 }
 
-enum Genre: String, Codable {
+private enum Genre: String, Codable {
     case computer = "Computer"
     case fantasy = "Fantasy"
     case romance = "Romance"
@@ -179,7 +179,7 @@ enum Genre: String, Codable {
     case sciFi = "Science Fiction"
 }
 
-class BooksTest: XCTestCase {
+final class BooksTest: XCTestCase {
     private let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.timeZone = TimeZone(secondsFromGMT: 0)

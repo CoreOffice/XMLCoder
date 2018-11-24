@@ -46,18 +46,18 @@ private let xml = """
 """.data(using: .utf8)!
 
 
-struct Menu: Codable, Equatable {
+private struct Menu: Codable, Equatable {
     var food: [Food]
 }
 
-struct Food: Codable, Equatable {
+private struct Food: Codable, Equatable {
     var name: String
     var price: String
     var description: String
     var calories: Int?
 }
 
-class BreakfastTest: XCTestCase {
+final class BreakfastTest: XCTestCase {
     func testXML() {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
