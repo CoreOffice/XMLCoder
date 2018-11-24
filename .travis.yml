@@ -7,7 +7,7 @@ before_install:
 - brew update
 - brew outdated carthage || brew upgrade carthage
 script:
-- pod lib lint
+- pod lib lint --verbose
 - xcodebuild test -enableCodeCoverage YES -scheme XMLCoder
 before_deploy:
 - carthage build --no-skip-current
