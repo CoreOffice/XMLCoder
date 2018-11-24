@@ -27,6 +27,8 @@
 		D15ACF4221A407AA003238FD /* BooksTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15ACF3321A2C7F2003238FD /* BooksTest.swift */; };
 		D1EB9C6021A970DC002F2254 /* PlantTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EB9C5F21A970DC002F2254 /* PlantTest.swift */; };
 		D1EB9C6321A9717C002F2254 /* PlantCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EB9C6121A9713F002F2254 /* PlantCatalog.swift */; };
+		D1EB9C6521A97FDF002F2254 /* CDCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EB9C6421A97FDF002F2254 /* CDCatalog.swift */; };
+		D1EB9C6B21A9802B002F2254 /* CDTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EB9C6A21A9802B002F2254 /* CDTest.swift */; };
 		OBJ_35 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_41 /* RelationshipsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* RelationshipsTest.swift */; };
 		OBJ_43 /* XMLCoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "XMLParsing::XMLParsing::Product" /* XMLCoder.framework */; };
@@ -80,6 +82,8 @@
 		D1BCEBD42194462D000B550F /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		D1EB9C5F21A970DC002F2254 /* PlantTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantTest.swift; sourceTree = "<group>"; };
 		D1EB9C6121A9713F002F2254 /* PlantCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantCatalog.swift; sourceTree = "<group>"; };
+		D1EB9C6421A97FDF002F2254 /* CDCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDCatalog.swift; sourceTree = "<group>"; };
+		D1EB9C6A21A9802B002F2254 /* CDTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDTest.swift; sourceTree = "<group>"; };
 		OBJ_10 /* DecodingErrorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingErrorExtension.swift; sourceTree = "<group>"; };
 		OBJ_11 /* XMLDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLDecoder.swift; sourceTree = "<group>"; };
 		OBJ_12 /* XMLDecodingStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLDecodingStorage.swift; sourceTree = "<group>"; };
@@ -185,6 +189,8 @@
 				BFE1C58D21A4203200EA0458 /* NoteTest.swift */,
 				D1EB9C5F21A970DC002F2254 /* PlantTest.swift */,
 				D1EB9C6121A9713F002F2254 /* PlantCatalog.swift */,
+				D1EB9C6421A97FDF002F2254 /* CDCatalog.swift */,
+				D1EB9C6A21A9802B002F2254 /* CDTest.swift */,
 			);
 			name = XMLCoderTests;
 			path = Tests/XMLCoderTests;
@@ -351,9 +357,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				D1EB9C6521A97FDF002F2254 /* CDCatalog.swift in Sources */,
 				OBJ_41 /* RelationshipsTest.swift in Sources */,
 				BFE1C59121A4242300EA0458 /* NodeEncodingStrategyTests.swift in Sources */,
 				D15ACF4221A407AA003238FD /* BooksTest.swift in Sources */,
+				D1EB9C6B21A9802B002F2254 /* CDTest.swift in Sources */,
 				OBJ_41 /* RelationshipsTest.swift in Sources */,
 				D1EB9C6021A970DC002F2254 /* PlantTest.swift in Sources */,
 				D15ACF3F21A2C97F003238FD /* BreakfastTest.swift in Sources */,
