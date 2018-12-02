@@ -382,7 +382,7 @@ fileprivate struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingCont
     private let encoder: _XMLEncoder
     
     /// A reference to the container we're writing to.
-    private let container: NSMutableDictionary
+	private let container: NSMutableDictionary 
     
     /// The path of coding keys taken to get to this point in encoding.
     private(set) public var codingPath: [CodingKey]

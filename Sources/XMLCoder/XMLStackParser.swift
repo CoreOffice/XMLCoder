@@ -196,16 +196,65 @@ internal class _XMLElement {
         }
     }
     
-    fileprivate func _toXMLString(indented level: Int = 0, withCDATA cdata: Bool, formatting: XMLEncoder.OutputFormatting, ignoreEscaping: Bool = false) -> String {
+	fileprivate func formatUnsortedXMLElements(_ string: inout String, _ level: Int, _ cdata: Bool, _ formatting: XMLEncoder.OutputFormatting, _ prettyPrinted: Bool) {
+		for childElement in children {
+			for child in childElement.value {
+				string += child._toXMLString(indented: level + 1, withCDATA: cdata, formatting: formatting)
+				string += prettyPrinted ? "\n" : ""
+			}
+		}
+	}
+
+	fileprivate func formatSortedXMLElements(_ string: inout String, _ level: Int, _ cdata: Bool, _ formatting: XMLEncoder.OutputFormatting, _ prettyPrinted: Bool) {
+		for childElement in children.sorted(by: { $0.key < $1.key }) {
+			for child in childElement.value {
+				string += child._toXMLString(indented: level + 1, withCDATA: cdata, formatting: formatting)
+				string += prettyPrinted ? "\n" : ""
+			}
+		}
+	}
+
+	fileprivate func formatSortedXMLAttributes(_ string: inout String) {
+		for (key, value) in attributes.sorted(by: { $0.key < $1.key }) {
+			string += " \(key)=\"\(value.escape(_XMLElement.escapedCharacterSet))\""
+		}
+	}
+
+	fileprivate func formatUnsortedXMLAttributes(_ string: inout String) {
+		for (key, value) in attributes {
+			string += " \(key)=\"\(value.escape(_XMLElement.escapedCharacterSet))\""
+		}
+	}
+
+	fileprivate func formatXMLAttributes(_ formatting: XMLEncoder.OutputFormatting, _ string: inout String) {
+		if #available(OSX 10.13, iOS 11.0, *) {
+			if formatting.contains(.sortedKeys) {
+				formatSortedXMLAttributes(&string)
+			}
+		}
+		formatUnsortedXMLAttributes(&string)
+	}
+
+	fileprivate func formatXMLElements(_ formatting: XMLEncoder.OutputFormatting, _ string: inout String, _ level: Int, _ cdata: Bool, _ prettyPrinted: Bool) {
+		if #available(OSX 10.13, iOS 11.0, *) {
+			if formatting.contains(.sortedKeys) {
+				formatSortedXMLElements(&string, level, cdata, formatting, prettyPrinted)
+			} else {
+				formatUnsortedXMLElements(&string, level, cdata, formatting, prettyPrinted)
+			}
+			return
+		}
+		formatUnsortedXMLElements(&string, level, cdata, formatting, prettyPrinted)
+	}
+
+	fileprivate func _toXMLString(indented level: Int = 0, withCDATA cdata: Bool, formatting: XMLEncoder.OutputFormatting, ignoreEscaping: Bool = false) -> String {
         let prettyPrinted = formatting.contains(.prettyPrinted)
         let indentation = String(repeating: " ", count: (prettyPrinted ? level : 0) * 4)
         var string = indentation
         string += "<\(key)"
-        
-        for (key, value) in attributes {
-            string += " \(key)=\"\(value.escape(_XMLElement.escapedCharacterSet))\""
-        }
-        
+
+		formatXMLAttributes(formatting, &string)
+
         if let value = value {
             string += ">"
             if !ignoreEscaping {
@@ -216,14 +265,8 @@ internal class _XMLElement {
             string += "</\(key)>"
         } else if !children.isEmpty {
             string += prettyPrinted ? ">\n" : ">"
-            
-            for childElement in children {
-                for child in childElement.value {
-                    string += child._toXMLString(indented: level + 1, withCDATA: cdata, formatting: formatting)
-                    string += prettyPrinted ? "\n" : ""
-                }
-            }
-            
+			formatXMLElements(formatting, &string, level, cdata, prettyPrinted)
+
             string += indentation
             string += "</\(key)>"
         } else {
