@@ -155,28 +155,28 @@ internal class _XMLElement {
     
     fileprivate func flatten(with charDataKey: String? = nil) -> [String: Any] {
         var node: [String: Any] = attributes
-
-		if children.isEmpty {
-			if let key = charDataKey {
-				node[key] = value
-			}
-		}
-
+        
+        if children.isEmpty {
+            if let key = charDataKey {
+                node[key] = value
+            }
+        }
+        
         for childElement in children {
             for child in childElement.value {
                 if let content = child.value {
                     if let oldContent = node[childElement.key] as? Array<Any> {
                         node[childElement.key] = oldContent + [content]
-
+                        
                     } else if let oldContent = node[childElement.key] {
                         node[childElement.key] = [oldContent, content]
-
+                        
                     } else {
                         node[childElement.key] = content
                     }
                 } else if !child.children.isEmpty || !child.attributes.isEmpty {
                     let newValue = child.flatten()
-
+                    
                     if let existingValue = node[childElement.key] {
                         if var array = existingValue as? Array<Any> {
                             array.append(newValue)
@@ -316,29 +316,29 @@ internal class _XMLStackParser: NSObject, XMLParserDelegate {
     var currentElementName: String?
     var currentElementData = ""
     
-	/// Parses the XML data and returns a dictionary of the parsed output
-	///
-	/// - Parameters:
-	///   - data: The Data to be parsed
-	///   - charDataToken: The token to key the charData in mixed content elements off of
-	/// - Returns: Dictionary of the parsed XML
-	/// - Throws: DecodingError if there's an issue parsing the XML
-	/// - Note:
-	/// When an XML Element has both attributes and child elements, the CharData within the element will be keyed with the `characterDataToken`
-	/// The following XML has both attribute data, child elements, and character data:
-	/// ```
-	/// <SomeElement SomeAttribute="value">
-	///    some string value
-	///    <SomeOtherElement>valuevalue</SomeOtherElement>
-	/// </SomeElement>
-	/// ```
-	/// The "some string value" will be keyed on "CharData"
-	static func parse(with data: Data, charDataToken: String? = nil) throws -> [String: Any] {
+    /// Parses the XML data and returns a dictionary of the parsed output
+    ///
+    /// - Parameters:
+    ///   - data: The Data to be parsed
+    ///   - charDataToken: The token to key the charData in mixed content elements off of
+    /// - Returns: Dictionary of the parsed XML
+    /// - Throws: DecodingError if there's an issue parsing the XML
+    /// - Note:
+    /// When an XML Element has both attributes and child elements, the CharData within the element will be keyed with the `characterDataToken`
+    /// The following XML has both attribute data, child elements, and character data:
+    /// ```
+    /// <SomeElement SomeAttribute="value">
+    ///    some string value
+    ///    <SomeOtherElement>valuevalue</SomeOtherElement>
+    /// </SomeElement>
+    /// ```
+    /// The "some string value" will be keyed on "CharData"
+    static func parse(with data: Data, charDataToken: String? = nil) throws -> [String: Any] {
         let parser = _XMLStackParser()
         
         do {
             if let node = try parser.parse(with: data) {
-				return node.flatten(with: charDataToken)
+                return node.flatten(with: charDataToken)
             } else {
                 throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: "The given data could not be parsed into XML."))
             }
