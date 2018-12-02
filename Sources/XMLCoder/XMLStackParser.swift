@@ -191,46 +191,59 @@ internal class _XMLElement {
     func toXMLString(with header: XMLHeader? = nil, withCDATA cdata: Bool, formatting: XMLEncoder.OutputFormatting, ignoreEscaping: Bool = false) -> String {
         if let header = header, let headerXML = header.toXML() {
             return headerXML + _toXMLString(withCDATA: cdata, formatting: formatting)
-        } else {
-            return _toXMLString(withCDATA: cdata, formatting: formatting)
         }
+		return _toXMLString(withCDATA: cdata, formatting: formatting)
     }
     
 	fileprivate func formatUnsortedXMLElements(_ string: inout String, _ level: Int, _ cdata: Bool, _ formatting: XMLEncoder.OutputFormatting, _ prettyPrinted: Bool) {
-		for childElement in children {
-			for child in childElement.value {
-				string += child._toXMLString(indented: level + 1, withCDATA: cdata, formatting: formatting)
-				string += prettyPrinted ? "\n" : ""
-			}
+		formatXMLElements(from: children.map { (key: $0, value: $1) }, into: &string, at: level, cdata: cdata, formatting: formatting, prettyPrinted: prettyPrinted)
+	}
+
+	fileprivate func elementString(for childElement: (key: String, value: [_XMLElement]), at level: Int, cdata: Bool, formatting: XMLEncoder.OutputFormatting, prettyPrinted: Bool) -> String {
+		var string = ""
+		for child in childElement.value {
+			string += child._toXMLString(indented: level + 1, withCDATA: cdata, formatting: formatting)
+			string += prettyPrinted ? "\n" : ""
 		}
+		return string
 	}
 
 	fileprivate func formatSortedXMLElements(_ string: inout String, _ level: Int, _ cdata: Bool, _ formatting: XMLEncoder.OutputFormatting, _ prettyPrinted: Bool) {
-		for childElement in children.sorted(by: { $0.key < $1.key }) {
-			for child in childElement.value {
-				string += child._toXMLString(indented: level + 1, withCDATA: cdata, formatting: formatting)
-				string += prettyPrinted ? "\n" : ""
-			}
+		formatXMLElements(from: children.sorted { $0.key < $1.key }, into: &string, at: level, cdata: cdata, formatting: formatting, prettyPrinted: prettyPrinted)
+	}
+
+	fileprivate func attributeString(key: String, value: String) -> String {
+		return " \(key)=\"\(value.escape(_XMLElement.escapedCharacterSet))\""
+	}
+
+	fileprivate func formatXMLAttributes(from keyValuePairs: [(key: String, value: String)], into string: inout String) {
+		for (key, value) in keyValuePairs {
+			string += attributeString(key: key, value: value)
+		}
+	}
+
+	fileprivate func formatXMLElements(from children: [(key: String, value: [_XMLElement])], into string: inout String, at level: Int, cdata: Bool, formatting: XMLEncoder.OutputFormatting, prettyPrinted: Bool) {
+		for childElement in children {
+			string += elementString(for: childElement, at: level, cdata: cdata, formatting: formatting, prettyPrinted: prettyPrinted)
 		}
 	}
 
 	fileprivate func formatSortedXMLAttributes(_ string: inout String) {
-		for (key, value) in attributes.sorted(by: { $0.key < $1.key }) {
-			string += " \(key)=\"\(value.escape(_XMLElement.escapedCharacterSet))\""
-		}
+		formatXMLAttributes(from: attributes.sorted(by: { $0.key < $1.key }), into: &string)
 	}
 
 	fileprivate func formatUnsortedXMLAttributes(_ string: inout String) {
-		for (key, value) in attributes {
-			string += " \(key)=\"\(value.escape(_XMLElement.escapedCharacterSet))\""
-		}
+		formatXMLAttributes(from: attributes.map { (key: $0, value: $1) }, into: &string)
 	}
 
 	fileprivate func formatXMLAttributes(_ formatting: XMLEncoder.OutputFormatting, _ string: inout String) {
 		if #available(OSX 10.13, iOS 11.0, *) {
 			if formatting.contains(.sortedKeys) {
 				formatSortedXMLAttributes(&string)
+				return
 			}
+			formatUnsortedXMLAttributes(&string)
+			return
 		}
 		formatUnsortedXMLAttributes(&string)
 	}
@@ -239,9 +252,9 @@ internal class _XMLElement {
 		if #available(OSX 10.13, iOS 11.0, *) {
 			if formatting.contains(.sortedKeys) {
 				formatSortedXMLElements(&string, level, cdata, formatting, prettyPrinted)
-			} else {
-				formatUnsortedXMLElements(&string, level, cdata, formatting, prettyPrinted)
+				return
 			}
+			formatUnsortedXMLElements(&string, level, cdata, formatting, prettyPrinted)
 			return
 		}
 		formatUnsortedXMLElements(&string, level, cdata, formatting, prettyPrinted)
