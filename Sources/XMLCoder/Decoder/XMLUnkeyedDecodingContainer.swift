@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
+internal struct _XMLUnkeyedDecodingContainer : UnkeyedDecodingContainer {
     // MARK: Properties
     
     /// A reference to the decoder we're reading from.
@@ -18,10 +18,10 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
     private let container: [Any]
     
     /// The path of coding keys taken to get to this point in decoding.
-    public private(set) var codingPath: [CodingKey]
+    private(set) public var codingPath: [CodingKey]
     
     /// The index of the element we're about to decode.
-    public private(set) var currentIndex: Int
+    private(set) public var currentIndex: Int
     
     // MARK: - Initialization
     
@@ -280,7 +280,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         return decoded
     }
     
-    public mutating func decode<T: Decodable>(_ type: T.Type) throws -> T {
+    public mutating func decode<T : Decodable>(_ type: T.Type) throws -> T {
         guard !self.isAtEnd else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: self.decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Unkeyed container is at end."))
         }
@@ -313,8 +313,8 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
                                                                     debugDescription: "Cannot get keyed decoding container -- found null value instead."))
         }
         
-        guard let dictionary = value as? [String: Any] else {
-            throw DecodingError._typeMismatch(at: self.codingPath, expectation: [String: Any].self, reality: value)
+        guard let dictionary = value as? [String : Any] else {
+            throw DecodingError._typeMismatch(at: self.codingPath, expectation: [String : Any].self, reality: value)
         }
         
         self.currentIndex += 1

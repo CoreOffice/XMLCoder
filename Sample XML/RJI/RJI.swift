@@ -17,7 +17,7 @@ struct RSS: Decodable {
     var channel: Channel
     
     enum CodingKeys: String, CodingKey {
-        case channel
+        case channel = "channel"
         
         case dc = "xmlns:dc"
         case sy = "xmlns:sy"

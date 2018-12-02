@@ -12,7 +12,7 @@ import Foundation
 
 /// _XMLReferencingEncoder is a special subclass of _XMLEncoder which has its own storage, but references the contents of a different encoder.
 /// It's used in superEncoder(), which returns a new encoder for encoding a superclass -- the lifetime of the encoder should not escape the scope it's created in, but it doesn't necessarily know when it's done being used (to write to the original container).
-internal class _XMLReferencingEncoder: _XMLEncoder {
+internal class _XMLReferencingEncoder : _XMLEncoder {
     // MARK: Reference types.
     
     /// The type of container we're referencing.
