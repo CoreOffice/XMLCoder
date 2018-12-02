@@ -19,7 +19,7 @@ public struct XMLHeader {
     public let encoding: String?
     /// indicates whether a document relies on information from an external source.
     public let standalone: String?
-
+    
     public init(version: Double? = nil, encoding: String? = nil, standalone: String? = nil) {
         self.version = version
         self.encoding = encoding
@@ -31,7 +31,7 @@ public struct XMLHeader {
     }
     
     internal func toXML() -> String? {
-        guard !self.isEmpty() else { return nil }
+        guard !isEmpty() else { return nil }
         
         var string = "<?xml "
         
@@ -53,10 +53,10 @@ public struct XMLHeader {
 
 internal class _XMLElement {
     static let attributesKey = "___ATTRIBUTES"
-    static let escapedCharacterSet = [("&", "&amp"), ("<", "&lt;"), (">", "&gt;"), ( "'", "&apos;"), ("\"", "&quot;")]
+    static let escapedCharacterSet = [("&", "&amp"), ("<", "&lt;"), (">", "&gt;"), ("'", "&apos;"), ("\"", "&quot;")]
     
     var key: String
-    var value: String? = nil
+    var value: String?
     var attributes: [String: String] = [:]
     var children: [String: [_XMLElement]] = [:]
     
@@ -193,13 +193,77 @@ internal class _XMLElement {
         
         return node
     }
-
+    
     func toXMLString(with header: XMLHeader? = nil, withCDATA cdata: Bool, formatting: XMLEncoder.OutputFormatting, ignoreEscaping: Bool = false) -> String {
         if let header = header, let headerXML = header.toXML() {
             return headerXML + _toXMLString(withCDATA: cdata, formatting: formatting)
-        } else {
-            return _toXMLString(withCDATA: cdata, formatting: formatting)
         }
+        return _toXMLString(withCDATA: cdata, formatting: formatting)
+    }
+    
+    fileprivate func formatUnsortedXMLElements(_ string: inout String, _ level: Int, _ cdata: Bool, _ formatting: XMLEncoder.OutputFormatting, _ prettyPrinted: Bool) {
+        formatXMLElements(from: children.map { (key: $0, value: $1) }, into: &string, at: level, cdata: cdata, formatting: formatting, prettyPrinted: prettyPrinted)
+    }
+    
+    fileprivate func elementString(for childElement: (key: String, value: [_XMLElement]), at level: Int, cdata: Bool, formatting: XMLEncoder.OutputFormatting, prettyPrinted: Bool) -> String {
+        var string = ""
+        for child in childElement.value {
+            string += child._toXMLString(indented: level + 1, withCDATA: cdata, formatting: formatting)
+            string += prettyPrinted ? "\n" : ""
+        }
+        return string
+    }
+    
+    fileprivate func formatSortedXMLElements(_ string: inout String, _ level: Int, _ cdata: Bool, _ formatting: XMLEncoder.OutputFormatting, _ prettyPrinted: Bool) {
+        formatXMLElements(from: children.sorted { $0.key < $1.key }, into: &string, at: level, cdata: cdata, formatting: formatting, prettyPrinted: prettyPrinted)
+    }
+    
+    fileprivate func attributeString(key: String, value: String) -> String {
+        return " \(key)=\"\(value.escape(_XMLElement.escapedCharacterSet))\""
+    }
+    
+    fileprivate func formatXMLAttributes(from keyValuePairs: [(key: String, value: String)], into string: inout String) {
+        for (key, value) in keyValuePairs {
+            string += attributeString(key: key, value: value)
+        }
+    }
+    
+    fileprivate func formatXMLElements(from children: [(key: String, value: [_XMLElement])], into string: inout String, at level: Int, cdata: Bool, formatting: XMLEncoder.OutputFormatting, prettyPrinted: Bool) {
+        for childElement in children {
+            string += elementString(for: childElement, at: level, cdata: cdata, formatting: formatting, prettyPrinted: prettyPrinted)
+        }
+    }
+    
+    fileprivate func formatSortedXMLAttributes(_ string: inout String) {
+        formatXMLAttributes(from: attributes.sorted(by: { $0.key < $1.key }), into: &string)
+    }
+    
+    fileprivate func formatUnsortedXMLAttributes(_ string: inout String) {
+        formatXMLAttributes(from: attributes.map { (key: $0, value: $1) }, into: &string)
+    }
+    
+    fileprivate func formatXMLAttributes(_ formatting: XMLEncoder.OutputFormatting, _ string: inout String) {
+        if #available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *) {
+            if formatting.contains(.sortedKeys) {
+                formatSortedXMLAttributes(&string)
+                return
+            }
+            formatUnsortedXMLAttributes(&string)
+            return
+        }
+        formatUnsortedXMLAttributes(&string)
+    }
+    
+    fileprivate func formatXMLElements(_ formatting: XMLEncoder.OutputFormatting, _ string: inout String, _ level: Int, _ cdata: Bool, _ prettyPrinted: Bool) {
+        if #available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *) {
+            if formatting.contains(.sortedKeys) {
+                formatSortedXMLElements(&string, level, cdata, formatting, prettyPrinted)
+                return
+            }
+            formatUnsortedXMLElements(&string, level, cdata, formatting, prettyPrinted)
+            return
+        }
+        formatUnsortedXMLElements(&string, level, cdata, formatting, prettyPrinted)
     }
     
     fileprivate func _toXMLString(indented level: Int = 0, withCDATA cdata: Bool, formatting: XMLEncoder.OutputFormatting, ignoreEscaping: Bool = false) -> String {
@@ -208,27 +272,19 @@ internal class _XMLElement {
         var string = indentation
         string += "<\(key)"
         
-        for (key, value) in attributes {
-            string += " \(key)=\"\(value.escape(_XMLElement.escapedCharacterSet))\""
-        }
+        formatXMLAttributes(formatting, &string)
         
         if let value = value {
             string += ">"
             if !ignoreEscaping {
-                string += (cdata == true ? "<![CDATA[\(value)]]>" : "\(value.escape(_XMLElement.escapedCharacterSet))" )
+                string += (cdata == true ? "<![CDATA[\(value)]]>" : "\(value.escape(_XMLElement.escapedCharacterSet))")
             } else {
                 string += "\(value)"
             }
             string += "</\(key)>"
         } else if !children.isEmpty {
             string += prettyPrinted ? ">\n" : ">"
-            
-            for childElement in children {
-                for child in childElement.value {
-                    string += child._toXMLString(indented: level + 1, withCDATA: cdata, formatting: formatting)
-                    string += prettyPrinted ? "\n" : ""
-                }
-            }
+            formatXMLElements(formatting, &string, level, cdata, prettyPrinted)
             
             string += indentation
             string += "</\(key)>"
@@ -291,7 +347,7 @@ internal class _XMLStackParser: NSObject, XMLParserDelegate {
         }
     }
     
-    func parse(with data: Data) throws -> _XMLElement?  {
+    func parse(with data: Data) throws -> _XMLElement? {
         let xmlParser = XMLParser(data: data)
         xmlParser.delegate = self
         
@@ -309,7 +365,7 @@ internal class _XMLStackParser: NSObject, XMLParserDelegate {
         stack = [_XMLElement]()
     }
     
-    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
+    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String: String] = [:]) {
         let node = _XMLElement(key: elementName)
         node.attributes = attributeDict
         stack.append(node)
@@ -325,7 +381,7 @@ internal class _XMLStackParser: NSObject, XMLParserDelegate {
     }
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        if let poppedNode = stack.popLast(){
+        if let poppedNode = stack.popLast() {
             if let content = poppedNode.value?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) {
                 if content.isEmpty {
                     poppedNode.value = nil
@@ -334,7 +390,7 @@ internal class _XMLStackParser: NSObject, XMLParserDelegate {
                 }
             }
             
-            if (stack.isEmpty) {
+            if stack.isEmpty {
                 root = poppedNode
                 currentNode = nil
             } else {
@@ -357,4 +413,3 @@ internal class _XMLStackParser: NSObject, XMLParserDelegate {
         print(parseError)
     }
 }
-
