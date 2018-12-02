@@ -196,7 +196,19 @@ open class XMLDecoder {
     
     /// Contextual user-provided information for use during decoding.
     open var userInfo: [CodingUserInfoKey : Any] = [:]
-    
+
+	/// When an XML Element has both attributes and child elements, the CharData within the element will be keyed with the `characterDataToken`
+	/// - Note The following XML has both attribute data, child elements, and character data:
+	/// ```
+	/// <SomeElement SomeAttribute="value">
+	///    some string value
+	///    <SomeOtherElement>valuevalue</SomeOtherElement>
+	/// </SomeElement>
+	/// ```
+	/// The "some string value" will be keyed on "CharData"
+	open var characterDataToken: String?
+
+
     /// Options set on the top-level encoder to pass down the decoding hierarchy.
     internal struct _Options {
         let dateDecodingStrategy: DateDecodingStrategy
@@ -230,7 +242,7 @@ open class XMLDecoder {
     open func decode<T : Decodable>(_ type: T.Type, from data: Data) throws -> T {
         let topLevel: [String: Any]
         do {
-            topLevel = try _XMLStackParser.parse(with: data)
+			topLevel = try _XMLStackParser.parse(with: data, charDataToken: self.characterDataToken)
         } catch {
             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: "The given data was not valid XML.", underlyingError: error))
         }
