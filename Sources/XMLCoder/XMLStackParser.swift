@@ -237,7 +237,7 @@ internal class _XMLElement {
     }
     
     fileprivate func formatXMLAttributes(_ formatting: XMLEncoder.OutputFormatting, _ string: inout String) {
-        if #available(OSX 10.13, iOS 11.0, *) {
+        if #available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *) {
             if formatting.contains(.sortedKeys) {
                 formatSortedXMLAttributes(&string)
                 return
@@ -249,7 +249,7 @@ internal class _XMLElement {
     }
     
     fileprivate func formatXMLElements(_ formatting: XMLEncoder.OutputFormatting, _ string: inout String, _ level: Int, _ cdata: Bool, _ prettyPrinted: Bool) {
-        if #available(OSX 10.13, iOS 11.0, *) {
+        if #available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *) {
             if formatting.contains(.sortedKeys) {
                 formatSortedXMLElements(&string, level, cdata, formatting, prettyPrinted)
                 return
