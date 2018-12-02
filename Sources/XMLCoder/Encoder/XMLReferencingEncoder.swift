@@ -12,7 +12,7 @@ import Foundation
 
 /// _XMLReferencingEncoder is a special subclass of _XMLEncoder which has its own storage, but references the contents of a different encoder.
 /// It's used in superEncoder(), which returns a new encoder for encoding a superclass -- the lifetime of the encoder should not escape the scope it's created in, but it doesn't necessarily know when it's done being used (to write to the original container).
-internal class _XMLReferencingEncoder : _XMLEncoder {
+internal class _XMLReferencingEncoder: _XMLEncoder {
     // MARK: Reference types.
     
     /// The type of container we're referencing.
@@ -41,14 +41,14 @@ internal class _XMLReferencingEncoder : _XMLEncoder {
         wrapping array: NSMutableArray
     ) {
         self.encoder = encoder
-        self.reference = .array(array, index)
+        reference = .array(array, index)
         super.init(
             options: encoder.options,
             nodeEncodings: encoder.nodeEncodings,
             codingPath: encoder.codingPath
         )
         
-        self.codingPath.append(_XMLKey(index: index))
+        codingPath.append(_XMLKey(index: index))
     }
     
     /// Initializes `self` by referencing the given dictionary container in the given encoder.
@@ -59,14 +59,14 @@ internal class _XMLReferencingEncoder : _XMLEncoder {
         wrapping dictionary: NSMutableDictionary
     ) {
         self.encoder = encoder
-        self.reference = .dictionary(dictionary, convertedKey.stringValue)
+        reference = .dictionary(dictionary, convertedKey.stringValue)
         super.init(
             options: encoder.options,
             nodeEncodings: encoder.nodeEncodings,
             codingPath: encoder.codingPath
         )
         
-        self.codingPath.append(key)
+        codingPath.append(key)
     }
     
     // MARK: - Coding Path Operations
@@ -75,7 +75,7 @@ internal class _XMLReferencingEncoder : _XMLEncoder {
         // With a regular encoder, the storage and coding path grow together.
         // A referencing encoder, however, inherits its parents coding path, as well as the key it was created for.
         // We have to take this into account.
-        return self.storage.count == self.codingPath.count - self.encoder.codingPath.count - 1
+        return storage.count == codingPath.count - encoder.codingPath.count - 1
     }
     
     // MARK: - Deinitialization
@@ -90,10 +90,10 @@ internal class _XMLReferencingEncoder : _XMLEncoder {
         }
         
         switch self.reference {
-        case .array(let array, let index):
+        case let .array(array, index):
             array.insert(value, at: index)
             
-        case .dictionary(let dictionary, let key):
+        case let .dictionary(dictionary, key):
             dictionary[NSString(string: key)] = value
         }
     }
