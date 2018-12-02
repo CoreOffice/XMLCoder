@@ -6,7 +6,7 @@ class NodeEncodingStrategyTests: XCTestCase {
         let element: Element
         
         enum CodingKeys: String, CodingKey {
-            case element
+            case element = "element"
         }
     }
     
@@ -37,32 +37,32 @@ class NodeEncodingStrategyTests: XCTestCase {
             return .attribute
         }
     }
-    
-    fileprivate struct ComplexUnkeyedContainer: Encodable {
-        let elements: [ComplexElement]
-        
-        enum CodingKeys: String, CodingKey {
-            case elements = "element"
-        }
-    }
-    
-    fileprivate struct ComplexElement: Encodable {
-        struct Key: Encodable {
-            let a: String
-            let b: String
-            let c: String
-        }
-        
-        var key: Key = Key(a: "C", b: "B", c: "A")
-        
-        enum CodingKeys: CodingKey {
-            case key
-        }
-        
-        static func nodeEncoding(forKey codingKey: CodingKey) -> XMLEncoder.NodeEncoding {
-            return .attribute
-        }
-    }
+
+	fileprivate struct ComplexUnkeyedContainer: Encodable {
+		let elements: [ComplexElement]
+
+		enum CodingKeys: String, CodingKey {
+			case elements = "element"
+		}
+	}
+
+	fileprivate struct ComplexElement: Encodable {
+		struct Key: Encodable {
+			let a: String
+			let b: String
+			let c: String
+		}
+
+		var key: Key = Key(a: "C", b: "B", c: "A")
+
+		enum CodingKeys: CodingKey {
+			case key
+		}
+
+		static func nodeEncoding(forKey codingKey: CodingKey) -> XMLEncoder.NodeEncoding {
+			return .attribute
+		}
+	}
     
     func testSingleContainer() {
         let encoder = XMLEncoder()
@@ -74,21 +74,21 @@ class NodeEncodingStrategyTests: XCTestCase {
             let xml = String(data: data, encoding: .utf8)!
             
             let expected =
-                """
-                <container>
-                    <element>
-                        <key>value</key>
-                    </element>
-                </container>
-                """
+"""
+<container>
+    <element>
+        <key>value</key>
+    </element>
+</container>
+"""
             XCTAssertEqual(xml, expected)
         } catch {
             XCTAssert(false, "failed to decode the example: \(error)")
         }
         
-        encoder.nodeEncodingStrategy = .custom { codableType, _ in
+        encoder.nodeEncodingStrategy = .custom { codableType, encoder in
             guard let barType = codableType as? Element.Type else {
-                return { _ in .default }
+                return { _ in return .default }
             }
             return barType.nodeEncoding(forKey:)
         }
@@ -99,11 +99,11 @@ class NodeEncodingStrategyTests: XCTestCase {
             let xml = String(data: data, encoding: .utf8)!
             
             let expected =
-                """
-                <container>
-                    <element key=\"value\" />
-                </container>
-                """
+"""
+<container>
+    <element key=\"value\" />
+</container>
+"""
             XCTAssertEqual(xml, expected)
         } catch {
             XCTAssert(false, "failed to decode the example: \(error)")
@@ -120,23 +120,23 @@ class NodeEncodingStrategyTests: XCTestCase {
             let xml = String(data: data, encoding: .utf8)!
             
             let expected =
-                """
-                <container>
-                    <element>
-                        <first>
-                            <key>value</key>
-                        </first>
-                    </element>
-                </container>
-                """
+            """
+<container>
+    <element>
+        <first>
+            <key>value</key>
+        </first>
+    </element>
+</container>
+"""
             XCTAssertEqual(xml, expected)
         } catch {
             XCTAssert(false, "failed to decode the example: \(error)")
         }
         
-        encoder.nodeEncodingStrategy = .custom { codableType, _ in
+        encoder.nodeEncodingStrategy = .custom { codableType, encoder in
             guard let barType = codableType as? Element.Type else {
-                return { _ in .default }
+                return { _ in return .default }
             }
             return barType.nodeEncoding(forKey:)
         }
@@ -147,13 +147,13 @@ class NodeEncodingStrategyTests: XCTestCase {
             let xml = String(data: data, encoding: .utf8)!
             
             let expected =
-                """
-                <container>
-                    <element>
-                        <first key=\"value\" />
-                    </element>
-                </container>
-                """
+            """
+<container>
+    <element>
+        <first key=\"value\" />
+    </element>
+</container>
+"""
             XCTAssertEqual(xml, expected)
         } catch {
             XCTAssert(false, "failed to decode the example: \(error)")
@@ -170,24 +170,24 @@ class NodeEncodingStrategyTests: XCTestCase {
             let xml = String(data: data, encoding: .utf8)!
             
             let expected =
-                """
-                <container>
-                    <element>
-                        <key>value</key>
-                    </element>
-                    <element>
-                        <key>value</key>
-                    </element>
-                </container>
-                """
+"""
+<container>
+    <element>
+        <key>value</key>
+    </element>
+    <element>
+        <key>value</key>
+    </element>
+</container>
+"""
             XCTAssertEqual(xml, expected)
         } catch {
             XCTAssert(false, "failed to decode the example: \(error)")
         }
         
-        encoder.nodeEncodingStrategy = .custom { codableType, _ in
+        encoder.nodeEncodingStrategy = .custom { codableType, encoder in
             guard let barType = codableType as? Element.Type else {
-                return { _ in .default }
+                return { _ in return .default }
             }
             return barType.nodeEncoding(forKey:)
         }
@@ -198,12 +198,12 @@ class NodeEncodingStrategyTests: XCTestCase {
             let xml = String(data: data, encoding: .utf8)!
             
             let expected =
-                """
-                <container>
-                    <element key="value" />
-                    <element key="value" />
-                </container>
-                """
+"""
+<container>
+    <element key="value" />
+    <element key="value" />
+</container>
+"""
             XCTAssertEqual(xml, expected)
         } catch {
             XCTAssert(false, "failed to decode the example: \(error)")
@@ -215,68 +215,68 @@ class NodeEncodingStrategyTests: XCTestCase {
         ("testKeyedContainer", testKeyedContainer),
         ("testUnkeyedContainer", testUnkeyedContainer),
     ]
-    
-    func testItSortsKeysWhenEncodingAsElements() {
-        let encoder = XMLEncoder()
-        if #available(macOS 10.13, *) {
-            encoder.outputFormatting = [.sortedKeys, .prettyPrinted]
-        } else {
-            return
-        }
-        
-        do {
-            let container = ComplexUnkeyedContainer(elements: [ComplexElement()])
-            let data = try encoder.encode(container, withRootKey: "container")
-            let xml = String(data: data, encoding: .utf8)!
-            
-            let expected =
-                """
-                <container>
-                    <element>
-                        <key>
-                            <a>C</a>
-                            <b>B</b>
-                            <c>A</c>
-                        </key>
-                    </element>
-                </container>
-                """
-            XCTAssertEqual(xml, expected)
-        } catch {
-            XCTAssert(false, "failed to decode the example: \(error)")
-        }
-    }
-    
-    func testItSortsKeysWhenEncodingAsAttributes() {
-        let encoder = XMLEncoder()
-        if #available(macOS 10.13, *) {
-            encoder.outputFormatting = [.sortedKeys, .prettyPrinted]
-            encoder.nodeEncodingStrategy = .custom { key, _ in
-                if key == ComplexElement.Key.self {
-                    return { _ in .attribute }
-                }
-                return { _ in .element }
-            }
-        } else {
-            return
-        }
-        
-        do {
-            let container = ComplexUnkeyedContainer(elements: [ComplexElement()])
-            let data = try encoder.encode(container, withRootKey: "container")
-            let xml = String(data: data, encoding: .utf8)!
-            
-            let expected =
-                """
-                <container>
-                    <element>
-                        <key a="C" b="B" c="A" />
-                    </element>
-                </container>
-                """
-            XCTAssertEqual(xml, expected)
-        } catch {
-            XCTAssert(false, "failed to decode the example: \(error)")
-        }
-    }
+
+	func testItSortsKeysWhenEncodingAsElements() {
+		let encoder = XMLEncoder()
+		if #available(macOS 10.13, *) {
+			encoder.outputFormatting = [.sortedKeys, .prettyPrinted]
+		} else {
+			return
+		}
+
+		do {
+			let container = ComplexUnkeyedContainer(elements: [ComplexElement()])
+			let data = try encoder.encode(container, withRootKey: "container")
+			let xml = String(data: data, encoding: .utf8)!
+
+			let expected =
+			"""
+<container>
+    <element>
+        <key>
+            <a>C</a>
+            <b>B</b>
+            <c>A</c>
+        </key>
+    </element>
+</container>
+"""
+			XCTAssertEqual(xml, expected)
+		} catch {
+			XCTAssert(false, "failed to decode the example: \(error)")
+		}
+	}
+
+	func testItSortsKeysWhenEncodingAsAttributes() {
+		let encoder = XMLEncoder()
+		if #available(macOS 10.13, *) {
+			encoder.outputFormatting = [.sortedKeys, .prettyPrinted]
+			encoder.nodeEncodingStrategy = .custom { key, encoder  in
+				if key == ComplexElement.Key.self {
+					return { _ in .attribute }
+				}
+				return { _ in .element }
+			}
+		} else {
+			return
+		}
+
+		do {
+			let container = ComplexUnkeyedContainer(elements: [ComplexElement()])
+			let data = try encoder.encode(container, withRootKey: "container")
+			let xml = String(data: data, encoding: .utf8)!
+
+			let expected =
+			"""
+<container>
+    <element>
+        <key a="C" b="B" c="A" />
+    </element>
+</container>
+"""
+			XCTAssertEqual(xml, expected)
+		} catch {
+			XCTAssert(false, "failed to decode the example: \(error)")
+		}
+	}
 }
