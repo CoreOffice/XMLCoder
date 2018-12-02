@@ -19,5 +19,3 @@ internal var _iso8601Formatter: ISO8601DateFormatter = {
     formatter.formatOptions = .withInternetDateTime
     return formatter
 }()
-
-

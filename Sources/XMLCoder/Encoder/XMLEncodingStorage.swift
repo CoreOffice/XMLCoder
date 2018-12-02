@@ -16,7 +16,7 @@ internal struct _XMLEncodingStorage {
     
     /// The container stack.
     /// Elements may be any one of the XML types (NSNull, NSNumber, NSString, NSArray, NSDictionary).
-    private(set) internal var containers: [NSObject] = []
+    internal private(set) var containers: [NSObject] = []
     
     // MARK: - Initialization
     

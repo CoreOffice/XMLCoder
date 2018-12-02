@@ -18,7 +18,7 @@ internal extension EncodingError {
     /// - parameter value: The value that was invalid to encode.
     /// - parameter path: The path of `CodingKey`s taken to encode this value.
     /// - returns: An `EncodingError` with the appropriate path and debug description.
-    internal static func _invalidFloatingPointValue<T : FloatingPoint>(_ value: T, at codingPath: [CodingKey]) -> EncodingError {
+    internal static func _invalidFloatingPointValue<T: FloatingPoint>(_ value: T, at codingPath: [CodingKey]) -> EncodingError {
         let valueDescription: String
         if value == T.infinity {
             valueDescription = "\(T.self).infinity"
