@@ -12,15 +12,15 @@ import Foundation
 // Shared Key Types
 //===----------------------------------------------------------------------===//
 
-internal struct _XMLKey : CodingKey {
+internal struct _XMLKey: CodingKey {
     public var stringValue: String
     public var intValue: Int?
-
+    
     public init?(stringValue: String) {
         self.stringValue = stringValue
         self.intValue = nil
     }
-
+    
     public init?(intValue: Int) {
         self.stringValue = "\(intValue)"
         self.intValue = intValue
@@ -30,13 +30,11 @@ internal struct _XMLKey : CodingKey {
         self.stringValue = stringValue
         self.intValue = intValue
     }
-
+    
     internal init(index: Int) {
         self.stringValue = "Index \(index)"
         self.intValue = index
     }
-
+    
     internal static let `super` = _XMLKey(stringValue: "super")!
 }
-
-
