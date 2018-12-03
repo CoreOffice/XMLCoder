@@ -15,10 +15,10 @@ struct RSS: Decodable {
     var rdf: URL
     var content: URL
     var channel: Channel
-    
+
     enum CodingKeys: String, CodingKey {
         case channel
-        
+
         case dc = "xmlns:dc"
         case sy = "xmlns:sy"
         case admin = "xmlns:admin"
@@ -30,23 +30,23 @@ struct RSS: Decodable {
 extension RSS {
     static func retrieveRSS() -> RSS? {
         guard let data = Data(forResource: "RJI_RSS_Sample", withExtension: "xml") else { return nil }
-        
+
         let decoder = XMLDecoder()
-        
+
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
-        
+
         let rss: RSS?
-        
+
         do {
             rss = try decoder.decode(RSS.self, from: data)
         } catch {
             print(error)
-            
+
             rss = nil
         }
-        
+
         return rss
     }
 }
@@ -62,10 +62,10 @@ struct Channel: Decodable {
     var generatorAgentResource: URL
     var image: Image
     var items: [Item]
-    
+
     enum CodingKeys: String, CodingKey {
         case title, link, description, image
-        
+
         case language = "dc:language"
         case creator = "dc:creator"
         case rights = "dc:rights"
@@ -73,11 +73,11 @@ struct Channel: Decodable {
         case generatorAgent = "admin:generatorAgent"
         case items = "item"
     }
-    
+
     enum GeneratorAgentKeys: String, CodingKey {
         case resource = "rdf:resource"
     }
-    
+
     init(title: String, link: URL, description: String, language: String, creator: String, rights: String, date: Date, generatorAgentResource: URL, image: Image, items: [Item]) {
         self.title = title
         self.link = link
@@ -90,7 +90,7 @@ struct Channel: Decodable {
         self.image = image
         self.items = items
     }
-    
+
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         title = try values.decode(String.self, forKey: .title)
@@ -100,10 +100,10 @@ struct Channel: Decodable {
         creator = try values.decode(String.self, forKey: .creator)
         rights = try values.decode(String.self, forKey: .rights)
         date = try values.decode(Date.self, forKey: .date)
-        
+
         let generatorAgentValues = try values.nestedContainer(keyedBy: GeneratorAgentKeys.self, forKey: .generatorAgent)
         generatorAgentResource = try generatorAgentValues.decode(URL.self, forKey: .resource)
-        
+
         image = try values.decode(Image.self, forKey: .image)
         items = try values.decode([Item].self, forKey: .items)
     }
@@ -126,10 +126,10 @@ struct Item: Decodable {
     var subject: String?
     var date: Date
     var author: String?
-    
+
     enum CodingKeys: String, CodingKey {
         case title, link, guid, enclosure, description, author
-        
+
         case subject = "dc:subject"
         case date = "dc:date"
     }

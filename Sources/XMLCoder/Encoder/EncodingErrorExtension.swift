@@ -27,7 +27,7 @@ internal extension EncodingError {
         } else {
             valueDescription = "\(T.self).nan"
         }
-        
+
         let debugDescription = "Unable to encode \(valueDescription) directly in XML. Use XMLEncoder.NonConformingFloatEncodingStrategy.convertToString to specify how the value should be encoded."
         return .invalidValue(value, EncodingError.Context(codingPath: codingPath, debugDescription: debugDescription))
     }

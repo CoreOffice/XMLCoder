@@ -23,7 +23,7 @@ internal extension DecodingError {
         let description = "Expected to decode \(expectation) but found \(_typeDescription(of: reality)) instead."
         return .typeMismatch(expectation, Context(codingPath: path, debugDescription: description))
     }
-    
+
     /// Returns a description of the type of `value` appropriate for an error message.
     ///
     /// - parameter value: The value whose type to describe.
