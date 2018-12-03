@@ -20,7 +20,7 @@ let example = """
 
 struct Relationships: Codable {
     let items: [Relationship]
-    
+
     enum CodingKeys: String, CodingKey {
         case items = "relationship"
     }
@@ -32,11 +32,11 @@ struct Relationship: Codable {
         case extendedProperties = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties"
         case coreProperties = "http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties"
     }
-    
+
     let id: String
     let type: SchemaType
     let target: String
-    
+
     enum CodingKeys: CodingKey {
         case type
         case id
@@ -48,18 +48,18 @@ class XMLCoderTests: XCTestCase {
     func testExample() {
         do {
             guard let data = example.data(using: .utf8) else { return }
-            
+
             let decoder = XMLDecoder()
             decoder.keyDecodingStrategy = .convertFromCapitalized
-            
+
             let rels = try decoder.decode(Relationships.self, from: data)
-            
+
             XCTAssertEqual(rels.items[0].id, "rId1")
         } catch {
             XCTAssert(false, "failed to decode the example: \(error)")
         }
     }
-    
+
     static var allTests = [
         ("testExample", testExample),
     ]

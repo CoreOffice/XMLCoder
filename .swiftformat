@@ -1,5 +1,4 @@
 --indent 4
 --indentcase false
---linebreaks lf
---stripunusedargs closure-only
---trimwhitespace nonblank-lines
+--trimwhitespace always
+--ranges nospace
