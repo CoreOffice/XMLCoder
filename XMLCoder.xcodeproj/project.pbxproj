@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		BF191DE621A467F600EAB791 /* RJITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF191DE421A467F600EAB791 /* RJITest.swift */; };
+		BF191DE821A467FF00EAB791 /* RJITest.xml in Resources */ = {isa = PBXBuildFile; fileRef = BF191DE521A467F600EAB791 /* RJITest.xml */; };
 		BFE1C58E21A4203200EA0458 /* NoteTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE1C58D21A4203200EA0458 /* NoteTest.swift */; };
 		BFE1C59121A4242300EA0458 /* NodeEncodingStrategyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE1C58F21A4232100EA0458 /* NodeEncodingStrategyTests.swift */; };
 		D15ACF3F21A2C97F003238FD /* BreakfastTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15ACF3E21A2C97F003238FD /* BreakfastTest.swift */; };
@@ -64,11 +66,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BF191DE421A467F600EAB791 /* RJITest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RJITest.swift; sourceTree = "<group>"; };
+		BF191DE521A467F600EAB791 /* RJITest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = RJITest.xml; sourceTree = "<group>"; };
 		BFE1C58D21A4203200EA0458 /* NoteTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteTest.swift; sourceTree = "<group>"; };
 		BFE1C58F21A4232100EA0458 /* NodeEncodingStrategyTests.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = NodeEncodingStrategyTests.swift; sourceTree = "<group>"; tabWidth = 4; };
 		D15ACF3321A2C7F2003238FD /* BooksTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksTest.swift; sourceTree = "<group>"; };
-		D15ACF3521A2C7F2003238FD /* RJI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RJI.swift; sourceTree = "<group>"; };
-		D15ACF3621A2C7F2003238FD /* RJI_RSS_Sample.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = RJI_RSS_Sample.xml; sourceTree = "<group>"; };
 		D15ACF3E21A2C97F003238FD /* BreakfastTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakfastTest.swift; sourceTree = "<group>"; };
 		D1BCEBCF21943CA6000B550F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1BCEBD021943F09000B550F /* LinuxMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LinuxMain.swift; path = Tests/LinuxMain.swift; sourceTree = "<group>"; };
@@ -93,7 +95,6 @@
 		OBJ_21 /* XMLKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLKey.swift; sourceTree = "<group>"; };
 		OBJ_22 /* XMLStackParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLStackParser.swift; sourceTree = "<group>"; };
 		OBJ_25 /* RelationshipsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipsTest.swift; sourceTree = "<group>"; };
-		OBJ_26 /* Sample XML */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Sample XML"; sourceTree = SOURCE_ROOT; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		"XMLParsing::XMLParsing::Product" /* XMLCoder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = XMLCoder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"XMLParsing::XMLParsingTests::Product" /* XMLCoderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = XMLCoderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -118,23 +119,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D15ACF2921A2C7F2003238FD /* Sample XML */ = {
-			isa = PBXGroup;
-			children = (
-				D15ACF3421A2C7F2003238FD /* RJI */,
-			);
-			path = "Sample XML";
-			sourceTree = "<group>";
-		};
-		D15ACF3421A2C7F2003238FD /* RJI */ = {
-			isa = PBXGroup;
-			children = (
-				D15ACF3521A2C7F2003238FD /* RJI.swift */,
-				D15ACF3621A2C7F2003238FD /* RJI_RSS_Sample.xml */,
-			);
-			path = RJI;
-			sourceTree = "<group>";
-		};
 		OBJ_15 /* Encoder */ = {
 			isa = PBXGroup;
 			children = (
@@ -167,6 +151,8 @@
 				D1EB9C6121A9713F002F2254 /* PlantCatalog.swift */,
 				D1EB9C6421A97FDF002F2254 /* CDCatalog.swift */,
 				D1EB9C6A21A9802B002F2254 /* CDTest.swift */,
+				BF191DE421A467F600EAB791 /* RJITest.swift */,
+				BF191DE521A467F600EAB791 /* RJITest.xml */,
 			);
 			name = XMLCoderTests;
 			path = Tests/XMLCoderTests;
@@ -189,10 +175,8 @@
 				D1BCEBD3219443E1000B550F /* XMLCoder.podspec */,
 				D1BCEBD12194416E000B550F /* README.md */,
 				OBJ_6 /* Package.swift */,
-				D15ACF2921A2C7F2003238FD /* Sample XML */,
 				OBJ_7 /* Sources */,
 				OBJ_23 /* Tests */,
-				OBJ_26 /* Sample XML */,
 				OBJ_27 /* Products */,
 			);
 			indentWidth = 4;
@@ -272,6 +256,7 @@
 			buildPhases = (
 				OBJ_40 /* Sources */,
 				OBJ_42 /* Frameworks */,
+				BF191DE721A467FB00EAB791 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -320,6 +305,17 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		BF191DE721A467FB00EAB791 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF191DE821A467FF00EAB791 /* RJITest.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		OBJ_34 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -341,6 +337,7 @@
 				OBJ_41 /* RelationshipsTest.swift in Sources */,
 				D1EB9C6021A970DC002F2254 /* PlantTest.swift in Sources */,
 				D15ACF3F21A2C97F003238FD /* BreakfastTest.swift in Sources */,
+				BF191DE621A467F600EAB791 /* RJITest.swift in Sources */,
 				BFE1C58E21A4203200EA0458 /* NoteTest.swift in Sources */,
 				D1EB9C6321A9717C002F2254 /* PlantCatalog.swift in Sources */,
 			);
