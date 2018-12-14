@@ -186,10 +186,10 @@ final class NodeEncodingStrategyTests: XCTestCase {
         }
 
         encoder.nodeEncodingStrategy = .custom { codableType, _ in
-            guard let barType = codableType as? Element.Type else {
+            guard codableType is [Element].Type else {
                 return { _ in .default }
             }
-            return barType.nodeEncoding(forKey:)
+            return Element.nodeEncoding(forKey:)
         }
 
         do {
