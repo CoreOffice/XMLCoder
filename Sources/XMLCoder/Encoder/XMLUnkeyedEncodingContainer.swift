@@ -37,16 +37,11 @@ internal struct _XMLUnkeyedEncodingContainer : UnkeyedEncodingContainer {
     
     public mutating func encodeNil()             throws { self.container.add(NSNull()) }
     public mutating func encode(_ value: Bool)   throws { self.container.add(self.encoder.box(value)) }
-    public mutating func encode(_ value: Int)    throws { self.container.add(self.encoder.box(value)) }
-    public mutating func encode(_ value: Int8)   throws { self.container.add(self.encoder.box(value)) }
-    public mutating func encode(_ value: Int16)  throws { self.container.add(self.encoder.box(value)) }
-    public mutating func encode(_ value: Int32)  throws { self.container.add(self.encoder.box(value)) }
-    public mutating func encode(_ value: Int64)  throws { self.container.add(self.encoder.box(value)) }
-    public mutating func encode(_ value: UInt)   throws { self.container.add(self.encoder.box(value)) }
-    public mutating func encode(_ value: UInt8)  throws { self.container.add(self.encoder.box(value)) }
-    public mutating func encode(_ value: UInt16) throws { self.container.add(self.encoder.box(value)) }
-    public mutating func encode(_ value: UInt32) throws { self.container.add(self.encoder.box(value)) }
-    public mutating func encode(_ value: UInt64) throws { self.container.add(self.encoder.box(value)) }
+
+    public mutating func encode<T: FixedWidthInteger & Encodable>(_ value: T) throws {
+        try self.container.add(self.encoder.box(value))
+    }
+
     public mutating func encode(_ value: String) throws { self.container.add(self.encoder.box(value)) }
     
     public mutating func encode(_ value: Float)  throws {
