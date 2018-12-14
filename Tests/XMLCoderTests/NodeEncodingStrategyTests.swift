@@ -1,7 +1,7 @@
 import XCTest
 @testable import XMLCoder
 
-class NodeEncodingStrategyTests: XCTestCase {
+final class NodeEncodingStrategyTests: XCTestCase {
     fileprivate struct SingleContainer: Encodable {
         let element: Element
 

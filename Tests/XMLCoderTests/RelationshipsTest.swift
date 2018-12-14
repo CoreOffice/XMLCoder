@@ -1,7 +1,7 @@
 import XCTest
 @testable import XMLCoder
 
-let example = """
+private let xml = """
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
     <Relationship
         Id="rId1"
@@ -16,9 +16,9 @@ let example = """
         Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties"
         Target="docProps/core.xml"/>
 </Relationships>
-"""
+""".data(using: .utf8)!
 
-struct Relationships: Codable {
+private struct Relationships: Codable {
     let items: [Relationship]
 
     enum CodingKeys: String, CodingKey {
@@ -26,7 +26,7 @@ struct Relationships: Codable {
     }
 }
 
-struct Relationship: Codable {
+private struct Relationship: Codable {
     enum SchemaType: String, Codable {
         case officeDocument = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument"
         case extendedProperties = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties"
@@ -44,23 +44,21 @@ struct Relationship: Codable {
     }
 }
 
-class XMLCoderTests: XCTestCase {
-    func testExample() {
+final class RelationshipsTest: XCTestCase {
+    func testDecoder() {
         do {
-            guard let data = example.data(using: .utf8) else { return }
-
             let decoder = XMLDecoder()
             decoder.keyDecodingStrategy = .convertFromCapitalized
 
-            let rels = try decoder.decode(Relationships.self, from: data)
+            let rels = try decoder.decode(Relationships.self, from: xml)
 
             XCTAssertEqual(rels.items[0].id, "rId1")
         } catch {
-            XCTAssert(false, "failed to decode the example: \(error)")
+            XCTAssert(false, "failed to decode test xml: \(error)")
         }
     }
 
     static var allTests = [
-        ("testExample", testExample),
+        ("testDecoder", testDecoder),
     ]
 }

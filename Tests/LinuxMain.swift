@@ -2,5 +2,10 @@ import XCTest
 @testable import XMLCoderTests
 
 XCTMain([
-    testCase(XMLCoderTests.allTests),
+    testCase(RelationshipsTest.allTests),
+    testCase(BreakfastTest.allTests),
+    testCase(NodeEncodingStrategyTests.allTests),
+    testCase(BooksTest.allTests),
+    testCase(NoteTest.allTests)
+    testCase(PlantTest.allTests),
 ])
