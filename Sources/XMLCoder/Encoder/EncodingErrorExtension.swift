@@ -8,9 +8,7 @@
 
 import Foundation
 
-//===----------------------------------------------------------------------===//
-// Error Utilities
-//===----------------------------------------------------------------------===//
+/// Error Utilities
 internal extension EncodingError {
     /// Returns a `.invalidValue` error describing the given invalid floating-point value.
     ///

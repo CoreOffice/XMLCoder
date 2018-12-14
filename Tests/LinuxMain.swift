@@ -6,6 +6,6 @@ XCTMain([
     testCase(BreakfastTest.allTests),
     testCase(NodeEncodingStrategyTests.allTests),
     testCase(BooksTest.allTests),
-    testCase(NoteTest.allTests)
+    testCase(NoteTest.allTests),
     testCase(PlantTest.allTests),
 ])
