@@ -8,13 +8,10 @@
 
 import Foundation
 
-//===----------------------------------------------------------------------===//
-// Shared Key Types
-//===----------------------------------------------------------------------===//
-
+/// Shared Key Types
 internal struct _XMLKey: CodingKey {
-    public var stringValue: String
-    public var intValue: Int?
+    public let stringValue: String
+    public let intValue: Int?
 
     public init?(stringValue: String) {
         self.stringValue = stringValue
