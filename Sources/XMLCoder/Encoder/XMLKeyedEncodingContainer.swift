@@ -70,7 +70,7 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
         }
     }
     
-    public mutating func encode(_ value: Int, forKey key: Key) throws {
+    public mutating func encode<T: FixedWidthInteger & Encodable>(_ value: T, forKey key: Key) throws {
         self.encoder.codingPath.append(key)
         defer { self.encoder.codingPath.removeLast() }
         guard let strategy = self.encoder.nodeEncodings.last else {
@@ -79,194 +79,14 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
         switch strategy(key) {
         case .attribute:
             if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+                attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
             } else {
                 let attributesContainer = NSMutableDictionary()
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
+                attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
                 self.container[_XMLElement.attributesKey] = attributesContainer
             }
         case .element:
-            self.container[_converted(key).stringValue] = self.encoder.box(value)
-        }
-    }
-    
-    public mutating func encode(_ value: Int8, forKey key: Key) throws {
-        self.encoder.codingPath.append(key)
-        defer { self.encoder.codingPath.removeLast() }
-        guard let strategy = self.encoder.nodeEncodings.last else {
-            preconditionFailure("Attempt to access node encoding strategy from empty stack.")
-        }
-        switch strategy(key) {
-        case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-            } else {
-                let attributesContainer = NSMutableDictionary()
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-                self.container[_XMLElement.attributesKey] = attributesContainer
-            }
-        case .element:
-            self.container[_converted(key).stringValue] = self.encoder.box(value)
-        }
-    }
-    
-    public mutating func encode(_ value: Int16, forKey key: Key) throws {
-        self.encoder.codingPath.append(key)
-        defer { self.encoder.codingPath.removeLast() }
-        guard let strategy = self.encoder.nodeEncodings.last else {
-            preconditionFailure("Attempt to access node encoding strategy from empty stack.")
-        }
-        switch strategy(key) {
-        case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-            } else {
-                let attributesContainer = NSMutableDictionary()
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-                self.container[_XMLElement.attributesKey] = attributesContainer
-            }
-        case .element:
-            self.container[_converted(key).stringValue] = self.encoder.box(value)
-        }
-    }
-    
-    public mutating func encode(_ value: Int32, forKey key: Key) throws {
-        self.encoder.codingPath.append(key)
-        defer { self.encoder.codingPath.removeLast() }
-        guard let strategy = self.encoder.nodeEncodings.last else {
-            preconditionFailure("Attempt to access node encoding strategy from empty stack.")
-        }
-        switch strategy(key) {
-        case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-            } else {
-                let attributesContainer = NSMutableDictionary()
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-                self.container[_XMLElement.attributesKey] = attributesContainer
-            }
-        case .element:
-            self.container[_converted(key).stringValue] = self.encoder.box(value)
-        }
-    }
-    
-    public mutating func encode(_ value: Int64, forKey key: Key) throws {
-        self.encoder.codingPath.append(key)
-        defer { self.encoder.codingPath.removeLast() }
-        guard let strategy = self.encoder.nodeEncodings.last else {
-            preconditionFailure("Attempt to access node encoding strategy from empty stack.")
-        }
-        switch strategy(key) {
-        case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-            } else {
-                let attributesContainer = NSMutableDictionary()
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-                self.container[_XMLElement.attributesKey] = attributesContainer
-            }
-        case .element:
-            self.container[_converted(key).stringValue] = self.encoder.box(value)
-        }
-    }
-    
-    public mutating func encode(_ value: UInt, forKey key: Key) throws {
-        self.encoder.codingPath.append(key)
-        defer { self.encoder.codingPath.removeLast() }
-        guard let strategy = self.encoder.nodeEncodings.last else {
-            preconditionFailure("Attempt to access node encoding strategy from empty stack.")
-        }
-        switch strategy(key) {
-        case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-            } else {
-                let attributesContainer = NSMutableDictionary()
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-                self.container[_XMLElement.attributesKey] = attributesContainer
-            }
-        case .element:
-            self.container[_converted(key).stringValue] = self.encoder.box(value)
-        }
-    }
-    
-    public mutating func encode(_ value: UInt8, forKey key: Key) throws {
-        self.encoder.codingPath.append(key)
-        defer { self.encoder.codingPath.removeLast() }
-        guard let strategy = self.encoder.nodeEncodings.last else {
-            preconditionFailure("Attempt to access node encoding strategy from empty stack.")
-        }
-        switch strategy(key) {
-        case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-            } else {
-                let attributesContainer = NSMutableDictionary()
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-                self.container[_XMLElement.attributesKey] = attributesContainer
-            }
-        case .element:
-            self.container[_converted(key).stringValue] = self.encoder.box(value)
-        }
-    }
-    
-    public mutating func encode(_ value: UInt16, forKey key: Key) throws {
-        self.encoder.codingPath.append(key)
-        defer { self.encoder.codingPath.removeLast() }
-        guard let strategy = self.encoder.nodeEncodings.last else {
-            preconditionFailure("Attempt to access node encoding strategy from empty stack.")
-        }
-        switch strategy(key) {
-        case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-            } else {
-                let attributesContainer = NSMutableDictionary()
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-                self.container[_XMLElement.attributesKey] = attributesContainer
-            }
-        case .element:
-            self.container[_converted(key).stringValue] = self.encoder.box(value)
-        }
-    }
-    
-    public mutating func encode(_ value: UInt32, forKey key: Key) throws {
-        self.encoder.codingPath.append(key)
-        defer { self.encoder.codingPath.removeLast() }
-        guard let strategy = self.encoder.nodeEncodings.last else {
-            preconditionFailure("Attempt to access node encoding strategy from empty stack.")
-        }
-        switch strategy(key) {
-        case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-            } else {
-                let attributesContainer = NSMutableDictionary()
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-                self.container[_XMLElement.attributesKey] = attributesContainer
-            }
-        case .element:
-            self.container[_converted(key).stringValue] = self.encoder.box(value)
-        }
-    }
-    
-    public mutating func encode(_ value: UInt64, forKey key: Key) throws {
-        self.encoder.codingPath.append(key)
-        defer { self.encoder.codingPath.removeLast() }
-        guard let strategy = self.encoder.nodeEncodings.last else {
-            preconditionFailure("Attempt to access node encoding strategy from empty stack.")
-        }
-        switch strategy(key) {
-        case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? NSMutableDictionary {
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-            } else {
-                let attributesContainer = NSMutableDictionary()
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-                self.container[_XMLElement.attributesKey] = attributesContainer
-            }
-        case .element:
-            self.container[_converted(key).stringValue] = self.encoder.box(value)
+            self.container[_converted(key).stringValue] = try self.encoder.box(value)
         }
     }
     

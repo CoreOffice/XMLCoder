@@ -28,11 +28,13 @@ fileprivate struct UnkeyedContainer: Encodable {
 fileprivate struct Element: Encodable {
     let key: String = "value"
     let intKey: Int = 42
+    let int8Key: Int8 = 42
     let doubleKey: Double = 42.42
 
     enum CodingKeys: CodingKey {
         case key
         case intKey
+        case int8Key
         case doubleKey
     }
 
@@ -87,6 +89,7 @@ final class NodeEncodingStrategyTests: XCTestCase {
                 <container>
                     <element>
                         <doubleKey>42.42</doubleKey>
+                        <int8Key>42</int8Key>
                         <intKey>42</intKey>
                         <key>value</key>
                     </element>
@@ -112,7 +115,7 @@ final class NodeEncodingStrategyTests: XCTestCase {
             let expected =
                 """
                 <container>
-                    <element doubleKey="42.42" intKey="42" key=\"value\" />
+                    <element doubleKey="42.42" int8Key="42" intKey="42" key=\"value\" />
                 </container>
                 """
             XCTAssertEqual(xml, expected)
@@ -140,6 +143,7 @@ final class NodeEncodingStrategyTests: XCTestCase {
                     <element>
                         <first>
                             <doubleKey>42.42</doubleKey>
+                            <int8Key>42</int8Key>
                             <intKey>42</intKey>
                             <key>value</key>
                         </first>
@@ -167,7 +171,7 @@ final class NodeEncodingStrategyTests: XCTestCase {
                 """
                 <container>
                     <element>
-                        <first doubleKey="42.42" intKey="42" key=\"value\" />
+                        <first doubleKey="42.42" int8Key="42" intKey="42" key=\"value\" />
                     </element>
                 </container>
                 """
@@ -195,11 +199,13 @@ final class NodeEncodingStrategyTests: XCTestCase {
                 <container>
                     <element>
                         <doubleKey>42.42</doubleKey>
+                        <int8Key>42</int8Key>
                         <intKey>42</intKey>
                         <key>value</key>
                     </element>
                     <element>
                         <doubleKey>42.42</doubleKey>
+                        <int8Key>42</int8Key>
                         <intKey>42</intKey>
                         <key>value</key>
                     </element>
@@ -225,8 +231,8 @@ final class NodeEncodingStrategyTests: XCTestCase {
             let expected =
                 """
                 <container>
-                    <element doubleKey="42.42" intKey="42" key=\"value\" />
-                    <element doubleKey="42.42" intKey="42" key=\"value\" />
+                    <element doubleKey="42.42" int8Key="42" intKey="42" key=\"value\" />
+                    <element doubleKey="42.42" int8Key="42" intKey="42" key=\"value\" />
                 </container>
                 """
             XCTAssertEqual(xml, expected)
