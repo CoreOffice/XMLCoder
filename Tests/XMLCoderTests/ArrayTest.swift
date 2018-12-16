@@ -9,15 +9,15 @@ import Foundation
 import XCTest
 @testable import XMLCoder
 
-class ArrayTest: XCTestCase {
-    struct Container: Codable, Equatable {
-        let elements: [String]
-        
-        enum CodingKeys: String, CodingKey {
-            case elements = "element"
-        }
+private struct Container: Codable, Equatable {
+    let elements: [String]
+
+    enum CodingKeys: String, CodingKey {
+        case elements = "element"
     }
-    
+}
+
+class ArrayTest: XCTestCase {
     func testEmpty() {
         let decoder = XMLDecoder()
         

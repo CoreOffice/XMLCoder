@@ -286,7 +286,7 @@ internal class _XMLDecoder: Decoder {
                                                                     debugDescription: "Cannot get keyed decoding container -- found null value instead."))
         }
 
-        guard let topContainer = self.storage.topContainer as? [String: Any] else {
+        guard let topContainer = storage.topContainer as? [String: Any] else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: [String: Any].self, reality: storage.topContainer)
         }
 
@@ -303,12 +303,10 @@ internal class _XMLDecoder: Decoder {
 
         let topContainer: [Any]
 
-        if let container = self.storage.topContainer as? [Any] {
+        if let container = storage.topContainer as? [Any] {
             topContainer = container
-        } else if let container = self.storage.topContainer as? [AnyHashable: Any] {
-            topContainer = [container]
         } else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: [Any].self, reality: storage.topContainer)
+            topContainer = [storage.topContainer]
         }
 
         return _XMLUnkeyedDecodingContainer(referencing: self, wrapping: topContainer)
@@ -727,7 +725,7 @@ extension _XMLDecoder {
         switch options.dateDecodingStrategy {
         case .deferredToDate:
             storage.push(container: value)
-            defer { self.storage.popContainer() }
+            defer { storage.popContainer() }
             return try Date(from: self)
 
         case .secondsSince1970:
@@ -740,9 +738,9 @@ extension _XMLDecoder {
 
         case .iso8601:
             if #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
-                let string = try self.unbox(value, as: String.self)!
+                let string = try unbox(value, as: String.self)!
                 guard let date = _iso8601Formatter.date(from: string) else {
-                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: self.codingPath, debugDescription: "Expected date string to be ISO8601-formatted."))
+                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Expected date string to be ISO8601-formatted."))
                 }
 
                 return date
@@ -760,7 +758,7 @@ extension _XMLDecoder {
 
         case let .custom(closure):
             storage.push(container: value)
-            defer { self.storage.popContainer() }
+            defer { storage.popContainer() }
             return try closure(self)
         }
     }
@@ -771,7 +769,7 @@ extension _XMLDecoder {
         switch options.dataDecodingStrategy {
         case .deferredToData:
             storage.push(container: value)
-            defer { self.storage.popContainer() }
+            defer { storage.popContainer() }
             return try Data(from: self)
 
         case .base64:
@@ -787,7 +785,7 @@ extension _XMLDecoder {
 
         case let .custom(closure):
             storage.push(container: value)
-            defer { self.storage.popContainer() }
+            defer { storage.popContainer() }
             return try closure(self)
         }
     }
@@ -803,13 +801,13 @@ extension _XMLDecoder {
     internal func unbox<T: Decodable>(_ value: Any, as type: T.Type) throws -> T? {
         let decoded: T
         if type == Date.self || type == NSDate.self {
-            guard let date = try self.unbox(value, as: Date.self) else { return nil }
+            guard let date = try unbox(value, as: Date.self) else { return nil }
             decoded = date as! T
         } else if type == Data.self || type == NSData.self {
-            guard let data = try self.unbox(value, as: Data.self) else { return nil }
+            guard let data = try unbox(value, as: Data.self) else { return nil }
             decoded = data as! T
         } else if type == URL.self || type == NSURL.self {
-            guard let urlString = try self.unbox(value, as: String.self) else {
+            guard let urlString = try unbox(value, as: String.self) else {
                 return nil
             }
 
@@ -820,11 +818,11 @@ extension _XMLDecoder {
 
             decoded = (url as! T)
         } else if type == Decimal.self || type == NSDecimalNumber.self {
-            guard let decimal = try self.unbox(value, as: Decimal.self) else { return nil }
+            guard let decimal = try unbox(value, as: Decimal.self) else { return nil }
             decoded = decimal as! T
         } else {
             storage.push(container: value)
-            defer { self.storage.popContainer() }
+            defer { storage.popContainer() }
             return try type.init(from: self)
         }
 
