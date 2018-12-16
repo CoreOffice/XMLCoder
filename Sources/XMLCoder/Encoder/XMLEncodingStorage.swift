@@ -16,36 +16,40 @@ internal struct _XMLEncodingStorage {
 
     /// The container stack.
     /// Elements may be any one of the XML types (NSNull, NSNumber, NSString, NSArray, NSDictionary).
-    internal private(set) var containers: [NSObject] = []
+    private var containers: [NSObject] = []
 
     // MARK: - Initialization
 
     /// Initializes `self` with no containers.
-    internal init() {}
+    init() {}
 
     // MARK: - Modifying the Stack
 
-    internal var count: Int {
+    var count: Int {
         return containers.count
     }
 
-    internal mutating func pushKeyedContainer() -> NSMutableDictionary {
+    var lastContainer: NSObject? {
+        return containers.last
+    }
+
+    mutating func pushKeyedContainer() -> NSMutableDictionary {
         let dictionary = NSMutableDictionary()
         containers.append(dictionary)
         return dictionary
     }
 
-    internal mutating func pushUnkeyedContainer() -> NSMutableArray {
+    mutating func pushUnkeyedContainer() -> NSMutableArray {
         let array = NSMutableArray()
         containers.append(array)
         return array
     }
 
-    internal mutating func push(container: NSObject) {
+    mutating func push(container: NSObject) {
         containers.append(container)
     }
 
-    internal mutating func popContainer() -> NSObject {
+    mutating func popContainer() -> NSObject {
         precondition(!containers.isEmpty, "Empty container stack.")
         return containers.popLast()!
     }

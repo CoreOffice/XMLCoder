@@ -8,6 +8,15 @@
 
 import Foundation
 
+/// Type-erased protocol helper for a metatype check in generic `decode`
+/// overload.
+private protocol AnyEmptySequence {
+    init()
+}
+
+extension Array: AnyEmptySequence {}
+extension Dictionary: AnyEmptySequence {}
+
 // MARK: Decoding Containers
 
 internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
@@ -78,7 +87,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     }
 
     public func decodeNil(forKey key: Key) throws -> Bool {
-        if let entry = self.container[key.stringValue] {
+        if let entry = container[key.stringValue] {
             return entry is NSNull
         } else {
             return true
@@ -86,7 +95,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     }
 
     public func decode(_ type: Bool.Type, forKey key: Key) throws -> Bool {
-        guard let entry = self.container[key.stringValue] else {
+        guard let entry = container[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
         }
 
@@ -101,7 +110,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     }
 
     public func decode(_ type: Int.Type, forKey key: Key) throws -> Int {
-        guard let entry = self.container[key.stringValue] else {
+        guard let entry = container[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
         }
 
@@ -116,7 +125,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     }
 
     public func decode(_ type: Int8.Type, forKey key: Key) throws -> Int8 {
-        guard let entry = self.container[key.stringValue] else {
+        guard let entry = container[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
         }
 
@@ -131,7 +140,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     }
 
     public func decode(_ type: Int16.Type, forKey key: Key) throws -> Int16 {
-        guard let entry = self.container[key.stringValue] else {
+        guard let entry = container[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
         }
 
@@ -146,7 +155,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     }
 
     public func decode(_ type: Int32.Type, forKey key: Key) throws -> Int32 {
-        guard let entry = self.container[key.stringValue] else {
+        guard let entry = container[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
         }
 
@@ -161,7 +170,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     }
 
     public func decode(_ type: Int64.Type, forKey key: Key) throws -> Int64 {
-        guard let entry = self.container[key.stringValue] else {
+        guard let entry = container[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
         }
 
@@ -176,7 +185,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     }
 
     public func decode(_ type: UInt.Type, forKey key: Key) throws -> UInt {
-        guard let entry = self.container[key.stringValue] else {
+        guard let entry = container[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
         }
 
@@ -191,7 +200,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     }
 
     public func decode(_ type: UInt8.Type, forKey key: Key) throws -> UInt8 {
-        guard let entry = self.container[key.stringValue] else {
+        guard let entry = container[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
         }
 
@@ -206,7 +215,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     }
 
     public func decode(_ type: UInt16.Type, forKey key: Key) throws -> UInt16 {
-        guard let entry = self.container[key.stringValue] else {
+        guard let entry = container[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
         }
 
@@ -221,14 +230,14 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     }
 
     public func decode(_ type: UInt32.Type, forKey key: Key) throws -> UInt32 {
-        guard let entry = self.container[key.stringValue] else {
+        guard let entry = container[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
         }
 
         decoder.codingPath.append(key)
         defer { self.decoder.codingPath.removeLast() }
 
-        guard let value = try self.decoder.unbox(entry, as: UInt32.self) else {
+        guard let value = try decoder.unbox(entry, as: UInt32.self) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected \(type) value but found null instead."))
         }
 
@@ -236,7 +245,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     }
 
     public func decode(_ type: UInt64.Type, forKey key: Key) throws -> UInt64 {
-        guard let entry = self.container[key.stringValue] else {
+        guard let entry = container[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
         }
 
@@ -251,14 +260,14 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     }
 
     public func decode(_ type: Float.Type, forKey key: Key) throws -> Float {
-        guard let entry = self.container[key.stringValue] else {
+        guard let entry = container[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
         }
 
         decoder.codingPath.append(key)
         defer { self.decoder.codingPath.removeLast() }
 
-        guard let value = try self.decoder.unbox(entry, as: Float.self) else {
+        guard let value = try decoder.unbox(entry, as: Float.self) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected \(type) value but found null instead."))
         }
 
@@ -266,7 +275,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     }
 
     public func decode(_ type: Double.Type, forKey key: Key) throws -> Double {
-        guard let entry = self.container[key.stringValue] else {
+        guard let entry = container[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
         }
 
@@ -281,14 +290,14 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     }
 
     public func decode(_ type: String.Type, forKey key: Key) throws -> String {
-        guard let entry = self.container[key.stringValue] else {
+        guard let entry = container[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
         }
 
         decoder.codingPath.append(key)
         defer { self.decoder.codingPath.removeLast() }
 
-        guard let value = try self.decoder.unbox(entry, as: String.self) else {
+        guard let value = try decoder.unbox(entry, as: String.self) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected \(type) value but found null instead."))
         }
 
@@ -296,14 +305,18 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     }
 
     public func decode<T: Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
-        guard let entry = self.container[key.stringValue] else {
+        if type is AnyEmptySequence.Type && container[key.stringValue] == nil {
+            return (type as! AnyEmptySequence.Type).init() as! T
+        }
+
+        guard let entry = container[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
         }
 
         decoder.codingPath.append(key)
-        defer { self.decoder.codingPath.removeLast() }
+        defer { decoder.codingPath.removeLast() }
 
-        guard let value = try self.decoder.unbox(entry, as: type) else {
+        guard let value = try decoder.unbox(entry, as: type) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected \(type) value but found null instead."))
         }
 
@@ -312,7 +325,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
 
     public func nestedContainer<NestedKey>(keyedBy _: NestedKey.Type, forKey key: Key) throws -> KeyedDecodingContainer<NestedKey> {
         decoder.codingPath.append(key)
-        defer { self.decoder.codingPath.removeLast() }
+        defer { decoder.codingPath.removeLast() }
 
         guard let value = self.container[key.stringValue] else {
             throw DecodingError.keyNotFound(key,
@@ -330,7 +343,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
 
     public func nestedUnkeyedContainer(forKey key: Key) throws -> UnkeyedDecodingContainer {
         decoder.codingPath.append(key)
-        defer { self.decoder.codingPath.removeLast() }
+        defer { decoder.codingPath.removeLast() }
 
         guard let value = self.container[key.stringValue] else {
             throw DecodingError.keyNotFound(key,
@@ -347,7 +360,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
 
     private func _superDecoder(forKey key: CodingKey) throws -> Decoder {
         decoder.codingPath.append(key)
-        defer { self.decoder.codingPath.removeLast() }
+        defer { decoder.codingPath.removeLast() }
 
         let value: Any = container[key.stringValue] ?? NSNull()
         return _XMLDecoder(referencing: value, at: decoder.codingPath, options: decoder.options)

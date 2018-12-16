@@ -26,6 +26,8 @@
 		BFE1C58E21A4203200EA0458 /* NoteTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE1C58D21A4203200EA0458 /* NoteTest.swift */; };
 		BFE1C58521A41AFB00EA0458 /* XMLUnkeyedEncodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE1C58421A41AFA00EA0458 /* XMLUnkeyedEncodingContainer.swift */; };
 		BFE1C58721A41B3200EA0458 /* XMLKeyedEncodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE1C58621A41B3200EA0458 /* XMLKeyedEncodingContainer.swift */; };
+		BF191DEC21A55FE700EAB791 /* ArrayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF191DEB21A55FE700EAB791 /* ArrayTest.swift */; };
+		BF191DEE21A5601800EAB791 /* DictionaryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF191DED21A5601800EAB791 /* DictionaryTest.swift */; };
 		BFE1C59121A4242300EA0458 /* NodeEncodingStrategyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE1C58F21A4232100EA0458 /* NodeEncodingStrategyTests.swift */; };
 		D15ACF3F21A2C97F003238FD /* BreakfastTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15ACF3E21A2C97F003238FD /* BreakfastTest.swift */; };
 		D15ACF4221A407AA003238FD /* BooksTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15ACF3321A2C7F2003238FD /* BooksTest.swift */; };
@@ -73,6 +75,8 @@
 		BFE1C58D21A4203200EA0458 /* NoteTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteTest.swift; sourceTree = "<group>"; };
 		BFE1C58421A41AFA00EA0458 /* XMLUnkeyedEncodingContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = XMLUnkeyedEncodingContainer.swift; sourceTree = "<group>"; tabWidth = 4; };
 		BFE1C58621A41B3200EA0458 /* XMLKeyedEncodingContainer.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = XMLKeyedEncodingContainer.swift; sourceTree = "<group>"; tabWidth = 4; };
+		BF191DEB21A55FE700EAB791 /* ArrayTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = ArrayTest.swift; sourceTree = "<group>"; tabWidth = 4; };
+		BF191DED21A5601800EAB791 /* DictionaryTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = DictionaryTest.swift; sourceTree = "<group>"; tabWidth = 4; };
 		BFE1C58F21A4232100EA0458 /* NodeEncodingStrategyTests.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = NodeEncodingStrategyTests.swift; sourceTree = "<group>"; tabWidth = 4; };
 		D15ACF3321A2C7F2003238FD /* BooksTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksTest.swift; sourceTree = "<group>"; };
 		D15ACF3E21A2C97F003238FD /* BreakfastTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakfastTest.swift; sourceTree = "<group>"; };
@@ -148,6 +152,9 @@
 		OBJ_24 /* XMLCoderTests */ = {
 			isa = PBXGroup;
 			children = (
+				BF191DEB21A55FE700EAB791 /* ArrayTest.swift */,
+				BF191DED21A5601800EAB791 /* DictionaryTest.swift */,
+				OBJ_25 /* XMLCoderTests.swift */,
 				BFE1C58F21A4232100EA0458 /* NodeEncodingStrategyTests.swift */,
 				D15ACF3321A2C7F2003238FD /* BooksTest.swift */,
 				OBJ_25 /* RelationshipsTest.swift */,
@@ -340,12 +347,15 @@
 				BFE1C59121A4242300EA0458 /* NodeEncodingStrategyTests.swift in Sources */,
 				D15ACF4221A407AA003238FD /* BooksTest.swift in Sources */,
 				D1EB9C6B21A9802B002F2254 /* CDTest.swift in Sources */,
-				OBJ_41 /* RelationshipsTest.swift in Sources */,
 				D1EB9C6021A970DC002F2254 /* PlantTest.swift in Sources */,
 				D15ACF3F21A2C97F003238FD /* BreakfastTest.swift in Sources */,
 				BF191DE621A467F600EAB791 /* RJITest.swift in Sources */,
 				BFE1C58E21A4203200EA0458 /* NoteTest.swift in Sources */,
 				D1EB9C6321A9717C002F2254 /* PlantCatalog.swift in Sources */,
+				OBJ_41 /* XMLCoderTests.swift in Sources */,
+				BF191DEE21A5601800EAB791 /* DictionaryTest.swift in Sources */,
+				BFE1C59121A4242300EA0458 /* NodeEncodingStrategyTests.swift in Sources */,
+				BF191DEC21A55FE700EAB791 /* ArrayTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
