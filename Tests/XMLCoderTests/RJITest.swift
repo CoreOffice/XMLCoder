@@ -150,12 +150,8 @@ class RJITest: XCTestCase {
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
         
         do {
-            let bundle = Bundle(for: type(of: self))
-            let fileURL = bundle.url(forResource: "RJITest", withExtension: "xml")!
-            let data = try Data(contentsOf: fileURL)
-            
 //            let rss1
-            _ = try decoder.decode(RSS.self, from: data)
+            _ = try decoder.decode(RSS.self, from: rjiSampleXML)
 // this is a very peculiar case of `XMLCoder` not being able to decode an XML
 // that it itself encoded
 //            data = try encoder.encode(rss1, withRootKey: "note",
