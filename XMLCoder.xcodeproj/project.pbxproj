@@ -31,6 +31,12 @@
 		BF9457AD21CBB498005ACFDE /* BoolBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457A321CBB497005ACFDE /* BoolBox.swift */; };
 		BF9457AE21CBB498005ACFDE /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457A421CBB497005ACFDE /* Box.swift */; };
 		BF9457AF21CBB498005ACFDE /* StringBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457A521CBB498005ACFDE /* StringBox.swift */; };
+		BF9457B721CBB4DB005ACFDE /* XMLHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457B121CBB4DB005ACFDE /* XMLHeader.swift */; };
+		BF9457B821CBB4DB005ACFDE /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457B221CBB4DB005ACFDE /* String+Extensions.swift */; };
+		BF9457B921CBB4DB005ACFDE /* XMLStackParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457B321CBB4DB005ACFDE /* XMLStackParser.swift */; };
+		BF9457BA21CBB4DB005ACFDE /* ISO8601DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457B421CBB4DB005ACFDE /* ISO8601DateFormatter.swift */; };
+		BF9457BB21CBB4DB005ACFDE /* XMLKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457B521CBB4DB005ACFDE /* XMLKey.swift */; };
+		BF9457BC21CBB4DB005ACFDE /* XMLElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457B621CBB4DB005ACFDE /* XMLElement.swift */; };
 		D1FC040521C7EF8200065B43 /* RJISample.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FC040421C7EF8200065B43 /* RJISample.swift */; };
 		OBJ_48 /* DecodingErrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* DecodingErrorExtension.swift */; };
 		OBJ_49 /* XMLDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* XMLDecoder.swift */; };
@@ -43,9 +49,6 @@
 		OBJ_56 /* XMLKeyedEncodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* XMLKeyedEncodingContainer.swift */; };
 		OBJ_57 /* XMLReferencingEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* XMLReferencingEncoder.swift */; };
 		OBJ_58 /* XMLUnkeyedEncodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* XMLUnkeyedEncodingContainer.swift */; };
-		OBJ_59 /* ISO8601DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* ISO8601DateFormatter.swift */; };
-		OBJ_60 /* XMLKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* XMLKey.swift */; };
-		OBJ_61 /* XMLStackParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* XMLStackParser.swift */; };
 		OBJ_68 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_79 /* ArrayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* ArrayTest.swift */; };
 		OBJ_80 /* BooksTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* BooksTest.swift */; };
@@ -90,6 +93,12 @@
 		BF9457A321CBB497005ACFDE /* BoolBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoolBox.swift; sourceTree = "<group>"; };
 		BF9457A421CBB497005ACFDE /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
 		BF9457A521CBB498005ACFDE /* StringBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringBox.swift; sourceTree = "<group>"; };
+		BF9457B121CBB4DB005ACFDE /* XMLHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLHeader.swift; sourceTree = "<group>"; };
+		BF9457B221CBB4DB005ACFDE /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		BF9457B321CBB4DB005ACFDE /* XMLStackParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLStackParser.swift; sourceTree = "<group>"; };
+		BF9457B421CBB4DB005ACFDE /* ISO8601DateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ISO8601DateFormatter.swift; sourceTree = "<group>"; };
+		BF9457B521CBB4DB005ACFDE /* XMLKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLKey.swift; sourceTree = "<group>"; };
+		BF9457B621CBB4DB005ACFDE /* XMLElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLElement.swift; sourceTree = "<group>"; };
 		D1FC040421C7EF8200065B43 /* RJISample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RJISample.swift; sourceTree = "<group>"; };
 		OBJ_10 /* DecodingErrorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingErrorExtension.swift; sourceTree = "<group>"; };
 		OBJ_11 /* XMLDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLDecoder.swift; sourceTree = "<group>"; };
@@ -102,9 +111,6 @@
 		OBJ_19 /* XMLKeyedEncodingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLKeyedEncodingContainer.swift; sourceTree = "<group>"; };
 		OBJ_20 /* XMLReferencingEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLReferencingEncoder.swift; sourceTree = "<group>"; };
 		OBJ_21 /* XMLUnkeyedEncodingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLUnkeyedEncodingContainer.swift; sourceTree = "<group>"; };
-		OBJ_22 /* ISO8601DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISO8601DateFormatter.swift; sourceTree = "<group>"; };
-		OBJ_23 /* XMLKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLKey.swift; sourceTree = "<group>"; };
-		OBJ_24 /* XMLStackParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLStackParser.swift; sourceTree = "<group>"; };
 		OBJ_27 /* ArrayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayTest.swift; sourceTree = "<group>"; };
 		OBJ_28 /* BooksTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksTest.swift; sourceTree = "<group>"; };
 		OBJ_29 /* BreakfastTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakfastTest.swift; sourceTree = "<group>"; };
@@ -145,18 +151,31 @@
 		BF94578721CBB454005ACFDE /* Box */ = {
 			isa = PBXGroup;
 			children = (
-				BF9457A021CBB497005ACFDE /* ArrayBox.swift */,
-				BF9457A321CBB497005ACFDE /* BoolBox.swift */,
 				BF9457A421CBB497005ACFDE /* Box.swift */,
-				BF9457A121CBB497005ACFDE /* DecimalBox.swift */,
-				BF94579F21CBB497005ACFDE /* DictionaryBox.swift */,
-				BF94579D21CBB497005ACFDE /* FloatingPointBox.swift */,
 				BF94579E21CBB497005ACFDE /* NullBox.swift */,
+				BF9457A321CBB497005ACFDE /* BoolBox.swift */,
 				BF9457A221CBB497005ACFDE /* SignedIntegerBox.swift */,
-				BF9457A521CBB498005ACFDE /* StringBox.swift */,
 				BF94579C21CBB497005ACFDE /* UnsignedIntegerBox.swift */,
+				BF94579D21CBB497005ACFDE /* FloatingPointBox.swift */,
+				BF9457A121CBB497005ACFDE /* DecimalBox.swift */,
+				BF9457A521CBB498005ACFDE /* StringBox.swift */,
+				BF9457A021CBB497005ACFDE /* ArrayBox.swift */,
+				BF94579F21CBB497005ACFDE /* DictionaryBox.swift */,
 			);
 			path = Box;
+			sourceTree = "<group>";
+		};
+		BF9457B021CBB4DB005ACFDE /* Auxiliaries */ = {
+			isa = PBXGroup;
+			children = (
+				BF9457B121CBB4DB005ACFDE /* XMLHeader.swift */,
+				BF9457B221CBB4DB005ACFDE /* String+Extensions.swift */,
+				BF9457B321CBB4DB005ACFDE /* XMLStackParser.swift */,
+				BF9457B421CBB4DB005ACFDE /* ISO8601DateFormatter.swift */,
+				BF9457B521CBB4DB005ACFDE /* XMLKey.swift */,
+				BF9457B621CBB4DB005ACFDE /* XMLElement.swift */,
+			);
+			path = Auxiliaries;
 			sourceTree = "<group>";
 		};
 		OBJ_15 /* Encoder */ = {
@@ -235,9 +254,7 @@
 				BF94578721CBB454005ACFDE /* Box */,
 				OBJ_9 /* Decoder */,
 				OBJ_15 /* Encoder */,
-				OBJ_22 /* ISO8601DateFormatter.swift */,
-				OBJ_23 /* XMLKey.swift */,
-				OBJ_24 /* XMLStackParser.swift */,
+				BF9457B021CBB4DB005ACFDE /* Auxiliaries */,
 			);
 			name = XMLCoder;
 			path = Sources/XMLCoder;
@@ -338,30 +355,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				BF9457B721CBB4DB005ACFDE /* XMLHeader.swift in Sources */,
+				BF9457BB21CBB4DB005ACFDE /* XMLKey.swift in Sources */,
 				OBJ_48 /* DecodingErrorExtension.swift in Sources */,
 				OBJ_49 /* XMLDecoder.swift in Sources */,
 				OBJ_50 /* XMLDecodingStorage.swift in Sources */,
 				OBJ_51 /* XMLKeyedDecodingContainer.swift in Sources */,
 				OBJ_52 /* XMLUnkeyedDecodingContainer.swift in Sources */,
 				OBJ_53 /* EncodingErrorExtension.swift in Sources */,
+				BF9457B921CBB4DB005ACFDE /* XMLStackParser.swift in Sources */,
 				OBJ_54 /* XMLEncoder.swift in Sources */,
+				BF9457BA21CBB4DB005ACFDE /* ISO8601DateFormatter.swift in Sources */,
 				OBJ_55 /* XMLEncodingStorage.swift in Sources */,
 				BF9457A721CBB498005ACFDE /* FloatingPointBox.swift in Sources */,
 				BF9457AC21CBB498005ACFDE /* SignedIntegerBox.swift in Sources */,
 				BF9457A921CBB498005ACFDE /* DictionaryBox.swift in Sources */,
 				BF9457AD21CBB498005ACFDE /* BoolBox.swift in Sources */,
 				BF9457A621CBB498005ACFDE /* UnsignedIntegerBox.swift in Sources */,
+				BF9457B821CBB4DB005ACFDE /* String+Extensions.swift in Sources */,
 				BF9457AE21CBB498005ACFDE /* Box.swift in Sources */,
 				BF9457AB21CBB498005ACFDE /* DecimalBox.swift in Sources */,
 				OBJ_56 /* XMLKeyedEncodingContainer.swift in Sources */,
 				OBJ_57 /* XMLReferencingEncoder.swift in Sources */,
+				BF9457BC21CBB4DB005ACFDE /* XMLElement.swift in Sources */,
 				BF9457AA21CBB498005ACFDE /* ArrayBox.swift in Sources */,
 				BF9457AF21CBB498005ACFDE /* StringBox.swift in Sources */,
 				OBJ_58 /* XMLUnkeyedEncodingContainer.swift in Sources */,
-				OBJ_59 /* ISO8601DateFormatter.swift in Sources */,
-				OBJ_60 /* XMLKey.swift in Sources */,
 				BF9457A821CBB498005ACFDE /* NullBox.swift in Sources */,
-				OBJ_61 /* XMLStackParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
