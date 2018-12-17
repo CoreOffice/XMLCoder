@@ -362,7 +362,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
         decoder.codingPath.append(key)
         defer { decoder.codingPath.removeLast() }
 
-        let box: Box = container[key.stringValue] ?? Box.null(.shared)
+        let box: Box = container[key.stringValue] ?? Box()
         return _XMLDecoder(referencing: box, at: decoder.codingPath, options: decoder.options)
     }
 

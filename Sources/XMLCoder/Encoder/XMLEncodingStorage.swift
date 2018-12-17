@@ -15,8 +15,7 @@ internal struct _XMLEncodingStorage {
     // MARK: Properties
 
     /// The container stack.
-    /// Elements may be any one of the XML types (NSNull, NSNumber, NSString, NSArray, NSDictionary).
-    private var containers: [NSObject] = []
+    private var containers: [Box] = []
 
     // MARK: - Initialization
 
@@ -29,27 +28,27 @@ internal struct _XMLEncodingStorage {
         return containers.count
     }
 
-    var lastContainer: NSObject? {
+    var lastContainer: Box? {
         return containers.last
     }
 
-    mutating func pushKeyedContainer() -> NSMutableDictionary {
-        let dictionary = NSMutableDictionary()
-        containers.append(dictionary)
+    mutating func pushKeyedContainer() -> DictionaryBox {
+        let dictionary = DictionaryBox()
+        containers.append(Box.dictionary(dictionary))
         return dictionary
     }
 
-    mutating func pushUnkeyedContainer() -> NSMutableArray {
-        let array = NSMutableArray()
-        containers.append(array)
+    mutating func pushUnkeyedContainer() -> ArrayBox {
+        let array = ArrayBox()
+        containers.append(Box.array(array))
         return array
     }
 
-    mutating func push(container: NSObject) {
+    mutating func push(container: Box) {
         containers.append(container)
     }
 
-    mutating func popContainer() -> NSObject {
+    mutating func popContainer() -> Box {
         precondition(!containers.isEmpty, "Empty container stack.")
         return containers.popLast()!
     }

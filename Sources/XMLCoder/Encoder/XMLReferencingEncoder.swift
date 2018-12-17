@@ -18,10 +18,10 @@ internal class _XMLReferencingEncoder: _XMLEncoder {
     /// The type of container we're referencing.
     private enum Reference {
         /// Referencing a specific index in an array container.
-        case array(NSMutableArray, Int)
+        case array(ArrayBox, Int)
 
         /// Referencing a specific key in a dictionary container.
-        case dictionary(NSMutableDictionary, String)
+        case dictionary(DictionaryBox, String)
     }
 
     // MARK: - Properties
@@ -38,7 +38,7 @@ internal class _XMLReferencingEncoder: _XMLEncoder {
     internal init(
         referencing encoder: _XMLEncoder,
         at index: Int,
-        wrapping array: NSMutableArray
+        wrapping array: ArrayBox
     ) {
         self.encoder = encoder
         reference = .array(array, index)
@@ -56,7 +56,7 @@ internal class _XMLReferencingEncoder: _XMLEncoder {
         referencing encoder: _XMLEncoder,
         key: CodingKey,
         convertedKey: CodingKey,
-        wrapping dictionary: NSMutableDictionary
+        wrapping dictionary: DictionaryBox
     ) {
         self.encoder = encoder
         reference = .dictionary(dictionary, convertedKey.stringValue)
@@ -82,19 +82,18 @@ internal class _XMLReferencingEncoder: _XMLEncoder {
 
     // Finalizes `self` by writing the contents of our storage to the referenced encoder's storage.
     deinit {
-        let value: Any
+        let box: Box
         switch self.storage.count {
-        case 0: value = NSDictionary()
-        case 1: value = self.storage.popContainer()
+        case 0: box = Box([:])
+        case 1: box = self.storage.popContainer()
         default: fatalError("Referencing encoder deallocated with multiple containers on stack.")
         }
 
         switch self.reference {
         case let .array(array, index):
-            array.insert(value, at: index)
-
+            array.insert(box, at: index)
         case let .dictionary(dictionary, key):
-            dictionary[NSString(string: key)] = value
+            dictionary[key] = box
         }
     }
 }
