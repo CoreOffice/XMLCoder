@@ -28,7 +28,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     private let decoder: _XMLDecoder
 
     /// A reference to the container we're reading from.
-    private let container: [String: Any]
+    private let container: DictionaryBox
 
     /// The path of coding keys taken to get to this point in decoding.
     public private(set) var codingPath: [CodingKey]
@@ -36,7 +36,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     // MARK: - Initialization
 
     /// Initializes `self` by referencing the given decoder and container.
-    internal init(referencing decoder: _XMLDecoder, wrapping container: [String: Any]) {
+    internal init(referencing decoder: _XMLDecoder, wrapping container: DictionaryBox) {
         self.decoder = decoder
         switch decoder.options.keyDecodingStrategy {
         case .useDefaultKeys:
@@ -44,15 +44,15 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
         case .convertFromSnakeCase:
             // Convert the snake case keys in the container to camel case.
             // If we hit a duplicate key after conversion, then we'll use the first one we saw. Effectively an undefined behavior with dictionaries.
-            self.container = Dictionary(container.map {
+            self.container = DictionaryBox(container.map {
                 key, value in (XMLDecoder.KeyDecodingStrategy._convertFromSnakeCase(key), value)
             }, uniquingKeysWith: { first, _ in first })
         case .convertFromCapitalized:
-            self.container = Dictionary(container.map {
+            self.container = DictionaryBox(container.map {
                 key, value in (XMLDecoder.KeyDecodingStrategy._convertFromCapitalized(key), value)
             }, uniquingKeysWith: { first, _ in first })
         case let .custom(converter):
-            self.container = Dictionary(container.map {
+            self.container = DictionaryBox(container.map {
                 key, value in (converter(decoder.codingPath + [_XMLKey(stringValue: key, intValue: nil)]).stringValue, value)
             }, uniquingKeysWith: { first, _ in first })
         }
@@ -88,7 +88,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
 
     public func decodeNil(forKey key: Key) throws -> Bool {
         if let entry = container[key.stringValue] {
-            return entry is NSNull
+            return entry.isNull
         } else {
             return true
         }
@@ -333,7 +333,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
                                                                   debugDescription: "Cannot get \(KeyedDecodingContainer<NestedKey>.self) -- no value found for key \"\(key.stringValue)\""))
         }
 
-        guard let dictionary = value as? [String: Any] else {
+        guard let dictionary = value.dictionary else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: [String: Any].self, reality: value)
         }
 
@@ -351,7 +351,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
                                                                   debugDescription: "Cannot get UnkeyedDecodingContainer -- no value found for key \"\(key.stringValue)\""))
         }
 
-        guard let array = value as? [Any] else {
+        guard let array = value.array else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: [Any].self, reality: value)
         }
 
@@ -362,8 +362,8 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
         decoder.codingPath.append(key)
         defer { decoder.codingPath.removeLast() }
 
-        let value: Any = container[key.stringValue] ?? NSNull()
-        return _XMLDecoder(referencing: value, at: decoder.codingPath, options: decoder.options)
+        let box: Box = container[key.stringValue] ?? Box.null(.shared)
+        return _XMLDecoder(referencing: box, at: decoder.codingPath, options: decoder.options)
     }
 
     public func superDecoder() throws -> Decoder {

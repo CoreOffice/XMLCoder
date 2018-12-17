@@ -153,33 +153,34 @@ internal class _XMLElement {
         parentElement.children[key] = (parentElement.children[key] ?? []) + [element]
     }
 
-    fileprivate func flatten() -> [String: Any] {
-        var node: [String: Any] = attributes
+    fileprivate func flatten() -> [String: Box] {
+        var node: [String: Box] = attributes.mapValues { Box($0) }
 
         for childElement in children {
             for child in childElement.value {
                 if let content = child.value {
-                    if let oldContent = node[childElement.key] as? Array<Any> {
-                        node[childElement.key] = oldContent + [content]
-
+                    if let oldContent = node[childElement.key]?.array {
+                        oldContent.append(Box(content))
+                        // FIXME: Box is a reference type, so this shouldn't be necessary:
+                        node[childElement.key] = Box.array(oldContent)
                     } else if let oldContent = node[childElement.key] {
-                        node[childElement.key] = [oldContent, content]
-
+                        node[childElement.key] = Box([oldContent, Box(content)])
                     } else {
-                        node[childElement.key] = content
+                        node[childElement.key] = Box(content)
                     }
                 } else if !child.children.isEmpty || !child.attributes.isEmpty {
                     let newValue = child.flatten()
 
                     if let existingValue = node[childElement.key] {
-                        if var array = existingValue as? Array<Any> {
-                            array.append(newValue)
-                            node[childElement.key] = array
+                        if let array = existingValue.array {
+                            array.append(Box(newValue))
+                            // FIXME: Box is a reference type, so this shouldn't be necessary:
+                            node[childElement.key] = Box.array(array)
                         } else {
-                            node[childElement.key] = [existingValue, newValue]
+                            node[childElement.key] = Box([existingValue, Box(newValue)])
                         }
                     } else {
-                        node[childElement.key] = newValue
+                        node[childElement.key] = Box(newValue)
                     }
                 }
             }
@@ -310,7 +311,7 @@ internal class _XMLStackParser: NSObject, XMLParserDelegate {
     var currentElementName: String?
     var currentElementData = ""
 
-    static func parse(with data: Data) throws -> [String: Any] {
+    static func parse(with data: Data) throws -> [String: Box] {
         let parser = _XMLStackParser()
 
         do {

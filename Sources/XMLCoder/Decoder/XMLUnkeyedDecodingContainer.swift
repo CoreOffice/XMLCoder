@@ -15,7 +15,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
     private let decoder: _XMLDecoder
 
     /// A reference to the container we're reading from.
-    private let container: [Any]
+    private let container: ArrayBox
 
     /// The path of coding keys taken to get to this point in decoding.
     public private(set) var codingPath: [CodingKey]
@@ -26,7 +26,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
     // MARK: - Initialization
 
     /// Initializes `self` by referencing the given decoder and container.
-    internal init(referencing decoder: _XMLDecoder, wrapping container: [Any]) {
+    internal init(referencing decoder: _XMLDecoder, wrapping container: ArrayBox) {
         self.decoder = decoder
         self.container = container
         codingPath = decoder.codingPath
@@ -48,7 +48,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
             throw DecodingError.valueNotFound(Any?.self, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Unkeyed container is at end."))
         }
 
-        if container[self.currentIndex] is NSNull {
+        if container[self.currentIndex].isNull {
             currentIndex += 1
             return true
         } else {
@@ -307,13 +307,13 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         }
 
         let value = self.container[self.currentIndex]
-        guard !(value is NSNull) else {
+        guard !value.isNull else {
             throw DecodingError.valueNotFound(KeyedDecodingContainer<NestedKey>.self,
                                               DecodingError.Context(codingPath: codingPath,
                                                                     debugDescription: "Cannot get keyed decoding container -- found null value instead."))
         }
 
-        guard let dictionary = value as? [String: Any] else {
+        guard let dictionary = value.dictionary else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: [String: Any].self, reality: value)
         }
 
@@ -333,14 +333,14 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         }
 
         let value = container[self.currentIndex]
-        guard !(value is NSNull) else {
+        guard !value.isNull else {
             throw DecodingError.valueNotFound(UnkeyedDecodingContainer.self,
                                               DecodingError.Context(codingPath: codingPath,
                                                                     debugDescription: "Cannot get keyed decoding container -- found null value instead."))
         }
 
-        guard let array = value as? [Any] else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: [Any].self, reality: value)
+        guard let array = value.array else {
+            throw DecodingError._typeMismatch(at: codingPath, expectation: ArrayBox.self, reality: value)
         }
 
         currentIndex += 1
