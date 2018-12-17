@@ -16,6 +16,14 @@ internal class DictionaryBox {
     
     fileprivate var unboxed: Unboxed
     
+    var xmlString: String {
+        return self.unboxed.description
+    }
+    
+    var count: Int {
+        return self.unboxed.count
+    }
+    
     var keys: Unboxed.Keys {
         return self.unboxed.keys
     }

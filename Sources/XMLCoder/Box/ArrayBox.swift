@@ -14,6 +14,10 @@ internal class ArrayBox {
     
     fileprivate var unboxed: Unboxed
     
+    var xmlString: String {
+        return self.unboxed.description
+    }
+    
     var count: Int {
         return self.unboxed.count
     }

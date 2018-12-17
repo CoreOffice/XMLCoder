@@ -12,6 +12,10 @@ internal class BoolBox {
     
     let unboxed: Unboxed
     
+    var xmlString: String {
+        return self.unboxed.description
+    }
+    
     init(_ unboxed: Unboxed) {
         self.unboxed = unboxed
     }

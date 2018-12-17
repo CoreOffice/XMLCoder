@@ -23,14 +23,6 @@ internal class _XMLElement {
         self.children = children
     }
     
-    convenience init(key: String, value: Optional<CustomStringConvertible>, attributes: [String: CustomStringConvertible] = [:]) {
-        self.init(key: key, value: value?.description, attributes: attributes.mapValues({ $0.description }), children: [:])
-    }
-    
-    convenience init(key: String, children: [String: [_XMLElement]], attributes: [String: CustomStringConvertible] = [:]) {
-        self.init(key: key, value: nil, attributes: attributes.mapValues({ $0.description }), children: children)
-    }
-    
     static func createRootElement(rootKey: String, object: ArrayBox) -> _XMLElement? {
         let element = _XMLElement(key: rootKey)
         
@@ -49,7 +41,7 @@ internal class _XMLElement {
     
     fileprivate static func modifyElement(element: _XMLElement, parentElement: _XMLElement?, key: String?, object: DictionaryBox) {
         let attributesBox = object[_XMLElement.attributesKey]?.dictionary
-        element.attributes = attributesBox?.unbox().mapValues { String(describing: $0) } ?? [:]
+        element.attributes = attributesBox?.unbox().mapValues { $0.xmlString } ?? [:]
         
         let objects = object.filter { key, _value in key != _XMLElement.attributesKey }
         
@@ -87,32 +79,32 @@ internal class _XMLElement {
     }
     
     fileprivate static func createElement(parentElement: _XMLElement, key: String, object: BoolBox) {
-        let element = _XMLElement(key: key, value: object.description)
+        let element = _XMLElement(key: key, value: object.xmlString)
         parentElement.children[key] = (parentElement.children[key] ?? []) + [element]
     }
     
     fileprivate static func createElement(parentElement: _XMLElement, key: String, object: DecimalBox) {
-        let element = _XMLElement(key: key, value: object.description)
+        let element = _XMLElement(key: key, value: object.xmlString)
         parentElement.children[key] = (parentElement.children[key] ?? []) + [element]
     }
     
     fileprivate static func createElement(parentElement: _XMLElement, key: String, object: SignedIntegerBox) {
-        let element = _XMLElement(key: key, value: object.description)
+        let element = _XMLElement(key: key, value: object.xmlString)
         parentElement.children[key] = (parentElement.children[key] ?? []) + [element]
     }
     
     fileprivate static func createElement(parentElement: _XMLElement, key: String, object: UnsignedIntegerBox) {
-        let element = _XMLElement(key: key, value: object.description)
+        let element = _XMLElement(key: key, value: object.xmlString)
         parentElement.children[key] = (parentElement.children[key] ?? []) + [element]
     }
     
     fileprivate static func createElement(parentElement: _XMLElement, key: String, object: FloatingPointBox) {
-        let element = _XMLElement(key: key, value: object.description)
+        let element = _XMLElement(key: key, value: object.xmlString)
         parentElement.children[key] = (parentElement.children[key] ?? []) + [element]
     }
     
     fileprivate static func createElement(parentElement: _XMLElement, key: String, object: StringBox) {
-        let element = _XMLElement(key: key, value: object.description)
+        let element = _XMLElement(key: key, value: object.xmlString)
         parentElement.children[key] = (parentElement.children[key] ?? []) + [element]
     }
     

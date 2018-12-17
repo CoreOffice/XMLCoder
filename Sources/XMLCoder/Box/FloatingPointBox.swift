@@ -12,6 +12,10 @@ internal class FloatingPointBox {
     
     let unboxed: Unboxed
     
+    var xmlString: String {
+        return self.unboxed.description
+    }
+    
     init<Float: BinaryFloatingPoint>(_ unboxed: Float) {
         self.unboxed = Unboxed(unboxed)
     }

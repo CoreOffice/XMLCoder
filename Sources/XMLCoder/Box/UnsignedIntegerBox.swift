@@ -12,6 +12,10 @@ internal class UnsignedIntegerBox {
     
     let unboxed: Unboxed
     
+    var xmlString: String {
+        return self.unboxed.description
+    }
+    
     init<Integer: UnsignedInteger>(_ unboxed: Integer) {
         self.unboxed = Unboxed(unboxed)
     }

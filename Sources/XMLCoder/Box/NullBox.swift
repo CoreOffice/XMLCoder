@@ -8,7 +8,9 @@
 import Foundation
 
 internal class NullBox {
-    static let shared: NullBox = .init()
+    var xmlString: String {
+        return ""
+    }
     
     init() {
         

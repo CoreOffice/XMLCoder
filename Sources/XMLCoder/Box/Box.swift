@@ -93,6 +93,56 @@ internal enum Box {
         return box
     }
     
+    var xmlString: String {
+        switch self {
+        case .null(let box): return box.xmlString
+        case .bool(let box): return box.xmlString
+        case .decimal(let box): return box.xmlString
+        case .signedInteger(let box): return box.xmlString
+        case .unsignedInteger(let box): return box.xmlString
+        case .floatingPoint(let box): return box.xmlString
+        case .string(let box): return box.xmlString
+        case .array(let box): return box.xmlString
+        case .dictionary(let box): return box.xmlString
+        }
+    }
+    
+    init() {
+        self = .null(.init())
+    }
+    
+    init(_ unboxed: Bool) {
+        self = .bool(.init(unboxed))
+    }
+    
+    init(_ unboxed: Decimal) {
+        self = .decimal(.init(unboxed))
+    }
+    
+    init<Integer: SignedInteger>(_ unboxed: Integer) {
+        self = .signedInteger(.init(unboxed))
+    }
+    
+    init<Integer: UnsignedInteger>(_ unboxed: Integer) {
+        self = .unsignedInteger(.init(unboxed))
+    }
+    
+    init<Float: BinaryFloatingPoint>(_ unboxed: Float) {
+        self = .floatingPoint(.init(unboxed))
+    }
+    
+    init(_ unboxed: String) {
+        self = .string(.init(unboxed))
+    }
+    
+    init(_ unboxed: [Box]) {
+        self = .array(.init(unboxed))
+    }
+    
+    init(_ unboxed: [String: Box]) {
+        self = .dictionary(.init(unboxed))
+    }
+    
     internal func unbox() throws -> Bool? {
         switch self {
         case .bool(let box): return box.unbox()
@@ -141,42 +191,6 @@ internal enum Box {
         case .dictionary(let box): return box.unbox()
         case _: return nil
         }
-    }
-    
-    init() {
-        self = .null(.shared)
-    }
-    
-    init(_ unboxed: Bool) {
-        self = .bool(.init(unboxed))
-    }
-    
-    init(_ unboxed: Decimal) {
-        self = .decimal(.init(unboxed))
-    }
-    
-    init<Integer: SignedInteger>(_ unboxed: Integer) {
-        self = .signedInteger(.init(unboxed))
-    }
-    
-    init<Integer: UnsignedInteger>(_ unboxed: Integer) {
-        self = .unsignedInteger(.init(unboxed))
-    }
-    
-    init<Float: BinaryFloatingPoint>(_ unboxed: Float) {
-        self = .floatingPoint(.init(unboxed))
-    }
-    
-    init(_ unboxed: String) {
-        self = .string(.init(unboxed))
-    }
-    
-    init(_ unboxed: [Box]) {
-        self = .array(.init(unboxed))
-    }
-    
-    init(_ unboxed: [String: Box]) {
-        self = .dictionary(.init(unboxed))
     }
 }
 
