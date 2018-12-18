@@ -75,37 +75,37 @@ internal class _XMLElement {
     
     fileprivate static func createElement(parentElement: _XMLElement, key: String, object: NullBox) {
         let element = _XMLElement(key: key)
-        parentElement.children[key] = (parentElement.children[key] ?? []) + [element]
+        parentElement.children[key, default: []].append(element)
     }
     
     fileprivate static func createElement(parentElement: _XMLElement, key: String, object: BoolBox) {
         let element = _XMLElement(key: key, value: object.xmlString)
-        parentElement.children[key] = (parentElement.children[key] ?? []) + [element]
+        parentElement.children[key, default: []].append(element)
     }
     
     fileprivate static func createElement(parentElement: _XMLElement, key: String, object: DecimalBox) {
         let element = _XMLElement(key: key, value: object.xmlString)
-        parentElement.children[key] = (parentElement.children[key] ?? []) + [element]
+        parentElement.children[key, default: []].append(element)
     }
     
     fileprivate static func createElement(parentElement: _XMLElement, key: String, object: SignedIntegerBox) {
         let element = _XMLElement(key: key, value: object.xmlString)
-        parentElement.children[key] = (parentElement.children[key] ?? []) + [element]
+        parentElement.children[key, default: []].append(element)
     }
     
     fileprivate static func createElement(parentElement: _XMLElement, key: String, object: UnsignedIntegerBox) {
         let element = _XMLElement(key: key, value: object.xmlString)
-        parentElement.children[key] = (parentElement.children[key] ?? []) + [element]
+        parentElement.children[key, default: []].append(element)
     }
     
     fileprivate static func createElement(parentElement: _XMLElement, key: String, object: FloatingPointBox) {
         let element = _XMLElement(key: key, value: object.xmlString)
-        parentElement.children[key] = (parentElement.children[key] ?? []) + [element]
+        parentElement.children[key, default: []].append(element)
     }
     
     fileprivate static func createElement(parentElement: _XMLElement, key: String, object: StringBox) {
         let element = _XMLElement(key: key, value: object.xmlString)
-        parentElement.children[key] = (parentElement.children[key] ?? []) + [element]
+        parentElement.children[key, default: []].append(element)
     }
     
     fileprivate static func createElement(parentElement: _XMLElement, key: String, object: ArrayBox) {
