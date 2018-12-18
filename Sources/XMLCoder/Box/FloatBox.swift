@@ -16,6 +16,13 @@ internal struct FloatBox: Equatable {
         self.unboxed = Unboxed(unboxed)
     }
     
+    init?(string: String) {
+        guard let unboxed = Unboxed(string) else {
+            return nil
+        }
+        self.init(unboxed)
+    }
+    
     func unbox<Float: BinaryFloatingPoint>() -> Float? {
         return Float(exactly: self.unboxed)
     }

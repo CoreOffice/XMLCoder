@@ -74,29 +74,9 @@ extension DictionaryBox: Box {
     
     var xmlString: String? {
         return nil
-        
-//        let elements = self.unboxed.sorted { $0.0 < $1.0 }
-//        let strings: [String] = elements.compactMap { key, box in
-//            switch box {
-//            case .string(let box):
-//                return "'\(key)': '\(box.xmlString)'"
-//            case _:
-//                if let value = box.xmlString {
-//                    return "'\(key)': \(value)"
-//                } else {
-//                    return nil
-//                }
-//            }
-//        }
-//        return "[" + strings.joined(separator: ", ") + "]"
     }
 }
 
-//extension DictionaryBox: Equatable {
-//    static func == (lhs: DictionaryBox, rhs: DictionaryBox) -> Bool {
-//        return lhs.unboxed == rhs.unboxed
-//    }
-//}
 
 extension DictionaryBox: CustomStringConvertible {
     var description: String {

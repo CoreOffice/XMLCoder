@@ -16,6 +16,13 @@ internal struct IntBox: Equatable {
         self.unboxed = Unboxed(unboxed)
     }
     
+    init?(string: String) {
+        guard let unboxed = Unboxed(string) else {
+            return nil
+        }
+        self.init(unboxed)
+    }
+    
     func unbox<Integer: BinaryInteger>() -> Integer? {
         return Integer(exactly: self.unboxed)
     }

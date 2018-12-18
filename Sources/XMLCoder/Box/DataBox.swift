@@ -1,14 +1,14 @@
 //
-//  DecimalBox.swift
+//  DataBox.swift
 //  XMLCoder
 //
-//  Created by Vincent Esche on 12/17/18.
+//  Created by Vincent Esche on 12/19/18.
 //
 
 import Foundation
 
-internal struct DecimalBox: Equatable {
-    typealias Unboxed = Decimal
+internal struct DataBox: Equatable {
+    typealias Unboxed = Data
     
     let unboxed: Unboxed
     
@@ -16,11 +16,11 @@ internal struct DecimalBox: Equatable {
         self.unboxed = unboxed
     }
     
-    init?(string: String) {
-        guard let unboxed = Unboxed(string: string) else {
+    init?(base64 string: String) {
+        guard let data = Data(base64Encoded: string) else {
             return nil
         }
-        self.init(unboxed)
+        self.init(data)
     }
     
     func unbox() -> Unboxed {
@@ -28,7 +28,7 @@ internal struct DecimalBox: Equatable {
     }
 }
 
-extension DecimalBox: Box {
+extension DataBox: Box {
     var isNull: Bool {
         return false
     }
@@ -42,7 +42,7 @@ extension DecimalBox: Box {
     }
 }
 
-extension DecimalBox: CustomStringConvertible {
+extension DataBox: CustomStringConvertible {
     var description: String {
         return self.unboxed.description
     }

@@ -64,7 +64,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         decoder.codingPath.append(_XMLKey(index: currentIndex))
         defer { self.decoder.codingPath.removeLast() }
 
-        guard let decoded = try self.decoder.unbox(self.container[self.currentIndex], as: Bool.self) else {
+        guard let decoded: Bool = try self.decoder.unbox(self.container[self.currentIndex]) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
         }
 
@@ -80,7 +80,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         decoder.codingPath.append(_XMLKey(index: currentIndex))
         defer { self.decoder.codingPath.removeLast() }
 
-        guard let decoded = try self.decoder.unbox(self.container[self.currentIndex], as: Int.self) else {
+        guard let decoded: Int = try self.decoder.unbox(self.container[self.currentIndex]) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
         }
 
@@ -96,7 +96,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         decoder.codingPath.append(_XMLKey(index: currentIndex))
         defer { self.decoder.codingPath.removeLast() }
 
-        guard let decoded = try self.decoder.unbox(self.container[self.currentIndex], as: Int8.self) else {
+        guard let decoded: Int8 = try self.decoder.unbox(self.container[self.currentIndex]) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
         }
 
@@ -112,7 +112,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         decoder.codingPath.append(_XMLKey(index: currentIndex))
         defer { self.decoder.codingPath.removeLast() }
 
-        guard let decoded = try self.decoder.unbox(self.container[self.currentIndex], as: Int16.self) else {
+        guard let decoded: Int16 = try self.decoder.unbox(self.container[self.currentIndex]) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
         }
 
@@ -128,7 +128,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         decoder.codingPath.append(_XMLKey(index: currentIndex))
         defer { self.decoder.codingPath.removeLast() }
 
-        guard let decoded = try self.decoder.unbox(self.container[self.currentIndex], as: Int32.self) else {
+        guard let decoded: Int32 = try self.decoder.unbox(self.container[self.currentIndex]) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
         }
 
@@ -144,7 +144,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         decoder.codingPath.append(_XMLKey(index: currentIndex))
         defer { self.decoder.codingPath.removeLast() }
 
-        guard let decoded = try self.decoder.unbox(self.container[self.currentIndex], as: Int64.self) else {
+        guard let decoded: Int64 = try self.decoder.unbox(self.container[self.currentIndex]) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
         }
 
@@ -160,7 +160,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         decoder.codingPath.append(_XMLKey(index: currentIndex))
         defer { self.decoder.codingPath.removeLast() }
 
-        guard let decoded = try self.decoder.unbox(self.container[self.currentIndex], as: UInt.self) else {
+        guard let decoded: UInt = try self.decoder.unbox(self.container[self.currentIndex]) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
         }
 
@@ -176,7 +176,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         decoder.codingPath.append(_XMLKey(index: currentIndex))
         defer { self.decoder.codingPath.removeLast() }
 
-        guard let decoded = try self.decoder.unbox(self.container[self.currentIndex], as: UInt8.self) else {
+        guard let decoded: UInt8 = try self.decoder.unbox(self.container[self.currentIndex]) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
         }
 
@@ -192,7 +192,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         decoder.codingPath.append(_XMLKey(index: currentIndex))
         defer { self.decoder.codingPath.removeLast() }
 
-        guard let decoded = try self.decoder.unbox(self.container[self.currentIndex], as: UInt16.self) else {
+        guard let decoded: UInt16 = try self.decoder.unbox(self.container[self.currentIndex]) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
         }
 
@@ -208,7 +208,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         decoder.codingPath.append(_XMLKey(index: currentIndex))
         defer { self.decoder.codingPath.removeLast() }
 
-        guard let decoded = try self.decoder.unbox(self.container[self.currentIndex], as: UInt32.self) else {
+        guard let decoded: UInt32 = try self.decoder.unbox(self.container[self.currentIndex]) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
         }
 
@@ -224,7 +224,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         decoder.codingPath.append(_XMLKey(index: currentIndex))
         defer { self.decoder.codingPath.removeLast() }
 
-        guard let decoded = try self.decoder.unbox(self.container[self.currentIndex], as: UInt64.self) else {
+        guard let decoded: UInt64 = try self.decoder.unbox(self.container[self.currentIndex]) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
         }
 
@@ -240,7 +240,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         decoder.codingPath.append(_XMLKey(index: currentIndex))
         defer { self.decoder.codingPath.removeLast() }
 
-        guard let decoded = try self.decoder.unbox(self.container[self.currentIndex], as: Float.self) else {
+        guard let decoded: Float = try self.decoder.unbox(self.container[self.currentIndex]) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
         }
 
@@ -256,7 +256,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         decoder.codingPath.append(_XMLKey(index: currentIndex))
         defer { self.decoder.codingPath.removeLast() }
 
-        guard let decoded = try self.decoder.unbox(self.container[self.currentIndex], as: Double.self) else {
+        guard let decoded: Double = try self.decoder.unbox(self.container[self.currentIndex]) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
         }
 
@@ -272,7 +272,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         decoder.codingPath.append(_XMLKey(index: currentIndex))
         defer { self.decoder.codingPath.removeLast() }
 
-        guard let decoded = try self.decoder.unbox(self.container[self.currentIndex], as: String.self) else {
+        guard let decoded: String = try self.decoder.unbox(self.container[self.currentIndex]) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
         }
 
@@ -288,7 +288,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         decoder.codingPath.append(_XMLKey(index: currentIndex))
         defer { self.decoder.codingPath.removeLast() }
 
-        guard let decoded = try self.decoder.unbox(self.container[self.currentIndex], as: type) else {
+        guard let decoded: T = try self.decoder.unbox(self.container[self.currentIndex]) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
         }
 

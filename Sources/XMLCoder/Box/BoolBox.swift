@@ -16,6 +16,14 @@ internal struct BoolBox: Equatable {
         self.unboxed = unboxed
     }
     
+    init?(string: String) {
+        switch string {
+        case "false", "0": self.init(false)
+        case "true", "1": self.init(true)
+        case _: return nil
+        }
+    }
+    
     func unbox() -> Unboxed {
         return self.unboxed
     }
