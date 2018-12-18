@@ -12,16 +12,26 @@ internal struct SignedIntegerBox: Equatable {
     
     let unboxed: Unboxed
     
-    var xmlString: String {
-        return self.unboxed.description
-    }
-    
     init<Integer: SignedInteger>(_ unboxed: Integer) {
         self.unboxed = Unboxed(unboxed)
     }
     
     func unbox<Integer: BinaryInteger>() -> Integer? {
         return Integer(exactly: self.unboxed)
+    }
+}
+
+extension SignedIntegerBox: Box {
+    var isNull: Bool {
+        return false
+    }
+    
+    var isFragment: Bool {
+        return true
+    }
+    
+    var xmlString: String? {
+        return self.unboxed.description
     }
 }
 

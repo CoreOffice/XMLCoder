@@ -12,16 +12,26 @@ internal struct StringBox: Equatable {
     
     let unboxed: Unboxed
     
-    var xmlString: String {
-        return self.unboxed.description
-    }
-    
     init(_ unboxed: Unboxed) {
         self.unboxed = unboxed
     }
     
     func unbox() -> Unboxed {
         return self.unboxed
+    }
+}
+
+extension StringBox: Box {
+    var isNull: Bool {
+        return false
+    }
+    
+    var isFragment: Bool {
+        return true
+    }
+    
+    var xmlString: String? {
+        return self.unboxed.description
     }
 }
 

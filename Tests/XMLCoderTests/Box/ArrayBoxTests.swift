@@ -9,14 +9,17 @@ import XCTest
 @testable import XMLCoder
 
 class ArrayBoxTests: XCTestCase {
-    lazy var box = ArrayBox([Box("foo"), Box(42)])
+    lazy var box = ArrayBox([StringBox("foo"), SignedIntegerBox(42)])
     
     func testUnbox() {
-        XCTAssertEqual(box.unbox(), [Box("foo"), Box(42)])
+        let unboxed = box.unbox()
+        XCTAssertEqual(unboxed.count, 2)
+        XCTAssertEqual(unboxed[0] as? StringBox, StringBox("foo"))
+        XCTAssertEqual(unboxed[1] as? SignedIntegerBox, SignedIntegerBox(42))
     }
     
     func testXMLString() {
-        XCTAssertEqual(box.xmlString, "['foo', 42]")
+        XCTAssertEqual(box.xmlString, nil)
     }
     
     func testDescription() {

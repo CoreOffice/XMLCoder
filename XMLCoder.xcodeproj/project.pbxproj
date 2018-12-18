@@ -39,7 +39,6 @@
 		BF9457BC21CBB4DB005ACFDE /* XMLElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457B621CBB4DB005ACFDE /* XMLElement.swift */; };
 		BF9457C821CBB516005ACFDE /* BoolBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457BE21CBB516005ACFDE /* BoolBoxTests.swift */; };
 		BF9457C921CBB516005ACFDE /* DictionaryBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457BF21CBB516005ACFDE /* DictionaryBoxTests.swift */; };
-		BF9457CA21CBB516005ACFDE /* BoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457C021CBB516005ACFDE /* BoxTests.swift */; };
 		BF9457CB21CBB516005ACFDE /* DecimalBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457C121CBB516005ACFDE /* DecimalBoxTests.swift */; };
 		BF9457CC21CBB516005ACFDE /* NullBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457C221CBB516005ACFDE /* NullBoxTests.swift */; };
 		BF9457CD21CBB516005ACFDE /* FloatingPointBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457C321CBB516005ACFDE /* FloatingPointBoxTests.swift */; };
@@ -111,7 +110,6 @@
 		BF9457B621CBB4DB005ACFDE /* XMLElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLElement.swift; sourceTree = "<group>"; };
 		BF9457BE21CBB516005ACFDE /* BoolBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoolBoxTests.swift; sourceTree = "<group>"; };
 		BF9457BF21CBB516005ACFDE /* DictionaryBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryBoxTests.swift; sourceTree = "<group>"; };
-		BF9457C021CBB516005ACFDE /* BoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoxTests.swift; sourceTree = "<group>"; };
 		BF9457C121CBB516005ACFDE /* DecimalBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecimalBoxTests.swift; sourceTree = "<group>"; };
 		BF9457C221CBB516005ACFDE /* NullBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NullBoxTests.swift; sourceTree = "<group>"; };
 		BF9457C321CBB516005ACFDE /* FloatingPointBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingPointBoxTests.swift; sourceTree = "<group>"; };
@@ -203,7 +201,6 @@
 			children = (
 				BF9457BE21CBB516005ACFDE /* BoolBoxTests.swift */,
 				BF9457BF21CBB516005ACFDE /* DictionaryBoxTests.swift */,
-				BF9457C021CBB516005ACFDE /* BoxTests.swift */,
 				BF9457C121CBB516005ACFDE /* DecimalBoxTests.swift */,
 				BF9457C221CBB516005ACFDE /* NullBoxTests.swift */,
 				BF9457C321CBB516005ACFDE /* FloatingPointBoxTests.swift */,
@@ -445,7 +442,6 @@
 				OBJ_81 /* BreakfastTest.swift in Sources */,
 				OBJ_82 /* CDCatalog.swift in Sources */,
 				BF9457CC21CBB516005ACFDE /* NullBoxTests.swift in Sources */,
-				BF9457CA21CBB516005ACFDE /* BoxTests.swift in Sources */,
 				BF9457CF21CBB516005ACFDE /* SignedIntegerBoxTests.swift in Sources */,
 				OBJ_83 /* CDTest.swift in Sources */,
 				OBJ_84 /* DictionaryTest.swift in Sources */,

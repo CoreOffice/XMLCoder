@@ -12,16 +12,26 @@ internal struct FloatingPointBox: Equatable {
     
     let unboxed: Unboxed
     
-    var xmlString: String {
-        return self.unboxed.description
-    }
-    
     init<Float: BinaryFloatingPoint>(_ unboxed: Float) {
         self.unboxed = Unboxed(unboxed)
     }
     
     func unbox<Float: BinaryFloatingPoint>() -> Float? {
         return Float(exactly: self.unboxed)
+    }
+}
+
+extension FloatingPointBox: Box {
+    var isNull: Bool {
+        return false
+    }
+    
+    var isFragment: Bool {
+        return true
+    }
+    
+    var xmlString: String? {
+        return self.unboxed.description
     }
 }
 

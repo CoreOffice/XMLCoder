@@ -40,32 +40,20 @@ internal class _XMLElement {
     }
     
     fileprivate static func modifyElement(element: _XMLElement, parentElement: _XMLElement?, key: String?, object: DictionaryBox) {
-        let attributesBox = object[_XMLElement.attributesKey]?.dictionary
-        element.attributes = attributesBox?.unbox().mapValues { $0.xmlString } ?? [:]
+        let attributesBox = object[_XMLElement.attributesKey] as? DictionaryBox
+        let uniqueAttributes: [(String, String)]? = attributesBox?.unbox().compactMap { key, box in
+            if let value = box.xmlString {
+                return (key, value)
+            } else {
+                return nil
+            }
+        }
+        element.attributes = uniqueAttributes.map { Dictionary(uniqueKeysWithValues: $0) } ?? [:]
         
         let objects = object.filter { key, _value in key != _XMLElement.attributesKey }
         
         for (key, box) in objects {
-            switch box {
-            case .null(let box):
-                _XMLElement.createElement(parentElement: element, key: key, object: box)
-            case .bool(let box):
-                _XMLElement.createElement(parentElement: element, key: key, object: box)
-            case .decimal(let box):
-                _XMLElement.createElement(parentElement: element, key: key, object: box)
-            case .signedInteger(let box):
-                _XMLElement.createElement(parentElement: element, key: key, object: box)
-            case .unsignedInteger(let box):
-                _XMLElement.createElement(parentElement: element, key: key, object: box)
-            case .floatingPoint(let box):
-                _XMLElement.createElement(parentElement: element, key: key, object: box)
-            case .string(let box):
-                _XMLElement.createElement(parentElement: element, key: key, object: box)
-            case .array(let box):
-                _XMLElement.createElement(parentElement: element, key: key, object: box)
-            case .dictionary(let box):
-                _XMLElement.createElement(parentElement: element, key: key, object: box)
-            }
+            _XMLElement.createElement(parentElement: element, key: key, object: box)
         }
         
         if let parentElement = parentElement, let key = key {
@@ -73,102 +61,49 @@ internal class _XMLElement {
         }
     }
     
-    fileprivate static func createElement(parentElement: _XMLElement, key: String, object: NullBox) {
-        let element = _XMLElement(key: key)
-        parentElement.children[key, default: []].append(element)
-    }
-    
-    fileprivate static func createElement(parentElement: _XMLElement, key: String, object: BoolBox) {
-        let element = _XMLElement(key: key, value: object.xmlString)
-        parentElement.children[key, default: []].append(element)
-    }
-    
-    fileprivate static func createElement(parentElement: _XMLElement, key: String, object: DecimalBox) {
-        let element = _XMLElement(key: key, value: object.xmlString)
-        parentElement.children[key, default: []].append(element)
-    }
-    
-    fileprivate static func createElement(parentElement: _XMLElement, key: String, object: SignedIntegerBox) {
-        let element = _XMLElement(key: key, value: object.xmlString)
-        parentElement.children[key, default: []].append(element)
-    }
-    
-    fileprivate static func createElement(parentElement: _XMLElement, key: String, object: UnsignedIntegerBox) {
-        let element = _XMLElement(key: key, value: object.xmlString)
-        parentElement.children[key, default: []].append(element)
-    }
-    
-    fileprivate static func createElement(parentElement: _XMLElement, key: String, object: FloatingPointBox) {
-        let element = _XMLElement(key: key, value: object.xmlString)
-        parentElement.children[key, default: []].append(element)
-    }
-    
-    fileprivate static func createElement(parentElement: _XMLElement, key: String, object: StringBox) {
-        let element = _XMLElement(key: key, value: object.xmlString)
-        parentElement.children[key, default: []].append(element)
-    }
-    
-    fileprivate static func createElement(parentElement: _XMLElement, key: String, object: ArrayBox) {
-        let objects = object.unbox()
-        
-        for box in objects {
-            switch box {
-            case .null(let box):
-                _XMLElement.createElement(parentElement: parentElement, key: key, object: box)
-            case .bool(let box):
-                _XMLElement.createElement(parentElement: parentElement, key: key, object: box)
-            case .decimal(let box):
-                _XMLElement.createElement(parentElement: parentElement, key: key, object: box)
-            case .signedInteger(let box):
-                _XMLElement.createElement(parentElement: parentElement, key: key, object: box)
-            case .unsignedInteger(let box):
-                _XMLElement.createElement(parentElement: parentElement, key: key, object: box)
-            case .floatingPoint(let box):
-                _XMLElement.createElement(parentElement: parentElement, key: key, object: box)
-            case .string(let box):
-                _XMLElement.createElement(parentElement: parentElement, key: key, object: box)
-            case .array(let box):
-                _XMLElement.createElement(parentElement: parentElement, key: key, object: box)
-            case .dictionary(let box):
+    fileprivate static func createElement(parentElement: _XMLElement, key: String, object: Box) {
+        switch object {
+        case let box as ArrayBox:
+            for box in box.unbox() {
                 _XMLElement.createElement(parentElement: parentElement, key: key, object: box)
             }
+        case let box as DictionaryBox:
+            modifyElement(element: _XMLElement(key: key), parentElement: parentElement, key: key, object: box)
+        case _:
+            let element = _XMLElement(key: key, value: object.xmlString)
+            parentElement.children[key, default: []].append(element)
         }
-    }
-    
-    fileprivate static func createElement(parentElement: _XMLElement?, key: String, object: DictionaryBox) {
-        let element = _XMLElement(key: key)
         
-        modifyElement(element: element, parentElement: parentElement, key: key, object: object)
     }
     
     internal func flatten() -> [String: Box] {
-        var node: [String: Box] = attributes.mapValues { Box($0) }
+        var node: [String: Box] = attributes.mapValues { StringBox($0) }
         
         for childElement in children {
             for child in childElement.value {
                 if let content = child.value {
-                    if let oldContent = node[childElement.key]?.array {
-                        oldContent.append(Box(content))
+                    if let oldContent = node[childElement.key] as? ArrayBox {
+                        oldContent.append(StringBox(content))
                         // FIXME: Box is a reference type, so this shouldn't be necessary:
-                        node[childElement.key] = Box.array(oldContent)
+                        node[childElement.key] = oldContent
                     } else if let oldContent = node[childElement.key] {
-                        node[childElement.key] = Box([oldContent, Box(content)])
+                        node[childElement.key] = ArrayBox([oldContent, StringBox(content)])
                     } else {
-                        node[childElement.key] = Box(content)
+                        node[childElement.key] = StringBox(content)
                     }
                 } else if !child.children.isEmpty || !child.attributes.isEmpty {
                     let newValue = child.flatten()
                     
                     if let existingValue = node[childElement.key] {
-                        if let array = existingValue.array {
-                            array.append(Box(newValue))
+                        if let array = existingValue as? ArrayBox {
+                            array.append(DictionaryBox(newValue))
                             // FIXME: Box is a reference type, so this shouldn't be necessary:
-                            node[childElement.key] = Box.array(array)
+                            node[childElement.key] = array
                         } else {
-                            node[childElement.key] = Box([existingValue, Box(newValue)])
+                            node[childElement.key] = ArrayBox([existingValue, DictionaryBox(newValue)])
                         }
                     } else {
-                        node[childElement.key] = Box(newValue)
+                        node[childElement.key] = DictionaryBox(newValue)
                     }
                 }
             }

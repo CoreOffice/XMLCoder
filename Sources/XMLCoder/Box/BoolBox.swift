@@ -12,16 +12,26 @@ internal struct BoolBox: Equatable {
     
     let unboxed: Unboxed
     
-    var xmlString: String {
-        return self.unboxed.description
-    }
-    
     init(_ unboxed: Unboxed) {
         self.unboxed = unboxed
     }
     
     func unbox() -> Unboxed {
         return self.unboxed
+    }
+}
+
+extension BoolBox: Box {
+    var isNull: Bool {
+        return false
+    }
+    
+    var isFragment: Bool {
+        return true
+    }
+    
+    var xmlString: String? {
+        return self.unboxed.description
     }
 }
 

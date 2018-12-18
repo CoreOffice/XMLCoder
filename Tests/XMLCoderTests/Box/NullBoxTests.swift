@@ -11,6 +11,11 @@ import XCTest
 class NullBoxTests: XCTestCase {
     func testXMLString() {
         let box = NullBox()
-        XCTAssertEqual(box.xmlString, "")
+        XCTAssertEqual(box.xmlString, nil)
+    }
+    
+    func testDescription() {
+        let box = NullBox()
+        XCTAssertEqual(box.description, "null")
     }
 }

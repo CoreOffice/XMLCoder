@@ -47,7 +47,7 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
     // MARK: - KeyedEncodingContainerProtocol Methods
     
     public mutating func encodeNil(forKey key: Key) throws {
-        self.container[_converted(key).stringValue] = Box()
+        self.container[_converted(key).stringValue] = NullBox()
     }
     
     public mutating func encode(_ value: Bool, forKey key: Key) throws {
@@ -58,12 +58,12 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
         }
         switch strategy(key) {
         case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey]?.dictionary {
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? DictionaryBox {
                 attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
             } else {
                 let attributesContainer = DictionaryBox()
                 attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-                self.container[_XMLElement.attributesKey] = Box.dictionary(attributesContainer)
+                self.container[_XMLElement.attributesKey] = attributesContainer
             }
         case .element:
             self.container[_converted(key).stringValue] = self.encoder.box(value)
@@ -78,12 +78,12 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
         }
         switch strategy(key) {
         case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey]?.dictionary {
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? DictionaryBox {
                 attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
             } else {
                 let attributesContainer = DictionaryBox()
                 attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
-                self.container[_XMLElement.attributesKey] = Box.dictionary(attributesContainer)
+                self.container[_XMLElement.attributesKey] = attributesContainer
             }
         case .element:
             self.container[_converted(key).stringValue] = try self.encoder.box(value)
@@ -98,12 +98,12 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
         }
         switch strategy(key) {
         case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey]?.dictionary {
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? DictionaryBox {
                 attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
             } else {
                 let attributesContainer = DictionaryBox()
                 attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-                self.container[_XMLElement.attributesKey] = Box.dictionary(attributesContainer)
+                self.container[_XMLElement.attributesKey] = attributesContainer
             }
         case .element:
             self.container[_converted(key).stringValue] = self.encoder.box(value)
@@ -126,12 +126,12 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
         }
         switch strategy(key) {
         case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey]?.dictionary {
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? DictionaryBox {
                 attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
             } else {
                 let attributesContainer = DictionaryBox()
                 attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
-                self.container[_XMLElement.attributesKey] = Box.dictionary(attributesContainer)
+                self.container[_XMLElement.attributesKey] = attributesContainer
             }
         case .element:
             self.container[_converted(key).stringValue] = try self.encoder.box(value)
@@ -154,12 +154,12 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
         }
         switch strategy(key) {
         case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey]?.dictionary {
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? DictionaryBox {
                 attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
             } else {
                 let attributesContainer = DictionaryBox()
                 attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
-                self.container[_XMLElement.attributesKey] = Box.dictionary(attributesContainer)
+                self.container[_XMLElement.attributesKey] = attributesContainer
             }
         case .element:
             self.container[_converted(key).stringValue] = try self.encoder.box(value)
@@ -168,7 +168,7 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
     
     public mutating func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type, forKey key: Key) -> KeyedEncodingContainer<NestedKey> {
         let dictionary = DictionaryBox()
-        self.container[_converted(key).stringValue] = Box.dictionary(dictionary)
+        self.container[_converted(key).stringValue] = dictionary
         
         self.codingPath.append(key)
         defer { self.codingPath.removeLast() }
@@ -179,7 +179,7 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
     
     public mutating func nestedUnkeyedContainer(forKey key: Key) -> UnkeyedEncodingContainer {
         let array = ArrayBox()
-        self.container[_converted(key).stringValue] = Box.array(array)
+        self.container[_converted(key).stringValue] = array
         
         self.codingPath.append(key)
         defer { self.codingPath.removeLast() }

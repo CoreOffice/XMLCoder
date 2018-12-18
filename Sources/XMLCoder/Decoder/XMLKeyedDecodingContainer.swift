@@ -333,7 +333,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
                                                                   debugDescription: "Cannot get \(KeyedDecodingContainer<NestedKey>.self) -- no value found for key \"\(key.stringValue)\""))
         }
 
-        guard let dictionary = value.dictionary else {
+        guard let dictionary = value as? DictionaryBox else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: [String: Any].self, reality: value)
         }
 
@@ -351,7 +351,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
                                                                   debugDescription: "Cannot get UnkeyedDecodingContainer -- no value found for key \"\(key.stringValue)\""))
         }
 
-        guard let array = value.array else {
+        guard let array = value as? ArrayBox else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: [Any].self, reality: value)
         }
 
@@ -362,7 +362,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
         decoder.codingPath.append(key)
         defer { decoder.codingPath.removeLast() }
 
-        let box: Box = container[key.stringValue] ?? Box()
+        let box: Box = container[key.stringValue] ?? NullBox()
         return _XMLDecoder(referencing: box, at: decoder.codingPath, options: decoder.options)
     }
 

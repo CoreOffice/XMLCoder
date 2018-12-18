@@ -69,7 +69,7 @@ internal struct _XMLUnkeyedEncodingContainer : UnkeyedEncodingContainer {
         defer { self.codingPath.removeLast() }
         
         let dictionary = DictionaryBox()
-        self.container.append(Box.dictionary(dictionary))
+        self.container.append(dictionary)
         
         let container = _XMLKeyedEncodingContainer<NestedKey>(referencing: self.encoder, codingPath: self.codingPath, wrapping: dictionary)
         return KeyedEncodingContainer(container)
@@ -80,7 +80,7 @@ internal struct _XMLUnkeyedEncodingContainer : UnkeyedEncodingContainer {
         defer { self.codingPath.removeLast() }
         
         let array = ArrayBox()
-        self.container.append(Box.array(array))
+        self.container.append(array)
         
         return _XMLUnkeyedEncodingContainer(referencing: self.encoder, codingPath: self.codingPath, wrapping: array)
     }

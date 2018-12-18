@@ -34,13 +34,13 @@ internal struct _XMLEncodingStorage {
 
     mutating func pushKeyedContainer() -> DictionaryBox {
         let dictionary = DictionaryBox()
-        containers.append(Box.dictionary(dictionary))
+        containers.append(dictionary)
         return dictionary
     }
 
     mutating func pushUnkeyedContainer() -> ArrayBox {
         let array = ArrayBox()
-        containers.append(Box.array(array))
+        containers.append(array)
         return array
     }
 

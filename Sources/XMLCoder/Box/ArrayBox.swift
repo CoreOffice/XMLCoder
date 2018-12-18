@@ -14,18 +14,6 @@ internal class ArrayBox {
     
     private(set) var unboxed: Unboxed
     
-    var xmlString: String {
-        let strings: [String] = self.unboxed.map { box in
-            switch box {
-            case .string(let box):
-                return "'\(box.xmlString)'"
-            case _:
-                return box.xmlString
-            }
-        }
-        return "[" + strings.joined(separator: ", ") + "]"
-    }
-    
     var count: Int {
         return self.unboxed.count
     }
@@ -68,11 +56,44 @@ internal class ArrayBox {
     }
 }
 
-extension ArrayBox: Equatable {
-    static func == (lhs: ArrayBox, rhs: ArrayBox) -> Bool {
-        return lhs.unboxed == rhs.unboxed
+extension ArrayBox: Box {
+    var isNull: Bool {
+        return false
+    }
+    
+    var isFragment: Bool {
+        return false
+    }
+    
+    var xmlString: String? {
+        return nil
+
+//        let strings: [String] = self.unboxed.map { box in
+//            if let xmlString = box.xmlString {
+//
+//            } else {
+//
+//            }
+//            switch box {
+//            case .string(let box):
+//                if let value = box.xmlString {
+//                    return "'\(value)'"
+//                } else {
+//                    return "null"
+//                }
+//            case _:
+//                return box.xmlString
+//            }
+//        }
+//        return "[" + strings.joined(separator: ", ") + "]"
     }
 }
+
+//extension ArrayBox: Equatable {
+//    static func == (lhs: ArrayBox, rhs: ArrayBox) -> Bool {
+//        return lhs.unboxed == rhs.unboxed
+//    }
+//}
 
 extension ArrayBox: CustomStringConvertible {
     var description: String {

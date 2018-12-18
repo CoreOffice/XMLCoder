@@ -84,7 +84,7 @@ internal class _XMLReferencingEncoder: _XMLEncoder {
     deinit {
         let box: Box
         switch self.storage.count {
-        case 0: box = Box([:])
+        case 0: box = DictionaryBox()
         case 1: box = self.storage.popContainer()
         default: fatalError("Referencing encoder deallocated with multiple containers on stack.")
         }

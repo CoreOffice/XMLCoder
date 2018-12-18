@@ -313,7 +313,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
                                                                     debugDescription: "Cannot get keyed decoding container -- found null value instead."))
         }
 
-        guard let dictionary = value.dictionary else {
+        guard let dictionary = value as? DictionaryBox else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: [String: Any].self, reality: value)
         }
 
@@ -339,7 +339,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
                                                                     debugDescription: "Cannot get keyed decoding container -- found null value instead."))
         }
 
-        guard let array = value.array else {
+        guard let array = value as? ArrayBox else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: ArrayBox.self, reality: value)
         }
 

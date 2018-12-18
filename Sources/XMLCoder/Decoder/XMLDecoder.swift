@@ -233,7 +233,7 @@ open class XMLDecoder {
     open func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
         let topLevel: Box
         do {
-            topLevel = Box.dictionary(.init(try _XMLStackParser.parse(with: data)))
+            topLevel = DictionaryBox(try _XMLStackParser.parse(with: data))
         } catch {
             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: "The given data was not valid XML.", underlyingError: error))
         }
@@ -286,7 +286,7 @@ internal class _XMLDecoder: Decoder {
                                                                     debugDescription: "Cannot get keyed decoding container -- found null box instead."))
         }
 
-        guard let dictionary = storage.topContainer.dictionary else {
+        guard let dictionary = storage.topContainer as? DictionaryBox else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: [String: Any].self, reality: storage.topContainer)
         }
 
@@ -303,7 +303,7 @@ internal class _XMLDecoder: Decoder {
 
         let array: ArrayBox
 
-        if let container = storage.topContainer.array {
+        if let container = storage.topContainer as? ArrayBox {
             array = container
         } else {
             array = ArrayBox([storage.topContainer])
@@ -413,7 +413,7 @@ extension _XMLDecoder {
     internal func unbox(_ box: Box, as type: Bool.Type) throws -> Bool? {
         guard !box.isNull else { return nil }
 
-        guard let string = box.string?.unbox() else { return nil }
+        guard let string = (box as? StringBox)?.unbox() else { return nil }
 
         if string == "true" || string == "1" {
             return true
@@ -427,7 +427,7 @@ extension _XMLDecoder {
     internal func unbox(_ box: Box, as type: Int.Type) throws -> Int? {
         guard !box.isNull else { return nil }
 
-        guard let string = box.string?.unbox() else { return nil }
+        guard let string = (box as? StringBox)?.unbox() else { return nil }
 
         guard let box = Float(string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: string)
@@ -450,7 +450,7 @@ extension _XMLDecoder {
     internal func unbox(_ box: Box, as type: Int8.Type) throws -> Int8? {
         guard !box.isNull else { return nil }
 
-        guard let string = box.string?.unbox() else { return nil }
+        guard let string = (box as? StringBox)?.unbox() else { return nil }
 
         guard let box = Float(string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: string)
@@ -473,7 +473,7 @@ extension _XMLDecoder {
     internal func unbox(_ box: Box, as type: Int16.Type) throws -> Int16? {
         guard !box.isNull else { return nil }
 
-        guard let string = box.string?.unbox() else { return nil }
+        guard let string = (box as? StringBox)?.unbox() else { return nil }
 
         guard let box = Float(string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: string)
@@ -496,7 +496,7 @@ extension _XMLDecoder {
     internal func unbox(_ box: Box, as type: Int32.Type) throws -> Int32? {
         guard !box.isNull else { return nil }
 
-        guard let string = box.string?.unbox() else { return nil }
+        guard let string = (box as? StringBox)?.unbox() else { return nil }
 
         guard let box = Float(string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: string)
@@ -519,7 +519,7 @@ extension _XMLDecoder {
     internal func unbox(_ box: Box, as type: Int64.Type) throws -> Int64? {
         guard !box.isNull else { return nil }
 
-        guard let string = box.string?.unbox() else { return nil }
+        guard let string = (box as? StringBox)?.unbox() else { return nil }
 
         guard let box = Float(string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: string)
@@ -542,7 +542,7 @@ extension _XMLDecoder {
     internal func unbox(_ box: Box, as type: UInt.Type) throws -> UInt? {
         guard !box.isNull else { return nil }
 
-        guard let string = box.string?.unbox() else { return nil }
+        guard let string = (box as? StringBox)?.unbox() else { return nil }
 
         guard let box = Float(string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: string)
@@ -565,7 +565,7 @@ extension _XMLDecoder {
     internal func unbox(_ box: Box, as type: UInt8.Type) throws -> UInt8? {
         guard !box.isNull else { return nil }
 
-        guard let string = box.string?.unbox() else { return nil }
+        guard let string = (box as? StringBox)?.unbox() else { return nil }
 
         guard let box = Float(string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: string)
@@ -588,7 +588,7 @@ extension _XMLDecoder {
     internal func unbox(_ box: Box, as type: UInt16.Type) throws -> UInt16? {
         guard !box.isNull else { return nil }
 
-        guard let string = box.string?.unbox() else { return nil }
+        guard let string = (box as? StringBox)?.unbox() else { return nil }
 
         guard let box = Float(string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: string)
@@ -611,7 +611,7 @@ extension _XMLDecoder {
     internal func unbox(_ box: Box, as type: UInt32.Type) throws -> UInt32? {
         guard !box.isNull else { return nil }
 
-        guard let string = box.string?.unbox() else { return nil }
+        guard let string = (box as? StringBox)?.unbox() else { return nil }
 
         guard let box = Float(string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: string)
@@ -634,7 +634,7 @@ extension _XMLDecoder {
     internal func unbox(_ box: Box, as type: UInt64.Type) throws -> UInt64? {
         guard !box.isNull else { return nil }
 
-        guard let string = box.string?.unbox() else { return nil }
+        guard let string = (box as? StringBox)?.unbox() else { return nil }
 
         guard let box = Float(string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: string)
@@ -657,7 +657,7 @@ extension _XMLDecoder {
     internal func unbox(_ box: Box, as type: Float.Type) throws -> Float? {
         guard !box.isNull else { return nil }
 
-        guard let string = box.string?.unbox() else { return nil }
+        guard let string = (box as? StringBox)?.unbox() else { return nil }
 
         if let box = Double(string) {
             let number = NSNumber(value: box)
@@ -688,7 +688,7 @@ extension _XMLDecoder {
     internal func unbox(_ box: Box, as type: Double.Type) throws -> Double? {
         guard !box.isNull else { return nil }
 
-        guard let string = box.string?.unbox() else { return nil }
+        guard let string = (box as? StringBox)?.unbox() else { return nil }
 
         if let number = Decimal(string: string) as NSDecimalNumber? {
             guard number !== kCFBooleanTrue, number !== kCFBooleanFalse else {
@@ -712,7 +712,7 @@ extension _XMLDecoder {
     internal func unbox(_ box: Box, as type: String.Type) throws -> String? {
         guard !box.isNull else { return nil }
 
-        guard let string = box.string?.unbox() else {
+        guard let string = (box as? StringBox)?.unbox() else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
         }
 
@@ -773,7 +773,7 @@ extension _XMLDecoder {
             return try Data(from: self)
 
         case .base64:
-            guard let string = box.string else {
+            guard let string = box as? StringBox else {
                 throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
             }
 

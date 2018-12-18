@@ -281,9 +281,9 @@ open class XMLEncoder {
         
         let elementOrNone: _XMLElement?
         
-        if let dictionary = topLevel.dictionary {
+        if let dictionary = topLevel as? DictionaryBox {
             elementOrNone = _XMLElement.createRootElement(rootKey: rootKey, object: dictionary)
-        } else if let array = topLevel.array {
+        } else if let array = topLevel as? ArrayBox {
             elementOrNone = _XMLElement.createRootElement(rootKey: rootKey, object: array)
         } else {
             fatalError("Unrecognized top-level element.")
@@ -356,7 +356,7 @@ internal class _XMLEncoder: Encoder {
             // We haven't yet pushed a container at this level; do so here.
             topContainer = storage.pushKeyedContainer()
         } else {
-            guard let container = storage.lastContainer?.dictionary else {
+            guard let container = storage.lastContainer as? DictionaryBox else {
                 preconditionFailure("Attempt to push new keyed encoding container when already previously encoded at this path.")
             }
 
@@ -374,7 +374,7 @@ internal class _XMLEncoder: Encoder {
             // We haven't yet pushed a container at this level; do so here.
             topContainer = storage.pushUnkeyedContainer()
         } else {
-            guard let container = storage.lastContainer?.array else {
+            guard let container = storage.lastContainer as? ArrayBox else {
                 preconditionFailure("Attempt to push new unkeyed encoding container when already previously encoded at this path.")
             }
 
@@ -479,20 +479,20 @@ extension _XMLEncoder: SingleValueEncodingContainer {
 
 extension _XMLEncoder {
     /// Returns the given value boxed in a container appropriate for pushing onto the container stack.
-    internal func box()   -> Box { return Box() }
-    internal func box(_ value: Bool)   -> Box { return Box(value) }
-    internal func box(_ value: Decimal) -> Box { return Box(value) }
-    internal func box(_ value: Int)    -> Box { return Box(value) }
-    internal func box(_ value: Int8)   -> Box { return Box(value) }
-    internal func box(_ value: Int16)  -> Box { return Box(value) }
-    internal func box(_ value: Int32)  -> Box { return Box(value) }
-    internal func box(_ value: Int64)  -> Box { return Box(value) }
-    internal func box(_ value: UInt)   -> Box { return Box(value) }
-    internal func box(_ value: UInt8)  -> Box { return Box(value) }
-    internal func box(_ value: UInt16) -> Box { return Box(value) }
-    internal func box(_ value: UInt32) -> Box { return Box(value) }
-    internal func box(_ value: UInt64) -> Box { return Box(value) }
-    internal func box(_ value: String) -> Box { return Box(value) }
+    internal func box()   -> Box { return NullBox() }
+    internal func box(_ value: Bool)   -> Box { return BoolBox(value) }
+    internal func box(_ value: Decimal) -> Box { return DecimalBox(value) }
+    internal func box(_ value: Int)    -> Box { return SignedIntegerBox(value) }
+    internal func box(_ value: Int8)   -> Box { return SignedIntegerBox(value) }
+    internal func box(_ value: Int16)  -> Box { return SignedIntegerBox(value) }
+    internal func box(_ value: Int32)  -> Box { return SignedIntegerBox(value) }
+    internal func box(_ value: Int64)  -> Box { return SignedIntegerBox(value) }
+    internal func box(_ value: UInt)   -> Box { return UnsignedIntegerBox(value) }
+    internal func box(_ value: UInt8)  -> Box { return UnsignedIntegerBox(value) }
+    internal func box(_ value: UInt16) -> Box { return UnsignedIntegerBox(value) }
+    internal func box(_ value: UInt32) -> Box { return UnsignedIntegerBox(value) }
+    internal func box(_ value: UInt64) -> Box { return UnsignedIntegerBox(value) }
+    internal func box(_ value: String) -> Box { return StringBox(value) }
     
     internal func box(_ value: Float) throws -> Box {
         if value.isInfinite || value.isNaN {
@@ -501,14 +501,14 @@ extension _XMLEncoder {
             }
 
             if value == Float.infinity {
-                return Box(posInfString)
+                return StringBox(posInfString)
             } else if value == -Float.infinity {
-                return Box(negInfString)
+                return StringBox(negInfString)
             } else {
-                return Box(nanString)
+                return StringBox(nanString)
             }
         } else {
-            return Box(value)
+            return FloatingPointBox(value)
         }
     }
 
@@ -519,14 +519,14 @@ extension _XMLEncoder {
             }
 
             if value == Double.infinity {
-                return Box(posInfString)
+                return StringBox(posInfString)
             } else if value == -Double.infinity {
-                return Box(negInfString)
+                return StringBox(negInfString)
             } else {
-                return Box(nanString)
+                return StringBox(nanString)
             }
         } else {
-            return Box(value)
+            return FloatingPointBox(value)
         }
     }
 
@@ -536,22 +536,22 @@ extension _XMLEncoder {
             try value.encode(to: self)
             return storage.popContainer()
         case .secondsSince1970:
-            return Box(value.timeIntervalSince1970)
+            return FloatingPointBox(value.timeIntervalSince1970)
         case .millisecondsSince1970:
-            return Box(value.timeIntervalSince1970 * 1000.0)
+            return FloatingPointBox(value.timeIntervalSince1970 * 1000.0)
         case .iso8601:
             if #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
-                return Box(_iso8601Formatter.string(from: value))
+                return StringBox(_iso8601Formatter.string(from: value))
             } else {
                 fatalError("ISO8601DateFormatter is unavailable on this platform.")
             }
         case let .formatted(formatter):
-            return Box(formatter.string(from: value))
+            return StringBox(formatter.string(from: value))
         case let .custom(closure):
             let depth = storage.count
             try closure(value, self)
 
-            guard storage.count > depth else { return Box([:]) }
+            guard storage.count > depth else { return DictionaryBox() }
 
             return storage.popContainer()
         }
@@ -563,19 +563,19 @@ extension _XMLEncoder {
             try value.encode(to: self)
             return storage.popContainer()
         case .base64:
-            return Box(value.base64EncodedString())
+            return StringBox(value.base64EncodedString())
         case let .custom(closure):
             let depth = storage.count
             try closure(value, self)
 
-            guard storage.count > depth else { return Box([:]) }
+            guard storage.count > depth else { return DictionaryBox() }
 
             return storage.popContainer()
         }
     }
     
     internal func box<T : Encodable>(_ value: T) throws -> Box {
-        return try self.box_(value) ?? Box([:])
+        return try self.box_(value) ?? DictionaryBox()
     }
 
     // This method is called "box_" instead of "box" to disambiguate it from the overloads. Because the return type here is different from all of the "box" overloads (and is more general), any "box" calls in here would call back into "box" recursively instead of calling the appropriate overload, which is not what we want.

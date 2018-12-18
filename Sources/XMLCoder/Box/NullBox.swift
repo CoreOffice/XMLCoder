@@ -8,12 +8,20 @@
 import Foundation
 
 internal struct NullBox {
-    var xmlString: String {
-        return ""
+    init() {}
+}
+
+extension NullBox: Box {
+    var isNull: Bool {
+        return true
     }
     
-    init() {
-        
+    var isFragment: Bool {
+        return true
+    }
+    
+    var xmlString: String? {
+        return nil
     }
 }
 
@@ -25,6 +33,6 @@ extension NullBox: Equatable {
 
 extension NullBox: CustomStringConvertible {
     var description: String {
-        return "<null>"
+        return "null"
     }
 }
