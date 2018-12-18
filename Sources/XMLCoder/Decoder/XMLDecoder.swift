@@ -429,11 +429,11 @@ extension _XMLDecoder {
 
         guard let string = (box as? StringBox)?.unbox() else { return nil }
 
-        guard let box = Float(string) else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: string)
+        guard let value = Float(string) else {
+            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
         }
 
-        let number = NSNumber(value: box)
+        let number = NSNumber(value: value)
 
         guard number !== kCFBooleanTrue, number !== kCFBooleanFalse else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
@@ -452,11 +452,11 @@ extension _XMLDecoder {
 
         guard let string = (box as? StringBox)?.unbox() else { return nil }
 
-        guard let box = Float(string) else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: string)
+        guard let value = Float(string) else {
+            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
         }
 
-        let number = NSNumber(value: box)
+        let number = NSNumber(value: value)
 
         guard number !== kCFBooleanTrue, number !== kCFBooleanFalse else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
@@ -475,11 +475,11 @@ extension _XMLDecoder {
 
         guard let string = (box as? StringBox)?.unbox() else { return nil }
 
-        guard let box = Float(string) else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: string)
+        guard let value = Float(string) else {
+            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
         }
 
-        let number = NSNumber(value: box)
+        let number = NSNumber(value: value)
 
         guard number !== kCFBooleanTrue, number !== kCFBooleanFalse else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
@@ -498,11 +498,11 @@ extension _XMLDecoder {
 
         guard let string = (box as? StringBox)?.unbox() else { return nil }
 
-        guard let box = Float(string) else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: string)
+        guard let value = Float(string) else {
+            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
         }
 
-        let number = NSNumber(value: box)
+        let number = NSNumber(value: value)
 
         guard number !== kCFBooleanTrue, number !== kCFBooleanFalse else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
@@ -521,11 +521,11 @@ extension _XMLDecoder {
 
         guard let string = (box as? StringBox)?.unbox() else { return nil }
 
-        guard let box = Float(string) else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: string)
+        guard let value = Float(string) else {
+            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
         }
 
-        let number = NSNumber(value: box)
+        let number = NSNumber(value: value)
 
         guard number !== kCFBooleanTrue, number !== kCFBooleanFalse else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
@@ -544,11 +544,11 @@ extension _XMLDecoder {
 
         guard let string = (box as? StringBox)?.unbox() else { return nil }
 
-        guard let box = Float(string) else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: string)
+        guard let value = Float(string) else {
+            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
         }
 
-        let number = NSNumber(value: box)
+        let number = NSNumber(value: value)
 
         guard number !== kCFBooleanTrue, number !== kCFBooleanFalse else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
@@ -567,11 +567,11 @@ extension _XMLDecoder {
 
         guard let string = (box as? StringBox)?.unbox() else { return nil }
 
-        guard let box = Float(string) else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: string)
+        guard let value = Float(string) else {
+            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
         }
 
-        let number = NSNumber(value: box)
+        let number = NSNumber(value: value)
 
         guard number !== kCFBooleanTrue, number !== kCFBooleanFalse else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
@@ -590,11 +590,11 @@ extension _XMLDecoder {
 
         guard let string = (box as? StringBox)?.unbox() else { return nil }
 
-        guard let box = Float(string) else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: string)
+        guard let value = Float(string) else {
+            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
         }
 
-        let number = NSNumber(value: box)
+        let number = NSNumber(value: value)
 
         guard number !== kCFBooleanTrue, number !== kCFBooleanFalse else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
@@ -613,11 +613,11 @@ extension _XMLDecoder {
 
         guard let string = (box as? StringBox)?.unbox() else { return nil }
 
-        guard let box = Float(string) else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: string)
+        guard let value = Float(string) else {
+            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
         }
 
-        let number = NSNumber(value: box)
+        let number = NSNumber(value: value)
 
         guard number !== kCFBooleanTrue, number !== kCFBooleanFalse else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
@@ -636,11 +636,11 @@ extension _XMLDecoder {
 
         guard let string = (box as? StringBox)?.unbox() else { return nil }
 
-        guard let box = Float(string) else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: string)
+        guard let value = Float(string) else {
+            throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
         }
 
-        let number = NSNumber(value: box)
+        let number = NSNumber(value: value)
 
         guard number !== kCFBooleanTrue, number !== kCFBooleanFalse else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)
@@ -659,8 +659,8 @@ extension _XMLDecoder {
 
         guard let string = (box as? StringBox)?.unbox() else { return nil }
 
-        if let box = Double(string) {
-            let number = NSNumber(value: box)
+        if let value = Double(string) {
+            let number = NSNumber(value: value)
 
             guard number !== kCFBooleanTrue, number !== kCFBooleanFalse else {
                 throw DecodingError._typeMismatch(at: codingPath, expectation: type, reality: box)

@@ -19,7 +19,7 @@ internal extension DecodingError {
     /// - parameter expectation: The type expected to be encountered.
     /// - parameter reality: The value that was encountered instead of the expected type.
     /// - returns: A `DecodingError` with the appropriate path and debug description.
-    internal static func _typeMismatch(at path: [CodingKey], expectation: Any.Type, reality: Any) -> DecodingError {
+    internal static func _typeMismatch(at path: [CodingKey], expectation: Any.Type, reality: Box) -> DecodingError {
         let description = "Expected to decode \(expectation) but found \(_typeDescription(of: reality)) instead."
         return .typeMismatch(expectation, Context(codingPath: path, debugDescription: description))
     }
@@ -29,20 +29,26 @@ internal extension DecodingError {
     /// - parameter value: The value whose type to describe.
     /// - returns: A string describing `value`.
     /// - precondition: `value` is one of the types below.
-    internal static func _typeDescription(of value: Any) -> String {
-        // FIXME:
-        if value is NSNull {
+    internal static func _typeDescription(of box: Box) -> String {
+        switch box {
+        case is NullBox:
             return "a null value"
-        } else if value is NSNumber /* FIXME: If swift-corelibs-foundation isn't updated to use NSNumber, this check will be necessary: || value is Int || value is Double */ {
-            return "a number"
-        } else if value is String {
-            return "a string/data"
-        } else if value is [Any] {
-            return "an array"
-        } else if value is [String: Any] {
-            return "a dictionary"
-        } else {
-            return "\(type(of: value))"
+        case is BoolBox:
+            return "a boolean value"
+        case is DecimalBox:
+            return "a decimal value"
+        case is SignedIntegerBox:
+            return "a signed integer value"
+        case is UnsignedIntegerBox:
+            return "an unsigned integer value"
+        case is FloatingPointBox:
+            return "a floating-point value"
+        case is ArrayBox:
+            return "a array value"
+        case is DictionaryBox:
+            return "a dictionary value"
+        case _:
+            return "\(type(of: box))"
         }
     }
 }
