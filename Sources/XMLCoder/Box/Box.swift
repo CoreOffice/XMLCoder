@@ -27,13 +27,15 @@ internal enum Box {
     
     var isFragment: Bool {
         switch self {
+        case .null(_): return true
         case .bool(_): return true
         case .decimal(_): return true
         case .signedInteger(_): return true
         case .unsignedInteger(_): return true
         case .floatingPoint(_): return true
         case .string(_): return true
-        case _: return false
+        case .array(_): return false
+        case .dictionary(_): return false
         }
     }
     
