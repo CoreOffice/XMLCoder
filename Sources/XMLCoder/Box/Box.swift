@@ -145,21 +145,21 @@ internal enum Box: Equatable {
         self = .dictionary(.init(unboxed))
     }
     
-    internal func unbox() throws -> Bool? {
+    func unbox() throws -> Bool? {
         switch self {
         case .bool(let box): return box.unbox()
         case _: return nil
         }
     }
     
-    internal func unbox() throws -> Decimal? {
+    func unbox() throws -> Decimal? {
         switch self {
         case .decimal(let box): return box.unbox()
         case _: return nil
         }
     }
     
-    internal func unbox<Integer: BinaryInteger>() throws -> Integer? {
+    func unbox<Integer: BinaryInteger>() throws -> Integer? {
         switch self {
         case .signedInteger(let box): return box.unbox()
         case .unsignedInteger(let box): return box.unbox()
@@ -167,28 +167,28 @@ internal enum Box: Equatable {
         }
     }
     
-    internal func unbox<Float: BinaryFloatingPoint & FloatingPoint>() throws -> Float? {
+    func unbox<Float: BinaryFloatingPoint & FloatingPoint>() throws -> Float? {
         switch self {
         case .floatingPoint(let box): return box.unbox()
         case _: return nil
         }
     }
     
-    internal func unbox() throws -> String? {
+    func unbox() throws -> String? {
         switch self {
         case .string(let box): return box.unbox()
         case _: return nil
         }
     }
     
-    internal func unbox() throws -> [Box]? {
+    func unbox() throws -> [Box]? {
         switch self {
         case .array(let box): return box.unbox()
         case _: return nil
         }
     }
     
-    internal func unbox() throws -> [String: Box]? {
+    func unbox() throws -> [String: Box]? {
         switch self {
         case .dictionary(let box): return box.unbox()
         case _: return nil

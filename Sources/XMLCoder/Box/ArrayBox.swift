@@ -30,7 +30,7 @@ internal class ArrayBox {
         return self.unboxed.count
     }
     
-    internal subscript(index: Int) -> Element {
+    subscript(index: Int) -> Element {
         get {
             return self.unboxed[index]
         }

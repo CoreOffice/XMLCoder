@@ -37,7 +37,7 @@ internal class DictionaryBox {
         return self.unboxed.keys
     }
     
-    internal subscript(key: Key) -> Value? {
+    subscript(key: Key) -> Value? {
         get {
             return self.unboxed[key]
         }
