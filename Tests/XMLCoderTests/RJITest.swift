@@ -170,14 +170,10 @@ class RJITest: XCTestCase {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
-        
-        let bundle = Bundle(for: type(of: self))
-        let fileURL = bundle.url(forResource: "RJITest", withExtension: "xml")!
-        let data = try Data(contentsOf: fileURL)
-        
-        self.measure {
+
+        measure {
             do {
-                let _ = try decoder.decode(RSS.self, from: data)
+                _ = try decoder.decode(RSS.self, from: rjiSampleXML)
             } catch {
                 XCTFail("failed to decode test xml: \(error)")
             }
