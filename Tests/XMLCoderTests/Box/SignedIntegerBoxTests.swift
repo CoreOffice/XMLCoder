@@ -1,5 +1,5 @@
 //
-//  SignedIntegerBoxTests.swift
+//  IntBoxTests.swift
 //  XMLCoderTests
 //
 //  Created by Vincent Esche on 12/18/18.
@@ -8,9 +8,9 @@
 import XCTest
 @testable import XMLCoder
 
-class SignedIntegerBoxTests: XCTestCase {
-    lazy var negativeBox = SignedIntegerBox(-42)
-    lazy var positiveBox = SignedIntegerBox(42)
+class IntBoxTests: XCTestCase {
+    lazy var negativeBox = IntBox(-42)
+    lazy var positiveBox = IntBox(42)
     
     func testUnbox() {
         XCTAssertEqual(negativeBox.unbox(), -42)

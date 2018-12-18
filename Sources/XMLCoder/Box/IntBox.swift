@@ -1,5 +1,5 @@
 //
-//  UnsignedIntegerBox.swift
+//  IntBox.swift
 //  XMLCoder
 //
 //  Created by Vincent Esche on 12/17/18.
@@ -7,12 +7,12 @@
 
 import Foundation
 
-internal struct UnsignedIntegerBox: Equatable {
+internal struct IntBox: Equatable {
     typealias Unboxed = Int
     
     let unboxed: Unboxed
     
-    init<Integer: UnsignedInteger>(_ unboxed: Integer) {
+    init<Integer: SignedInteger>(_ unboxed: Integer) {
         self.unboxed = Unboxed(unboxed)
     }
     
@@ -21,7 +21,7 @@ internal struct UnsignedIntegerBox: Equatable {
     }
 }
 
-extension UnsignedIntegerBox: Box {
+extension IntBox: Box {
     var isNull: Bool {
         return false
     }
@@ -35,7 +35,7 @@ extension UnsignedIntegerBox: Box {
     }
 }
 
-extension UnsignedIntegerBox: CustomStringConvertible {
+extension IntBox: CustomStringConvertible {
     var description: String {
         return self.unboxed.description
     }

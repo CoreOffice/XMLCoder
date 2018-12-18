@@ -9,13 +9,13 @@ import XCTest
 @testable import XMLCoder
 
 class ArrayBoxTests: XCTestCase {
-    lazy var box = ArrayBox([StringBox("foo"), SignedIntegerBox(42)])
+    lazy var box = ArrayBox([StringBox("foo"), IntBox(42)])
     
     func testUnbox() {
         let unboxed = box.unbox()
         XCTAssertEqual(unboxed.count, 2)
         XCTAssertEqual(unboxed[0] as? StringBox, StringBox("foo"))
-        XCTAssertEqual(unboxed[1] as? SignedIntegerBox, SignedIntegerBox(42))
+        XCTAssertEqual(unboxed[1] as? IntBox, IntBox(42))
     }
     
     func testXMLString() {

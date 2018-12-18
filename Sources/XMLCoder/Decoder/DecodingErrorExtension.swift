@@ -37,11 +37,11 @@ internal extension DecodingError {
             return "a boolean value"
         case is DecimalBox:
             return "a decimal value"
-        case is SignedIntegerBox:
+        case is IntBox:
             return "a signed integer value"
-        case is UnsignedIntegerBox:
+        case is UIntBox:
             return "an unsigned integer value"
-        case is FloatingPointBox:
+        case is FloatBox:
             return "a floating-point value"
         case is ArrayBox:
             return "a array value"

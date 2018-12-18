@@ -1,5 +1,5 @@
 //
-//  UnsignedIntegerBoxTests.swift
+//  UIntBoxTests.swift
 //  XMLCoderTests
 //
 //  Created by Vincent Esche on 12/18/18.
@@ -8,8 +8,8 @@
 import XCTest
 @testable import XMLCoder
 
-class UnsignedIntegerBoxTests: XCTestCase {
-    lazy var box = UnsignedIntegerBox(UInt(42))
+class UIntBoxTests: XCTestCase {
+    lazy var box = UIntBox(UInt(42))
     
     func testUnbox() {
         XCTAssertEqual(box.unbox(), 42)

@@ -482,16 +482,16 @@ extension _XMLEncoder {
     internal func box()   -> Box { return NullBox() }
     internal func box(_ value: Bool)   -> Box { return BoolBox(value) }
     internal func box(_ value: Decimal) -> Box { return DecimalBox(value) }
-    internal func box(_ value: Int)    -> Box { return SignedIntegerBox(value) }
-    internal func box(_ value: Int8)   -> Box { return SignedIntegerBox(value) }
-    internal func box(_ value: Int16)  -> Box { return SignedIntegerBox(value) }
-    internal func box(_ value: Int32)  -> Box { return SignedIntegerBox(value) }
-    internal func box(_ value: Int64)  -> Box { return SignedIntegerBox(value) }
-    internal func box(_ value: UInt)   -> Box { return UnsignedIntegerBox(value) }
-    internal func box(_ value: UInt8)  -> Box { return UnsignedIntegerBox(value) }
-    internal func box(_ value: UInt16) -> Box { return UnsignedIntegerBox(value) }
-    internal func box(_ value: UInt32) -> Box { return UnsignedIntegerBox(value) }
-    internal func box(_ value: UInt64) -> Box { return UnsignedIntegerBox(value) }
+    internal func box(_ value: Int)    -> Box { return IntBox(value) }
+    internal func box(_ value: Int8)   -> Box { return IntBox(value) }
+    internal func box(_ value: Int16)  -> Box { return IntBox(value) }
+    internal func box(_ value: Int32)  -> Box { return IntBox(value) }
+    internal func box(_ value: Int64)  -> Box { return IntBox(value) }
+    internal func box(_ value: UInt)   -> Box { return UIntBox(value) }
+    internal func box(_ value: UInt8)  -> Box { return UIntBox(value) }
+    internal func box(_ value: UInt16) -> Box { return UIntBox(value) }
+    internal func box(_ value: UInt32) -> Box { return UIntBox(value) }
+    internal func box(_ value: UInt64) -> Box { return UIntBox(value) }
     internal func box(_ value: String) -> Box { return StringBox(value) }
     
     internal func box(_ value: Float) throws -> Box {
@@ -508,7 +508,7 @@ extension _XMLEncoder {
                 return StringBox(nanString)
             }
         } else {
-            return FloatingPointBox(value)
+            return FloatBox(value)
         }
     }
 
@@ -526,7 +526,7 @@ extension _XMLEncoder {
                 return StringBox(nanString)
             }
         } else {
-            return FloatingPointBox(value)
+            return FloatBox(value)
         }
     }
 
@@ -536,9 +536,9 @@ extension _XMLEncoder {
             try value.encode(to: self)
             return storage.popContainer()
         case .secondsSince1970:
-            return FloatingPointBox(value.timeIntervalSince1970)
+            return FloatBox(value.timeIntervalSince1970)
         case .millisecondsSince1970:
-            return FloatingPointBox(value.timeIntervalSince1970 * 1000.0)
+            return FloatBox(value.timeIntervalSince1970 * 1000.0)
         case .iso8601:
             if #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
                 return StringBox(_iso8601Formatter.string(from: value))

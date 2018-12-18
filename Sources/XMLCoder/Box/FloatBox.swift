@@ -1,5 +1,5 @@
 //
-//  FloatingPointBox.swift
+//  FloatBox.swift
 //  XMLCoder
 //
 //  Created by Vincent Esche on 12/17/18.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct FloatingPointBox: Equatable {
+internal struct FloatBox: Equatable {
     typealias Unboxed = Float64
     
     let unboxed: Unboxed
@@ -21,7 +21,7 @@ internal struct FloatingPointBox: Equatable {
     }
 }
 
-extension FloatingPointBox: Box {
+extension FloatBox: Box {
     var isNull: Bool {
         return false
     }
@@ -35,7 +35,7 @@ extension FloatingPointBox: Box {
     }
 }
 
-extension FloatingPointBox: CustomStringConvertible {
+extension FloatBox: CustomStringConvertible {
     var description: String {
         return self.unboxed.description
     }

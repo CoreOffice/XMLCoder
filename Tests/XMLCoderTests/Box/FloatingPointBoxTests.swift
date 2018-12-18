@@ -1,5 +1,5 @@
 //
-//  FloatingPointBoxTests.swift
+//  FloatBoxTests.swift
 //  XMLCoderTests
 //
 //  Created by Vincent Esche on 12/18/18.
@@ -8,8 +8,8 @@
 import XCTest
 @testable import XMLCoder
 
-class FloatingPointBoxTests: XCTestCase {
-    lazy var box = FloatingPointBox(4.2)
+class FloatBoxTests: XCTestCase {
+    lazy var box = FloatBox(4.2)
     
     func testUnbox() {
         XCTAssertEqual(box.unbox(), 4.2)
