@@ -164,7 +164,28 @@ class RJITest: XCTestCase {
         }
     }
     
+    func testBenchmarkRSS() throws {
+        let decoder = XMLDecoder()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        decoder.dateDecodingStrategy = .formatted(dateFormatter)
+        
+        let bundle = Bundle(for: type(of: self))
+        let fileURL = bundle.url(forResource: "RJITest", withExtension: "xml")!
+        let data = try Data(contentsOf: fileURL)
+        
+        self.measure {
+            do {
+                let _ = try decoder.decode(RSS.self, from: data)
+            } catch {
+                XCTFail("failed to decode test xml: \(error)")
+            }
+        }
+    }
+    
     static var allTests = [
         ("testRSS", testRSS),
+        ("testBenchmarkRSS", testBenchmarkRSS),
     ]
 }
