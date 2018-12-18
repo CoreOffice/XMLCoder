@@ -14,10 +14,19 @@ internal class DictionaryBox {
     
     typealias Unboxed = [Key: Value]
     
-    fileprivate var unboxed: Unboxed
+    private(set) var unboxed: Unboxed
     
     var xmlString: String {
-        return self.unboxed.description
+        let elements = self.unboxed.sorted { $0.0 < $1.0 }
+        let strings: [String] = elements.map { key, box in
+            switch box {
+            case .string(let box):
+                return "'\(key)': '\(box.xmlString)'"
+            case _:
+                return "'\(key)': \(box.xmlString)"
+            }
+        }
+        return "[" + strings.joined(separator: ", ") + "]"
     }
     
     var count: Int {
@@ -64,6 +73,12 @@ internal class DictionaryBox {
     
     func mapValues(_ transform: (Value) throws -> Value) rethrows -> DictionaryBox {
         return DictionaryBox(try self.unboxed.mapValues(transform))
+    }
+}
+
+extension DictionaryBox: Equatable {
+    static func == (lhs: DictionaryBox, rhs: DictionaryBox) -> Bool {
+        return lhs.unboxed == rhs.unboxed
     }
 }
 

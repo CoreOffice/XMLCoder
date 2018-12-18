@@ -194,6 +194,31 @@ internal enum Box {
     }
 }
 
+extension Box: Equatable {
+    static func == (lhs: Box, rhs: Box) -> Bool {
+        switch (lhs, rhs) {
+        case (.null(let lhs), .null(let rhs)): return lhs == rhs
+        case (.bool(let lhs), .bool(let rhs)): return lhs.unboxed == rhs.unboxed
+        case (.decimal(let lhs), .decimal(let rhs)): return lhs.unboxed == rhs.unboxed
+        case (.signedInteger(let lhs), .signedInteger(let rhs)): return lhs.unboxed == rhs.unboxed
+        case (.unsignedInteger(let lhs), .unsignedInteger(let rhs)): return lhs.unboxed == rhs.unboxed
+        case (.floatingPoint(let lhs), .floatingPoint(let rhs)): return lhs.unboxed == rhs.unboxed
+        case (.string(let lhs), .string(let rhs)): return lhs.unboxed == rhs.unboxed
+        case (.array(let lhs), .array(let rhs)): return lhs.unboxed == rhs.unboxed
+        case (.dictionary(let lhs), .dictionary(let rhs)): return lhs.unboxed == rhs.unboxed
+        case (.null(_), _): return false
+        case (.bool(_), _): return false
+        case (.decimal(_), _): return false
+        case (.signedInteger(_), _): return false
+        case (.unsignedInteger(_), _): return false
+        case (.floatingPoint(_), _): return false
+        case (.string(_), _): return false
+        case (.array(_), _): return false
+        case (.dictionary(_), _): return false
+        }
+    }
+}
+
 extension Box: CustomStringConvertible {
     var description: String {
         switch self {

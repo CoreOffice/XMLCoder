@@ -25,6 +25,12 @@ internal class StringBox {
     }
 }
 
+extension StringBox: Equatable {
+    static func == (lhs: StringBox, rhs: StringBox) -> Bool {
+        return lhs.unboxed == rhs.unboxed
+    }
+}
+
 extension StringBox: CustomStringConvertible {
     var description: String {
         return self.unboxed.description

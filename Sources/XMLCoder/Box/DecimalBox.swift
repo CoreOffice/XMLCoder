@@ -25,6 +25,12 @@ internal class DecimalBox {
     }
 }
 
+extension DecimalBox: Equatable {
+    static func == (lhs: DecimalBox, rhs: DecimalBox) -> Bool {
+        return lhs.unboxed == rhs.unboxed
+    }
+}
+
 extension DecimalBox: CustomStringConvertible {
     var description: String {
         return self.unboxed.description

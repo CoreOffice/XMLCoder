@@ -25,6 +25,12 @@ internal class FloatingPointBox {
     }
 }
 
+extension FloatingPointBox: Equatable {
+    static func == (lhs: FloatingPointBox, rhs: FloatingPointBox) -> Bool {
+        return lhs.unboxed == rhs.unboxed
+    }
+}
+
 extension FloatingPointBox: CustomStringConvertible {
     var description: String {
         return self.unboxed.description

@@ -25,6 +25,12 @@ internal class BoolBox {
     }
 }
 
+extension BoolBox: Equatable {
+    static func == (lhs: BoolBox, rhs: BoolBox) -> Bool {
+        return lhs.unboxed == rhs.unboxed
+    }
+}
+
 extension BoolBox: CustomStringConvertible {
     var description: String {
         return self.unboxed.description

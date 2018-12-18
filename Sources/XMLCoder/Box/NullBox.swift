@@ -17,6 +17,12 @@ internal class NullBox {
     }
 }
 
+extension NullBox: Equatable {
+    static func == (lhs: NullBox, rhs: NullBox) -> Bool {
+        return true
+    }
+}
+
 extension NullBox: CustomStringConvertible {
     var description: String {
         return "<null>"

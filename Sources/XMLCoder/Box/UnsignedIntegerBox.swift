@@ -25,6 +25,12 @@ internal class UnsignedIntegerBox {
     }
 }
 
+extension UnsignedIntegerBox: Equatable {
+    static func == (lhs: UnsignedIntegerBox, rhs: UnsignedIntegerBox) -> Bool {
+        return lhs.unboxed == rhs.unboxed
+    }
+}
+
 extension UnsignedIntegerBox: CustomStringConvertible {
     var description: String {
         return self.unboxed.description

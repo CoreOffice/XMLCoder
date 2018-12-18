@@ -12,10 +12,18 @@ internal class ArrayBox {
     typealias Element = Box
     typealias Unboxed = [Element]
     
-    fileprivate var unboxed: Unboxed
+    private(set) var unboxed: Unboxed
     
     var xmlString: String {
-        return self.unboxed.description
+        let strings: [String] = self.unboxed.map { box in
+            switch box {
+            case .string(let box):
+                return "'\(box.xmlString)'"
+            case _:
+                return box.xmlString
+            }
+        }
+        return "[" + strings.joined(separator: ", ") + "]"
     }
     
     var count: Int {
@@ -57,6 +65,12 @@ internal class ArrayBox {
     
     func compactMap<T>(_ transform: (Any) throws -> T?) rethrows -> [T] {
         return try self.unboxed.compactMap(transform)
+    }
+}
+
+extension ArrayBox: Equatable {
+    static func == (lhs: ArrayBox, rhs: ArrayBox) -> Bool {
+        return lhs.unboxed == rhs.unboxed
     }
 }
 
