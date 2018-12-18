@@ -155,10 +155,8 @@ class RJITest: XCTestCase {
             data = try encoder.encode(rss1, withRootKey: "rss",
                                           header: XMLHeader(version: 1.0,
                                                             encoding: "UTF-8"))
-            var i = 0
             var testRss = rss1;
             for item in rss1.channel.items{
-                i+=1
                 testRss.channel.items = [item]
                 data = try encoder.encode(testRss, withRootKey: "rss",
                                           header: XMLHeader(version: 1.0,
