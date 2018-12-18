@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal class SignedIntegerBox {
+internal struct SignedIntegerBox: Equatable {
     typealias Unboxed = Int
     
     let unboxed: Unboxed
@@ -22,12 +22,6 @@ internal class SignedIntegerBox {
     
     func unbox<Integer: BinaryInteger>() -> Integer? {
         return Integer(exactly: self.unboxed)
-    }
-}
-
-extension SignedIntegerBox: Equatable {
-    static func == (lhs: SignedIntegerBox, rhs: SignedIntegerBox) -> Bool {
-        return lhs.unboxed == rhs.unboxed
     }
 }
 

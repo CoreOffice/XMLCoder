@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal class StringBox {
+internal struct StringBox: Equatable {
     typealias Unboxed = String
     
     let unboxed: Unboxed
@@ -22,12 +22,6 @@ internal class StringBox {
     
     func unbox() -> Unboxed {
         return self.unboxed
-    }
-}
-
-extension StringBox: Equatable {
-    static func == (lhs: StringBox, rhs: StringBox) -> Bool {
-        return lhs.unboxed == rhs.unboxed
     }
 }
 

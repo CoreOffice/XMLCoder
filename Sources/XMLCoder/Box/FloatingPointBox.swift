@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal class FloatingPointBox {
+internal struct FloatingPointBox: Equatable {
     typealias Unboxed = Float64
     
     let unboxed: Unboxed
@@ -22,12 +22,6 @@ internal class FloatingPointBox {
     
     func unbox<Float: BinaryFloatingPoint>() -> Float? {
         return Float(exactly: self.unboxed)
-    }
-}
-
-extension FloatingPointBox: Equatable {
-    static func == (lhs: FloatingPointBox, rhs: FloatingPointBox) -> Bool {
-        return lhs.unboxed == rhs.unboxed
     }
 }
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal class NullBox {
+internal struct NullBox {
     var xmlString: String {
         return ""
     }

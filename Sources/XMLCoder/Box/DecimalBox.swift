@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal class DecimalBox {
+internal struct DecimalBox: Equatable {
     typealias Unboxed = Decimal
     
     let unboxed: Unboxed
@@ -22,12 +22,6 @@ internal class DecimalBox {
     
     func unbox() -> Unboxed {
         return self.unboxed
-    }
-}
-
-extension DecimalBox: Equatable {
-    static func == (lhs: DecimalBox, rhs: DecimalBox) -> Bool {
-        return lhs.unboxed == rhs.unboxed
     }
 }
 
