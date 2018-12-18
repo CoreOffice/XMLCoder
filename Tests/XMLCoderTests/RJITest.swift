@@ -16,7 +16,7 @@ class RJITest: XCTestCase {
         let admin: URL
         let rdf: URL
         let content: URL
-        let channel: Channel
+        var channel: Channel
         
         enum CodingKeys: String, CodingKey {
             case channel = "channel"
@@ -39,7 +39,7 @@ class RJITest: XCTestCase {
         let date: Date
         let generatorAgentResource: URL
         let image: Image
-        let items: [Item]
+        var items: [Item]
         
         enum CodingKeys: String, CodingKey {
             case title, link, description, image
@@ -143,22 +143,29 @@ class RJITest: XCTestCase {
     
     func testRSS() {
         let decoder = XMLDecoder()
-//        let encoder = XMLEncoder()
+        let encoder = XMLEncoder()
 
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
-        
+    
+       
         do {
-//            let rss1
-            _ = try decoder.decode(RSS.self, from: rjiSampleXML)
-// this is a very peculiar case of `XMLCoder` not being able to decode an XML
-// that it itself encoded
-//            data = try encoder.encode(rss1, withRootKey: "note",
-//                                      header: XMLHeader(version: 1.0,
-//                                                        encoding: "UTF-8"))
-//            let rss2 = try decoder.decode(RSS.self, from: data)
-//            XCTAssertEqual(rss1, rss2)
+            let rss1 = try decoder.decode(RSS.self, from: rjiSampleXML)
+            data = try encoder.encode(rss1, withRootKey: "rss",
+                                          header: XMLHeader(version: 1.0,
+                                                            encoding: "UTF-8"))
+            var i = 0
+            var testRss = rss1;
+            for item in rss1.channel.items{
+                i+=1
+                testRss.channel.items = [item]
+                data = try encoder.encode(testRss, withRootKey: "rss",
+                                          header: XMLHeader(version: 1.0,
+                                                            encoding: "UTF-8"))
+                let decodedItem = try decoder.decode(RSS.self, from: data)
+                XCTAssertEqual(testRss, decodedItem)
+            }
         } catch {
             XCTAssert(false, "failed to decode test xml: \(error)")
         }
