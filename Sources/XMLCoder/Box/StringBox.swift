@@ -16,8 +16,8 @@ struct StringBox: Equatable {
         self.unboxed = unboxed
     }
     
-    init(string: Unboxed) {
-        self.init(string)
+    init(xmlString: Unboxed) {
+        self.init(xmlString)
     }
     
     func unbox() -> Unboxed {

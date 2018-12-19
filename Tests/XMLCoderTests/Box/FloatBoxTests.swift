@@ -60,7 +60,7 @@ class FloatBoxTests: XCTestCase {
         ]
         
         for string in values {
-            let box = FloatBox(string: string)
+            let box = FloatBox(xmlString: string)
             XCTAssertNotNil(box)
         }
     }
@@ -74,7 +74,7 @@ class FloatBoxTests: XCTestCase {
         ]
         
         for string in values {
-            let box = FloatBox(string: string)
+            let box = FloatBox(xmlString: string)
             XCTAssertNil(box)
         }
     }

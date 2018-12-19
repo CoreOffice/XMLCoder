@@ -16,8 +16,8 @@ struct FloatBox: Equatable {
         self.unboxed = Unboxed(unboxed)
     }
     
-    init?(string: String) {
-        guard let unboxed = Unboxed(string) else {
+    init?(xmlString: String) {
+        guard let unboxed = Unboxed(xmlString) else {
             return nil
         }
         self.init(unboxed)

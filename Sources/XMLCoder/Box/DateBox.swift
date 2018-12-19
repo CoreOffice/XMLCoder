@@ -41,8 +41,8 @@ struct DateBox: Equatable {
         }
     }
     
-    init?(string: String, formatter: DateFormatter) {
-        guard let date = formatter.date(from: string) else {
+    init?(xmlString: String, formatter: DateFormatter) {
+        guard let date = formatter.date(from: xmlString) else {
             return nil
         }
         self.init(date)

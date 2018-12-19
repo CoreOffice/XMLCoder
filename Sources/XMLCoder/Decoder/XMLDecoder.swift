@@ -426,7 +426,7 @@ extension _XMLDecoder {
         
         guard let string = (box as? StringBox)?.unbox() else { return nil }
         
-        guard let boolBox = BoolBox(string: string) else {
+        guard let boolBox = BoolBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: Bool.self, reality: box)
         }
         
@@ -438,7 +438,7 @@ extension _XMLDecoder {
         
         guard let string = (box as? StringBox)?.unbox() else { return nil }
         
-        guard let decimalBox = DecimalBox(string: string) else {
+        guard let decimalBox = DecimalBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: Decimal.self, reality: box)
         }
         
@@ -450,7 +450,7 @@ extension _XMLDecoder {
         
         guard let string = (box as? StringBox)?.unbox() else { return nil }
         
-        guard let intBox = IntBox(string: string) else {
+        guard let intBox = IntBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: T.self, reality: box)
         }
         
@@ -466,7 +466,7 @@ extension _XMLDecoder {
         
         guard let string = (box as? StringBox)?.unbox() else { return nil }
         
-        guard let uintBox = UIntBox(string: string) else {
+        guard let uintBox = UIntBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: T.self, reality: box)
         }
         
@@ -482,7 +482,7 @@ extension _XMLDecoder {
         
         guard let string = (box as? StringBox)?.unbox() else { return nil }
         
-        guard let floatBox = FloatBox(string: string) else {
+        guard let floatBox = FloatBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: T.self, reality: box)
         }
         
@@ -540,7 +540,7 @@ extension _XMLDecoder {
             guard let string = (box as? StringBox)?.unbox() else {
                 throw DecodingError._typeMismatch(at: codingPath, expectation: Date.self, reality: box)
             }
-            guard let dateBox = DateBox(string: string, formatter: formatter) else {
+            guard let dateBox = DateBox(xmlString: string, formatter: formatter) else {
                 throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Date string does not match format expected by formatter."))
             }
             return dateBox.unbox()

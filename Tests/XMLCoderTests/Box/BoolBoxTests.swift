@@ -44,7 +44,7 @@ class BoolBoxTests: XCTestCase {
         ]
         
         for string in values {
-            let box = Boxed(string: string)
+            let box = Boxed(xmlString: string)
             XCTAssertNotNil(box)
         }
     }
@@ -57,7 +57,7 @@ class BoolBoxTests: XCTestCase {
         ]
         
         for string in values {
-            let box = Boxed(string: string)
+            let box = Boxed(xmlString: string)
             XCTAssertNil(box)
         }
     }

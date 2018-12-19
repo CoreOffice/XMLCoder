@@ -16,8 +16,8 @@ struct BoolBox: Equatable {
         self.unboxed = unboxed
     }
     
-    init?(string: String) {
-        switch string {
+    init?(xmlString: String) {
+        switch xmlString {
         case "false", "0": self.init(false)
         case "true", "1": self.init(true)
         case _: return nil

@@ -16,8 +16,8 @@ struct DecimalBox: Equatable {
         self.unboxed = unboxed
     }
     
-    init?(string: String) {
-        guard let unboxed = Unboxed(string: string) else {
+    init?(xmlString: String) {
+        guard let unboxed = Unboxed(string: xmlString) else {
             return nil
         }
         self.init(unboxed)
