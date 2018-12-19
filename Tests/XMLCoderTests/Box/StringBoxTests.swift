@@ -9,17 +9,60 @@ import XCTest
 @testable import XMLCoder
 
 class StringBoxTests: XCTestCase {
-    lazy var box = StringBox("lorem ipsum")
+    typealias Boxed = StringBox
     
     func testUnbox() {
-        XCTAssertEqual(box.unbox(), "lorem ipsum")
+        let values: [Boxed.Unboxed] = [
+            "",
+            "false",
+            "42",
+            "12.34",
+            "lorem ipsum",
+        ]
+        
+        for unboxed in values {
+            let box = Boxed(unboxed)
+            XCTAssertEqual(box.unbox(), unboxed)
+        }
     }
     
     func testXMLString() {
-        XCTAssertEqual(box.xmlString, "lorem ipsum")
+        let values: [(Boxed.Unboxed, String)] = [
+            ("", ""),
+            ("false", "false"),
+            ("42", "42"),
+            ("12.34", "12.34"),
+            ("lorem ipsum", "lorem ipsum"),
+        ]
+        
+        for (unboxed, string) in values {
+            let box = Boxed(unboxed)
+            XCTAssertEqual(box.xmlString, string)
+        }
     }
     
-    func testDescription() {
-        XCTAssertEqual(box.description, "lorem ipsum")
+    func testValidValues() {
+        let values: [String] = [
+            "0",
+            "1",
+            "false",
+            "true",
+        ]
+        
+        for string in values {
+            let box = Boxed(string: string)
+            XCTAssertNotNil(box)
+        }
+    }
+    
+    func testInvalidValues() {
+        let values: [String] = [
+            // none.
+        ]
+        
+        for string in values {
+            let box = Boxed(string: string)
+            XCTAssertNil(box)
+        }
     }
 }

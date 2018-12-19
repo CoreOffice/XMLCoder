@@ -38,8 +38,18 @@ extension BoolBox: Box {
         return true
     }
     
+    /// # Lexical representation
+    /// Boolean has a lexical representation consisting of the following
+    /// legal literals {`true`, `false`, `1`, `0`}.
+    ///
+    /// # Canonical representation
+    /// The canonical representation for boolean is the set of literals {`true`, `false`}.
+    ///
+    /// ---
+    ///
+    /// [Schema definition](https://www.w3.org/TR/xmlschema-2/#boolean)
     var xmlString: String? {
-        return self.unboxed.description
+        return (self.unboxed) ? "true" : "false"
     }
 }
 

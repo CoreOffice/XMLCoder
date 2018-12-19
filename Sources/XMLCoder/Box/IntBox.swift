@@ -37,6 +37,19 @@ extension IntBox: Box {
         return true
     }
     
+    /// # Lexical representation
+    /// Integer has a lexical representation consisting of a finite-length sequence of
+    /// decimal digits with an optional leading sign. If the sign is omitted, `"+"` is assumed.
+    /// For example: `-1`, `0`, `12678967543233`, `+100000`.
+    ///
+    /// # Canonical representation
+    /// The canonical representation for integer is defined by prohibiting certain
+    /// options from the Lexical representation. Specifically, the preceding optional
+    /// `"+"` sign is prohibited and leading zeroes are prohibited.
+    ///
+    /// ---
+    ///
+    /// [Schema definition](https://www.w3.org/TR/xmlschema-2/#integer)
     var xmlString: String? {
         return self.unboxed.description
     }

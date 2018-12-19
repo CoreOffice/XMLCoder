@@ -37,8 +37,26 @@ extension DecimalBox: Box {
         return true
     }
     
+    /// # Lexical representation
+    /// Decimal has a lexical representation consisting of a finite-length sequence of
+    /// decimal digits separated by a period as a decimal indicator.
+    /// An optional leading sign is allowed. If the sign is omitted, `"+"` is assumed.
+    /// Leading and trailing zeroes are optional. If the fractional part is zero,
+    /// the period and following zero(es) can be omitted.
+    /// For example: `-1.23`, `12678967.543233`, `+100000.00`, `210`.
+    ///
+    /// # Canonical representation
+    /// The canonical representation for decimal is defined by prohibiting certain
+    /// options from the Lexical representation. Specifically, the preceding optional
+    /// `"+"` sign is prohibited. The decimal point is required. Leading and trailing
+    /// zeroes are prohibited subject to the following: there must be at least one
+    /// digit to the right and to the left of the decimal point which may be a zero.
+    ///
+    /// ---
+    ///
+    /// [Schema definition](https://www.w3.org/TR/xmlschema-2/#decimal)
     var xmlString: String? {
-        return self.unboxed.description
+        return "\(self.unboxed)"
     }
 }
 

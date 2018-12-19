@@ -9,13 +9,10 @@ import XCTest
 @testable import XMLCoder
 
 class NullBoxTests: XCTestCase {
-    func testXMLString() {
-        let box = NullBox()
-        XCTAssertEqual(box.xmlString, nil)
-    }
+    typealias Boxed = NullBox
     
-    func testDescription() {
-        let box = NullBox()
-        XCTAssertEqual(box.description, "null")
+    func testXMLString() {
+        let box = Boxed()
+        XCTAssertEqual(box.xmlString, nil)
     }
 }

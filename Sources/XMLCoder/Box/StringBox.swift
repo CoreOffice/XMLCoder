@@ -16,6 +16,10 @@ struct StringBox: Equatable {
         self.unboxed = unboxed
     }
     
+    init(string: Unboxed) {
+        self.init(string)
+    }
+    
     func unbox() -> Unboxed {
         return self.unboxed
     }

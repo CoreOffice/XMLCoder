@@ -9,21 +9,56 @@ import XCTest
 @testable import XMLCoder
 
 class BoolBoxTests: XCTestCase {
-    let falseBox = BoolBox(false)
-    let trueBox = BoolBox(true)
+    typealias Boxed = BoolBox
     
     func testUnbox() {
-        XCTAssertEqual(falseBox.unbox(), false)
-        XCTAssertEqual(trueBox.unbox(), true)
+        let values: [Boxed.Unboxed] = [
+            false,
+            true,
+        ]
+        
+        for unboxed in values {
+            let box = Boxed(unboxed)
+            XCTAssertEqual(box.unbox(), unboxed)
+        }
     }
     
     func testXMLString() {
-        XCTAssertEqual(falseBox.xmlString, "false")
-        XCTAssertEqual(trueBox.xmlString, "true")
+        let values: [(Boxed.Unboxed, String)] = [
+            (false, "false"),
+            (true, "true"),
+        ]
+        
+        for (unboxed, string) in values {
+            let box = Boxed(unboxed)
+            XCTAssertEqual(box.xmlString, string)
+        }
     }
     
-    func testDescription() {
-        XCTAssertEqual(falseBox.description, "false")
-        XCTAssertEqual(trueBox.description, "true")
+    func testValidValues() {
+        let values: [String] = [
+            "0",
+            "1",
+            "false",
+            "true",
+        ]
+        
+        for string in values {
+            let box = Boxed(string: string)
+            XCTAssertNotNil(box)
+        }
+    }
+    
+    func testInvalidValues() {
+        let values: [String] = [
+            "42",
+            "foobar",
+            "",
+        ]
+        
+        for string in values {
+            let box = Boxed(string: string)
+            XCTAssertNil(box)
+        }
     }
 }

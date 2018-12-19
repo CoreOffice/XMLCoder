@@ -48,6 +48,7 @@
 		BF9457D721CBB59E005ACFDE /* IntBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457D421CBB59D005ACFDE /* IntBox.swift */; };
 		BF9457DA21CBB5D2005ACFDE /* DataBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457D821CBB5D2005ACFDE /* DataBox.swift */; };
 		BF9457DB21CBB5D2005ACFDE /* DateBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457D921CBB5D2005ACFDE /* DateBox.swift */; };
+		BF9457DD21CBB62C005ACFDE /* DateBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457DC21CBB62C005ACFDE /* DateBoxTests.swift */; };
 		D1FC040521C7EF8200065B43 /* RJISample.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FC040421C7EF8200065B43 /* RJISample.swift */; };
 		OBJ_48 /* DecodingErrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* DecodingErrorExtension.swift */; };
 		OBJ_49 /* XMLDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* XMLDecoder.swift */; };
@@ -121,6 +122,7 @@
 		BF9457D421CBB59D005ACFDE /* IntBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntBox.swift; sourceTree = "<group>"; };
 		BF9457D821CBB5D2005ACFDE /* DataBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataBox.swift; sourceTree = "<group>"; };
 		BF9457D921CBB5D2005ACFDE /* DateBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateBox.swift; sourceTree = "<group>"; };
+		BF9457DC21CBB62C005ACFDE /* DateBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateBoxTests.swift; sourceTree = "<group>"; };
 		D1FC040421C7EF8200065B43 /* RJISample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RJISample.swift; sourceTree = "<group>"; };
 		OBJ_10 /* DecodingErrorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingErrorExtension.swift; sourceTree = "<group>"; };
 		OBJ_11 /* XMLDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLDecoder.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				BF9457C121CBB516005ACFDE /* DecimalBoxTests.swift */,
 				BF9457C321CBB516005ACFDE /* FloatBoxTests.swift */,
 				BF9457C421CBB516005ACFDE /* StringBoxTests.swift */,
+				BF9457DC21CBB62C005ACFDE /* DateBoxTests.swift */,
 				BF9457C721CBB516005ACFDE /* ArrayBoxTests.swift */,
 				BF9457BF21CBB516005ACFDE /* DictionaryBoxTests.swift */,
 			);
@@ -458,6 +461,7 @@
 				OBJ_87 /* PlantCatalog.swift in Sources */,
 				BF9457C921CBB516005ACFDE /* DictionaryBoxTests.swift in Sources */,
 				OBJ_88 /* PlantTest.swift in Sources */,
+				BF9457DD21CBB62C005ACFDE /* DateBoxTests.swift in Sources */,
 				BF9457CD21CBB516005ACFDE /* FloatBoxTests.swift in Sources */,
 				BF9457C821CBB516005ACFDE /* BoolBoxTests.swift in Sources */,
 				OBJ_89 /* RJITest.swift in Sources */,

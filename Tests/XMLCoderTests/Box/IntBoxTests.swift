@@ -9,21 +9,57 @@ import XCTest
 @testable import XMLCoder
 
 class IntBoxTests: XCTestCase {
-    lazy var negativeBox = IntBox(-42)
-    lazy var positiveBox = IntBox(42)
-    
+    typealias Boxed = IntBox
+
     func testUnbox() {
-        XCTAssertEqual(negativeBox.unbox(), -42)
-        XCTAssertEqual(positiveBox.unbox(), 42)
+        let values: [Boxed.Unboxed] = [
+            -42,
+            42,
+            0,
+        ]
+        
+        for unboxed in values {
+            let box = Boxed(unboxed)
+            XCTAssertEqual(box.unbox(), unboxed)
+        }
     }
     
     func testXMLString() {
-        XCTAssertEqual(negativeBox.xmlString, "-42")
-        XCTAssertEqual(positiveBox.xmlString, "42")
+        let values: [(Boxed.Unboxed, String)] = [
+            (-42, "-42"),
+            (42, "42"),
+            (0, "0"),
+        ]
+        
+        for (unboxed, string) in values {
+            let box = Boxed(unboxed)
+            XCTAssertEqual(box.xmlString, string)
+        }
     }
     
-    func testDescription() {
-        XCTAssertEqual(negativeBox.description, "-42")
-        XCTAssertEqual(positiveBox.description, "42")
+    func testValidValues() {
+        let values: [String] = [
+            "-1",
+            "0",
+            "12678967543233",
+            "+100000",
+        ]
+        
+        for string in values {
+            let box = Boxed(string: string)
+            XCTAssertNotNil(box)
+        }
+    }
+    
+    func testInvalidValues() {
+        let values: [String] = [
+            "foobar",
+            "",
+        ]
+        
+        for string in values {
+            let box = Boxed(string: string)
+            XCTAssertNil(box)
+        }
     }
 }

@@ -9,17 +9,57 @@ import XCTest
 @testable import XMLCoder
 
 class DecimalBoxTests: XCTestCase {
-    lazy var box = DecimalBox(Decimal(string: "12.34")!)
+    typealias Boxed = DecimalBox
     
     func testUnbox() {
-        XCTAssertEqual(box.unbox(), Decimal(string: "12.34")!)
+        let values: [Boxed.Unboxed] = [
+            -1.23,
+            12678967.543233,
+            +100000.00,
+            210,
+        ]
+        
+        for unboxed in values {
+            let box = Boxed(unboxed)
+            XCTAssertEqual(box.unbox(), unboxed)
+        }
     }
     
     func testXMLString() {
-        XCTAssertEqual(box.xmlString, "12.34")
+        let values: [(Boxed.Unboxed, String)] = [
+            (12.34, "12.34"),
+            (0.0, "0"),
+        ]
+        
+        for (bool, string) in values {
+            let box = Boxed(bool)
+            XCTAssertEqual(box.xmlString, string)
+        }
     }
     
-    func testDescription() {
-        XCTAssertEqual(box.description, "12.34")
+    func testValidValues() {
+        let values: [String] = [
+            "-1.23",
+            "12678967.543233",
+            "+100000.00",
+            "210",
+        ]
+        
+        for string in values {
+            let box = Boxed(string: string)
+            XCTAssertNotNil(box)
+        }
+    }
+    
+    func testInvalidValues() {
+        let values: [String] = [
+            "foobar",
+            "",
+        ]
+        
+        for string in values {
+            let box = Boxed(string: string)
+            XCTAssertNil(box)
+        }
     }
 }
