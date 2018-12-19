@@ -8,7 +8,7 @@
 import Foundation
 
 struct IntBox: Equatable {
-    typealias Unboxed = Int
+    typealias Unboxed = Int64
     
     let unboxed: Unboxed
     
