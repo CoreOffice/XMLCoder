@@ -38,7 +38,7 @@ class FloatBoxTests: XCTestCase {
         
         for (double, string) in values {
             let box = FloatBox(double)
-            XCTAssertEqual(box.xmlString, string)
+            XCTAssertEqual(box.xmlString(), string)
         }
     }
     

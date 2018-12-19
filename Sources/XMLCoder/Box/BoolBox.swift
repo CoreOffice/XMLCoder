@@ -48,7 +48,7 @@ extension BoolBox: Box {
     /// ---
     ///
     /// [Schema definition](https://www.w3.org/TR/xmlschema-2/#boolean)
-    var xmlString: String? {
+    func xmlString() -> String? {
         return (self.unboxed) ? "true" : "false"
     }
 }

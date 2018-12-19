@@ -34,7 +34,7 @@ extension StringBox: Box {
         return true
     }
     
-    var xmlString: String? {
+    func xmlString() -> String? {
         return self.unboxed.description
     }
 }

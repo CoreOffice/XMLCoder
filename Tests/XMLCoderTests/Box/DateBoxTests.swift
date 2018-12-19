@@ -11,6 +11,27 @@ import XCTest
 class DateBoxTests: XCTestCase {
     typealias Boxed = DateBox
     
+    typealias FromXMLString = (String) -> Boxed?
+    
+    let secondsSince1970: FromXMLString = { xmlString in
+        return Boxed(secondsSince1970: xmlString)
+    }
+    let millisecondsSince1970: FromXMLString = { xmlString in
+        return Boxed(millisecondsSince1970: xmlString)
+    }
+    let iso8601: FromXMLString = { xmlString in
+        return Boxed(iso8601: xmlString)
+    }
+    lazy var formatter: FromXMLString = { xmlString in
+        return Boxed(xmlString: xmlString, formatter: self.customFormatter)
+    }
+    
+    let customFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return formatter
+    }()
+    
     func testUnbox() {
         let values: [Boxed.Unboxed] = [
             Date(timeIntervalSince1970: 0.0),
@@ -19,45 +40,36 @@ class DateBoxTests: XCTestCase {
         ]
         
         for unboxed in values {
-            let box = Boxed(unboxed)
+            let box = Boxed(unboxed, format: .iso8601)
             XCTAssertEqual(box.unbox(), unboxed)
         }
     }
     
     func testXMLString() {
-        typealias Constructor = (String) -> Boxed?
-        
-        let secondsSince1970: Constructor = { Boxed(secondsSince1970: $0) }
-        let millisecondsSince1970: Constructor = { Boxed(millisecondsSince1970: $0) }
-        let iso8601: Constructor = { Boxed(iso8601: $0) }
-        
-        let values: [(String, Constructor)] = [
+        let values: [(String, FromXMLString)] = [
             ("-1000.0", secondsSince1970),
-            ("0", secondsSince1970),
+            ("0.0", secondsSince1970),
             ("1000.0", secondsSince1970),
             
             ("-1000.0", millisecondsSince1970),
-            ("0", millisecondsSince1970),
+            ("0.0", millisecondsSince1970),
             ("1000.0", millisecondsSince1970),
             
             ("1970-01-23T01:23:45Z", iso8601),
+            
+            ("1970-01-23 01:23:45", formatter),
         ]
         
-        for (string, constructor) in values {
-            let box = constructor(string)
-            
-            XCTAssertEqual(box?.xmlString, string)
+        for (string, fromXMLString) in values {
+            let box = fromXMLString(string)!
+            XCTAssertEqual(box.xmlString(), string)
         }
     }
     
     func testValidValues() {
         typealias Constructor = (String) -> Boxed?
         
-        let secondsSince1970: Constructor = { Boxed(secondsSince1970: $0) }
-        let millisecondsSince1970: Constructor = { Boxed(millisecondsSince1970: $0) }
-        let iso8601: Constructor = { Boxed(iso8601: $0) }
-        
-        let values: [(String, Constructor)] = [
+        let values: [(String, FromXMLString)] = [
             ("-1000.0", secondsSince1970),
             ("0", secondsSince1970),
             ("1000.0", secondsSince1970),
@@ -67,20 +79,18 @@ class DateBoxTests: XCTestCase {
             ("1000.0", millisecondsSince1970),
 
             ("1970-01-23T01:23:45Z", iso8601),
+            
+            ("1970-01-23 01:23:45", formatter),
         ]
         
-        for (string, constructor) in values {
-            let box = constructor(string)
+        for (string, fromXMLString) in values {
+            let box = fromXMLString(string)
             XCTAssertNotNil(box)
         }
     }
     
     func testInvalidValues() {
         typealias Constructor = (String) -> Boxed?
-        
-        let secondsSince1970: Constructor = { Boxed(secondsSince1970: $0) }
-        let millisecondsSince1970: Constructor = { Boxed(millisecondsSince1970: $0) }
-        let iso8601: Constructor = { Boxed(iso8601: $0) }
         
         let values: [(String, Constructor)] = [
             ("foobar", secondsSince1970),
@@ -91,10 +101,13 @@ class DateBoxTests: XCTestCase {
             
             ("foobar", iso8601),
             ("", iso8601),
+            
+            ("foobar", formatter),
+            ("", formatter),
         ]
         
-        for (string, constructor) in values {
-            let box = constructor(string)
+        for (string, fromXMLString) in values {
+            let box = fromXMLString(string)
             XCTAssertNil(box)
         }
     }

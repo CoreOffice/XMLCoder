@@ -31,7 +31,7 @@ class BoolBoxTests: XCTestCase {
         
         for (unboxed, string) in values {
             let box = Boxed(unboxed)
-            XCTAssertEqual(box.xmlString, string)
+            XCTAssertEqual(box.xmlString(), string)
         }
     }
     

@@ -65,7 +65,7 @@ extension ArrayBox: Box {
         return false
     }
     
-    var xmlString: String? {
+    func xmlString() -> String? {
         return nil
     }
 }

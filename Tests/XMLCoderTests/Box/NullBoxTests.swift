@@ -13,6 +13,6 @@ class NullBoxTests: XCTestCase {
     
     func testXMLString() {
         let box = Boxed()
-        XCTAssertEqual(box.xmlString, nil)
+        XCTAssertEqual(box.xmlString(), nil)
     }
 }

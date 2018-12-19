@@ -272,12 +272,12 @@ open class XMLEncoder {
             ))
         }
 
-        if topLevel.isFragment {
-            throw EncodingError.invalidValue(value, EncodingError.Context(
-                codingPath: [],
-                debugDescription: "Top-level \(T.self) encoded as XML fragment."
-            ))
-        }
+//        if topLevel.isFragment {
+//            throw EncodingError.invalidValue(value, EncodingError.Context(
+//                codingPath: [],
+//                debugDescription: "Top-level \(T.self) encoded as XML fragment."
+//            ))
+//        }
         
         let elementOrNone: _XMLElement?
         
@@ -536,17 +536,13 @@ extension _XMLEncoder {
             try value.encode(to: self)
             return storage.popContainer()
         case .secondsSince1970:
-            return FloatBox(value.timeIntervalSince1970)
+            return DateBox(value, format: .secondsSince1970)
         case .millisecondsSince1970:
-            return FloatBox(value.timeIntervalSince1970 * 1000.0)
+            return DateBox(value, format: .millisecondsSince1970)
         case .iso8601:
-            if #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
-                return StringBox(_iso8601Formatter.string(from: value))
-            } else {
-                fatalError("ISO8601DateFormatter is unavailable on this platform.")
-            }
+            return DateBox(value, format: .iso8601)
         case let .formatted(formatter):
-            return StringBox(formatter.string(from: value))
+            return DateBox(value, format: .formatter(formatter))
         case let .custom(closure):
             let depth = storage.count
             try closure(value, self)
@@ -563,7 +559,7 @@ extension _XMLEncoder {
             try value.encode(to: self)
             return storage.popContainer()
         case .base64:
-            return StringBox(value.base64EncodedString())
+            return DataBox(value, format: .base64)
         case let .custom(closure):
             let depth = storage.count
             try closure(value, self)

@@ -10,5 +10,6 @@ import Foundation
 protocol Box {
     var isNull: Bool { get }
     var isFragment: Bool { get }
-    var xmlString: String? { get }
+    
+    func xmlString() -> String?
 }

@@ -41,12 +41,18 @@ open class XMLDecoder {
         static func keyFormatted(_ formatterForKey: @escaping (CodingKey) throws -> DateFormatter?) -> XMLDecoder.DateDecodingStrategy {
             return .custom({ (decoder) -> Date in
                 guard let codingKey = decoder.codingPath.last else {
-                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No Coding Path Found"))
+                    throw DecodingError.dataCorrupted(DecodingError.Context(
+                        codingPath: decoder.codingPath,
+                        debugDescription: "No Coding Path Found"
+                    ))
                 }
 
                 guard let container = try? decoder.singleValueContainer(),
                     let text = try? container.decode(String.self) else {
-                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Could not decode date text"))
+                    throw DecodingError.dataCorrupted(DecodingError.Context(
+                        codingPath: decoder.codingPath,
+                        debugDescription: "Could not decode date text"
+                    ))
                 }
 
                 guard let dateFormatter = try formatterForKey(codingKey) else {
@@ -77,12 +83,18 @@ open class XMLDecoder {
         static func keyFormatted(_ formatterForKey: @escaping (CodingKey) throws -> Data?) -> XMLDecoder.DataDecodingStrategy {
             return .custom({ (decoder) -> Data in
                 guard let codingKey = decoder.codingPath.last else {
-                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No Coding Path Found"))
+                    throw DecodingError.dataCorrupted(DecodingError.Context(
+                        codingPath: decoder.codingPath,
+                        debugDescription: "No Coding Path Found"
+                    ))
                 }
 
                 guard let container = try? decoder.singleValueContainer(),
                     let text = try? container.decode(String.self) else {
-                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Could not decode date text"))
+                    throw DecodingError.dataCorrupted(DecodingError.Context(
+                        codingPath: decoder.codingPath,
+                        debugDescription: "Could not decode date text"
+                    ))
                 }
 
                 guard let data = try formatterForKey(codingKey) else {
@@ -235,13 +247,19 @@ open class XMLDecoder {
         do {
             topLevel = DictionaryBox(try _XMLStackParser.parse(with: data))
         } catch {
-            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: "The given data was not valid XML.", underlyingError: error))
+            throw DecodingError.dataCorrupted(DecodingError.Context(
+                codingPath: [],
+                debugDescription: "The given data was not valid XML.", underlyingError: error
+            ))
         }
 
         let decoder = _XMLDecoder(referencing: topLevel, options: options)
 
         guard let box: T = try decoder.unbox(topLevel) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: [], debugDescription: "The given data did not contain a top-level box."))
+            throw DecodingError.valueNotFound(type, DecodingError.Context(
+                codingPath: [],
+                debugDescription: "The given data did not contain a top-level box."
+            ))
         }
 
         return box
@@ -281,9 +299,10 @@ internal class _XMLDecoder: Decoder {
 
     public func container<Key>(keyedBy _: Key.Type) throws -> KeyedDecodingContainer<Key> {
         guard !storage.topContainer.isNull else {
-            throw DecodingError.valueNotFound(KeyedDecodingContainer<Key>.self,
-                                              DecodingError.Context(codingPath: codingPath,
-                                                                    debugDescription: "Cannot get keyed decoding container -- found null box instead."))
+            throw DecodingError.valueNotFound(KeyedDecodingContainer<Key>.self, DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "Cannot get keyed decoding container -- found null box instead."
+            ))
         }
 
         guard let dictionary = storage.topContainer as? DictionaryBox else {
@@ -296,9 +315,10 @@ internal class _XMLDecoder: Decoder {
 
     public func unkeyedContainer() throws -> UnkeyedDecodingContainer {
         guard !storage.topContainer.isNull else {
-            throw DecodingError.valueNotFound(UnkeyedDecodingContainer.self,
-                                              DecodingError.Context(codingPath: codingPath,
-                                                                    debugDescription: "Cannot get unkeyed decoding container -- found null box instead."))
+            throw DecodingError.valueNotFound(UnkeyedDecodingContainer.self, DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "Cannot get unkeyed decoding container -- found null box instead."
+            ))
         }
 
         let array: ArrayBox
@@ -322,7 +342,10 @@ extension _XMLDecoder: SingleValueDecodingContainer {
 
     private func expectNonNull<T>(_ type: T.Type) throws {
         guard !decodeNil() else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: codingPath, debugDescription: "Expected \(type) but found null box instead."))
+            throw DecodingError.valueNotFound(type, DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "Expected \(type) but found null box instead."
+            ))
         }
     }
 
@@ -455,7 +478,10 @@ extension _XMLDecoder {
         }
         
         guard let int: T = intBox.unbox() else {
-            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Parsed XML number <\(string)> does not fit in \(T.self)."))
+            throw DecodingError.dataCorrupted(DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "Parsed XML number <\(string)> does not fit in \(T.self)."
+            ))
         }
         
         return int
@@ -471,7 +497,10 @@ extension _XMLDecoder {
         }
         
         guard let uint: T = uintBox.unbox() else {
-            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Parsed XML number <\(string)> does not fit in \(T.self)."))
+            throw DecodingError.dataCorrupted(DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "Parsed XML number <\(string)> does not fit in \(T.self)."
+            ))
         }
         
         return uint
@@ -487,7 +516,10 @@ extension _XMLDecoder {
         }
         
         guard let float: T = floatBox.unbox() else {
-            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Parsed XML number <\(string)> does not fit in \(T.self)."))
+            throw DecodingError.dataCorrupted(DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "Parsed XML number <\(string)> does not fit in \(T.self)."
+            ))
         }
         
         return float
@@ -517,7 +549,10 @@ extension _XMLDecoder {
                 throw DecodingError._typeMismatch(at: codingPath, expectation: Date.self, reality: box)
             }
             guard let dateBox = DateBox(secondsSince1970: string) else {
-                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Expected date string to be formatted in seconds since 1970."))
+                throw DecodingError.dataCorrupted(DecodingError.Context(
+                    codingPath: codingPath,
+                    debugDescription: "Expected date string to be formatted in seconds since 1970."
+                ))
             }
             return dateBox.unbox()
         case .millisecondsSince1970:
@@ -525,7 +560,10 @@ extension _XMLDecoder {
                 throw DecodingError._typeMismatch(at: codingPath, expectation: Date.self, reality: box)
             }
             guard let dateBox = DateBox(millisecondsSince1970: string) else {
-                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Expected date string to be formatted in milliseconds since 1970."))
+                throw DecodingError.dataCorrupted(DecodingError.Context(
+                    codingPath: codingPath,
+                    debugDescription: "Expected date string to be formatted in milliseconds since 1970."
+                ))
             }
             return dateBox.unbox()
         case .iso8601:
@@ -533,7 +571,10 @@ extension _XMLDecoder {
                 throw DecodingError._typeMismatch(at: codingPath, expectation: Date.self, reality: box)
             }
             guard let dateBox = DateBox(iso8601: string) else {
-                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Expected date string to be ISO8601-formatted."))
+                throw DecodingError.dataCorrupted(DecodingError.Context(
+                    codingPath: codingPath,
+                    debugDescription: "Expected date string to be ISO8601-formatted."
+                ))
             }
             return dateBox.unbox()
         case let .formatted(formatter):
@@ -541,7 +582,10 @@ extension _XMLDecoder {
                 throw DecodingError._typeMismatch(at: codingPath, expectation: Date.self, reality: box)
             }
             guard let dateBox = DateBox(xmlString: string, formatter: formatter) else {
-                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Date string does not match format expected by formatter."))
+                throw DecodingError.dataCorrupted(DecodingError.Context(
+                    codingPath: codingPath,
+                    debugDescription: "Date string does not match format expected by formatter."
+                ))
             }
             return dateBox.unbox()
         case let .custom(closure):
@@ -565,7 +609,10 @@ extension _XMLDecoder {
                 throw DecodingError._typeMismatch(at: codingPath, expectation: Date.self, reality: box)
             }
             guard let dataBox = DataBox(base64: string) else {
-                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Encountered Data is not valid Base64"))
+                throw DecodingError.dataCorrupted(DecodingError.Context(
+                    codingPath: codingPath,
+                    debugDescription: "Encountered Data is not valid Base64"
+                ))
             }
             return dataBox.unbox()            
         case let .custom(closure):
@@ -590,8 +637,10 @@ extension _XMLDecoder {
             }
 
             guard let url = URL(string: urlString) else {
-                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath,
-                                                                        debugDescription: "Invalid URL string."))
+                throw DecodingError.dataCorrupted(DecodingError.Context(
+                    codingPath: codingPath,
+                    debugDescription: "Invalid URL string."
+                ))
             }
 
             decoded = (url as! T)

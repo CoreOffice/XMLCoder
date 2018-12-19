@@ -65,7 +65,7 @@ extension FloatBox: Box {
     /// ---
     ///
     /// [Schema definition](https://www.w3.org/TR/xmlschema-2/#float)
-    var xmlString: String? {
+    func xmlString() -> String? {
         guard !self.unboxed.isNaN else {
             return "NaN"
         }
