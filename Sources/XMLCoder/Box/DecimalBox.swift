@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct DecimalBox: Equatable {
+struct DecimalBox: Equatable {
     typealias Unboxed = Decimal
     
     let unboxed: Unboxed

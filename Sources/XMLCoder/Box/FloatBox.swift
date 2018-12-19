@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct FloatBox: Equatable {
+struct FloatBox: Equatable {
     typealias Unboxed = Float64
     
     let unboxed: Unboxed

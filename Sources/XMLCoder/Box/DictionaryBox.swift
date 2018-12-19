@@ -8,7 +8,7 @@
 import Foundation
 
 // Minimalist implementation of an order-preserving keyed box:
-internal class DictionaryBox {
+class DictionaryBox {
     typealias Key = String
     typealias Value = Box
     

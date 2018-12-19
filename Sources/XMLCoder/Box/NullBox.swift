@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct NullBox {
+struct NullBox {
     init() {}
 }
 

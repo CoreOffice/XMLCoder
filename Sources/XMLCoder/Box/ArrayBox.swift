@@ -8,7 +8,7 @@
 import Foundation
 
 // Minimalist implementation of an order-preserving unkeyed box:
-internal class ArrayBox {
+class ArrayBox {
     typealias Element = Box
     typealias Unboxed = [Element]
     

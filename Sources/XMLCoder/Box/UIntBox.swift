@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct UIntBox: Equatable {
+struct UIntBox: Equatable {
     typealias Unboxed = UInt
     
     let unboxed: Unboxed
