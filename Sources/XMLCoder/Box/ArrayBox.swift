@@ -70,6 +70,14 @@ extension ArrayBox: Box {
     }
 }
 
+extension ArrayBox: Sequence {
+    typealias Iterator = Unboxed.Iterator
+    
+    func makeIterator() -> Iterator {
+        return self.unboxed.makeIterator()
+    }
+}
+
 extension ArrayBox: CustomStringConvertible {
     var description: String {
         return self.unboxed.description

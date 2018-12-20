@@ -77,6 +77,13 @@ extension DictionaryBox: Box {
     }
 }
 
+extension DictionaryBox: Sequence {
+    typealias Iterator = Unboxed.Iterator
+    
+    func makeIterator() -> Iterator {
+        return self.unboxed.makeIterator()
+    }
+}
 
 extension DictionaryBox: CustomStringConvertible {
     var description: String {
