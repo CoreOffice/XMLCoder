@@ -1,35 +1,32 @@
 //
-//  ArrayTest.swift
+//  DictionaryTests.swift
 //  XMLCoderTests
 //
 //  Created by Max Desiatov on 19/11/2018.
 //
 
-import Foundation
 import XCTest
 @testable import XMLCoder
 
-private struct Container: Codable, Equatable {
-    let elements: [String]
-
-    enum CodingKeys: String, CodingKey {
-        case elements = "element"
+class DictionaryTests: XCTestCase {
+    struct Container: Codable, Equatable {
+        let value: [String: Int]
     }
-}
 
-class ArrayTest: XCTestCase {
     func testEmpty() {
         let decoder = XMLDecoder()
         
         do {
-            let xml = """
+            let xmlString =
+"""
 <?xml version="1.0" encoding="UTF-8"?>
-<elements>
-</elements>
-""".data(using: .utf8)!
+<container>
+</container>
+"""
+                let xmlData = xmlString.data(using: .utf8)!
             
-            let container = try decoder.decode(Container.self, from: xml)
-            XCTAssertEqual(container.elements, [])
+            let decoded = try decoder.decode(Container.self, from: xmlData)
+            XCTAssertEqual(decoded.value, [:])
         } catch {
             XCTAssert(false, "failed to decode test xml: \(error)")
         }
@@ -39,15 +36,19 @@ class ArrayTest: XCTestCase {
         let decoder = XMLDecoder()
         
         do {
-            let xml = """
+            let xmlString =
+"""
 <?xml version="1.0" encoding="UTF-8"?>
-<elements>
-    <element>foo</element>
-</elements>
-""".data(using: .utf8)!
+<container>
+    <value>
+        <foo>12</foo>
+    </value>
+</container>
+"""
+                let xmlData = xmlString.data(using: .utf8)!
             
-            let container = try decoder.decode(Container.self, from: xml)
-            XCTAssertEqual(container.elements, ["foo"])
+            let decoded = try decoder.decode(Container.self, from: xmlData)
+            XCTAssertEqual(decoded.value, ["foo": 12])
         } catch {
             XCTAssert(false, "failed to decode test xml: \(error)")
         }
@@ -57,16 +58,20 @@ class ArrayTest: XCTestCase {
         let decoder = XMLDecoder()
         
         do {
-            let xml = """
+            let xmlString =
+"""
 <?xml version="1.0" encoding="UTF-8"?>
-<elements>
-    <element>foo</element>
-    <element>bar</element>
-</elements>
-""".data(using: .utf8)!
+<container>
+    <value>
+        <foo>12</foo>
+        <bar>34</bar>
+    </value>
+</container>
+"""
+                let xmlData = xmlString.data(using: .utf8)!
             
-            let container = try decoder.decode(Container.self, from: xml)
-            XCTAssertEqual(container.elements, ["foo", "bar"])
+            let decoded = try decoder.decode(Container.self, from: xmlData)
+            XCTAssertEqual(decoded.value, ["foo": 12, "bar": 34])
         } catch {
             XCTAssert(false, "failed to decode test xml: \(error)")
         }

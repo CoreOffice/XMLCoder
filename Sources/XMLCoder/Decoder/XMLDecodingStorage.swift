@@ -15,7 +15,7 @@ internal struct _XMLDecodingStorage {
 
     /// The container stack.
     /// Elements may be any one of the XML types (String, [String : Any]).
-    private var containers: [Any] = []
+    private var containers: [Box] = []
 
     // MARK: - Initialization
 
@@ -28,12 +28,12 @@ internal struct _XMLDecodingStorage {
         return containers.count
     }
 
-    var topContainer: Any {
+    var topContainer: Box {
         precondition(!containers.isEmpty, "Empty container stack.")
         return containers.last!
     }
 
-    mutating func push(container: Any) {
+    mutating func push(container: Box) {
         containers.append(container)
     }
 

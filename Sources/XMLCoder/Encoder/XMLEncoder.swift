@@ -265,20 +265,28 @@ open class XMLEncoder {
         )
         encoder.nodeEncodings.append(options.nodeEncodingStrategy.nodeEncodings(forType: T.self, with: encoder))
 
-        guard let topLevel = try encoder.box_(value) else {
-            throw EncodingError.invalidValue(value, EncodingError.Context(codingPath: [], debugDescription: "Top-level \(T.self) did not encode any values."))
+        guard let topLevel = try encoder.boxOrNil(value) else {
+            throw EncodingError.invalidValue(value, EncodingError.Context(
+                codingPath: [],
+                debugDescription: "Top-level \(T.self) did not encode any values."
+            ))
         }
-
-        if topLevel is NSNull {
-            throw EncodingError.invalidValue(value, EncodingError.Context(codingPath: [], debugDescription: "Top-level \(T.self) encoded as null XML fragment."))
-        } else if topLevel is NSNumber {
-            throw EncodingError.invalidValue(value, EncodingError.Context(codingPath: [], debugDescription: "Top-level \(T.self) encoded as number XML fragment."))
-        } else if topLevel is NSString {
-            throw EncodingError.invalidValue(value, EncodingError.Context(codingPath: [], debugDescription: "Top-level \(T.self) encoded as string XML fragment."))
+        
+        let elementOrNone: _XMLElement?
+        
+        if let dictionary = topLevel as? DictionaryBox {
+            elementOrNone = _XMLElement.createRootElement(rootKey: rootKey, object: dictionary)
+        } else if let array = topLevel as? ArrayBox {
+            elementOrNone = _XMLElement.createRootElement(rootKey: rootKey, object: array)
+        } else {
+            fatalError("Unrecognized top-level element.")
         }
-
-        guard let element = _XMLElement.createRootElement(rootKey: rootKey, object: topLevel) else {
-            throw EncodingError.invalidValue(value, EncodingError.Context(codingPath: [], debugDescription: "Unable to encode the given top-level value to XML."))
+        
+        guard let element = elementOrNone else {
+            throw EncodingError.invalidValue(value, EncodingError.Context(
+                codingPath: [],
+                debugDescription: "Unable to encode the given top-level value to XML."
+            ))
         }
 
         let withCDATA = stringEncodingStrategy != .deferredToString
@@ -336,12 +344,12 @@ internal class _XMLEncoder: Encoder {
 
     public func container<Key>(keyedBy _: Key.Type) -> KeyedEncodingContainer<Key> {
         // If an existing keyed container was already requested, return that one.
-        let topContainer: NSMutableDictionary
+        let topContainer: DictionaryBox
         if canEncodeNewValue {
             // We haven't yet pushed a container at this level; do so here.
             topContainer = storage.pushKeyedContainer()
         } else {
-            guard let container = storage.lastContainer as? NSMutableDictionary else {
+            guard let container = storage.lastContainer as? DictionaryBox else {
                 preconditionFailure("Attempt to push new keyed encoding container when already previously encoded at this path.")
             }
 
@@ -354,12 +362,12 @@ internal class _XMLEncoder: Encoder {
 
     public func unkeyedContainer() -> UnkeyedEncodingContainer {
         // If an existing unkeyed container was already requested, return that one.
-        let topContainer: NSMutableArray
+        let topContainer: ArrayBox
         if canEncodeNewValue {
             // We haven't yet pushed a container at this level; do so here.
             topContainer = storage.pushUnkeyedContainer()
         } else {
-            guard let container = storage.lastContainer as? NSMutableArray else {
+            guard let container = storage.lastContainer as? ArrayBox else {
                 preconditionFailure("Attempt to push new unkeyed encoding container when already previously encoded at this path.")
             }
 
@@ -383,7 +391,7 @@ extension _XMLEncoder: SingleValueEncodingContainer {
 
     public func encodeNil() throws {
         assertCanEncodeNewValue()
-        storage.push(container: NSNull())
+        storage.push(container: box())
     }
 
     public func encode(_ value: Bool) throws {
@@ -464,113 +472,107 @@ extension _XMLEncoder: SingleValueEncodingContainer {
 
 extension _XMLEncoder {
     /// Returns the given value boxed in a container appropriate for pushing onto the container stack.
-    internal func box(_ value: Bool)   -> NSObject { return NSNumber(value: value) }
-    internal func box(_ value: Int)    -> NSObject { return NSNumber(value: value) }
-    internal func box(_ value: Int8)   -> NSObject { return NSNumber(value: value) }
-    internal func box(_ value: Int16)  -> NSObject { return NSNumber(value: value) }
-    internal func box(_ value: Int32)  -> NSObject { return NSNumber(value: value) }
-    internal func box(_ value: Int64)  -> NSObject { return NSNumber(value: value) }
-    internal func box(_ value: UInt)   -> NSObject { return NSNumber(value: value) }
-    internal func box(_ value: UInt8)  -> NSObject { return NSNumber(value: value) }
-    internal func box(_ value: UInt16) -> NSObject { return NSNumber(value: value) }
-    internal func box(_ value: UInt32) -> NSObject { return NSNumber(value: value) }
-    internal func box(_ value: UInt64) -> NSObject { return NSNumber(value: value) }
-    internal func box(_ value: String) -> NSObject { return NSString(string: value) }
+    internal func box() -> Box {
+        return NullBox()
+    }
     
-    internal func box(_ value: Float) throws -> NSObject {
-        if value.isInfinite || value.isNaN {
-            guard case let .convertToString(positiveInfinity: posInfString, negativeInfinity: negInfString, nan: nanString) = options.nonConformingFloatEncodingStrategy else {
-                throw EncodingError._invalidFloatingPointValue(value, at: codingPath)
-            }
-
-            if value == Float.infinity {
-                return posInfString as NSObject
-            } else if value == -Float.infinity {
-                return negInfString as NSObject
-            } else {
-                return nanString as NSObject
-            }
+    internal func box(_ value: Bool) -> Box {
+        return BoolBox(value)
+    }
+    
+    internal func box(_ value: Decimal) -> Box {
+        return DecimalBox(value)
+    }
+    
+    internal func box<T: BinaryInteger & SignedInteger & Encodable>(_ value: T) -> Box {
+        return IntBox(value)
+    }
+    
+    internal func box<T: BinaryInteger & UnsignedInteger & Encodable>(_ value: T) -> Box {
+        return UIntBox(value)
+    }
+    
+    internal func box(_ value: String) -> Box {
+        return StringBox(value)
+    }
+    
+    internal func box<T: BinaryFloatingPoint & Encodable>(_ value: T) throws -> Box {
+        guard value.isInfinite || value.isNaN else {
+            return FloatBox(value)
+        }
+        guard case let .convertToString(positiveInfinity: posInfString, negativeInfinity: negInfString, nan: nanString) = options.nonConformingFloatEncodingStrategy else {
+            throw EncodingError._invalidFloatingPointValue(value, at: codingPath)
+        }
+        if value == T.infinity {
+            return StringBox(posInfString)
+        } else if value == -T.infinity {
+            return StringBox(negInfString)
         } else {
-            return NSNumber(value: value)
+            return StringBox(nanString)
         }
     }
-
-    internal func box(_ value: Double) throws -> NSObject {
-        if value.isInfinite || value.isNaN {
-            guard case let .convertToString(positiveInfinity: posInfString, negativeInfinity: negInfString, nan: nanString) = options.nonConformingFloatEncodingStrategy else {
-                throw EncodingError._invalidFloatingPointValue(value, at: codingPath)
-            }
-
-            if value == Double.infinity {
-                return posInfString as NSObject
-            } else if value == -Double.infinity {
-                return negInfString as NSObject
-            } else {
-                return nanString as NSObject
-            }
-        } else {
-            return NSNumber(value: value)
-        }
-    }
-
-    internal func box(_ value: Date) throws -> NSObject {
+    
+    internal func box(_ value: Date) throws -> Box {
         switch options.dateEncodingStrategy {
         case .deferredToDate:
             try value.encode(to: self)
             return storage.popContainer()
         case .secondsSince1970:
-            return NSNumber(value: value.timeIntervalSince1970)
+            return DateBox(value, format: .secondsSince1970)
         case .millisecondsSince1970:
-            return NSNumber(value: value.timeIntervalSince1970 * 1000.0)
+            return DateBox(value, format: .millisecondsSince1970)
         case .iso8601:
-            if #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
-                return _iso8601Formatter.string(from: value) as NSObject
-            } else {
-                fatalError("ISO8601DateFormatter is unavailable on this platform.")
-            }
+            return DateBox(value, format: .iso8601)
         case let .formatted(formatter):
-            return formatter.string(from: value) as NSObject
+            return DateBox(value, format: .formatter(formatter))
         case let .custom(closure):
             let depth = storage.count
             try closure(value, self)
 
-            guard storage.count > depth else { return NSDictionary() }
+            guard storage.count > depth else { return DictionaryBox() }
 
             return storage.popContainer()
         }
     }
 
-    internal func box(_ value: Data) throws -> NSObject {
+    internal func box(_ value: Data) throws -> Box {
         switch options.dataEncodingStrategy {
         case .deferredToData:
             try value.encode(to: self)
             return storage.popContainer()
         case .base64:
-            return value.base64EncodedString() as NSObject
+            return DataBox(value, format: .base64)
         case let .custom(closure):
             let depth = storage.count
             try closure(value, self)
 
-            guard storage.count > depth else { return NSDictionary() }
+            guard storage.count > depth else { return DictionaryBox() }
 
-            return storage.popContainer() as NSObject
+            return storage.popContainer()
         }
     }
     
-    internal func box<T : Encodable>(_ value: T) throws -> NSObject {
-        return try self.box_(value) ?? NSDictionary()
+    internal func boxOrNil<T: Encodable>(_ value: T) throws -> Box? {
+        return try self.box(value)
+    }
+    
+    internal func box<T : Encodable>(_ value: T) throws -> Box {
+        return try self.box_(value) ?? DictionaryBox()
     }
 
     // This method is called "box_" instead of "box" to disambiguate it from the overloads. Because the return type here is different from all of the "box" overloads (and is more general), any "box" calls in here would call back into "box" recursively instead of calling the appropriate overload, which is not what we want.
-    internal func box_<T : Encodable>(_ value: T) throws -> NSObject? {
+    private func box_<T : Encodable>(_ value: T) throws -> Box? {
         if T.self == Date.self || T.self == NSDate.self {
-            return try box((value as! Date))
-        } else if T.self == Data.self || T.self == NSData.self {
-            return try box((value as! Data))
-        } else if T.self == URL.self || T.self == NSURL.self {
+            return try box(value as! Date)
+        }
+        if T.self == Data.self || T.self == NSData.self {
+            return try box(value as! Data)
+        }
+        if T.self == URL.self || T.self == NSURL.self {
             return box((value as! URL).absoluteString)
-        } else if T.self == Decimal.self || T.self == NSDecimalNumber.self {
-            return (value as! NSDecimalNumber)
+        }
+        if T.self == Decimal.self || T.self == NSDecimalNumber.self {
+            return box(value as! Decimal)
         }
 
         let depth = storage.count
