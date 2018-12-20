@@ -9,8 +9,28 @@ import Foundation
 import XCTest
 @testable import XMLCoder
 
+private let itemXML = """
+<?xml version="1.0"?>
+<item>
+    <title>
+        <![CDATA[LION Publishers: Journalist develops &#8216;Push&#8217; open source mobile app for small news organizations]]>
+    </title>
+    <link>https://www.rjionline.org/stories/lion-publishers-journalist-develops-push-open-source-mobile-app-for-small-n</link>
+    <guid>https://www.rjionline.org/stories/lion-publishers-journalist-develops-push-open-source-mobile-app-for-small-n</guid>
+    <enclosure url="https://www.rjionline.org/images/posts/LION_Pub_logo.png" length="49019" type="image/png" />
+    <description>
+        <![CDATA[Developer, journalist and RJI Fellow Christopher Guess set out to solve some of the bigger mobile distribution problems of small, online publications.]]>
+    </description>
+    <dc:subject>
+        <![CDATA[Mobile, Presentations, RJI fellowships, Technology,]]>
+    </dc:subject>
+    <dc:date>2017-10-28T20:33:00+00:00</dc:date>
+</item>
+""".data(using: .utf8)!
+
 class RJITest: XCTestCase {
     struct RSS: Codable, Equatable {
+        let version: String
         let dc: URL
         let sy: URL
         let admin: URL
@@ -20,7 +40,7 @@ class RJITest: XCTestCase {
         
         enum CodingKeys: String, CodingKey {
             case channel = "channel"
-            
+            case version = "version"
             case dc = "xmlns:dc"
             case sy = "xmlns:sy"
             case admin = "xmlns:admin"
@@ -56,7 +76,8 @@ class RJITest: XCTestCase {
             case resource = "rdf:resource"
         }
         
-        init(title: String, link: URL,
+        init(title: String,
+             link: URL,
              description: String,
              language: String,
              creator: String,
@@ -86,7 +107,6 @@ class RJITest: XCTestCase {
             self.creator = try values.decode(String.self, forKey: .creator)
             self.rights = try values.decode(String.self, forKey: .rights)
             self.date = try values.decode(Date.self, forKey: .date)
-            
             let generatorAgentValues = try values.nestedContainer(keyedBy: GeneratorAgentKeys.self, forKey: .generatorAgentResource)
             self.generatorAgentResource = try generatorAgentValues.decode(URL.self, forKey: .resource)
             
@@ -109,8 +129,9 @@ class RJITest: XCTestCase {
         let guid: URL
         let enclosure: Enclosure?
         let description: String
+        let rights: String?
         let subject: String?
-        let date: Date
+        let date: Date?
         let author: String?
         
         enum CodingKeys: String, CodingKey {
@@ -118,6 +139,7 @@ class RJITest: XCTestCase {
             
             case subject = "dc:subject"
             case date = "dc:date"
+            case rights = "dc:rights"
             case author
         }
         
@@ -129,8 +151,9 @@ class RJITest: XCTestCase {
             self.guid = try values.decode(URL.self, forKey: .guid)
             self.enclosure = try values.decodeIfPresent(Enclosure.self, forKey: .enclosure)
             self.description = try values.decode(String.self, forKey: .description)
+            self.rights = try values.decodeIfPresent(String.self, forKey: .rights)
             self.subject = try values.decodeIfPresent(String.self, forKey: .subject)
-            self.date = try values.decode(Date.self, forKey: .date)
+            self.date = try values.decodeIfPresent(Date.self, forKey: .date)
             self.author = try values.decodeIfPresent(String.self, forKey: .author)
         }
     }
@@ -148,22 +171,42 @@ class RJITest: XCTestCase {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
-    
-       
+        encoder.dateEncodingStrategy = .formatted(dateFormatter)
+        
         do {
             let rss1 = try decoder.decode(RSS.self, from: rjiSampleXML)
-            data = try encoder.encode(rss1, withRootKey: "rss",
-                                          header: XMLHeader(version: 1.0,
-                                                            encoding: "UTF-8"))
+            
             var testRss = rss1;
             for item in rss1.channel.items{
                 testRss.channel.items = [item]
-                data = try encoder.encode(testRss, withRootKey: "rss",
+                let data = try encoder.encode(testRss, withRootKey: "rss",
                                           header: XMLHeader(version: 1.0,
                                                             encoding: "UTF-8"))
                 let decodedItem = try decoder.decode(RSS.self, from: data)
                 XCTAssertEqual(testRss, decodedItem)
             }
+        } catch {
+            XCTAssert(false, "failed to decode test xml: \(error)")
+        }
+    }
+    
+    func testItem() throws{
+        let decoder = XMLDecoder()
+        let encoder = XMLEncoder()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        decoder.dateDecodingStrategy = .formatted(dateFormatter)
+        encoder.dateEncodingStrategy = .formatted(dateFormatter)
+        
+        let title = try decoder.decode(Item.self, from: itemXML)
+        
+        do {
+            let data = try encoder.encode(title, withRootKey: "item",
+                                          header: XMLHeader(version: 1.0,
+                                                            encoding: "UTF-8"))
+            let decodedItem = try decoder.decode(Item.self, from: data)
+            XCTAssertEqual(title, decodedItem)
         } catch {
             XCTAssert(false, "failed to decode test xml: \(error)")
         }
@@ -187,6 +230,7 @@ class RJITest: XCTestCase {
     
     static var allTests = [
         ("testRSS", testRSS),
+        ("testItem", testItem),
         ("testBenchmarkRSS", testBenchmarkRSS),
     ]
 }
