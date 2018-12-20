@@ -13,10 +13,6 @@ class DataBoxTests: XCTestCase {
     
     typealias FromXMLString = (String) -> Boxed?
     
-    let base64: FromXMLString = { xmlString in
-        return Boxed(base64: xmlString)
-    }
-    
     func testUnbox() {
         let values: [Boxed.Unboxed] = [
             Data(base64Encoded: "bG9yZW0gaXBzdW0=")!,
@@ -29,43 +25,31 @@ class DataBoxTests: XCTestCase {
         }
     }
     
-    func testXMLString() {
-        let values: [(String, FromXMLString)] = [
-            ("bG9yZW0gaXBzdW0=", base64),
-            ("ZG9sb3Igc2l0IGFtZXQ=", base64),
-            ("Y29uc2VjdGV0dXIgYWRpcGlzY2luZyBlbGl0", base64),
+    func testValidXMLStrings_base64() {
+        let xmlStrings = [
+            "",
+            "bG9yZW0gaXBzdW0=",
+            "ZG9sb3Igc2l0IGFtZXQ=",
+            "Y29uc2VjdGV0dXIgYWRpcGlzY2luZyBlbGl0",
         ]
         
-        for (string, fromXMLString) in values {
-            let box = fromXMLString(string)!
-            XCTAssertEqual(box.xmlString(), string)
+        for xmlString in xmlStrings {
+            let boxOrNil = DataBox(base64: xmlString)
+            XCTAssertNotNil(boxOrNil)
+            
+            guard let box = boxOrNil else { continue }
+            
+            XCTAssertEqual(box.xmlString(), xmlString)
         }
     }
     
-    func testValidValues() {
-        typealias Constructor = (String) -> Boxed?
-        
-        let values: [(String, FromXMLString)] = [
-            ("bG9yZW0gaXBzdW0=", base64),
-            ("ZG9sb3Igc2l0IGFtZXQ=", base64),
-            ("Y29uc2VjdGV0dXIgYWRpcGlzY2luZyBlbGl0", base64),
+    func testInvalidXMLStrings_base64() {
+        let xmlStrings = [
+            "lorem ipsum",
         ]
         
-        for (string, fromXMLString) in values {
-            let box = fromXMLString(string)
-            XCTAssertNotNil(box)
-        }
-    }
-    
-    func testInvalidValues() {
-        typealias Constructor = (String) -> Boxed?
-        
-        let values: [(String, Constructor)] = [
-            ("lorem ipsum", base64),
-        ]
-        
-        for (string, fromXMLString) in values {
-            let box = fromXMLString(string)
+        for xmlString in xmlStrings {
+            let box = Boxed(base64: xmlString)
             XCTAssertNil(box)
         }
     }

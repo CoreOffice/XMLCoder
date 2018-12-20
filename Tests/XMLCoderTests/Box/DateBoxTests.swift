@@ -11,21 +11,6 @@ import XCTest
 class DateBoxTests: XCTestCase {
     typealias Boxed = DateBox
     
-    typealias FromXMLString = (String) -> Boxed?
-    
-    let secondsSince1970: FromXMLString = { xmlString in
-        return Boxed(secondsSince1970: xmlString)
-    }
-    let millisecondsSince1970: FromXMLString = { xmlString in
-        return Boxed(millisecondsSince1970: xmlString)
-    }
-    let iso8601: FromXMLString = { xmlString in
-        return Boxed(iso8601: xmlString)
-    }
-    lazy var formatter: FromXMLString = { xmlString in
-        return Boxed(xmlString: xmlString, formatter: self.customFormatter)
-    }
-    
     let customFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -45,70 +30,115 @@ class DateBoxTests: XCTestCase {
         }
     }
     
-    func testXMLString() {
-        let values: [(String, FromXMLString)] = [
-            ("-1000.0", secondsSince1970),
-            ("0.0", secondsSince1970),
-            ("1000.0", secondsSince1970),
-            
-            ("-1000.0", millisecondsSince1970),
-            ("0.0", millisecondsSince1970),
-            ("1000.0", millisecondsSince1970),
-            
-            ("1970-01-23T01:23:45Z", iso8601),
-            
-            ("1970-01-23 01:23:45", formatter),
+    func testValidStrings_secondsSince1970() {
+        let xmlStrings = [
+            "-1000.0",
+            "0.0",
+            "1000.0",
         ]
         
-        for (string, fromXMLString) in values {
-            let box = fromXMLString(string)!
-            XCTAssertEqual(box.xmlString(), string)
+        for xmlString in xmlStrings {
+            let boxOrNil = Boxed(secondsSince1970: xmlString)
+            XCTAssertNotNil(boxOrNil)
+            
+            guard let box = boxOrNil else { continue }
+            
+            XCTAssertEqual(box.xmlString(), xmlString)
         }
     }
     
-    func testValidValues() {
-        typealias Constructor = (String) -> Boxed?
-        
-        let values: [(String, FromXMLString)] = [
-            ("-1000.0", secondsSince1970),
-            ("0", secondsSince1970),
-            ("1000.0", secondsSince1970),
-            
-            ("-1000.0", millisecondsSince1970),
-            ("0", millisecondsSince1970),
-            ("1000.0", millisecondsSince1970),
-
-            ("1970-01-23T01:23:45Z", iso8601),
-            
-            ("1970-01-23 01:23:45", formatter),
+    func testValidStrings_millisecondsSince1970() {
+        let xmlStrings = [
+            "-1000.0",
+            "0.0",
+            "1000.0",
         ]
         
-        for (string, fromXMLString) in values {
-            let box = fromXMLString(string)
-            XCTAssertNotNil(box)
+        for xmlString in xmlStrings {
+            let boxOrNil = Boxed(millisecondsSince1970: xmlString)
+            XCTAssertNotNil(boxOrNil)
+            
+            guard let box = boxOrNil else { continue }
+            
+            XCTAssertEqual(box.xmlString(), xmlString)
         }
     }
     
-    func testInvalidValues() {
-        typealias Constructor = (String) -> Boxed?
-        
-        let values: [(String, Constructor)] = [
-            ("foobar", secondsSince1970),
-            ("", secondsSince1970),
-            
-            ("foobar", millisecondsSince1970),
-            ("", millisecondsSince1970),
-            
-            ("foobar", iso8601),
-            ("", iso8601),
-            
-            ("foobar", formatter),
-            ("", formatter),
+    func testValidStrings_iso8601() {
+        let xmlStrings = [
+            "1970-01-23T01:23:45Z",
         ]
         
-        for (string, fromXMLString) in values {
-            let box = fromXMLString(string)
-            XCTAssertNil(box)
+        for xmlString in xmlStrings {
+            let boxOrNil = Boxed(iso8601: xmlString)
+            XCTAssertNotNil(boxOrNil)
+            
+            guard let box = boxOrNil else { continue }
+            
+            XCTAssertEqual(box.xmlString(), xmlString)
+        }
+    }
+    
+    func testValidStrings_formatter() {
+        let xmlStrings = [
+            "1970-01-23 01:23:45",
+        ]
+        
+        for xmlString in xmlStrings {
+            let boxOrNil = Boxed(xmlString: xmlString, formatter: self.customFormatter)
+            XCTAssertNotNil(boxOrNil)
+            
+            guard let box = boxOrNil else { continue }
+            
+            XCTAssertEqual(box.xmlString(), xmlString)
+        }
+    }
+    
+    func testInvalidStrings_secondsSince1970() {
+        let xmlStrings = [
+            "lorem ipsum",
+            "",
+        ]
+        
+        for xmlString in xmlStrings {
+            let boxOrNil = Boxed(secondsSince1970: xmlString)
+            XCTAssertNil(boxOrNil)
+        }
+    }
+    
+    func testInvalidStrings_millisecondsSince1970() {
+        let xmlStrings = [
+            "lorem ipsum",
+            "",
+        ]
+        
+        for xmlString in xmlStrings {
+            let boxOrNil = Boxed(millisecondsSince1970: xmlString)
+            XCTAssertNil(boxOrNil)
+        }
+    }
+    
+    func testInvalidStrings_iso8601() {
+        let xmlStrings = [
+            "lorem ipsum",
+            "",
+        ]
+        
+        for xmlString in xmlStrings {
+            let boxOrNil = Boxed(iso8601: xmlString)
+            XCTAssertNil(boxOrNil)
+        }
+    }
+    
+    func testInvalidStrings_formatter() {
+        let xmlStrings = [
+            "lorem ipsum",
+            "",
+        ]
+    
+        for xmlString in xmlStrings {
+            let boxOrNil = Boxed(xmlString: xmlString, formatter: self.customFormatter)
+            XCTAssertNil(boxOrNil)
         }
     }
 }

@@ -271,13 +271,6 @@ open class XMLEncoder {
                 debugDescription: "Top-level \(T.self) did not encode any values."
             ))
         }
-
-//        if topLevel.isFragment {
-//            throw EncodingError.invalidValue(value, EncodingError.Context(
-//                codingPath: [],
-//                debugDescription: "Top-level \(T.self) encoded as XML fragment."
-//            ))
-//        }
         
         let elementOrNone: _XMLElement?
         
@@ -495,38 +488,34 @@ extension _XMLEncoder {
     internal func box(_ value: String) -> Box { return StringBox(value) }
     
     internal func box(_ value: Float) throws -> Box {
-        if value.isInfinite || value.isNaN {
-            guard case let .convertToString(positiveInfinity: posInfString, negativeInfinity: negInfString, nan: nanString) = options.nonConformingFloatEncodingStrategy else {
-                throw EncodingError._invalidFloatingPointValue(value, at: codingPath)
-            }
-
-            if value == Float.infinity {
-                return StringBox(posInfString)
-            } else if value == -Float.infinity {
-                return StringBox(negInfString)
-            } else {
-                return StringBox(nanString)
-            }
-        } else {
+        guard value.isInfinite || value.isNaN else {
             return FloatBox(value)
+        }
+        guard case let .convertToString(positiveInfinity: posInfString, negativeInfinity: negInfString, nan: nanString) = options.nonConformingFloatEncodingStrategy else {
+            throw EncodingError._invalidFloatingPointValue(value, at: codingPath)
+        }
+        if value == Float.infinity {
+            return StringBox(posInfString)
+        } else if value == -Float.infinity {
+            return StringBox(negInfString)
+        } else {
+            return StringBox(nanString)
         }
     }
 
     internal func box(_ value: Double) throws -> Box {
-        if value.isInfinite || value.isNaN {
-            guard case let .convertToString(positiveInfinity: posInfString, negativeInfinity: negInfString, nan: nanString) = options.nonConformingFloatEncodingStrategy else {
-                throw EncodingError._invalidFloatingPointValue(value, at: codingPath)
-            }
-
-            if value == Double.infinity {
-                return StringBox(posInfString)
-            } else if value == -Double.infinity {
-                return StringBox(negInfString)
-            } else {
-                return StringBox(nanString)
-            }
-        } else {
+        guard value.isInfinite || value.isNaN else {
             return FloatBox(value)
+        }
+        guard case let .convertToString(positiveInfinity: posInfString, negativeInfinity: negInfString, nan: nanString) = options.nonConformingFloatEncodingStrategy else {
+            throw EncodingError._invalidFloatingPointValue(value, at: codingPath)
+        }
+        if value == Double.infinity {
+            return StringBox(posInfString)
+        } else if value == -Double.infinity {
+            return StringBox(negInfString)
+        } else {
+            return StringBox(nanString)
         }
     }
 
