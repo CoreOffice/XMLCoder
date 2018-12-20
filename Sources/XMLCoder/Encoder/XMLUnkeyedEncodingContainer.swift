@@ -35,30 +35,46 @@ internal struct _XMLUnkeyedEncodingContainer : UnkeyedEncodingContainer {
     
     // MARK: - UnkeyedEncodingContainer Methods
     
-    public mutating func encodeNil()             throws { self.container.append(self.encoder.box()) }
-    public mutating func encode(_ value: Bool)   throws { self.container.append(self.encoder.box(value)) }
-
-    public mutating func encode<T: FixedWidthInteger & Encodable>(_ value: T) throws {
-        try self.container.append(self.encoder.box(value))
+    public mutating func encodeNil() throws {
+        self.container.append(self.encoder.box())
+    }
+    
+    public mutating func encode(_ value: Bool) throws {
+        self.container.append(self.encoder.box(value))
+    }
+    
+    public mutating func encode(_ value: Decimal) throws {
+        self.container.append(self.encoder.box(value))
     }
 
-    public mutating func encode(_ value: String) throws { self.container.append(self.encoder.box(value)) }
+    public mutating func encode<T: BinaryInteger & SignedInteger & Encodable>(_ value: T) throws {
+        self.container.append(self.encoder.box(value))
+    }
     
-    public mutating func encode(_ value: Float)  throws {
-        // Since the float may be invalid and throw, the coding path needs to contain this key.
+    public mutating func encode<T: BinaryInteger & UnsignedInteger & Encodable>(_ value: T) throws {
+        self.container.append(self.encoder.box(value))
+    }
+
+    public mutating func encode<T: BinaryFloatingPoint & Encodable>(_ value: T)  throws {
+        // Since the float/double may be invalid and throw, the coding path needs to contain this key.
         self.encoder.codingPath.append(_XMLKey(index: self.count))
         defer { self.encoder.codingPath.removeLast() }
         self.container.append(try self.encoder.box(value))
     }
     
-    public mutating func encode(_ value: Double) throws {
-        // Since the double may be invalid and throw, the coding path needs to contain this key.
-        self.encoder.codingPath.append(_XMLKey(index: self.count))
-        defer { self.encoder.codingPath.removeLast() }
+    public mutating func encode(_ value: Date) throws {
         self.container.append(try self.encoder.box(value))
     }
     
-    public mutating func encode<T : Encodable>(_ value: T) throws {
+    public mutating func encode(_ value: Data) throws {
+        self.container.append(try self.encoder.box(value))
+    }
+    
+    public mutating func encode(_ value: String) throws {
+        self.container.append(self.encoder.box(value))
+    }
+    
+    public mutating func encode<T: Encodable>(_ value: T) throws {
         self.encoder.codingPath.append(_XMLKey(index: self.count))
         defer { self.encoder.codingPath.removeLast() }
         self.container.append(try self.encoder.box(value))

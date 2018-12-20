@@ -363,72 +363,32 @@ extension _XMLDecoder: SingleValueDecodingContainer {
         return try unbox(storage.topContainer)!
     }
 
-    public func decode(_: Int.Type) throws -> Int {
-        try expectNonNull(Int.self)
+    public func decode<T: BinaryInteger & SignedInteger & Decodable>(_: T.Type) throws -> T {
+        try expectNonNull(T.self)
         return try unbox(storage.topContainer)!
     }
-
-    public func decode(_: Int8.Type) throws -> Int8 {
-        try expectNonNull(Int8.self)
+    
+    public func decode<T: BinaryInteger & UnsignedInteger & Decodable>(_: T.Type) throws -> T {
+        try expectNonNull(T.self)
         return try unbox(storage.topContainer)!
     }
-
-    public func decode(_: Int16.Type) throws -> Int16 {
-        try expectNonNull(Int16.self)
+    
+    public func decode<T: BinaryFloatingPoint & Decodable>(_: T.Type) throws -> T {
+        try expectNonNull(T.self)
         return try unbox(storage.topContainer)!
     }
-
-    public func decode(_: Int32.Type) throws -> Int32 {
-        try expectNonNull(Int32.self)
-        return try unbox(storage.topContainer)!
-    }
-
-    public func decode(_: Int64.Type) throws -> Int64 {
-        try expectNonNull(Int64.self)
-        return try unbox(storage.topContainer)!
-    }
-
-    public func decode(_: UInt.Type) throws -> UInt {
-        try expectNonNull(UInt.self)
-        return try unbox(storage.topContainer)!
-    }
-
-    public func decode(_: UInt8.Type) throws -> UInt8 {
-        try expectNonNull(UInt8.self)
-        return try unbox(storage.topContainer)!
-    }
-
-    public func decode(_: UInt16.Type) throws -> UInt16 {
-        try expectNonNull(UInt16.self)
-        return try unbox(storage.topContainer)!
-    }
-
-    public func decode(_: UInt32.Type) throws -> UInt32 {
-        try expectNonNull(UInt32.self)
-        return try unbox(storage.topContainer)!
-    }
-
-    public func decode(_: UInt64.Type) throws -> UInt64 {
-        try expectNonNull(UInt64.self)
-        return try unbox(storage.topContainer)!
-    }
-
-    public func decode(_: Float.Type) throws -> Float {
-        try expectNonNull(Float.self)
-        return try unbox(storage.topContainer)!
-    }
-
-    public func decode(_: Double.Type) throws -> Double {
-        try expectNonNull(Double.self)
-        return try unbox(storage.topContainer)!
-    }
-
+    
     public func decode(_: String.Type) throws -> String {
         try expectNonNull(String.self)
         return try unbox(storage.topContainer)!
     }
     
     public func decode(_: String.Type) throws -> Date {
+        try expectNonNull(String.self)
+        return try unbox(storage.topContainer)!
+    }
+    
+    public func decode(_: String.Type) throws -> Data {
         try expectNonNull(String.self)
         return try unbox(storage.topContainer)!
     }
@@ -468,7 +428,7 @@ extension _XMLDecoder {
         return decimalBox.unbox()
     }
 
-    internal func unbox<T: Decodable & BinaryInteger & SignedInteger>(_ box: Box) throws -> T? {
+    internal func unbox<T: BinaryInteger & SignedInteger & Decodable>(_ box: Box) throws -> T? {
         guard !box.isNull else { return nil }
         
         guard let string = (box as? StringBox)?.unbox() else { return nil }
@@ -487,7 +447,7 @@ extension _XMLDecoder {
         return int
     }
     
-    internal func unbox<T: Decodable & BinaryInteger & UnsignedInteger>(_ box: Box) throws -> T? {
+    internal func unbox<T: BinaryInteger & UnsignedInteger & Decodable>(_ box: Box) throws -> T? {
         guard !box.isNull else { return nil }
         
         guard let string = (box as? StringBox)?.unbox() else { return nil }
@@ -506,7 +466,7 @@ extension _XMLDecoder {
         return uint
     }
 
-    internal func unbox<T: Decodable & BinaryFloatingPoint>(_ box: Box) throws -> T? {
+    internal func unbox<T: BinaryFloatingPoint & Decodable>(_ box: Box) throws -> T? {
         guard !box.isNull else { return nil }
         
         guard let string = (box as? StringBox)?.unbox() else { return nil }

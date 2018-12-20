@@ -114,7 +114,21 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
         // Since the float may be invalid and throw, the coding path needs to contain this key.
         self.encoder.codingPath.append(key)
         defer { self.encoder.codingPath.removeLast() }
-        self.container[_converted(key).stringValue] = try self.encoder.box(value)
+        guard let strategy = self.encoder.nodeEncodings.last else {
+            preconditionFailure("Attempt to access node encoding strategy from empty stack.")
+        }
+        switch strategy(key) {
+        case .attribute:
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? DictionaryBox {
+                attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
+            } else {
+                let attributesContainer = DictionaryBox()
+                attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
+                self.container[_XMLElement.attributesKey] = attributesContainer
+            }
+        case .element:
+            self.container[_converted(key).stringValue] = try self.encoder.box(value)
+        }
     }
     
     public mutating func encode(_ value: Double, forKey key: Key) throws {

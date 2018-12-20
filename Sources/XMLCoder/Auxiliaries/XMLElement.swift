@@ -42,14 +42,7 @@ internal class _XMLElement {
     fileprivate static func modifyElement(element: _XMLElement, parentElement: _XMLElement?, key: String?, object: DictionaryBox) {
         let attributesBox = object[_XMLElement.attributesKey] as? DictionaryBox
         let uniqueAttributes: [(String, String)]? = attributesBox?.unbox().compactMap { key, box in
-            switch box {
-            case let box as DateBox:
-                return box.xmlString().map { (key, $0) }
-            case let box as DataBox:
-                return box.xmlString().map { (key, $0) }
-            case _:
-                return box.xmlString().map { (key, $0) }
-            }
+            return box.xmlString().map { (key, $0) }
         }
         element.attributes = uniqueAttributes.map { Dictionary(uniqueKeysWithValues: $0) } ?? [:]
         

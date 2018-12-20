@@ -265,7 +265,7 @@ open class XMLEncoder {
         )
         encoder.nodeEncodings.append(options.nodeEncodingStrategy.nodeEncodings(forType: T.self, with: encoder))
 
-        guard let topLevel = try encoder.box_(value) else {
+        guard let topLevel = try encoder.boxOrNil(value) else {
             throw EncodingError.invalidValue(value, EncodingError.Context(
                 codingPath: [],
                 debugDescription: "Top-level \(T.self) did not encode any values."
@@ -472,53 +472,46 @@ extension _XMLEncoder: SingleValueEncodingContainer {
 
 extension _XMLEncoder {
     /// Returns the given value boxed in a container appropriate for pushing onto the container stack.
-    internal func box()   -> Box { return NullBox() }
-    internal func box(_ value: Bool)   -> Box { return BoolBox(value) }
-    internal func box(_ value: Decimal) -> Box { return DecimalBox(value) }
-    internal func box(_ value: Int)    -> Box { return IntBox(value) }
-    internal func box(_ value: Int8)   -> Box { return IntBox(value) }
-    internal func box(_ value: Int16)  -> Box { return IntBox(value) }
-    internal func box(_ value: Int32)  -> Box { return IntBox(value) }
-    internal func box(_ value: Int64)  -> Box { return IntBox(value) }
-    internal func box(_ value: UInt)   -> Box { return UIntBox(value) }
-    internal func box(_ value: UInt8)  -> Box { return UIntBox(value) }
-    internal func box(_ value: UInt16) -> Box { return UIntBox(value) }
-    internal func box(_ value: UInt32) -> Box { return UIntBox(value) }
-    internal func box(_ value: UInt64) -> Box { return UIntBox(value) }
-    internal func box(_ value: String) -> Box { return StringBox(value) }
+    internal func box() -> Box {
+        return NullBox()
+    }
     
-    internal func box(_ value: Float) throws -> Box {
+    internal func box(_ value: Bool) -> Box {
+        return BoolBox(value)
+    }
+    
+    internal func box(_ value: Decimal) -> Box {
+        return DecimalBox(value)
+    }
+    
+    internal func box<T: BinaryInteger & SignedInteger & Encodable>(_ value: T) -> Box {
+        return IntBox(value)
+    }
+    
+    internal func box<T: BinaryInteger & UnsignedInteger & Encodable>(_ value: T) -> Box {
+        return UIntBox(value)
+    }
+    
+    internal func box(_ value: String) -> Box {
+        return StringBox(value)
+    }
+    
+    internal func box<T: BinaryFloatingPoint & Encodable>(_ value: T) throws -> Box {
         guard value.isInfinite || value.isNaN else {
             return FloatBox(value)
         }
         guard case let .convertToString(positiveInfinity: posInfString, negativeInfinity: negInfString, nan: nanString) = options.nonConformingFloatEncodingStrategy else {
             throw EncodingError._invalidFloatingPointValue(value, at: codingPath)
         }
-        if value == Float.infinity {
+        if value == T.infinity {
             return StringBox(posInfString)
-        } else if value == -Float.infinity {
+        } else if value == -T.infinity {
             return StringBox(negInfString)
         } else {
             return StringBox(nanString)
         }
     }
-
-    internal func box(_ value: Double) throws -> Box {
-        guard value.isInfinite || value.isNaN else {
-            return FloatBox(value)
-        }
-        guard case let .convertToString(positiveInfinity: posInfString, negativeInfinity: negInfString, nan: nanString) = options.nonConformingFloatEncodingStrategy else {
-            throw EncodingError._invalidFloatingPointValue(value, at: codingPath)
-        }
-        if value == Double.infinity {
-            return StringBox(posInfString)
-        } else if value == -Double.infinity {
-            return StringBox(negInfString)
-        } else {
-            return StringBox(nanString)
-        }
-    }
-
+    
     internal func box(_ value: Date) throws -> Box {
         switch options.dateEncodingStrategy {
         case .deferredToDate:
@@ -559,20 +552,27 @@ extension _XMLEncoder {
         }
     }
     
+    internal func boxOrNil<T: Encodable>(_ value: T) throws -> Box? {
+        return try self.box(value)
+    }
+    
     internal func box<T : Encodable>(_ value: T) throws -> Box {
         return try self.box_(value) ?? DictionaryBox()
     }
 
     // This method is called "box_" instead of "box" to disambiguate it from the overloads. Because the return type here is different from all of the "box" overloads (and is more general), any "box" calls in here would call back into "box" recursively instead of calling the appropriate overload, which is not what we want.
-    internal func box_<T : Encodable>(_ value: T) throws -> Box? {
+    private func box_<T : Encodable>(_ value: T) throws -> Box? {
         if T.self == Date.self || T.self == NSDate.self {
-            return try box((value as! Date))
-        } else if T.self == Data.self || T.self == NSData.self {
-            return try box((value as! Data))
-        } else if T.self == URL.self || T.self == NSURL.self {
+            return try box(value as! Date)
+        }
+        if T.self == Data.self || T.self == NSData.self {
+            return try box(value as! Data)
+        }
+        if T.self == URL.self || T.self == NSURL.self {
             return box((value as! URL).absoluteString)
-        } else if T.self == Decimal.self || T.self == NSDecimalNumber.self {
-            return box((value as! Decimal))
+        }
+        if T.self == Decimal.self || T.self == NSDecimalNumber.self {
+            return box(value as! Decimal)
         }
 
         let depth = storage.count
