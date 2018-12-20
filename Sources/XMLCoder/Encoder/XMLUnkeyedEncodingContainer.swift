@@ -14,7 +14,7 @@ internal struct _XMLUnkeyedEncodingContainer : UnkeyedEncodingContainer {
     private let encoder: _XMLEncoder
     
     /// A reference to the container we're writing to.
-    private let container: ArrayBox
+    private let container: UnkeyedBox
     
     /// The path of coding keys taken to get to this point in encoding.
     private(set) public var codingPath: [CodingKey]
@@ -27,7 +27,7 @@ internal struct _XMLUnkeyedEncodingContainer : UnkeyedEncodingContainer {
     // MARK: - Initialization
     
     /// Initializes `self` with the given references.
-    internal init(referencing encoder: _XMLEncoder, codingPath: [CodingKey], wrapping container: ArrayBox) {
+    internal init(referencing encoder: _XMLEncoder, codingPath: [CodingKey], wrapping container: UnkeyedBox) {
         self.encoder = encoder
         self.codingPath = codingPath
         self.container = container
@@ -95,10 +95,10 @@ internal struct _XMLUnkeyedEncodingContainer : UnkeyedEncodingContainer {
         self.codingPath.append(_XMLKey(index: self.count))
         defer { self.codingPath.removeLast() }
         
-        let array = ArrayBox()
-        self.container.append(array)
+        let unkeyed = UnkeyedBox()
+        self.container.append(unkeyed)
         
-        return _XMLUnkeyedEncodingContainer(referencing: self.encoder, codingPath: self.codingPath, wrapping: array)
+        return _XMLUnkeyedEncodingContainer(referencing: self.encoder, codingPath: self.codingPath, wrapping: unkeyed)
     }
     
     public mutating func superEncoder() -> Encoder {

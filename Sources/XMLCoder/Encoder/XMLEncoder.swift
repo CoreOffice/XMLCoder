@@ -276,8 +276,8 @@ open class XMLEncoder {
         
         if let dictionary = topLevel as? DictionaryBox {
             elementOrNone = _XMLElement.createRootElement(rootKey: rootKey, object: dictionary)
-        } else if let array = topLevel as? ArrayBox {
-            elementOrNone = _XMLElement.createRootElement(rootKey: rootKey, object: array)
+        } else if let unkeyed = topLevel as? UnkeyedBox {
+            elementOrNone = _XMLElement.createRootElement(rootKey: rootKey, object: unkeyed)
         } else {
             fatalError("Unrecognized top-level element.")
         }
@@ -362,12 +362,12 @@ internal class _XMLEncoder: Encoder {
 
     public func unkeyedContainer() -> UnkeyedEncodingContainer {
         // If an existing unkeyed container was already requested, return that one.
-        let topContainer: ArrayBox
+        let topContainer: UnkeyedBox
         if canEncodeNewValue {
             // We haven't yet pushed a container at this level; do so here.
             topContainer = storage.pushUnkeyedContainer()
         } else {
-            guard let container = storage.lastContainer as? ArrayBox else {
+            guard let container = storage.lastContainer as? UnkeyedBox else {
                 preconditionFailure("Attempt to push new unkeyed encoding container when already previously encoded at this path.")
             }
 

@@ -192,12 +192,12 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
     }
     
     public mutating func nestedUnkeyedContainer(forKey key: Key) -> UnkeyedEncodingContainer {
-        let array = ArrayBox()
-        self.container[_converted(key).stringValue] = array
+        let unkeyed = UnkeyedBox()
+        self.container[_converted(key).stringValue] = unkeyed
         
         self.codingPath.append(key)
         defer { self.codingPath.removeLast() }
-        return _XMLUnkeyedEncodingContainer(referencing: self.encoder, codingPath: self.codingPath, wrapping: array)
+        return _XMLUnkeyedEncodingContainer(referencing: self.encoder, codingPath: self.codingPath, wrapping: unkeyed)
     }
     
     public mutating func superEncoder() -> Encoder {

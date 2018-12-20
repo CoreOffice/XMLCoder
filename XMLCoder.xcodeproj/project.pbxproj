@@ -24,7 +24,7 @@
 		BF63EF0021CCDED2001D38C5 /* XMLStackParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EEFF21CCDED2001D38C5 /* XMLStackParserTests.swift */; };
 		BF9457A821CBB498005ACFDE /* NullBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF94579E21CBB497005ACFDE /* NullBox.swift */; };
 		BF9457A921CBB498005ACFDE /* DictionaryBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF94579F21CBB497005ACFDE /* DictionaryBox.swift */; };
-		BF9457AA21CBB498005ACFDE /* ArrayBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457A021CBB497005ACFDE /* ArrayBox.swift */; };
+		BF9457AA21CBB498005ACFDE /* UnkeyedBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457A021CBB497005ACFDE /* UnkeyedBox.swift */; };
 		BF9457AB21CBB498005ACFDE /* DecimalBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457A121CBB497005ACFDE /* DecimalBox.swift */; };
 		BF9457AD21CBB498005ACFDE /* BoolBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457A321CBB497005ACFDE /* BoolBox.swift */; };
 		BF9457AE21CBB498005ACFDE /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457A421CBB497005ACFDE /* Box.swift */; };
@@ -109,7 +109,7 @@
 		BF63EEFF21CCDED2001D38C5 /* XMLStackParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLStackParserTests.swift; sourceTree = "<group>"; };
 		BF94579E21CBB497005ACFDE /* NullBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NullBox.swift; sourceTree = "<group>"; };
 		BF94579F21CBB497005ACFDE /* DictionaryBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryBox.swift; sourceTree = "<group>"; };
-		BF9457A021CBB497005ACFDE /* ArrayBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayBox.swift; sourceTree = "<group>"; };
+		BF9457A021CBB497005ACFDE /* UnkeyedBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnkeyedBox.swift; sourceTree = "<group>"; };
 		BF9457A121CBB497005ACFDE /* DecimalBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecimalBox.swift; sourceTree = "<group>"; };
 		BF9457A321CBB497005ACFDE /* BoolBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoolBox.swift; sourceTree = "<group>"; };
 		BF9457A421CBB497005ACFDE /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
@@ -215,7 +215,7 @@
 				BF9457A521CBB498005ACFDE /* StringBox.swift */,
 				BF9457D821CBB5D2005ACFDE /* DataBox.swift */,
 				BF9457D921CBB5D2005ACFDE /* DateBox.swift */,
-				BF9457A021CBB497005ACFDE /* ArrayBox.swift */,
+				BF9457A021CBB497005ACFDE /* UnkeyedBox.swift */,
 				BF94579F21CBB497005ACFDE /* DictionaryBox.swift */,
 			);
 			path = Box;
@@ -473,7 +473,7 @@
 				OBJ_56 /* XMLKeyedEncodingContainer.swift in Sources */,
 				OBJ_57 /* XMLReferencingEncoder.swift in Sources */,
 				BF9457BC21CBB4DB005ACFDE /* XMLElement.swift in Sources */,
-				BF9457AA21CBB498005ACFDE /* ArrayBox.swift in Sources */,
+				BF9457AA21CBB498005ACFDE /* UnkeyedBox.swift in Sources */,
 				BF9457AF21CBB498005ACFDE /* StringBox.swift in Sources */,
 				OBJ_58 /* XMLUnkeyedEncodingContainer.swift in Sources */,
 				BF9457A821CBB498005ACFDE /* NullBox.swift in Sources */,

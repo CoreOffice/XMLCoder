@@ -351,11 +351,11 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
                                                                   debugDescription: "Cannot get UnkeyedDecodingContainer -- no value found for key \"\(key.stringValue)\""))
         }
 
-        guard let array = value as? ArrayBox else {
+        guard let unkeyed = value as? UnkeyedBox else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: [Any].self, reality: value)
         }
 
-        return _XMLUnkeyedDecodingContainer(referencing: decoder, wrapping: array)
+        return _XMLUnkeyedDecodingContainer(referencing: decoder, wrapping: unkeyed)
     }
 
     private func _superDecoder(forKey key: CodingKey) throws -> Decoder {

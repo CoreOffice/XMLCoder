@@ -15,7 +15,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
     private let decoder: _XMLDecoder
 
     /// A reference to the container we're reading from.
-    private let container: ArrayBox
+    private let container: UnkeyedBox
 
     /// The path of coding keys taken to get to this point in decoding.
     public private(set) var codingPath: [CodingKey]
@@ -26,7 +26,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
     // MARK: - Initialization
 
     /// Initializes `self` by referencing the given decoder and container.
-    internal init(referencing decoder: _XMLDecoder, wrapping container: ArrayBox) {
+    internal init(referencing decoder: _XMLDecoder, wrapping container: UnkeyedBox) {
         self.decoder = decoder
         self.container = container
         codingPath = decoder.codingPath
@@ -339,12 +339,12 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
                                                                     debugDescription: "Cannot get keyed decoding container -- found null value instead."))
         }
 
-        guard let array = value as? ArrayBox else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: ArrayBox.self, reality: value)
+        guard let unkeyed = value as? UnkeyedBox else {
+            throw DecodingError._typeMismatch(at: codingPath, expectation: UnkeyedBox.self, reality: value)
         }
 
         currentIndex += 1
-        return _XMLUnkeyedDecodingContainer(referencing: decoder, wrapping: array)
+        return _XMLUnkeyedDecodingContainer(referencing: decoder, wrapping: unkeyed)
     }
 
     public mutating func superDecoder() throws -> Decoder {

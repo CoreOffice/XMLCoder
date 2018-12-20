@@ -23,7 +23,7 @@ internal class _XMLElement {
         self.children = children
     }
     
-    static func createRootElement(rootKey: String, object: ArrayBox) -> _XMLElement? {
+    static func createRootElement(rootKey: String, object: UnkeyedBox) -> _XMLElement? {
         let element = _XMLElement(key: rootKey)
         
         _XMLElement.createElement(parentElement: element, key: rootKey, object: object)
@@ -59,7 +59,7 @@ internal class _XMLElement {
     
     fileprivate static func createElement(parentElement: _XMLElement, key: String, object: Box) {
         switch object {
-        case let box as ArrayBox:
+        case let box as UnkeyedBox:
             for box in box.unbox() {
                 _XMLElement.createElement(parentElement: parentElement, key: key, object: box)
             }
@@ -84,12 +84,12 @@ internal class _XMLElement {
         for childElement in children {
             for child in childElement.value {
                 if let content = child.value {
-                    if let oldContent = node[childElement.key] as? ArrayBox {
+                    if let oldContent = node[childElement.key] as? UnkeyedBox {
                         oldContent.append(StringBox(content))
                         // FIXME: Box is a reference type, so this shouldn't be necessary:
                         node[childElement.key] = oldContent
                     } else if let oldContent = node[childElement.key] {
-                        node[childElement.key] = ArrayBox([oldContent, StringBox(content)])
+                        node[childElement.key] = UnkeyedBox([oldContent, StringBox(content)])
                     } else {
                         node[childElement.key] = StringBox(content)
                     }
@@ -97,12 +97,12 @@ internal class _XMLElement {
                     let newValue = child.flatten()
                     
                     if let existingValue = node[childElement.key] {
-                        if let array = existingValue as? ArrayBox {
-                            array.append(DictionaryBox(newValue))
+                        if let unkeyed = existingValue as? UnkeyedBox {
+                            unkeyed.append(DictionaryBox(newValue))
                             // FIXME: Box is a reference type, so this shouldn't be necessary:
-                            node[childElement.key] = array
+                            node[childElement.key] = unkeyed
                         } else {
-                            node[childElement.key] = ArrayBox([existingValue, DictionaryBox(newValue)])
+                            node[childElement.key] = UnkeyedBox([existingValue, DictionaryBox(newValue)])
                         }
                     } else {
                         node[childElement.key] = DictionaryBox(newValue)

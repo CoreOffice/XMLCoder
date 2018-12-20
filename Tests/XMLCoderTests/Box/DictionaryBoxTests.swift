@@ -1,5 +1,5 @@
 //
-//  ArrayBoxTests.swift
+//  UnkeyedBoxTests.swift
 //  XMLCoderTests
 //
 //  Created by Vincent Esche on 12/18/18.

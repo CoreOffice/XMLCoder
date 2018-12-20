@@ -321,15 +321,15 @@ internal class _XMLDecoder: Decoder {
             ))
         }
 
-        let array: ArrayBox
+        let unkeyed: UnkeyedBox
 
-        if let container = storage.topContainer as? ArrayBox {
-            array = container
+        if let container = storage.topContainer as? UnkeyedBox {
+            unkeyed = container
         } else {
-            array = ArrayBox([storage.topContainer])
+            unkeyed = UnkeyedBox([storage.topContainer])
         }
 
-        return _XMLUnkeyedDecodingContainer(referencing: self, wrapping: array)
+        return _XMLUnkeyedDecodingContainer(referencing: self, wrapping: unkeyed)
     }
 
     public func singleValueContainer() throws -> SingleValueDecodingContainer {

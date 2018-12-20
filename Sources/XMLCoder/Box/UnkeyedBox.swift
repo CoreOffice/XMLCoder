@@ -1,5 +1,5 @@
 //
-//  ArrayBox.swift
+//  UnkeyedBox.swift
 //  XMLCoderPackageDescription
 //
 //  Created by Vincent Esche on 11/20/18.
@@ -8,7 +8,7 @@
 import Foundation
 
 // Minimalist implementation of an order-preserving unkeyed box:
-class ArrayBox {
+class UnkeyedBox {
     typealias Element = Box
     typealias Unboxed = [Element]
     
@@ -56,7 +56,7 @@ class ArrayBox {
     }
 }
 
-extension ArrayBox: Box {
+extension UnkeyedBox: Box {
     var isNull: Bool {
         return false
     }
@@ -70,7 +70,7 @@ extension ArrayBox: Box {
     }
 }
 
-extension ArrayBox: Sequence {
+extension UnkeyedBox: Sequence {
     typealias Iterator = Unboxed.Iterator
     
     func makeIterator() -> Iterator {
@@ -78,7 +78,7 @@ extension ArrayBox: Sequence {
     }
 }
 
-extension ArrayBox: CustomStringConvertible {
+extension UnkeyedBox: CustomStringConvertible {
     var description: String {
         return self.unboxed.description
     }
