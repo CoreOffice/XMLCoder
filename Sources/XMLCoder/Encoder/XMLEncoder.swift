@@ -29,7 +29,7 @@ open class XMLEncoder {
         /// Produce human-readable XML with indented output.
         public static let prettyPrinted = OutputFormatting(rawValue: 1 << 0)
 
-        /// Produce XML with dictionary keys sorted in lexicographic order.
+        /// Produce XML with keys sorted in lexicographic order.
         @available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)
         public static let sortedKeys = OutputFormatting(rawValue: 1 << 1)
     }
@@ -274,8 +274,8 @@ open class XMLEncoder {
         
         let elementOrNone: _XMLElement?
         
-        if let dictionary = topLevel as? DictionaryBox {
-            elementOrNone = _XMLElement.createRootElement(rootKey: rootKey, object: dictionary)
+        if let keyed = topLevel as? KeyedBox {
+            elementOrNone = _XMLElement.createRootElement(rootKey: rootKey, object: keyed)
         } else if let unkeyed = topLevel as? UnkeyedBox {
             elementOrNone = _XMLElement.createRootElement(rootKey: rootKey, object: unkeyed)
         } else {
@@ -344,12 +344,12 @@ internal class _XMLEncoder: Encoder {
 
     public func container<Key>(keyedBy _: Key.Type) -> KeyedEncodingContainer<Key> {
         // If an existing keyed container was already requested, return that one.
-        let topContainer: DictionaryBox
+        let topContainer: KeyedBox
         if canEncodeNewValue {
             // We haven't yet pushed a container at this level; do so here.
             topContainer = storage.pushKeyedContainer()
         } else {
-            guard let container = storage.lastContainer as? DictionaryBox else {
+            guard let container = storage.lastContainer as? KeyedBox else {
                 preconditionFailure("Attempt to push new keyed encoding container when already previously encoded at this path.")
             }
 
@@ -529,7 +529,7 @@ extension _XMLEncoder {
             let depth = storage.count
             try closure(value, self)
 
-            guard storage.count > depth else { return DictionaryBox() }
+            guard storage.count > depth else { return KeyedBox() }
 
             return storage.popContainer()
         }
@@ -546,7 +546,7 @@ extension _XMLEncoder {
             let depth = storage.count
             try closure(value, self)
 
-            guard storage.count > depth else { return DictionaryBox() }
+            guard storage.count > depth else { return KeyedBox() }
 
             return storage.popContainer()
         }
@@ -557,7 +557,7 @@ extension _XMLEncoder {
     }
     
     internal func box<T : Encodable>(_ value: T) throws -> Box {
-        return try self.box_(value) ?? DictionaryBox()
+        return try self.box_(value) ?? KeyedBox()
     }
 
     // This method is called "box_" instead of "box" to disambiguate it from the overloads. Because the return type here is different from all of the "box" overloads (and is more general), any "box" calls in here would call back into "box" recursively instead of calling the appropriate overload, which is not what we want.

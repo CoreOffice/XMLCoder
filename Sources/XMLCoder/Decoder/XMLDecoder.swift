@@ -245,7 +245,7 @@ open class XMLDecoder {
     open func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
         let topLevel: Box
         do {
-            topLevel = DictionaryBox(try _XMLStackParser.parse(with: data))
+            topLevel = KeyedBox(try _XMLStackParser.parse(with: data))
         } catch {
             throw DecodingError.dataCorrupted(DecodingError.Context(
                 codingPath: [],
@@ -305,11 +305,11 @@ internal class _XMLDecoder: Decoder {
             ))
         }
 
-        guard let dictionary = storage.topContainer as? DictionaryBox else {
+        guard let keyed = storage.topContainer as? KeyedBox else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: [String: Any].self, reality: storage.topContainer)
         }
 
-        let container = _XMLKeyedDecodingContainer<Key>(referencing: self, wrapping: dictionary)
+        let container = _XMLKeyedDecodingContainer<Key>(referencing: self, wrapping: keyed)
         return KeyedDecodingContainer(container)
     }
 
@@ -321,13 +321,7 @@ internal class _XMLDecoder: Decoder {
             ))
         }
 
-        let unkeyed: UnkeyedBox
-
-        if let container = storage.topContainer as? UnkeyedBox {
-            unkeyed = container
-        } else {
-            unkeyed = UnkeyedBox([storage.topContainer])
-        }
+        let unkeyed = (storage.topContainer as? UnkeyedBox) ?? UnkeyedBox([storage.topContainer])
 
         return _XMLUnkeyedDecodingContainer(referencing: self, wrapping: unkeyed)
     }

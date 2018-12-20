@@ -28,7 +28,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     private let decoder: _XMLDecoder
 
     /// A reference to the container we're reading from.
-    private let container: DictionaryBox
+    private let container: KeyedBox
 
     /// The path of coding keys taken to get to this point in decoding.
     public private(set) var codingPath: [CodingKey]
@@ -36,7 +36,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     // MARK: - Initialization
 
     /// Initializes `self` by referencing the given decoder and container.
-    internal init(referencing decoder: _XMLDecoder, wrapping container: DictionaryBox) {
+    internal init(referencing decoder: _XMLDecoder, wrapping container: KeyedBox) {
         self.decoder = decoder
         switch decoder.options.keyDecodingStrategy {
         case .useDefaultKeys:
@@ -44,15 +44,15 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
         case .convertFromSnakeCase:
             // Convert the snake case keys in the container to camel case.
             // If we hit a duplicate key after conversion, then we'll use the first one we saw. Effectively an undefined behavior with dictionaries.
-            self.container = DictionaryBox(container.map {
+            self.container = KeyedBox(container.map {
                 key, value in (XMLDecoder.KeyDecodingStrategy._convertFromSnakeCase(key), value)
             }, uniquingKeysWith: { first, _ in first })
         case .convertFromCapitalized:
-            self.container = DictionaryBox(container.map {
+            self.container = KeyedBox(container.map {
                 key, value in (XMLDecoder.KeyDecodingStrategy._convertFromCapitalized(key), value)
             }, uniquingKeysWith: { first, _ in first })
         case let .custom(converter):
-            self.container = DictionaryBox(container.map {
+            self.container = KeyedBox(container.map {
                 key, value in (converter(decoder.codingPath + [_XMLKey(stringValue: key, intValue: nil)]).stringValue, value)
             }, uniquingKeysWith: { first, _ in first })
         }
@@ -333,11 +333,11 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
                                                                   debugDescription: "Cannot get \(KeyedDecodingContainer<NestedKey>.self) -- no value found for key \"\(key.stringValue)\""))
         }
 
-        guard let dictionary = value as? DictionaryBox else {
+        guard let keyed = value as? KeyedBox else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: [String: Any].self, reality: value)
         }
 
-        let container = _XMLKeyedDecodingContainer<NestedKey>(referencing: decoder, wrapping: dictionary)
+        let container = _XMLKeyedDecodingContainer<NestedKey>(referencing: decoder, wrapping: keyed)
         return KeyedDecodingContainer(container)
     }
 

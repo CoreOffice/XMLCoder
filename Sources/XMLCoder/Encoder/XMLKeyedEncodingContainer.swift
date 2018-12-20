@@ -16,7 +16,7 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
     private let encoder: _XMLEncoder
     
     /// A reference to the container we're writing to.
-    private let container: DictionaryBox
+    private let container: KeyedBox
     
     /// The path of coding keys taken to get to this point in encoding.
     private(set) public var codingPath: [CodingKey]
@@ -24,7 +24,7 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
     // MARK: - Initialization
     
     /// Initializes `self` with the given references.
-    internal init(referencing encoder: _XMLEncoder, codingPath: [CodingKey], wrapping container: DictionaryBox) {
+    internal init(referencing encoder: _XMLEncoder, codingPath: [CodingKey], wrapping container: KeyedBox) {
         self.encoder = encoder
         self.codingPath = codingPath
         self.container = container
@@ -58,10 +58,10 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
         }
         switch strategy(key) {
         case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? DictionaryBox {
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? KeyedBox {
                 attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
             } else {
-                let attributesContainer = DictionaryBox()
+                let attributesContainer = KeyedBox()
                 attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
                 self.container[_XMLElement.attributesKey] = attributesContainer
             }
@@ -78,10 +78,10 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
         }
         switch strategy(key) {
         case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? DictionaryBox {
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? KeyedBox {
                 attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
             } else {
-                let attributesContainer = DictionaryBox()
+                let attributesContainer = KeyedBox()
                 attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
                 self.container[_XMLElement.attributesKey] = attributesContainer
             }
@@ -98,10 +98,10 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
         }
         switch strategy(key) {
         case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? DictionaryBox {
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? KeyedBox {
                 attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
             } else {
-                let attributesContainer = DictionaryBox()
+                let attributesContainer = KeyedBox()
                 attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
                 self.container[_XMLElement.attributesKey] = attributesContainer
             }
@@ -119,10 +119,10 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
         }
         switch strategy(key) {
         case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? DictionaryBox {
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? KeyedBox {
                 attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
             } else {
-                let attributesContainer = DictionaryBox()
+                let attributesContainer = KeyedBox()
                 attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
                 self.container[_XMLElement.attributesKey] = attributesContainer
             }
@@ -140,10 +140,10 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
         }
         switch strategy(key) {
         case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? DictionaryBox {
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? KeyedBox {
                 attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
             } else {
-                let attributesContainer = DictionaryBox()
+                let attributesContainer = KeyedBox()
                 attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
                 self.container[_XMLElement.attributesKey] = attributesContainer
             }
@@ -168,10 +168,10 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
         }
         switch strategy(key) {
         case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? DictionaryBox {
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? KeyedBox {
                 attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
             } else {
-                let attributesContainer = DictionaryBox()
+                let attributesContainer = KeyedBox()
                 attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
                 self.container[_XMLElement.attributesKey] = attributesContainer
             }
@@ -181,13 +181,13 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
     }
     
     public mutating func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type, forKey key: Key) -> KeyedEncodingContainer<NestedKey> {
-        let dictionary = DictionaryBox()
-        self.container[_converted(key).stringValue] = dictionary
+        let keyed = KeyedBox()
+        self.container[_converted(key).stringValue] = keyed
         
         self.codingPath.append(key)
         defer { self.codingPath.removeLast() }
         
-        let container = _XMLKeyedEncodingContainer<NestedKey>(referencing: self.encoder, codingPath: self.codingPath, wrapping: dictionary)
+        let container = _XMLKeyedEncodingContainer<NestedKey>(referencing: self.encoder, codingPath: self.codingPath, wrapping: keyed)
         return KeyedEncodingContainer(container)
     }
     

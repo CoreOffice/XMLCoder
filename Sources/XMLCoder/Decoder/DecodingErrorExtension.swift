@@ -45,7 +45,7 @@ internal extension DecodingError {
             return "a floating-point value"
         case is UnkeyedBox:
             return "a array value"
-        case is DictionaryBox:
+        case is KeyedBox:
             return "a dictionary value"
         case _:
             return "\(type(of: box))"

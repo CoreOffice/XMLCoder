@@ -313,12 +313,12 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
                                                                     debugDescription: "Cannot get keyed decoding container -- found null value instead."))
         }
 
-        guard let dictionary = value as? DictionaryBox else {
+        guard let keyed = value as? KeyedBox else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: [String: Any].self, reality: value)
         }
 
         currentIndex += 1
-        let container = _XMLKeyedDecodingContainer<NestedKey>(referencing: decoder, wrapping: dictionary)
+        let container = _XMLKeyedDecodingContainer<NestedKey>(referencing: decoder, wrapping: keyed)
         return KeyedDecodingContainer(container)
     }
 

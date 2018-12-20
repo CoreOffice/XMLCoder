@@ -8,8 +8,8 @@
 import XCTest
 @testable import XMLCoder
 
-class DictionaryBoxTests: XCTestCase {
-    lazy var box = DictionaryBox(["foo": StringBox("bar"), "baz": IntBox(42)])
+class KeyedBoxTests: XCTestCase {
+    lazy var box = KeyedBox(["foo": StringBox("bar"), "baz": IntBox(42)])
     
     func testUnbox() {
         let unboxed = box.unbox()
