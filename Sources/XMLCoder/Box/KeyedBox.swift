@@ -68,10 +68,6 @@ extension KeyedBox: Box {
         return false
     }
     
-    var isFragment: Bool {
-        return false
-    }
-    
     func xmlString() -> String? {
         return nil
     }

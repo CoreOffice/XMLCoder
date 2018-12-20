@@ -33,10 +33,6 @@ extension FloatBox: Box {
         return false
     }
     
-    var isFragment: Bool {
-        return true
-    }
-    
     /// # Lexical representation
     /// float values have a lexical representation consisting of a mantissa followed, optionally,
     /// by the character `"E"` or `"e"`, followed by an exponent. The exponent **must** be an integer.
@@ -76,6 +72,10 @@ extension FloatBox: Box {
         
         return self.unboxed.description
     }
+}
+
+extension FloatBox: SimpleBox {
+    
 }
 
 extension FloatBox: CustomStringConvertible {

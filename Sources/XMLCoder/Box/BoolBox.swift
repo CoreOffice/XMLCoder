@@ -34,10 +34,6 @@ extension BoolBox: Box {
         return false
     }
     
-    var isFragment: Bool {
-        return true
-    }
-    
     /// # Lexical representation
     /// Boolean has a lexical representation consisting of the following
     /// legal literals {`true`, `false`, `1`, `0`}.
@@ -51,6 +47,10 @@ extension BoolBox: Box {
     func xmlString() -> String? {
         return (self.unboxed) ? "true" : "false"
     }
+}
+
+extension BoolBox: SimpleBox {
+    
 }
 
 extension BoolBox: CustomStringConvertible {

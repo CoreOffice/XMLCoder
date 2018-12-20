@@ -9,7 +9,10 @@ import Foundation
 
 protocol Box {
     var isNull: Bool { get }
-    var isFragment: Bool { get }
-    
     func xmlString() -> String?
+}
+
+/// A box that only describes a single atomic value.
+protocol SimpleBox: Box {
+    
 }

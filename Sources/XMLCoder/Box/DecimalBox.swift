@@ -33,10 +33,6 @@ extension DecimalBox: Box {
         return false
     }
     
-    var isFragment: Bool {
-        return true
-    }
-    
     /// # Lexical representation
     /// Decimal has a lexical representation consisting of a finite-length sequence of
     /// decimal digits separated by a period as a decimal indicator.
@@ -58,6 +54,10 @@ extension DecimalBox: Box {
     func xmlString() -> String? {
         return "\(self.unboxed)"
     }
+}
+
+extension DecimalBox: SimpleBox {
+    
 }
 
 extension DecimalBox: CustomStringConvertible {

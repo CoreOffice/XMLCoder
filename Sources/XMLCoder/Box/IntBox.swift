@@ -33,10 +33,6 @@ extension IntBox: Box {
         return false
     }
     
-    var isFragment: Bool {
-        return true
-    }
-    
     /// # Lexical representation
     /// Integer has a lexical representation consisting of a finite-length sequence of
     /// decimal digits with an optional leading sign. If the sign is omitted, `"+"` is assumed.
@@ -53,6 +49,10 @@ extension IntBox: Box {
     func xmlString() -> String? {
         return self.unboxed.description
     }
+}
+
+extension IntBox: SimpleBox {
+    
 }
 
 extension IntBox: CustomStringConvertible {

@@ -16,13 +16,13 @@ extension NullBox: Box {
         return true
     }
     
-    var isFragment: Bool {
-        return true
-    }
-    
     func xmlString() -> String? {
         return nil
     }
+}
+
+extension NullBox: SimpleBox {
+    
 }
 
 extension NullBox: Equatable {
