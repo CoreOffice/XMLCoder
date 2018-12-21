@@ -209,3 +209,17 @@ internal class _XMLElement {
         return string
     }
 }
+
+extension _XMLElement: Equatable {
+    static func == (lhs: _XMLElement, rhs: _XMLElement) -> Bool {
+        guard
+            lhs.key == rhs.key,
+            lhs.value == rhs.value,
+            lhs.attributes == rhs.attributes,
+            lhs.children == rhs.children
+        else {
+            return false
+        }
+        return true
+    }
+}
