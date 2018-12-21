@@ -472,31 +472,27 @@ extension _XMLEncoder: SingleValueEncodingContainer {
 
 extension _XMLEncoder {
     /// Returns the given value boxed in a container appropriate for pushing onto the container stack.
-    internal func box() -> Box {
+    internal func box() -> SimpleBox {
         return NullBox()
     }
     
-    internal func box(_ value: Bool) -> Box {
+    internal func box(_ value: Bool) -> SimpleBox {
         return BoolBox(value)
     }
     
-    internal func box(_ value: Decimal) -> Box {
+    internal func box(_ value: Decimal) -> SimpleBox {
         return DecimalBox(value)
     }
     
-    internal func box<T: BinaryInteger & SignedInteger & Encodable>(_ value: T) -> Box {
+    internal func box<T: BinaryInteger & SignedInteger & Encodable>(_ value: T) -> SimpleBox {
         return IntBox(value)
     }
     
-    internal func box<T: BinaryInteger & UnsignedInteger & Encodable>(_ value: T) -> Box {
+    internal func box<T: BinaryInteger & UnsignedInteger & Encodable>(_ value: T) -> SimpleBox {
         return UIntBox(value)
     }
     
-    internal func box(_ value: String) -> Box {
-        return StringBox(value)
-    }
-    
-    internal func box<T: BinaryFloatingPoint & Encodable>(_ value: T) throws -> Box {
+    internal func box<T: BinaryFloatingPoint & Encodable>(_ value: T) throws -> SimpleBox {
         guard value.isInfinite || value.isNaN else {
             return FloatBox(value)
         }
@@ -510,6 +506,10 @@ extension _XMLEncoder {
         } else {
             return StringBox(nanString)
         }
+    }
+    
+    internal func box(_ value: String) -> SimpleBox {
+        return StringBox(value)
     }
     
     internal func box(_ value: Date) throws -> Box {
@@ -552,16 +552,12 @@ extension _XMLEncoder {
         }
     }
     
-    internal func boxOrNil<T: Encodable>(_ value: T) throws -> Box? {
-        return try self.box(value)
-    }
-    
     internal func box<T : Encodable>(_ value: T) throws -> Box {
-        return try self.box_(value) ?? KeyedBox()
+        return try self.boxOrNil(value) ?? KeyedBox()
     }
 
     // This method is called "box_" instead of "box" to disambiguate it from the overloads. Because the return type here is different from all of the "box" overloads (and is more general), any "box" calls in here would call back into "box" recursively instead of calling the appropriate overload, which is not what we want.
-    private func box_<T : Encodable>(_ value: T) throws -> Box? {
+    internal func boxOrNil<T: Encodable>(_ value: T) throws -> Box? {
         if T.self == Date.self || T.self == NSDate.self {
             return try box(value as! Date)
         }

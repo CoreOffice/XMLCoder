@@ -45,7 +45,10 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
 
     public mutating func decodeNil() throws -> Bool {
         guard !isAtEnd else {
-            throw DecodingError.valueNotFound(Any?.self, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Unkeyed container is at end."))
+            throw DecodingError.valueNotFound(Any?.self, DecodingError.Context(
+                codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)],
+                debugDescription: "Unkeyed container is at end."
+            ))
         }
 
         if container[self.currentIndex].isNull {
@@ -57,241 +60,112 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
     }
 
     public mutating func decode(_ type: Bool.Type) throws -> Bool {
-        guard !isAtEnd else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Unkeyed container is at end."))
+        return try self.decode(type) { decoder, box in
+            return try decoder.unbox(box)
         }
-
-        decoder.codingPath.append(_XMLKey(index: currentIndex))
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let decoded: Bool = try self.decoder.unbox(self.container[self.currentIndex]) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
-        }
-
-        currentIndex += 1
-        return decoded
     }
 
     public mutating func decode(_ type: Int.Type) throws -> Int {
-        guard !isAtEnd else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Unkeyed container is at end."))
-        }
-
-        decoder.codingPath.append(_XMLKey(index: currentIndex))
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let decoded: Int = try self.decoder.unbox(self.container[self.currentIndex]) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
-        }
-
-        currentIndex += 1
-        return decoded
+        return try self.decodeSignedInteger(type)
     }
 
     public mutating func decode(_ type: Int8.Type) throws -> Int8 {
-        guard !isAtEnd else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Unkeyed container is at end."))
-        }
-
-        decoder.codingPath.append(_XMLKey(index: currentIndex))
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let decoded: Int8 = try self.decoder.unbox(self.container[self.currentIndex]) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
-        }
-
-        currentIndex += 1
-        return decoded
+        return try self.decodeSignedInteger(type)
     }
 
     public mutating func decode(_ type: Int16.Type) throws -> Int16 {
-        guard !isAtEnd else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Unkeyed container is at end."))
-        }
-
-        decoder.codingPath.append(_XMLKey(index: currentIndex))
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let decoded: Int16 = try self.decoder.unbox(self.container[self.currentIndex]) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
-        }
-
-        currentIndex += 1
-        return decoded
+        return try self.decodeSignedInteger(type)
     }
 
     public mutating func decode(_ type: Int32.Type) throws -> Int32 {
-        guard !isAtEnd else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Unkeyed container is at end."))
-        }
-
-        decoder.codingPath.append(_XMLKey(index: currentIndex))
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let decoded: Int32 = try self.decoder.unbox(self.container[self.currentIndex]) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
-        }
-
-        currentIndex += 1
-        return decoded
+        return try self.decodeSignedInteger(type)
     }
 
     public mutating func decode(_ type: Int64.Type) throws -> Int64 {
-        guard !isAtEnd else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Unkeyed container is at end."))
-        }
-
-        decoder.codingPath.append(_XMLKey(index: currentIndex))
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let decoded: Int64 = try self.decoder.unbox(self.container[self.currentIndex]) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
-        }
-
-        currentIndex += 1
-        return decoded
+        return try self.decodeSignedInteger(type)
     }
-
+    
     public mutating func decode(_ type: UInt.Type) throws -> UInt {
-        guard !isAtEnd else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Unkeyed container is at end."))
-        }
-
-        decoder.codingPath.append(_XMLKey(index: currentIndex))
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let decoded: UInt = try self.decoder.unbox(self.container[self.currentIndex]) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
-        }
-
-        currentIndex += 1
-        return decoded
+        return try self.decodeUnsignedInteger(type)
     }
 
     public mutating func decode(_ type: UInt8.Type) throws -> UInt8 {
-        guard !isAtEnd else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Unkeyed container is at end."))
-        }
-
-        decoder.codingPath.append(_XMLKey(index: currentIndex))
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let decoded: UInt8 = try self.decoder.unbox(self.container[self.currentIndex]) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
-        }
-
-        currentIndex += 1
-        return decoded
+        return try self.decodeUnsignedInteger(type)
     }
 
     public mutating func decode(_ type: UInt16.Type) throws -> UInt16 {
-        guard !isAtEnd else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Unkeyed container is at end."))
-        }
-
-        decoder.codingPath.append(_XMLKey(index: currentIndex))
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let decoded: UInt16 = try self.decoder.unbox(self.container[self.currentIndex]) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
-        }
-
-        currentIndex += 1
-        return decoded
+        return try self.decodeUnsignedInteger(type)
     }
 
     public mutating func decode(_ type: UInt32.Type) throws -> UInt32 {
-        guard !isAtEnd else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Unkeyed container is at end."))
-        }
-
-        decoder.codingPath.append(_XMLKey(index: currentIndex))
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let decoded: UInt32 = try self.decoder.unbox(self.container[self.currentIndex]) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
-        }
-
-        currentIndex += 1
-        return decoded
+        return try self.decodeUnsignedInteger(type)
     }
 
     public mutating func decode(_ type: UInt64.Type) throws -> UInt64 {
-        guard !isAtEnd else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Unkeyed container is at end."))
-        }
-
-        decoder.codingPath.append(_XMLKey(index: currentIndex))
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let decoded: UInt64 = try self.decoder.unbox(self.container[self.currentIndex]) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
-        }
-
-        currentIndex += 1
-        return decoded
+        return try self.decodeUnsignedInteger(type)
     }
-
+    
     public mutating func decode(_ type: Float.Type) throws -> Float {
-        guard !isAtEnd else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Unkeyed container is at end."))
-        }
-
-        decoder.codingPath.append(_XMLKey(index: currentIndex))
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let decoded: Float = try self.decoder.unbox(self.container[self.currentIndex]) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
-        }
-
-        currentIndex += 1
-        return decoded
+        return try self.decodeFloatingPoint(type)
     }
 
     public mutating func decode(_ type: Double.Type) throws -> Double {
-        guard !isAtEnd else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Unkeyed container is at end."))
-        }
-
-        decoder.codingPath.append(_XMLKey(index: currentIndex))
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let decoded: Double = try self.decoder.unbox(self.container[self.currentIndex]) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
-        }
-
-        currentIndex += 1
-        return decoded
+        return try self.decodeFloatingPoint(type)
     }
 
     public mutating func decode(_ type: String.Type) throws -> String {
-        guard !isAtEnd else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Unkeyed container is at end."))
+        return try self.decode(type) { decoder, box in
+            return try decoder.unbox(box)
         }
-
-        decoder.codingPath.append(_XMLKey(index: currentIndex))
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let decoded: String = try self.decoder.unbox(self.container[self.currentIndex]) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
-        }
-
-        currentIndex += 1
-        return decoded
     }
 
     public mutating func decode<T: Decodable>(_ type: T.Type) throws -> T {
-        guard !isAtEnd else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Unkeyed container is at end."))
+        return try self.decode(type) { decoder, box in
+            return try decoder.unbox(box)
         }
-
+    }
+    
+    private mutating func decodeSignedInteger<T: BinaryInteger & SignedInteger & Decodable>(_ type: T.Type) throws -> T {
+        return try self.decode(type) { decoder, box in
+            return try decoder.unbox(box)
+        }
+    }
+    
+    private mutating func decodeUnsignedInteger<T: BinaryInteger & UnsignedInteger & Decodable>(_ type: T.Type) throws -> T {
+        return try self.decode(type) { decoder, box in
+            return try decoder.unbox(box)
+        }
+    }
+    
+    private mutating func decodeFloatingPoint<T: BinaryFloatingPoint & Decodable>(_ type: T.Type) throws -> T {
+        return try self.decode(type) { decoder, box in
+            return try decoder.unbox(box)
+        }
+    }
+    
+    private mutating func decode<T: Decodable>(
+        _ type: T.Type,
+        decode: (_XMLDecoder, Box) throws -> T?
+    ) throws -> T {
+        guard !isAtEnd else {
+            throw DecodingError.valueNotFound(type, DecodingError.Context(
+                codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)],
+                debugDescription: "Unkeyed container is at end."
+            ))
+        }
+        
         decoder.codingPath.append(_XMLKey(index: currentIndex))
         defer { self.decoder.codingPath.removeLast() }
-
-        guard let decoded: T = try self.decoder.unbox(self.container[self.currentIndex]) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)], debugDescription: "Expected \(type) but found null instead."))
+        
+        let box = self.container[self.currentIndex]
+        let value = try decode(decoder, box)
+        guard let decoded: T = value else {
+            throw DecodingError.valueNotFound(type, DecodingError.Context(
+                codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)],
+                debugDescription: "Expected \(type) but found null instead."
+            ))
         }
-
+        
         currentIndex += 1
         return decoded
     }
@@ -301,16 +175,18 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         defer { self.decoder.codingPath.removeLast() }
 
         guard !isAtEnd else {
-            throw DecodingError.valueNotFound(KeyedDecodingContainer<NestedKey>.self,
-                                              DecodingError.Context(codingPath: codingPath,
-                                                                    debugDescription: "Cannot get nested keyed container -- unkeyed container is at end."))
+            throw DecodingError.valueNotFound(KeyedDecodingContainer<NestedKey>.self, DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "Cannot get nested keyed container -- unkeyed container is at end."
+            ))
         }
 
         let value = self.container[self.currentIndex]
         guard !value.isNull else {
-            throw DecodingError.valueNotFound(KeyedDecodingContainer<NestedKey>.self,
-                                              DecodingError.Context(codingPath: codingPath,
-                                                                    debugDescription: "Cannot get keyed decoding container -- found null value instead."))
+            throw DecodingError.valueNotFound(KeyedDecodingContainer<NestedKey>.self, DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "Cannot get keyed decoding container -- found null value instead."
+            ))
         }
 
         guard let keyed = value as? KeyedBox else {
@@ -327,16 +203,18 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         defer { self.decoder.codingPath.removeLast() }
 
         guard !isAtEnd else {
-            throw DecodingError.valueNotFound(UnkeyedDecodingContainer.self,
-                                              DecodingError.Context(codingPath: codingPath,
-                                                                    debugDescription: "Cannot get nested keyed container -- unkeyed container is at end."))
+            throw DecodingError.valueNotFound(UnkeyedDecodingContainer.self, DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "Cannot get nested keyed container -- unkeyed container is at end."
+            ))
         }
 
         let value = container[self.currentIndex]
         guard !value.isNull else {
-            throw DecodingError.valueNotFound(UnkeyedDecodingContainer.self,
-                                              DecodingError.Context(codingPath: codingPath,
-                                                                    debugDescription: "Cannot get keyed decoding container -- found null value instead."))
+            throw DecodingError.valueNotFound(UnkeyedDecodingContainer.self, DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "Cannot get keyed decoding container -- found null value instead."
+            ))
         }
 
         guard let unkeyed = value as? UnkeyedBox else {
@@ -352,9 +230,10 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         defer { self.decoder.codingPath.removeLast() }
 
         guard !isAtEnd else {
-            throw DecodingError.valueNotFound(Decoder.self,
-                                              DecodingError.Context(codingPath: codingPath,
-                                                                    debugDescription: "Cannot get superDecoder() -- unkeyed container is at end."))
+            throw DecodingError.valueNotFound(Decoder.self, DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "Cannot get superDecoder() -- unkeyed container is at end."
+            ))
         }
 
         let value = container[self.currentIndex]

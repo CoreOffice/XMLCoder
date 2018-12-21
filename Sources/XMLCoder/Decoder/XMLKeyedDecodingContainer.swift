@@ -95,213 +95,81 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     }
 
     public func decode(_ type: Bool.Type, forKey key: Key) throws -> Bool {
-        guard let entry = container[key.stringValue] else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
+        return try self.decode(type, forKey: key) { decoder, box in
+            return try decoder.unbox(box)
         }
-
-        decoder.codingPath.append(key)
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let value: Bool = try self.decoder.unbox(entry) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected \(type) value but found null instead."))
+    }
+    
+    public func decode(_ type: Decimal.Type, forKey key: Key) throws -> Decimal {
+        return try self.decode(type, forKey: key) { decoder, box in
+            return try decoder.unbox(box)
         }
-
-        return value
     }
 
     public func decode(_ type: Int.Type, forKey key: Key) throws -> Int {
-        guard let entry = container[key.stringValue] else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
-        }
-
-        decoder.codingPath.append(key)
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let value: Int = try self.decoder.unbox(entry) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected \(type) value but found null instead."))
-        }
-
-        return value
+        return try self.decodeSignedInteger(type, forKey: key)
     }
-
+    
     public func decode(_ type: Int8.Type, forKey key: Key) throws -> Int8 {
-        guard let entry = container[key.stringValue] else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
-        }
-
-        decoder.codingPath.append(key)
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let value: Int8 = try self.decoder.unbox(entry) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected \(type) value but found null instead."))
-        }
-
-        return value
+        return try self.decodeSignedInteger(type, forKey: key)
     }
-
+    
     public func decode(_ type: Int16.Type, forKey key: Key) throws -> Int16 {
-        guard let entry = container[key.stringValue] else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
-        }
-
-        decoder.codingPath.append(key)
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let value: Int16 = try self.decoder.unbox(entry) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected \(type) value but found null instead."))
-        }
-
-        return value
+        return try self.decodeSignedInteger(type, forKey: key)
     }
-
+    
     public func decode(_ type: Int32.Type, forKey key: Key) throws -> Int32 {
-        guard let entry = container[key.stringValue] else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
-        }
-
-        decoder.codingPath.append(key)
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let value: Int32 = try self.decoder.unbox(entry) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected \(type) value but found null instead."))
-        }
-
-        return value
+        return try self.decodeSignedInteger(type, forKey: key)
     }
-
+    
     public func decode(_ type: Int64.Type, forKey key: Key) throws -> Int64 {
-        guard let entry = container[key.stringValue] else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
-        }
-
-        decoder.codingPath.append(key)
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let value: Int64 = try self.decoder.unbox(entry) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected \(type) value but found null instead."))
-        }
-
-        return value
+        return try self.decodeSignedInteger(type, forKey: key)
     }
-
+    
     public func decode(_ type: UInt.Type, forKey key: Key) throws -> UInt {
-        guard let entry = container[key.stringValue] else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
-        }
-
-        decoder.codingPath.append(key)
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let value: UInt = try self.decoder.unbox(entry) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected \(type) value but found null instead."))
-        }
-
-        return value
+        return try self.decodeUnsignedInteger(type, forKey: key)
     }
-
+    
     public func decode(_ type: UInt8.Type, forKey key: Key) throws -> UInt8 {
-        guard let entry = container[key.stringValue] else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
-        }
-
-        decoder.codingPath.append(key)
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let value: UInt8 = try self.decoder.unbox(entry) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected \(type) value but found null instead."))
-        }
-
-        return value
+        return try self.decodeUnsignedInteger(type, forKey: key)
     }
-
+    
     public func decode(_ type: UInt16.Type, forKey key: Key) throws -> UInt16 {
-        guard let entry = container[key.stringValue] else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
-        }
-
-        decoder.codingPath.append(key)
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let value: UInt16 = try self.decoder.unbox(entry) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected \(type) value but found null instead."))
-        }
-
-        return value
+        return try self.decodeUnsignedInteger(type, forKey: key)
     }
-
+    
     public func decode(_ type: UInt32.Type, forKey key: Key) throws -> UInt32 {
-        guard let entry = container[key.stringValue] else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
-        }
-
-        decoder.codingPath.append(key)
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let value: UInt32 = try decoder.unbox(entry) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected \(type) value but found null instead."))
-        }
-
-        return value
+        return try self.decodeUnsignedInteger(type, forKey: key)
     }
-
+    
     public func decode(_ type: UInt64.Type, forKey key: Key) throws -> UInt64 {
-        guard let entry = container[key.stringValue] else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
-        }
-
-        decoder.codingPath.append(key)
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let value: UInt64 = try self.decoder.unbox(entry) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected \(type) value but found null instead."))
-        }
-
-        return value
+        return try self.decodeUnsignedInteger(type, forKey: key)
     }
 
     public func decode(_ type: Float.Type, forKey key: Key) throws -> Float {
-        guard let entry = container[key.stringValue] else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
-        }
-
-        decoder.codingPath.append(key)
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let value: Float = try decoder.unbox(entry) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected \(type) value but found null instead."))
-        }
-
-        return value
+        return try self.decodeFloatingPoint(type, forKey: key)
     }
-
+    
     public func decode(_ type: Double.Type, forKey key: Key) throws -> Double {
-        guard let entry = container[key.stringValue] else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
-        }
-
-        decoder.codingPath.append(key)
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let value: Double = try self.decoder.unbox(entry) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected \(type) value but found null instead."))
-        }
-
-        return value
+        return try self.decodeFloatingPoint(type, forKey: key)
     }
 
     public func decode(_ type: String.Type, forKey key: Key) throws -> String {
-        guard let entry = container[key.stringValue] else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
+        return try self.decode(type, forKey: key) { decoder, box in
+            return try decoder.unbox(box)
         }
-
-        decoder.codingPath.append(key)
-        defer { self.decoder.codingPath.removeLast() }
-
-        guard let value: String = try decoder.unbox(entry) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected \(type) value but found null instead."))
+    }
+    
+    public func decode(_ type: Date.Type, forKey key: Key) throws -> Date {
+        return try self.decode(type, forKey: key) { decoder, box in
+            return try decoder.unbox(box)
         }
-
-        return value
+    }
+    
+    public func decode(_ type: Data.Type, forKey key: Key) throws -> Data {
+        return try self.decode(type, forKey: key) { decoder, box in
+            return try decoder.unbox(box)
+        }
     }
 
     public func decode<T: Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
@@ -309,17 +177,51 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
             return (type as! AnyEmptySequence.Type).init() as! T
         }
 
-        guard let entry = container[key.stringValue] else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "No value associated with key \(_errorDescription(of: key))."))
+        return try self.decode(type, forKey: key) { decoder, box in
+            return try decoder.unbox(box)
         }
-
+    }
+    
+    private func decodeSignedInteger<T: BinaryInteger & SignedInteger & Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
+        return try self.decode(type, forKey: key) { decoder, box in
+            return try decoder.unbox(box)
+        }
+    }
+    
+    private func decodeUnsignedInteger<T: BinaryInteger & UnsignedInteger & Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
+        return try self.decode(type, forKey: key) { decoder, box in
+            return try decoder.unbox(box)
+        }
+    }
+    
+    private func decodeFloatingPoint<T: BinaryFloatingPoint & Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
+        return try self.decode(type, forKey: key) { decoder, box in
+            return try decoder.unbox(box)
+        }
+    }
+    
+    private func decode<T: Decodable>(
+        _ type: T.Type,
+        forKey key: Key,
+        decode: (_XMLDecoder, Box) throws -> T?
+    ) throws -> T {
+        guard let entry = container[key.stringValue] else {
+            throw DecodingError.keyNotFound(key, DecodingError.Context(
+                codingPath: decoder.codingPath,
+                debugDescription: "No value associated with key \(_errorDescription(of: key))."
+            ))
+        }
+        
         decoder.codingPath.append(key)
         defer { decoder.codingPath.removeLast() }
-
+        
         guard let value: T = try decoder.unbox(entry) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected \(type) value but found null instead."))
+            throw DecodingError.valueNotFound(type, DecodingError.Context(
+                codingPath: decoder.codingPath,
+                debugDescription: "Expected \(type) value but found null instead."
+            ))
         }
-
+        
         return value
     }
 
@@ -328,9 +230,10 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
         defer { decoder.codingPath.removeLast() }
 
         guard let value = self.container[key.stringValue] else {
-            throw DecodingError.keyNotFound(key,
-                                            DecodingError.Context(codingPath: codingPath,
-                                                                  debugDescription: "Cannot get \(KeyedDecodingContainer<NestedKey>.self) -- no value found for key \"\(key.stringValue)\""))
+            throw DecodingError.keyNotFound(key, DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "Cannot get \(KeyedDecodingContainer<NestedKey>.self) -- no value found for key \"\(key.stringValue)\""
+            ))
         }
 
         guard let keyed = value as? KeyedBox else {
@@ -346,9 +249,10 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
         defer { decoder.codingPath.removeLast() }
 
         guard let value = self.container[key.stringValue] else {
-            throw DecodingError.keyNotFound(key,
-                                            DecodingError.Context(codingPath: codingPath,
-                                                                  debugDescription: "Cannot get UnkeyedDecodingContainer -- no value found for key \"\(key.stringValue)\""))
+            throw DecodingError.keyNotFound(key, DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "Cannot get UnkeyedDecodingContainer -- no value found for key \"\(key.stringValue)\""
+            ))
         }
 
         guard let unkeyed = value as? UnkeyedBox else {

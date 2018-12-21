@@ -14,7 +14,7 @@ internal struct _XMLDecodingStorage {
     // MARK: Properties
 
     /// The container stack.
-    /// Elements may be any one of the XML types (String, [String : Any]).
+    /// Elements may be any one of the XML types (StringBox, KeyedBox).
     private var containers: [Box] = []
 
     // MARK: - Initialization

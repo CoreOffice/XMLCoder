@@ -40,44 +40,114 @@ internal struct _XMLUnkeyedEncodingContainer : UnkeyedEncodingContainer {
     }
     
     public mutating func encode(_ value: Bool) throws {
-        self.container.append(self.encoder.box(value))
+        self.encode(value) { encoder, value in
+            return encoder.box(value)
+        }
     }
     
     public mutating func encode(_ value: Decimal) throws {
-        self.container.append(self.encoder.box(value))
+        self.encode(value) { encoder, value in
+            return encoder.box(value)
+        }
+    }
+    
+    public mutating func encode(_ value: Int) throws {
+        try self.encodeSignedInteger(value)
+    }
+    
+    public mutating func encode(_ value: Int8) throws {
+        try self.encodeSignedInteger(value)
+    }
+    
+    public mutating func encode(_ value: Int16) throws {
+        try self.encodeSignedInteger(value)
+    }
+    
+    public mutating func encode(_ value: Int32) throws {
+        try self.encodeSignedInteger(value)
+    }
+    
+    public mutating func encode(_ value: Int64) throws {
+        try self.encodeSignedInteger(value)
     }
 
-    public mutating func encode<T: BinaryInteger & SignedInteger & Encodable>(_ value: T) throws {
-        self.container.append(self.encoder.box(value))
+    public mutating func encode(_ value: UInt) throws {
+        try self.encodeUnsignedInteger(value)
     }
     
-    public mutating func encode<T: BinaryInteger & UnsignedInteger & Encodable>(_ value: T) throws {
-        self.container.append(self.encoder.box(value))
-    }
-
-    public mutating func encode<T: BinaryFloatingPoint & Encodable>(_ value: T)  throws {
-        // Since the float/double may be invalid and throw, the coding path needs to contain this key.
-        self.encoder.codingPath.append(_XMLKey(index: self.count))
-        defer { self.encoder.codingPath.removeLast() }
-        self.container.append(try self.encoder.box(value))
+    public mutating func encode(_ value: UInt8) throws {
+        try self.encodeUnsignedInteger(value)
     }
     
-    public mutating func encode(_ value: Date) throws {
-        self.container.append(try self.encoder.box(value))
+    public mutating func encode(_ value: UInt16) throws {
+        try self.encodeUnsignedInteger(value)
     }
     
-    public mutating func encode(_ value: Data) throws {
-        self.container.append(try self.encoder.box(value))
+    public mutating func encode(_ value: UInt32) throws {
+        try self.encodeUnsignedInteger(value)
+    }
+    
+    public mutating func encode(_ value: UInt64) throws {
+        try self.encodeUnsignedInteger(value)
+    }
+    
+    public mutating func encode(_ value: Float) throws {
+        try self.encodeFloatingPoint(value)
+    }
+    
+    public mutating func encode(_ value: Double) throws {
+        try self.encodeFloatingPoint(value)
     }
     
     public mutating func encode(_ value: String) throws {
-        self.container.append(self.encoder.box(value))
+        self.encode(value) { encoder, value in
+            return encoder.box(value)
+        }
+    }
+    
+    public mutating func encode(_ value: Date) throws {
+        try self.encode(value) { encoder, value in
+            return try encoder.box(value)
+        }
+    }
+    
+    public mutating func encode(_ value: Data) throws {
+        try self.encode(value) { encoder, value in
+            return try encoder.box(value)
+        }
+    }
+    
+    private mutating func encodeSignedInteger<T: BinaryInteger & SignedInteger & Encodable>(_ value: T) throws {
+        self.encode(value) { encoder, value in
+            return encoder.box(value)
+        }
+    }
+    
+    private mutating func encodeUnsignedInteger<T: BinaryInteger & UnsignedInteger & Encodable>(_ value: T) throws {
+        self.encode(value) { encoder, value in
+            return encoder.box(value)
+        }
+    }
+    
+    private mutating func encodeFloatingPoint<T: BinaryFloatingPoint & Encodable>(_ value: T)  throws {
+        try self.encode(value) { encoder, value in
+            return try encoder.box(value)
+        }
     }
     
     public mutating func encode<T: Encodable>(_ value: T) throws {
+        try self.encode(value) { encoder, value in
+            return try encoder.box(value)
+        }
+    }
+    
+    private mutating func encode<T: Encodable>(
+        _ value: T,
+        encode: (_XMLEncoder, T) throws -> (Box)
+    ) rethrows {
         self.encoder.codingPath.append(_XMLKey(index: self.count))
         defer { self.encoder.codingPath.removeLast() }
-        self.container.append(try self.encoder.box(value))
+        self.container.append(try encode(self.encoder, value))
     }
     
     public mutating func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type) -> KeyedEncodingContainer<NestedKey> {
