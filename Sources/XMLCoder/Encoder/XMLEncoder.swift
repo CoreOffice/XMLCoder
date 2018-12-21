@@ -551,7 +551,7 @@ extension _XMLEncoder {
         return URLBox(value)
     }
     
-    internal func box<T: Encodable>(_ value: T) throws -> Box {
+    func box<T: Encodable>(_ value: T) throws -> Box {
         if T.self == Date.self || T.self == NSDate.self {
             return try box(value as! Date)
         } else if T.self == Data.self || T.self == NSData.self {

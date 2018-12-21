@@ -21,8 +21,4 @@ class UnkeyedBoxTests: XCTestCase {
     func testXMLString() {
         XCTAssertEqual(box.xmlString(), nil)
     }
-    
-    func testDescription() {
-        XCTAssertEqual(box.description, "[foo, 42]")
-    }
 }

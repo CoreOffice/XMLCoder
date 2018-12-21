@@ -16,7 +16,7 @@ class _XMLStackParser: NSObject {
     var currentElementName: String? = nil
     var currentElementData = ""
 
-    static func parse(with data: Data) throws -> [String: Box] {
+    static func parse(with data: Data) throws -> KeyedBox {
         let parser = _XMLStackParser()
 
         guard let node = try parser.parse(with: data) else {
@@ -55,7 +55,7 @@ extension _XMLStackParser: XMLParserDelegate {
         
         stack.append(node)
         
-        currentNode?.children[elementName, default: []].append(node)
+        currentNode?.elements[elementName, default: []].append(node)
         
         currentNode = node
     }

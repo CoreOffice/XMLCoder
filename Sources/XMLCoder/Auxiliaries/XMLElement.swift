@@ -14,13 +14,13 @@ class _XMLElement {
     var key: String
     var value: String?
     var attributes: [String: String] = [:]
-    var children: [String: [_XMLElement]] = [:]
+    var elements: [String: [_XMLElement]] = [:]
     
-    init(key: String, value: String? = nil, attributes: [String: String] = [:], children: [String: [_XMLElement]] = [:]) {
+    init(key: String, value: String? = nil, attributes: [String: String] = [:], elements: [String: [_XMLElement]] = [:]) {
         self.key = key
         self.value = value
         self.attributes = attributes
-        self.children = children
+        self.elements = elements
     }
     
     static func createRootElement(rootKey: String, object: UnkeyedBox) -> _XMLElement? {
@@ -40,20 +40,17 @@ class _XMLElement {
     }
     
     fileprivate static func modifyElement(element: _XMLElement, parentElement: _XMLElement?, key: String?, object: KeyedBox) {
-        let attributesBox = object[_XMLElement.attributesKey] as? KeyedBox
-        let uniqueAttributes: [(String, String)]? = attributesBox?.unbox().compactMap { key, box in
+        let uniqueAttributes: [(String, String)]? = object.attributes.compactMap { key, box in
             return box.xmlString().map { (key, $0) }
         }
         element.attributes = uniqueAttributes.map { Dictionary(uniqueKeysWithValues: $0) } ?? [:]
         
-        let objects = object.filter { key, _value in key != _XMLElement.attributesKey }
-        
-        for (key, box) in objects {
+        for (key, box) in object.elements {
             _XMLElement.createElement(parentElement: element, key: key, object: box)
         }
         
         if let parentElement = parentElement, let key = key {
-            parentElement.children[key] = (parentElement.children[key] ?? []) + [element]
+            parentElement.elements[key] = (parentElement.elements[key] ?? []) + [element]
         }
     }
     
@@ -67,9 +64,8 @@ class _XMLElement {
             modifyElement(element: _XMLElement(key: key), parentElement: parentElement, key: key, object: box)
         case _:
             let element = _XMLElement(key: key, value: object.xmlString())
-            parentElement.children[key, default: []].append(element)
+            parentElement.elements[key, default: []].append(element)
         }
-        
     }
     
     func append(value string: String) {
@@ -78,40 +74,41 @@ class _XMLElement {
         self.value = value
     }
     
-    func flatten() -> [String: Box] {
-        var node: [String: Box] = attributes.mapValues { StringBox($0) }
+    func flatten() -> KeyedBox {
+        let attributes = self.attributes.mapValues { StringBox($0) }
+        var elements: [String: Box] = [:]
         
-        for childElement in children {
-            for child in childElement.value {
+        for element in self.elements {
+            for child in element.value {
                 if let content = child.value {
-                    if let oldContent = node[childElement.key] as? UnkeyedBox {
+                    if let oldContent = elements[element.key] as? UnkeyedBox {
                         oldContent.append(StringBox(content))
                         // FIXME: Box is a reference type, so this shouldn't be necessary:
-                        node[childElement.key] = oldContent
-                    } else if let oldContent = node[childElement.key] {
-                        node[childElement.key] = UnkeyedBox([oldContent, StringBox(content)])
+                        elements[element.key] = oldContent
+                    } else if let oldContent = elements[element.key] {
+                        elements[element.key] = UnkeyedBox([oldContent, StringBox(content)])
                     } else {
-                        node[childElement.key] = StringBox(content)
+                        elements[element.key] = StringBox(content)
                     }
-                } else if !child.children.isEmpty || !child.attributes.isEmpty {
+                } else if !child.elements.isEmpty || !child.attributes.isEmpty {
                     let newValue = child.flatten()
                     
-                    if let existingValue = node[childElement.key] {
+                    if let existingValue = elements[element.key] {
                         if let unkeyed = existingValue as? UnkeyedBox {
-                            unkeyed.append(KeyedBox(newValue))
+                            unkeyed.append(newValue)
                             // FIXME: Box is a reference type, so this shouldn't be necessary:
-                            node[childElement.key] = unkeyed
+                            elements[element.key] = unkeyed
                         } else {
-                            node[childElement.key] = UnkeyedBox([existingValue, KeyedBox(newValue)])
+                            elements[element.key] = UnkeyedBox([existingValue, newValue])
                         }
                     } else {
-                        node[childElement.key] = KeyedBox(newValue)
+                        elements[element.key] = newValue
                     }
                 }
             }
         }
         
-        return node
+        return KeyedBox(elements: elements, attributes: attributes)
     }
     
     func toXMLString(with header: XMLHeader? = nil, withCDATA cdata: Bool, formatting: XMLEncoder.OutputFormatting, ignoreEscaping _: Bool = false) -> String {
@@ -122,12 +119,12 @@ class _XMLElement {
     }
     
     fileprivate func formatUnsortedXMLElements(_ string: inout String, _ level: Int, _ cdata: Bool, _ formatting: XMLEncoder.OutputFormatting, _ prettyPrinted: Bool) {
-        formatXMLElements(from: children.map { (key: $0, value: $1) }, into: &string, at: level, cdata: cdata, formatting: formatting, prettyPrinted: prettyPrinted)
+        formatXMLElements(from: elements.map { (key: $0, value: $1) }, into: &string, at: level, cdata: cdata, formatting: formatting, prettyPrinted: prettyPrinted)
     }
     
-    fileprivate func elementString(for childElement: (key: String, value: [_XMLElement]), at level: Int, cdata: Bool, formatting: XMLEncoder.OutputFormatting, prettyPrinted: Bool) -> String {
+    fileprivate func elementString(for element: (key: String, value: [_XMLElement]), at level: Int, cdata: Bool, formatting: XMLEncoder.OutputFormatting, prettyPrinted: Bool) -> String {
         var string = ""
-        for child in childElement.value {
+        for child in element.value {
             string += child._toXMLString(indented: level + 1, withCDATA: cdata, formatting: formatting)
             string += prettyPrinted ? "\n" : ""
         }
@@ -135,7 +132,7 @@ class _XMLElement {
     }
     
     fileprivate func formatSortedXMLElements(_ string: inout String, _ level: Int, _ cdata: Bool, _ formatting: XMLEncoder.OutputFormatting, _ prettyPrinted: Bool) {
-        formatXMLElements(from: children.sorted { $0.key < $1.key }, into: &string, at: level, cdata: cdata, formatting: formatting, prettyPrinted: prettyPrinted)
+        formatXMLElements(from: elements.sorted { $0.key < $1.key }, into: &string, at: level, cdata: cdata, formatting: formatting, prettyPrinted: prettyPrinted)
     }
     
     fileprivate func attributeString(key: String, value: String) -> String {
@@ -148,9 +145,9 @@ class _XMLElement {
         }
     }
     
-    fileprivate func formatXMLElements(from children: [(key: String, value: [_XMLElement])], into string: inout String, at level: Int, cdata: Bool, formatting: XMLEncoder.OutputFormatting, prettyPrinted: Bool) {
-        for childElement in children {
-            string += elementString(for: childElement, at: level, cdata: cdata, formatting: formatting, prettyPrinted: prettyPrinted)
+    fileprivate func formatXMLElements(from elements: [(key: String, value: [_XMLElement])], into string: inout String, at level: Int, cdata: Bool, formatting: XMLEncoder.OutputFormatting, prettyPrinted: Bool) {
+        for element in elements {
+            string += elementString(for: element, at: level, cdata: cdata, formatting: formatting, prettyPrinted: prettyPrinted)
         }
     }
     
@@ -202,7 +199,7 @@ class _XMLElement {
                 string += "\(value)"
             }
             string += "</\(key)>"
-        } else if !children.isEmpty {
+        } else if !elements.isEmpty {
             string += prettyPrinted ? ">\n" : ">"
             formatXMLElements(formatting, &string, level, cdata, prettyPrinted)
             
@@ -222,9 +219,9 @@ extension _XMLElement: Equatable {
             lhs.key == rhs.key,
             lhs.value == rhs.value,
             lhs.attributes == rhs.attributes,
-            lhs.children == rhs.children
-        else {
-            return false
+            lhs.elements == rhs.elements
+            else {
+                return false
         }
         return true
     }

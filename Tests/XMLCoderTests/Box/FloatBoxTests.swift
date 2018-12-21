@@ -42,11 +42,6 @@ class FloatBoxTests: XCTestCase {
         }
     }
     
-    func testDescription() {
-        let box = FloatBox(4.2)
-        XCTAssertEqual(box.description, "4.2")
-    }
-    
     func testValidValues() {
         let values: [String] = [
             "-3E2",

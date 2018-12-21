@@ -47,7 +47,7 @@ struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContainerProtoco
     // MARK: - KeyedEncodingContainerProtocol Methods
     
     public mutating func encodeNil(forKey key: Key) throws {
-        self.container[_converted(key).stringValue] = NullBox()
+        self.container.elements[_converted(key).stringValue] = NullBox()
     }
     
     public mutating func encode(_ value: Bool, forKey key: Key) throws {
@@ -173,27 +173,21 @@ struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContainerProtoco
         let box = try encode(self.encoder, value)
         switch strategy(key) {
         case .attribute:
-            guard box is SimpleBox else {
+            guard let attribute = box as? SimpleBox else {
                 throw EncodingError.invalidValue(value, EncodingError.Context(
                     codingPath: [],
                     debugDescription: "Complex values cannot be encoded as attributes."
                 ))
             }
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? KeyedBox {
-                attributesContainer[_converted(key).stringValue] = box
-            } else {
-                let attributesContainer = KeyedBox()
-                attributesContainer[_converted(key).stringValue] = box
-                self.container[_XMLElement.attributesKey] = attributesContainer
-            }
+            self.container.attributes[_converted(key).stringValue] = attribute
         case .element:
-            self.container[_converted(key).stringValue] = box
+            self.container.elements[_converted(key).stringValue] = box
         }
     }
     
     public mutating func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type, forKey key: Key) -> KeyedEncodingContainer<NestedKey> {
         let keyed = KeyedBox()
-        self.container[_converted(key).stringValue] = keyed
+        self.container.elements[_converted(key).stringValue] = keyed
         
         self.codingPath.append(key)
         defer { self.codingPath.removeLast() }
@@ -204,7 +198,7 @@ struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContainerProtoco
     
     public mutating func nestedUnkeyedContainer(forKey key: Key) -> UnkeyedEncodingContainer {
         let unkeyed = UnkeyedBox()
-        self.container[_converted(key).stringValue] = unkeyed
+        self.container.elements[_converted(key).stringValue] = unkeyed
         
         self.codingPath.append(key)
         defer { self.codingPath.removeLast() }

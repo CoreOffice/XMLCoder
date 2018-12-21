@@ -19,7 +19,7 @@ class XMLStackParserTests: XCTestCase {
         
         let expected = _XMLElement(
             key: "container",
-            children: [
+            elements: [
                 "value": [
                     _XMLElement(
                         key: "value",
