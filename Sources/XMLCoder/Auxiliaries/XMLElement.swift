@@ -72,6 +72,12 @@ internal class _XMLElement {
         
     }
     
+    func append(value string: String) {
+        var value = self.value ?? ""
+        value += string.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.value = value
+    }
+    
     internal func flatten() -> [String: Box] {
         var node: [String: Box] = attributes.mapValues { StringBox($0) }
         
@@ -207,5 +213,19 @@ internal class _XMLElement {
         }
         
         return string
+    }
+}
+
+extension _XMLElement: Equatable {
+    static func == (lhs: _XMLElement, rhs: _XMLElement) -> Bool {
+        guard
+            lhs.key == rhs.key,
+            lhs.value == rhs.value,
+            lhs.attributes == rhs.attributes,
+            lhs.children == rhs.children
+        else {
+            return false
+        }
+        return true
     }
 }

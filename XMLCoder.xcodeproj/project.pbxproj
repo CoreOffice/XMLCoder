@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		BF63EF0021CCDED2001D38C5 /* XMLStackParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EEFF21CCDED2001D38C5 /* XMLStackParserTests.swift */; };
 		BF9457A821CBB498005ACFDE /* NullBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF94579E21CBB497005ACFDE /* NullBox.swift */; };
 		BF9457A921CBB498005ACFDE /* DictionaryBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF94579F21CBB497005ACFDE /* DictionaryBox.swift */; };
 		BF9457AA21CBB498005ACFDE /* ArrayBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457A021CBB497005ACFDE /* ArrayBox.swift */; };
@@ -105,6 +106,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BF63EEFF21CCDED2001D38C5 /* XMLStackParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLStackParserTests.swift; sourceTree = "<group>"; };
 		BF94579E21CBB497005ACFDE /* NullBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NullBox.swift; sourceTree = "<group>"; };
 		BF94579F21CBB497005ACFDE /* DictionaryBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryBox.swift; sourceTree = "<group>"; };
 		BF9457A021CBB497005ACFDE /* ArrayBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayBox.swift; sourceTree = "<group>"; };
@@ -192,6 +194,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BF63EEFE21CCDEC1001D38C5 /* Auxiliary */ = {
+			isa = PBXGroup;
+			children = (
+				BF63EEFF21CCDED2001D38C5 /* XMLStackParserTests.swift */,
+			);
+			path = Auxiliary;
+			sourceTree = "<group>";
+		};
 		BF94578721CBB454005ACFDE /* Box */ = {
 			isa = PBXGroup;
 			children = (
@@ -286,6 +296,7 @@
 			children = (
 				BF9457BD21CBB516005ACFDE /* Box */,
 				BF9457E121CBB6BC005ACFDE /* Minimal */,
+				BF63EEFE21CCDEC1001D38C5 /* Auxiliary */,
 				OBJ_28 /* BooksTest.swift */,
 				OBJ_29 /* BreakfastTest.swift */,
 				OBJ_30 /* CDCatalog.swift */,
@@ -493,6 +504,7 @@
 				OBJ_80 /* BooksTest.swift in Sources */,
 				OBJ_81 /* BreakfastTest.swift in Sources */,
 				OBJ_82 /* CDCatalog.swift in Sources */,
+				BF63EF0021CCDED2001D38C5 /* XMLStackParserTests.swift in Sources */,
 				BF9457CC21CBB516005ACFDE /* NullBoxTests.swift in Sources */,
 				BF9457CF21CBB516005ACFDE /* IntBoxTests.swift in Sources */,
 				BF9457E021CBB68A005ACFDE /* DataBoxTests.swift in Sources */,
