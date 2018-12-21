@@ -548,7 +548,7 @@ extension _XMLEncoder {
     }
 
     func box(_ value: URL) -> SimpleBox {
-      return URLBox(value)
+        return URLBox(value)
     }
 
     internal func box<T: Encodable>(_ value: T) throws -> Box {
