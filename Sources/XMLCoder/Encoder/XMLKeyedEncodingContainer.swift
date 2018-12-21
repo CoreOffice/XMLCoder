@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContainerProtocol {
+struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContainerProtocol {
     typealias Key = K
     
     // MARK: Properties
@@ -24,7 +24,7 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
     // MARK: - Initialization
     
     /// Initializes `self` with the given references.
-    internal init(referencing encoder: _XMLEncoder, codingPath: [CodingKey], wrapping container: KeyedBox) {
+    init(referencing encoder: _XMLEncoder, codingPath: [CodingKey], wrapping container: KeyedBox) {
         self.encoder = encoder
         self.codingPath = codingPath
         self.container = container

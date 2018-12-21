@@ -211,7 +211,7 @@ open class XMLDecoder {
     open var userInfo: [CodingUserInfoKey: Any] = [:]
 
     /// Options set on the top-level encoder to pass down the decoding hierarchy.
-    internal struct _Options {
+    struct _Options {
         let dateDecodingStrategy: DateDecodingStrategy
         let dataDecodingStrategy: DataDecodingStrategy
         let nonConformingFloatDecodingStrategy: NonConformingFloatDecodingStrategy
@@ -220,7 +220,7 @@ open class XMLDecoder {
     }
 
     /// The options set on the top-level decoder.
-    internal var options: _Options {
+    var options: _Options {
         return _Options(dateDecodingStrategy: dateDecodingStrategy,
                         dataDecodingStrategy: dataDecodingStrategy,
                         nonConformingFloatDecodingStrategy: nonConformingFloatDecodingStrategy,
@@ -268,14 +268,14 @@ open class XMLDecoder {
 
 // MARK: - _XMLDecoder
 
-internal class _XMLDecoder: Decoder {
+class _XMLDecoder: Decoder {
     // MARK: Properties
 
     /// The decoder's storage.
-    internal var storage: _XMLDecodingStorage
+    var storage: _XMLDecodingStorage
 
     /// Options set on the top-level decoder.
-    internal let options: XMLDecoder._Options
+    let options: XMLDecoder._Options
 
     /// The path to the current point in encoding.
     public internal(set) var codingPath: [CodingKey]
@@ -288,7 +288,7 @@ internal class _XMLDecoder: Decoder {
     // MARK: - Initialization
 
     /// Initializes `self` with the given top-level container and options.
-    internal init(referencing container: Box, at codingPath: [CodingKey] = [], options: XMLDecoder._Options) {
+    init(referencing container: Box, at codingPath: [CodingKey] = [], options: XMLDecoder._Options) {
         storage = _XMLDecodingStorage()
         storage.push(container: container)
         self.codingPath = codingPath
@@ -398,7 +398,7 @@ extension _XMLDecoder: SingleValueDecodingContainer {
 extension _XMLDecoder {
     /// Returns the given box unboxed from a container.
     
-    internal func unbox(_ box: Box) throws -> Bool? {
+    func unbox(_ box: Box) throws -> Bool? {
         guard !box.isNull else { return nil }
         
         guard let string = (box as? StringBox)?.unbox() else { return nil }
@@ -410,7 +410,7 @@ extension _XMLDecoder {
         return boolBox.unbox()
     }
     
-    internal func unbox(_ box: Box) throws -> Decimal? {
+    func unbox(_ box: Box) throws -> Decimal? {
         guard !box.isNull else { return nil }
         
         guard let string = (box as? StringBox)?.unbox() else { return nil }
@@ -422,7 +422,7 @@ extension _XMLDecoder {
         return decimalBox.unbox()
     }
 
-    internal func unbox<T: BinaryInteger & SignedInteger & Decodable>(_ box: Box) throws -> T? {
+    func unbox<T: BinaryInteger & SignedInteger & Decodable>(_ box: Box) throws -> T? {
         guard !box.isNull else { return nil }
         
         guard let string = (box as? StringBox)?.unbox() else { return nil }
@@ -441,7 +441,7 @@ extension _XMLDecoder {
         return int
     }
     
-    internal func unbox<T: BinaryInteger & UnsignedInteger & Decodable>(_ box: Box) throws -> T? {
+    func unbox<T: BinaryInteger & UnsignedInteger & Decodable>(_ box: Box) throws -> T? {
         guard !box.isNull else { return nil }
         
         guard let string = (box as? StringBox)?.unbox() else { return nil }
@@ -460,7 +460,7 @@ extension _XMLDecoder {
         return uint
     }
 
-    internal func unbox<T: BinaryFloatingPoint & Decodable>(_ box: Box) throws -> T? {
+    func unbox<T: BinaryFloatingPoint & Decodable>(_ box: Box) throws -> T? {
         guard !box.isNull else { return nil }
         
         guard let string = (box as? StringBox)?.unbox() else { return nil }
@@ -479,7 +479,7 @@ extension _XMLDecoder {
         return float
     }
 
-    internal func unbox(_ box: Box) throws -> String? {
+    func unbox(_ box: Box) throws -> String? {
         guard !box.isNull else { return nil }
 
         guard let string = (box as? StringBox)?.unbox() else {
@@ -489,7 +489,7 @@ extension _XMLDecoder {
         return string
     }
 
-    internal func unbox(_ box: Box) throws -> Date? {
+    func unbox(_ box: Box) throws -> Date? {
         guard !box.isNull else { return nil }
 
         switch options.dateDecodingStrategy {
@@ -549,7 +549,7 @@ extension _XMLDecoder {
         }
     }
 
-    internal func unbox(_ box: Box) throws -> Data? {
+    func unbox(_ box: Box) throws -> Data? {
         guard !box.isNull else { return nil }
 
         switch options.dataDecodingStrategy {
@@ -576,7 +576,7 @@ extension _XMLDecoder {
         }
     }
 
-    internal func unbox<T: Decodable>(_ box: Box) throws -> T? {
+    func unbox<T: Decodable>(_ box: Box) throws -> T? {
         let decoded: T
         let type = T.self
         if type == Date.self || type == NSDate.self {

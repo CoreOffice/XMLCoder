@@ -8,7 +8,7 @@
 import Foundation
 
 extension String {
-    internal func escape(_ characterSet: [(character: String, escapedCharacter: String)]) -> String {
+    func escape(_ characterSet: [(character: String, escapedCharacter: String)]) -> String {
         var string = self
         
         for set in characterSet {

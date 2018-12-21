@@ -21,11 +21,11 @@ public struct XMLHeader {
         self.standalone = standalone
     }
     
-    internal func isEmpty() -> Bool {
+    func isEmpty() -> Bool {
         return version == nil && encoding == nil && standalone == nil
     }
     
-    internal func toXML() -> String? {
+    func toXML() -> String? {
         guard !isEmpty() else { return nil }
         
         var string = "<?xml "

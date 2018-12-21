@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal class _XMLStackParser: NSObject {
+class _XMLStackParser: NSObject {
     var root: _XMLElement? = nil
     var stack: [_XMLElement] = []
     var currentNode: _XMLElement? = nil

@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal class _XMLElement {
+class _XMLElement {
     static let attributesKey = "___ATTRIBUTES"
     static let escapedCharacterSet = [("&", "&amp"), ("<", "&lt;"), (">", "&gt;"), ("'", "&apos;"), ("\"", "&quot;")]
     
@@ -16,7 +16,7 @@ internal class _XMLElement {
     var attributes: [String: String] = [:]
     var children: [String: [_XMLElement]] = [:]
     
-    internal init(key: String, value: String? = nil, attributes: [String: String] = [:], children: [String: [_XMLElement]] = [:]) {
+    init(key: String, value: String? = nil, attributes: [String: String] = [:], children: [String: [_XMLElement]] = [:]) {
         self.key = key
         self.value = value
         self.attributes = attributes
@@ -78,7 +78,7 @@ internal class _XMLElement {
         self.value = value
     }
     
-    internal func flatten() -> [String: Box] {
+    func flatten() -> [String: Box] {
         var node: [String: Box] = attributes.mapValues { StringBox($0) }
         
         for childElement in children {
