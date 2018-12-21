@@ -548,10 +548,10 @@ extension _XMLEncoder {
     }
 
     func box(_ value: URL) -> SimpleBox {
-        return URLBox(value)
+      return URLBox(value)
     }
-    
-    func box<T: Encodable>(_ value: T) throws -> Box {
+
+    internal func box<T: Encodable>(_ value: T) throws -> Box {
         if T.self == Date.self || T.self == NSDate.self {
             return try box(value as! Date)
         } else if T.self == Data.self || T.self == NSData.self {
