@@ -51,8 +51,8 @@ extension _XMLStackParser: XMLParserDelegate {
     }
 
     func parser(_: XMLParser, didStartElement elementName: String, namespaceURI _: String?, qualifiedName _: String?, attributes attributeDict: [String: String] = [:]) {
-        let node = _XMLElement(key: elementName)
-        node.attributes = attributeDict
+        let node = _XMLElement(key: elementName, attributes: attributeDict)
+        
         stack.append(node)
         
         currentNode?.children[elementName, default: []].append(node)
