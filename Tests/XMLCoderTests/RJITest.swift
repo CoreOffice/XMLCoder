@@ -173,6 +173,13 @@ class RJITest: XCTestCase {
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
         encoder.dateEncodingStrategy = .formatted(dateFormatter)
         
+        encoder.nodeEncodingStrategy = .custom { type, _ in
+            if type == Channel.self {
+                return { $0 as? Channel.CodingKeys == Channel.CodingKeys.generatorAgentResource ? .attribute : .element }
+            }
+            return { _ in .element }
+        }
+        
         do {
             let rss1 = try decoder.decode(RSS.self, from: rjiSampleXML)
             
