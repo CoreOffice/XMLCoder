@@ -265,12 +265,7 @@ open class XMLEncoder {
         )
         encoder.nodeEncodings.append(options.nodeEncodingStrategy.nodeEncodings(forType: T.self, with: encoder))
 
-        guard let topLevel = try encoder.boxOrNil(value) else {
-            throw EncodingError.invalidValue(value, EncodingError.Context(
-                codingPath: [],
-                debugDescription: "Top-level \(T.self) did not encode any values."
-            ))
-        }
+        let topLevel = try encoder.box(value)
         
         let elementOrNone: _XMLElement?
         
@@ -552,22 +547,18 @@ extension _XMLEncoder {
         }
     }
 
-    func box<T : Encodable>(_ value: T) throws -> Box {
-        return try self.boxOrNil(value) ?? KeyedBox()
+    func box(_ value: URL) -> SimpleBox {
+        return URLBox(value)
     }
-
-    // This method is called "box_" instead of "box" to disambiguate it from the overloads. Because the return type here is different from all of the "box" overloads (and is more general), any "box" calls in here would call back into "box" recursively instead of calling the appropriate overload, which is not what we want.
-    internal func boxOrNil<T: Encodable>(_ value: T) throws -> Box? {
+    
+    internal func box<T: Encodable>(_ value: T) throws -> Box {
         if T.self == Date.self || T.self == NSDate.self {
             return try box(value as! Date)
-        }
-        if T.self == Data.self || T.self == NSData.self {
+        } else if T.self == Data.self || T.self == NSData.self {
             return try box(value as! Data)
-        }
-        if T.self == URL.self || T.self == NSURL.self {
-            return box((value as! URL).absoluteString)
-        }
-        if T.self == Decimal.self || T.self == NSDecimalNumber.self {
+        } else if T.self == URL.self || T.self == NSURL.self {
+            return box(value as! URL)
+        } else if T.self == Decimal.self || T.self == NSDecimalNumber.self {
             return box(value as! Decimal)
         }
 
@@ -576,7 +567,7 @@ extension _XMLEncoder {
 
         // The top container should be a new container.
         guard storage.count > depth else {
-            return nil
+            return KeyedBox()
         }
 
         return storage.popContainer()

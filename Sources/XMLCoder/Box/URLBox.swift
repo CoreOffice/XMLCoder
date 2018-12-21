@@ -1,0 +1,49 @@
+//
+//  URLBox.swift
+//  XMLCoder
+//
+//  Created by Vincent Esche on 12/21/18.
+//
+
+import Foundation
+
+struct URLBox: Equatable {
+    typealias Unboxed = URL
+    
+    let unboxed: Unboxed
+    
+    init(_ unboxed: Unboxed) {
+        self.unboxed = unboxed
+    }
+    
+    init?(xmlString: String) {
+        guard let unboxed = Unboxed(string: xmlString) else {
+            return nil
+        }
+        self.init(unboxed)
+    }
+    
+    func unbox() -> Unboxed {
+        return self.unboxed
+    }
+}
+
+extension URLBox: Box {
+    var isNull: Bool {
+        return false
+    }
+
+    func xmlString() -> String? {
+        return self.unboxed.absoluteString
+    }
+}
+
+extension URLBox: SimpleBox {
+    
+}
+
+extension URLBox: CustomStringConvertible {
+    var description: String {
+        return self.unboxed.description
+    }
+}

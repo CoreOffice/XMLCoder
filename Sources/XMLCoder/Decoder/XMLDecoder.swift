@@ -575,6 +575,21 @@ extension _XMLDecoder {
             return try closure(self)
         }
     }
+    
+    internal func unbox(_ box: Box) throws -> URL? {
+        guard !box.isNull else { return nil }
+        
+        guard let string = (box as? StringBox)?.unbox() else { return nil }
+        
+        guard let urlBox = URLBox(xmlString: string) else {
+            throw DecodingError.dataCorrupted(DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "Encountered Data is not valid Base64"
+            ))
+        }
+        
+        return urlBox.unbox()
+    }
 
     func unbox<T: Decodable>(_ box: Box) throws -> T? {
         let decoded: T
@@ -586,18 +601,8 @@ extension _XMLDecoder {
             guard let data: Data = try unbox(box) else { return nil }
             decoded = data as! T
         } else if type == URL.self || type == NSURL.self {
-            guard let urlString: String = try unbox(box) else {
-                return nil
-            }
-
-            guard let url = URL(string: urlString) else {
-                throw DecodingError.dataCorrupted(DecodingError.Context(
-                    codingPath: codingPath,
-                    debugDescription: "Invalid URL string."
-                ))
-            }
-
-            decoded = (url as! T)
+            guard let data: URL = try unbox(box) else { return nil }
+            decoded = data as! T
         } else if type == Decimal.self || type == NSDecimalNumber.self {
             guard let decimal: Decimal = try unbox(box) else { return nil }
             decoded = decimal as! T
