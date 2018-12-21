@@ -65,7 +65,7 @@ extension _XMLStackParser: XMLParserDelegate {
             return
         }
         
-        if let value = poppedNode.value?.trimmingCharacters(in: .whitespacesAndNewlines) {
+        if let value = poppedNode.value {
             poppedNode.value = value.isEmpty ? nil : value
         }
 
@@ -81,9 +81,7 @@ extension _XMLStackParser: XMLParserDelegate {
             return
         }
         
-        var value = currentNode.value ?? ""
-        value.append(string)
-        currentNode.value = value
+        currentNode.append(value: string)
     }
 
     func parser(_: XMLParser, foundCDATA CDATABlock: Data) {
@@ -94,9 +92,7 @@ extension _XMLStackParser: XMLParserDelegate {
             return
         }
         
-        var value = currentNode.value ?? ""
-        value.append(string)
-        currentNode.value = value
+        currentNode.append(value: string)
     }
 
     func parser(_: XMLParser, parseErrorOccurred parseError: Error) {
