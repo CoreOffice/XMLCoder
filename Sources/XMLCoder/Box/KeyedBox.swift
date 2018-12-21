@@ -45,8 +45,16 @@ struct KeyedStorage<Key: Hashable, Value> {
         return try self.buffer.compactMap(transform)
     }
     
+    func mapValues<T>(_ transform: (Value) throws -> T) rethrows -> [Key: T] {
+        return try self.buffer.mapValues(transform)
+    }
+    
+    func mapValues<T>(_ transform: (Value) throws -> T) rethrows -> [(Key, T)] {
+        return Array(try self.mapValues(transform))
+    }
+    
     func mapValues(_ transform: (Value) throws -> Value) rethrows -> KeyedStorage {
-        return KeyedStorage(try self.buffer.mapValues(transform))
+        return KeyedStorage(try self.mapValues(transform))
     }
 }
 

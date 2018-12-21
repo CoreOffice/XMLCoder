@@ -270,9 +270,9 @@ open class XMLEncoder {
         let elementOrNone: _XMLElement?
         
         if let keyed = topLevel as? KeyedBox {
-            elementOrNone = _XMLElement.createRootElement(rootKey: rootKey, object: keyed)
+            elementOrNone = _XMLElement(key: rootKey, box: keyed)
         } else if let unkeyed = topLevel as? UnkeyedBox {
-            elementOrNone = _XMLElement.createRootElement(rootKey: rootKey, object: unkeyed)
+            elementOrNone = _XMLElement(key: rootKey, box: unkeyed)
         } else {
             fatalError("Unrecognized top-level element.")
         }

@@ -23,48 +23,61 @@ class _XMLElement {
         self.elements = elements
     }
     
-    static func createRootElement(rootKey: String, object: UnkeyedBox) -> _XMLElement? {
-        let element = _XMLElement(key: rootKey)
+    convenience init(key: String, box: UnkeyedBox) {
+        self.init(key: key)
         
-        _XMLElement.createElement(parentElement: element, key: rootKey, object: object)
-        
-        return element
-    }
-    
-    static func createRootElement(rootKey: String, object: KeyedBox) -> _XMLElement? {
-        let element = _XMLElement(key: rootKey)
-        
-        _XMLElement.modifyElement(element: element, parentElement: nil, key: nil, object: object)
-        
-        return element
-    }
-    
-    fileprivate static func modifyElement(element: _XMLElement, parentElement: _XMLElement?, key: String?, object: KeyedBox) {
-        let uniqueAttributes: [(String, String)]? = object.attributes.compactMap { key, box in
-            return box.xmlString().map { (key, $0) }
-        }
-        element.attributes = uniqueAttributes.map { Dictionary(uniqueKeysWithValues: $0) } ?? [:]
-        
-        for (key, box) in object.elements {
-            _XMLElement.createElement(parentElement: element, key: key, object: box)
-        }
-        
-        if let parentElement = parentElement, let key = key {
-            parentElement.elements[key] = (parentElement.elements[key] ?? []) + [element]
+        self.elements[key] = box.map { box in
+            _XMLElement(key: key, box: box)
         }
     }
     
-    fileprivate static func createElement(parentElement: _XMLElement, key: String, object: Box) {
-        switch object {
-        case let box as UnkeyedBox:
-            for box in box.unbox() {
-                _XMLElement.createElement(parentElement: parentElement, key: key, object: box)
+    convenience init(key: String, box: KeyedBox) {
+        self.init(key: key)
+        
+        self.attributes = Dictionary(uniqueKeysWithValues: box.attributes.compactMap { key, box in
+            guard let value = box.xmlString() else {
+                return nil
             }
-        case let box as KeyedBox:
-            modifyElement(element: _XMLElement(key: key), parentElement: parentElement, key: key, object: box)
+            return (key, value)
+        })
+        
+        let elementsByKey: [(String, [_XMLElement])] = box.elements.map { key, box in
+            switch box {
+            case let unkeyedBox as UnkeyedBox:
+                // This basically injects the unkeyed children directly into self:
+                let elements = unkeyedBox.map { _XMLElement(key: key, box: $0) }
+                return (key, elements)
+            case let keyedBox as KeyedBox:
+                let elements = [_XMLElement(key: key, box: keyedBox)]
+                return (key, elements)
+            case let simpleBox as SimpleBox:
+                let elements = [_XMLElement(key: key, box: simpleBox)]
+                return (key, elements)
+            case _:
+                preconditionFailure("Unclassified box.")
+            }
+        }
+        
+        self.elements = Dictionary(elementsByKey) { existingElements, newElements in
+            existingElements + newElements
+        }
+    }
+    
+    convenience init(key: String, box: SimpleBox) {
+        self.init(key: key)
+        self.value = box.xmlString()
+    }
+    
+    convenience init(key: String, box: Box) {
+        switch box {
+        case let unkeyedBox as UnkeyedBox:
+            self.init(key: key, box: unkeyedBox)
+        case let keyedBox as KeyedBox:
+            self.init(key: key, box: keyedBox)
+        case let simpleBox as SimpleBox:
+            self.init(key: key, box: simpleBox)
         case _:
-            let element = _XMLElement(key: key, value: object.xmlString())
-            parentElement.elements[key, default: []].append(element)
+            preconditionFailure("Unclassified box.")
         }
     }
     
@@ -108,6 +121,13 @@ class _XMLElement {
             }
         }
         
+    
+    func append(value string: String) {
+        var value = self.value ?? ""
+        value += string.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.value = value
+    }
+    
         return KeyedBox(elements: elements, attributes: attributes)
     }
     
