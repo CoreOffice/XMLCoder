@@ -8,15 +8,15 @@
 
 import Foundation
 
+struct XMLElementContext {
+    
+}
+
 class _XMLStackParser: NSObject {
     var root: _XMLElement? = nil
-    var stack: [_XMLElement] = []
-    var currentNode: _XMLElement? = nil
+    private var stack: [_XMLElement] = []
 
-    var currentElementName: String? = nil
-    var currentElementData = ""
-
-    static func parse(with data: Data) throws -> [String: Box] {
+    static func parse(with data: Data) throws -> KeyedBox {
         let parser = _XMLStackParser()
 
         guard let node = try parser.parse(with: data) else {
@@ -42,6 +42,13 @@ class _XMLStackParser: NSObject {
         
         return root
     }
+    
+    func withCurrentElement(_ body: (inout _XMLElement) throws -> ()) rethrows {
+        guard !stack.isEmpty else {
+            return
+        }
+        try body(&stack[stack.count - 1])
+    }
 }
 
 extension _XMLStackParser: XMLParserDelegate {
@@ -51,48 +58,41 @@ extension _XMLStackParser: XMLParserDelegate {
     }
 
     func parser(_: XMLParser, didStartElement elementName: String, namespaceURI _: String?, qualifiedName _: String?, attributes attributeDict: [String: String] = [:]) {
-        let node = _XMLElement(key: elementName, attributes: attributeDict)
-        
-        stack.append(node)
-        
-        currentNode?.children[elementName, default: []].append(node)
-        
-        currentNode = node
+        let element = _XMLElement(key: elementName, attributes: attributeDict)
+        stack.append(element)
     }
 
     func parser(_: XMLParser, didEndElement _: String, namespaceURI _: String?, qualifiedName _: String?) {
-        guard let poppedNode = stack.popLast() else {
+        guard var element = stack.popLast() else {
             return
         }
         
-        if let value = poppedNode.value {
-            poppedNode.value = value.isEmpty ? nil : value
+        if let value = element.value {
+            element.value = value.isEmpty ? nil : value
+        }
+        
+        withCurrentElement { currentElement in
+            currentElement.append(element: element, forKey: element.key)
         }
 
         if stack.isEmpty {
-            root = poppedNode
+            root = element
         }
-        
-        currentNode = stack.last
     }
 
     func parser(_: XMLParser, foundCharacters string: String) {
-        guard let currentNode = currentNode else {
-            return
+        withCurrentElement { currentElement in
+            currentElement.append(value: string)
         }
-        
-        currentNode.append(value: string)
     }
 
     func parser(_: XMLParser, foundCDATA CDATABlock: Data) {
         guard let string = String(data: CDATABlock, encoding: .utf8) else {
             return
         }
-        guard let currentNode = currentNode else {
-            return
+        withCurrentElement { currentElement in
+            currentElement.append(value: string)
         }
-        
-        currentNode.append(value: string)
     }
 
     func parser(_: XMLParser, parseErrorOccurred parseError: Error) {

@@ -7,59 +7,104 @@
 
 import Foundation
 
-// Minimalist implementation of an order-preserving keyed box:
-class KeyedBox {
-    typealias Key = String
-    typealias Value = Box
+struct KeyedStorage<Key: Hashable, Value> {
+    typealias Buffer = [Key: Value]
     
-    typealias Unboxed = [Key: Value]
-    
-    private(set) var unboxed: Unboxed
+    fileprivate var buffer: Buffer = [:]
     
     var count: Int {
-        return self.unboxed.count
+        return self.buffer.count
     }
     
-    var keys: Unboxed.Keys {
-        return self.unboxed.keys
+    var keys: Buffer.Keys {
+        return self.buffer.keys
+    }
+    
+    init(_ buffer: Buffer) {
+        self.buffer = buffer
     }
     
     subscript(key: Key) -> Value? {
         get {
-            return self.unboxed[key]
+            return self.buffer[key]
         }
         set {
-            self.unboxed[key] = newValue
+            self.buffer[key] = newValue
         }
-    }
-    
-    init(_ unboxed: Unboxed = [:]) {
-        self.unboxed = unboxed
-    }
-    
-    convenience init<S>(_ keysAndValues: S, uniquingKeysWith combine: (Value, Value) throws -> Value) rethrows where S : Sequence, S.Element == (Key, Value) {
-        let unboxed = try Dictionary(keysAndValues, uniquingKeysWith: combine)
-        self.init(unboxed)
-    }
-    
-    func unbox() -> Unboxed {
-        return self.unboxed
     }
     
     func filter(_ isIncluded: (Key, Value) throws -> Bool) rethrows -> [(Key, Value)] {
-        return try self.unboxed.filter(isIncluded)
+        return try self.buffer.filter(isIncluded)
     }
     
     func map<T>(_ transform: (Key, Value) throws -> T) rethrows -> [T] {
-        return try self.unboxed.map(transform)
+        return try self.buffer.map(transform)
     }
     
     func compactMap<T>(_ transform: ((Key, Value)) throws -> T?) rethrows -> [T] {
-        return try self.unboxed.compactMap(transform)
+        return try self.buffer.compactMap(transform)
     }
     
-    func mapValues(_ transform: (Value) throws -> Value) rethrows -> KeyedBox {
-        return KeyedBox(try self.unboxed.mapValues(transform))
+    func mapValues<T>(_ transform: (Value) throws -> T) rethrows -> [Key: T] {
+        return try self.buffer.mapValues(transform)
+    }
+    
+    func mapValues<T>(_ transform: (Value) throws -> T) rethrows -> [(Key, T)] {
+        return Array(try self.mapValues(transform))
+    }
+    
+    func mapValues(_ transform: (Value) throws -> Value) rethrows -> KeyedStorage {
+        return KeyedStorage(try self.mapValues(transform))
+    }
+}
+
+extension KeyedStorage: Sequence {
+    typealias Iterator = Buffer.Iterator
+    
+    func makeIterator() -> Iterator {
+        return self.buffer.makeIterator()
+    }
+}
+
+extension KeyedStorage: ExpressibleByDictionaryLiteral {
+    init(dictionaryLiteral elements: (Key, Value)...) {
+        self.init(Dictionary(uniqueKeysWithValues: elements))
+    }
+}
+
+class KeyedBox {
+    typealias Key = String
+    typealias Attribute = SimpleBox
+    typealias Element = Box
+
+    typealias Attributes = KeyedStorage<Key, Attribute>
+    typealias Elements = KeyedStorage<Key, Element>
+    
+    var attributes: Attributes = [:]
+    var elements: Elements = [:]
+    
+    init() {
+        self.attributes = [:]
+        self.elements = [:]
+    }
+    
+    init<E, A>(elements: E, attributes: A)
+        where E: Sequence, E.Element == (Key, Element), A: Sequence, A.Element == (Key, Attribute)
+    {
+        self.elements = Elements(Dictionary(uniqueKeysWithValues: elements))
+        self.attributes = Attributes(Dictionary(uniqueKeysWithValues: attributes))
+    }
+    
+    init(elements: [Key: Element], attributes: [Key: Attribute]) {
+        self.elements = Elements(elements)
+        self.attributes = Attributes(attributes)
+    }
+    
+    func unbox() -> (elements: Elements, attributes: Attributes) {
+        return (
+            elements: self.elements,
+            attributes: self.attributes
+        )
     }
 }
 
@@ -70,19 +115,5 @@ extension KeyedBox: Box {
     
     func xmlString() -> String? {
         return nil
-    }
-}
-
-extension KeyedBox: Sequence {
-    typealias Iterator = Unboxed.Iterator
-    
-    func makeIterator() -> Iterator {
-        return self.unboxed.makeIterator()
-    }
-}
-
-extension KeyedBox: CustomStringConvertible {
-    var description: String {
-        return self.unboxed.description
     }
 }

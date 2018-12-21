@@ -245,7 +245,7 @@ open class XMLDecoder {
     open func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
         let topLevel: Box
         do {
-            topLevel = KeyedBox(try _XMLStackParser.parse(with: data))
+            topLevel = try _XMLStackParser.parse(with: data)
         } catch {
             throw DecodingError.dataCorrupted(DecodingError.Context(
                 codingPath: [],
@@ -576,7 +576,7 @@ extension _XMLDecoder {
         }
     }
     
-    internal func unbox(_ box: Box) throws -> URL? {
+    func unbox(_ box: Box) throws -> URL? {
         guard !box.isNull else { return nil }
         
         guard let string = (box as? StringBox)?.unbox() else { return nil }

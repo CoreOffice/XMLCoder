@@ -44,17 +44,29 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
         case .convertFromSnakeCase:
             // Convert the snake case keys in the container to camel case.
             // If we hit a duplicate key after conversion, then we'll use the first one we saw. Effectively an undefined behavior with dictionaries.
-            self.container = KeyedBox(container.map {
-                key, value in (XMLDecoder.KeyDecodingStrategy._convertFromSnakeCase(key), value)
-            }, uniquingKeysWith: { first, _ in first })
+            let attributes = container.attributes.map { key, value in
+                (XMLDecoder.KeyDecodingStrategy._convertFromSnakeCase(key), value)
+            }
+            let elements = container.elements.map { key, value in
+                (XMLDecoder.KeyDecodingStrategy._convertFromSnakeCase(key), value)
+            }
+            self.container = KeyedBox(elements: elements, attributes: attributes)
         case .convertFromCapitalized:
-            self.container = KeyedBox(container.map {
-                key, value in (XMLDecoder.KeyDecodingStrategy._convertFromCapitalized(key), value)
-            }, uniquingKeysWith: { first, _ in first })
+            let attributes = container.attributes.map { key, value in
+                (XMLDecoder.KeyDecodingStrategy._convertFromCapitalized(key), value)
+            }
+            let elements = container.elements.map { key, value in
+                (XMLDecoder.KeyDecodingStrategy._convertFromCapitalized(key), value)
+            }
+            self.container = KeyedBox(elements: elements, attributes: attributes)
         case let .custom(converter):
-            self.container = KeyedBox(container.map {
-                key, value in (converter(decoder.codingPath + [_XMLKey(stringValue: key, intValue: nil)]).stringValue, value)
-            }, uniquingKeysWith: { first, _ in first })
+            let attributes = container.attributes.map { key, value in
+                (converter(decoder.codingPath + [_XMLKey(stringValue: key, intValue: nil)]).stringValue, value)
+            }
+            let elements = container.elements.map { key, value in
+                (converter(decoder.codingPath + [_XMLKey(stringValue: key, intValue: nil)]).stringValue, value)
+            }
+            self.container = KeyedBox(elements: elements, attributes: attributes)
         }
         codingPath = decoder.codingPath
     }
@@ -62,11 +74,14 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
     // MARK: - KeyedDecodingContainerProtocol Methods
 
     public var allKeys: [Key] {
-        return container.keys.compactMap { Key(stringValue: $0) }
+        let attributeKeys = Array(container.attributes.keys.compactMap { Key(stringValue: $0) })
+        let elementKeys = Array(container.elements.keys.compactMap { Key(stringValue: $0) })
+        return attributeKeys + elementKeys
     }
 
     public func contains(_ key: Key) -> Bool {
-        return container[key.stringValue] != nil
+        let keyString = key.stringValue
+        return (container.attributes[keyString] != nil) || (container.elements[keyString] != nil)
     }
 
     private func _errorDescription(of key: CodingKey) -> String {
@@ -87,7 +102,10 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
     }
 
     public func decodeNil(forKey key: Key) throws -> Bool {
-        if let entry = container[key.stringValue] {
+        let keyString = key.stringValue
+        if let entry = container.attributes[keyString] {
+            return entry.isNull
+        } else if let entry = container.elements[key.stringValue] {
             return entry.isNull
         } else {
             return true
@@ -173,7 +191,10 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
     }
 
     public func decode<T: Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
-        if type is AnyEmptySequence.Type && container[key.stringValue] == nil {
+        let attributeNotFound = (container.attributes[key.stringValue] == nil)
+        let elementNotFound = (container.elements[key.stringValue] == nil)
+        
+        if type is AnyEmptySequence.Type && attributeNotFound && elementNotFound {
             return (type as! AnyEmptySequence.Type).init() as! T
         }
 
@@ -205,7 +226,7 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
         forKey key: Key,
         decode: (_XMLDecoder, Box) throws -> T?
     ) throws -> T {
-        guard let entry = container[key.stringValue] else {
+        guard let entry = container.elements[key.stringValue] ?? container.attributes[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(
                 codingPath: decoder.codingPath,
                 debugDescription: "No value associated with key \(_errorDescription(of: key))."
@@ -229,7 +250,7 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
         decoder.codingPath.append(key)
         defer { decoder.codingPath.removeLast() }
 
-        guard let value = self.container[key.stringValue] else {
+        guard let value = self.container.elements[key.stringValue] ?? self.container.attributes[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(
                 codingPath: codingPath,
                 debugDescription: "Cannot get \(KeyedDecodingContainer<NestedKey>.self) -- no value found for key \"\(key.stringValue)\""
@@ -248,7 +269,7 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
         decoder.codingPath.append(key)
         defer { decoder.codingPath.removeLast() }
 
-        guard let value = self.container[key.stringValue] else {
+        guard let value = container.elements[key.stringValue] ?? container.attributes[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(
                 codingPath: codingPath,
                 debugDescription: "Cannot get UnkeyedDecodingContainer -- no value found for key \"\(key.stringValue)\""
@@ -266,7 +287,7 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
         decoder.codingPath.append(key)
         defer { decoder.codingPath.removeLast() }
 
-        let box: Box = container[key.stringValue] ?? NullBox()
+        let box: Box = container.elements[key.stringValue] ?? container.attributes[key.stringValue] ?? NullBox()
         return _XMLDecoder(referencing: box, at: decoder.codingPath, options: decoder.options)
     }
 

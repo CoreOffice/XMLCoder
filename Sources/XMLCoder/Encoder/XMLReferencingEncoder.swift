@@ -93,7 +93,7 @@ class _XMLReferencingEncoder: _XMLEncoder {
         case let .unkeyed(unkeyed, index):
             unkeyed.insert(box, at: index)
         case let .keyed(keyed, key):
-            keyed[key] = box
+            keyed.elements[key] = box
         }
     }
 }

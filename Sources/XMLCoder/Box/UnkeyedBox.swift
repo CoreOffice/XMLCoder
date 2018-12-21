@@ -47,11 +47,11 @@ class UnkeyedBox {
         return try self.unboxed.filter(isIncluded)
     }
     
-    func map<T>(_ transform: (Any) throws -> T) rethrows -> [T] {
+    func map<T>(_ transform: (Element) throws -> T) rethrows -> [T] {
         return try self.unboxed.map(transform)
     }
     
-    func compactMap<T>(_ transform: (Any) throws -> T?) rethrows -> [T] {
+    func compactMap<T>(_ transform: (Element) throws -> T?) rethrows -> [T] {
         return try self.unboxed.compactMap(transform)
     }
 }
