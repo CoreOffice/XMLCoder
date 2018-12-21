@@ -266,9 +266,9 @@ open class XMLEncoder {
         encoder.nodeEncodings.append(options.nodeEncodingStrategy.nodeEncodings(forType: T.self, with: encoder))
 
         let topLevel = try encoder.box(value)
-        
+
         let elementOrNone: _XMLElement?
-        
+
         if let keyed = topLevel as? KeyedBox {
             elementOrNone = _XMLElement(key: rootKey, box: keyed)
         } else if let unkeyed = topLevel as? UnkeyedBox {
@@ -276,7 +276,7 @@ open class XMLEncoder {
         } else {
             fatalError("Unrecognized top-level element.")
         }
-        
+
         guard let element = elementOrNone else {
             throw EncodingError.invalidValue(value, EncodingError.Context(
                 codingPath: [],
@@ -379,7 +379,7 @@ class _XMLEncoder: Encoder {
 
 extension _XMLEncoder: SingleValueEncodingContainer {
     // MARK: - SingleValueEncodingContainer Methods
-    
+
     func assertCanEncodeNewValue() {
         precondition(self.canEncodeNewValue, "Attempt to encode value through single value container when previously value already encoded.")
     }
@@ -470,23 +470,23 @@ extension _XMLEncoder {
     func box() -> SimpleBox {
         return NullBox()
     }
-    
+
     func box(_ value: Bool) -> SimpleBox {
         return BoolBox(value)
     }
-    
+
     func box(_ value: Decimal) -> SimpleBox {
         return DecimalBox(value)
     }
-    
+
     func box<T: BinaryInteger & SignedInteger & Encodable>(_ value: T) -> SimpleBox {
         return IntBox(value)
     }
-    
+
     func box<T: BinaryInteger & UnsignedInteger & Encodable>(_ value: T) -> SimpleBox {
         return UIntBox(value)
     }
-    
+
     func box<T: BinaryFloatingPoint & Encodable>(_ value: T) throws -> SimpleBox {
         guard value.isInfinite || value.isNaN else {
             return FloatBox(value)
@@ -506,7 +506,7 @@ extension _XMLEncoder {
     func box(_ value: String) -> SimpleBox {
         return StringBox(value)
     }
-    
+
     func box(_ value: Date) throws -> Box {
         switch options.dateEncodingStrategy {
         case .deferredToDate:
@@ -550,8 +550,8 @@ extension _XMLEncoder {
     func box(_ value: URL) -> SimpleBox {
         return URLBox(value)
     }
-    
-    func box<T: Encodable>(_ value: T) throws -> Box {
+
+    internal func box<T: Encodable>(_ value: T) throws -> Box {
         if T.self == Date.self || T.self == NSDate.self {
             return try box(value as! Date)
         } else if T.self == Data.self || T.self == NSData.self {
