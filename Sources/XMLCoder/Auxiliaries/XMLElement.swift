@@ -40,7 +40,7 @@ struct _XMLElement {
             }
             return (key, value)
         })
-        
+
         let elementsByKey: [(String, [_XMLElement])] = box.elements.map { key, box in
             switch box {
             case let unkeyedBox as UnkeyedBox:
@@ -53,8 +53,8 @@ struct _XMLElement {
             case let simpleBox as SimpleBox:
                 let elements = [_XMLElement(key: key, box: simpleBox)]
                 return (key, elements)
-            case _:
-                preconditionFailure("Unclassified box.")
+            case let box:
+                preconditionFailure("Unclassified box: \(type(of: box))")
             }
         }
         
@@ -76,8 +76,8 @@ struct _XMLElement {
             self.init(key: key, box: keyedBox)
         case let simpleBox as SimpleBox:
             self.init(key: key, box: simpleBox)
-        case _:
-            preconditionFailure("Unclassified box.")
+        case let box:
+            preconditionFailure("Unclassified box: \(type(of: box))")
         }
     }
     
@@ -93,38 +93,38 @@ struct _XMLElement {
     
     func flatten() -> KeyedBox {
         let attributes = self.attributes.mapValues { StringBox($0) }
-        var elements: [String: Box] = [:]
         
-        for element in self.elements {
-            for child in element.value {
+        var elements: [String: Box] = [:]
+        for (key, value) in self.elements {
+            for child in value {
                 if let content = child.value {
-                    if let oldContent = elements[element.key] as? UnkeyedBox {
-                        oldContent.append(StringBox(content))
-                        // FIXME: Box is a reference type, so this shouldn't be necessary:
-                        elements[element.key] = oldContent
-                    } else if let oldContent = elements[element.key] {
-                        elements[element.key] = UnkeyedBox([oldContent, StringBox(content)])
-                    } else {
-                        elements[element.key] = StringBox(content)
+                    switch elements[key] {
+                    case let unkeyedBox as UnkeyedBox:
+                        var boxes = unkeyedBox.unbox()
+                        boxes.append(StringBox(content))
+                        elements[key] = UnkeyedBox(boxes)
+                    case let keyedBox as StringBox:
+                        elements[key] = UnkeyedBox([keyedBox, StringBox(content)])
+                    case _:
+                        elements[key] = StringBox(content)
                     }
                 } else if !child.elements.isEmpty || !child.attributes.isEmpty {
-                    let newValue = child.flatten()
-                    
-                    if let existingValue = elements[element.key] {
-                        if let unkeyed = existingValue as? UnkeyedBox {
-                            unkeyed.append(newValue)
-                            // FIXME: Box is a reference type, so this shouldn't be necessary:
-                            elements[element.key] = unkeyed
+                    let content = child.flatten()
+                    if let existingValue = elements[key] {
+                        if let unkeyedBox = existingValue as? UnkeyedBox {
+                            var boxes = unkeyedBox.unbox()
+                            boxes.append(content)
+                            elements[key] = UnkeyedBox(boxes)
                         } else {
-                            elements[element.key] = UnkeyedBox([existingValue, newValue])
+                            elements[key] = UnkeyedBox([existingValue, content])
                         }
                     } else {
-                        elements[element.key] = newValue
+                        elements[key] = content
                     }
                 }
             }
         }
-    
+
         return KeyedBox(elements: elements, attributes: attributes)
     }
     
