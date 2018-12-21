@@ -99,7 +99,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
             return try decoder.unbox(box)
         }
     }
-    
+
     public func decode(_ type: Decimal.Type, forKey key: Key) throws -> Decimal {
         return try self.decode(type, forKey: key) { decoder, box in
             return try decoder.unbox(box)
@@ -109,39 +109,39 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     public func decode(_ type: Int.Type, forKey key: Key) throws -> Int {
         return try self.decodeSignedInteger(type, forKey: key)
     }
-    
+
     public func decode(_ type: Int8.Type, forKey key: Key) throws -> Int8 {
         return try self.decodeSignedInteger(type, forKey: key)
     }
-    
+
     public func decode(_ type: Int16.Type, forKey key: Key) throws -> Int16 {
         return try self.decodeSignedInteger(type, forKey: key)
     }
-    
+
     public func decode(_ type: Int32.Type, forKey key: Key) throws -> Int32 {
         return try self.decodeSignedInteger(type, forKey: key)
     }
-    
+
     public func decode(_ type: Int64.Type, forKey key: Key) throws -> Int64 {
         return try self.decodeSignedInteger(type, forKey: key)
     }
-    
+
     public func decode(_ type: UInt.Type, forKey key: Key) throws -> UInt {
         return try self.decodeUnsignedInteger(type, forKey: key)
     }
-    
+
     public func decode(_ type: UInt8.Type, forKey key: Key) throws -> UInt8 {
         return try self.decodeUnsignedInteger(type, forKey: key)
     }
-    
+
     public func decode(_ type: UInt16.Type, forKey key: Key) throws -> UInt16 {
         return try self.decodeUnsignedInteger(type, forKey: key)
     }
-    
+
     public func decode(_ type: UInt32.Type, forKey key: Key) throws -> UInt32 {
         return try self.decodeUnsignedInteger(type, forKey: key)
     }
-    
+
     public func decode(_ type: UInt64.Type, forKey key: Key) throws -> UInt64 {
         return try self.decodeUnsignedInteger(type, forKey: key)
     }
@@ -149,7 +149,7 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
     public func decode(_ type: Float.Type, forKey key: Key) throws -> Float {
         return try self.decodeFloatingPoint(type, forKey: key)
     }
-    
+
     public func decode(_ type: Double.Type, forKey key: Key) throws -> Double {
         return try self.decodeFloatingPoint(type, forKey: key)
     }
@@ -159,13 +159,13 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
             return try decoder.unbox(box)
         }
     }
-    
+
     public func decode(_ type: Date.Type, forKey key: Key) throws -> Date {
         return try self.decode(type, forKey: key) { decoder, box in
             return try decoder.unbox(box)
         }
     }
-    
+
     public func decode(_ type: Data.Type, forKey key: Key) throws -> Data {
         return try self.decode(type, forKey: key) { decoder, box in
             return try decoder.unbox(box)
@@ -181,25 +181,25 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
             return try decoder.unbox(box)
         }
     }
-    
+
     private func decodeSignedInteger<T: BinaryInteger & SignedInteger & Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
         return try self.decode(type, forKey: key) { decoder, box in
             return try decoder.unbox(box)
         }
     }
-    
+
     private func decodeUnsignedInteger<T: BinaryInteger & UnsignedInteger & Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
         return try self.decode(type, forKey: key) { decoder, box in
             return try decoder.unbox(box)
         }
     }
-    
+
     private func decodeFloatingPoint<T: BinaryFloatingPoint & Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
         return try self.decode(type, forKey: key) { decoder, box in
             return try decoder.unbox(box)
         }
     }
-    
+
     private func decode<T: Decodable>(
         _ type: T.Type,
         forKey key: Key,
@@ -211,17 +211,17 @@ internal struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainer
                 debugDescription: "No value associated with key \(_errorDescription(of: key))."
             ))
         }
-        
+
         decoder.codingPath.append(key)
         defer { decoder.codingPath.removeLast() }
-        
+
         guard let value: T = try decoder.unbox(entry) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(
                 codingPath: decoder.codingPath,
                 debugDescription: "Expected \(type) value but found null instead."
             ))
         }
-        
+
         return value
     }
 
