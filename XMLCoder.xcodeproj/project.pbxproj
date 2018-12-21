@@ -36,14 +36,14 @@
 		BF9457BB21CBB4DB005ACFDE /* XMLKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457B521CBB4DB005ACFDE /* XMLKey.swift */; };
 		BF9457BC21CBB4DB005ACFDE /* XMLElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457B621CBB4DB005ACFDE /* XMLElement.swift */; };
 		BF9457C821CBB516005ACFDE /* BoolBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457BE21CBB516005ACFDE /* BoolBoxTests.swift */; };
-		BF9457C921CBB516005ACFDE /* DictionaryBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457BF21CBB516005ACFDE /* DictionaryBoxTests.swift */; };
+		BF9457C921CBB516005ACFDE /* KeyedBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457BF21CBB516005ACFDE /* KeyedBoxTests.swift */; };
 		BF9457CB21CBB516005ACFDE /* DecimalBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457C121CBB516005ACFDE /* DecimalBoxTests.swift */; };
 		BF9457CC21CBB516005ACFDE /* NullBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457C221CBB516005ACFDE /* NullBoxTests.swift */; };
 		BF9457CD21CBB516005ACFDE /* FloatBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457C321CBB516005ACFDE /* FloatBoxTests.swift */; };
 		BF9457CE21CBB516005ACFDE /* StringBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457C421CBB516005ACFDE /* StringBoxTests.swift */; };
 		BF9457CF21CBB516005ACFDE /* IntBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457C521CBB516005ACFDE /* IntBoxTests.swift */; };
 		BF9457D021CBB516005ACFDE /* UIntBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457C621CBB516005ACFDE /* UIntBoxTests.swift */; };
-		BF9457D121CBB516005ACFDE /* ArrayBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457C721CBB516005ACFDE /* ArrayBoxTests.swift */; };
+		BF9457D121CBB516005ACFDE /* UnkeyedBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457C721CBB516005ACFDE /* UnkeyedBoxTests.swift */; };
 		BF9457D521CBB59E005ACFDE /* UIntBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457D221CBB59D005ACFDE /* UIntBox.swift */; };
 		BF9457D621CBB59E005ACFDE /* FloatBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457D321CBB59D005ACFDE /* FloatBox.swift */; };
 		BF9457D721CBB59E005ACFDE /* IntBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457D421CBB59D005ACFDE /* IntBox.swift */; };
@@ -56,11 +56,11 @@
 		BF9457EF21CBB6BC005ACFDE /* NullTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457E421CBB6BC005ACFDE /* NullTests.swift */; };
 		BF9457F021CBB6BC005ACFDE /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457E521CBB6BC005ACFDE /* StringTests.swift */; };
 		BF9457F121CBB6BC005ACFDE /* FloatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457E621CBB6BC005ACFDE /* FloatTests.swift */; };
-		BF9457F221CBB6BC005ACFDE /* ArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457E721CBB6BC005ACFDE /* ArrayTests.swift */; };
+		BF9457F221CBB6BC005ACFDE /* UnkeyedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457E721CBB6BC005ACFDE /* UnkeyedTests.swift */; };
 		BF9457F321CBB6BC005ACFDE /* DateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457E821CBB6BC005ACFDE /* DateTests.swift */; };
 		BF9457F421CBB6BC005ACFDE /* UIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457E921CBB6BC005ACFDE /* UIntTests.swift */; };
 		BF9457F521CBB6BC005ACFDE /* DecimalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457EA21CBB6BC005ACFDE /* DecimalTests.swift */; };
-		BF9457F621CBB6BC005ACFDE /* DictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457EB21CBB6BC005ACFDE /* DictionaryTests.swift */; };
+		BF9457F621CBB6BC005ACFDE /* KeyedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457EB21CBB6BC005ACFDE /* KeyedTests.swift */; };
 		BF9457F721CBB6BC005ACFDE /* DataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457EC21CBB6BC005ACFDE /* DataTests.swift */; };
 		D1FC040521C7EF8200065B43 /* RJISample.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FC040421C7EF8200065B43 /* RJISample.swift */; };
 		OBJ_48 /* DecodingErrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* DecodingErrorExtension.swift */; };
@@ -121,14 +121,14 @@
 		BF9457B521CBB4DB005ACFDE /* XMLKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLKey.swift; sourceTree = "<group>"; };
 		BF9457B621CBB4DB005ACFDE /* XMLElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLElement.swift; sourceTree = "<group>"; };
 		BF9457BE21CBB516005ACFDE /* BoolBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoolBoxTests.swift; sourceTree = "<group>"; };
-		BF9457BF21CBB516005ACFDE /* DictionaryBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryBoxTests.swift; sourceTree = "<group>"; };
+		BF9457BF21CBB516005ACFDE /* KeyedBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyedBoxTests.swift; sourceTree = "<group>"; };
 		BF9457C121CBB516005ACFDE /* DecimalBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecimalBoxTests.swift; sourceTree = "<group>"; };
 		BF9457C221CBB516005ACFDE /* NullBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NullBoxTests.swift; sourceTree = "<group>"; };
 		BF9457C321CBB516005ACFDE /* FloatBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatBoxTests.swift; sourceTree = "<group>"; };
 		BF9457C421CBB516005ACFDE /* StringBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringBoxTests.swift; sourceTree = "<group>"; };
 		BF9457C521CBB516005ACFDE /* IntBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntBoxTests.swift; sourceTree = "<group>"; };
 		BF9457C621CBB516005ACFDE /* UIntBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIntBoxTests.swift; sourceTree = "<group>"; };
-		BF9457C721CBB516005ACFDE /* ArrayBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayBoxTests.swift; sourceTree = "<group>"; };
+		BF9457C721CBB516005ACFDE /* UnkeyedBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnkeyedBoxTests.swift; sourceTree = "<group>"; };
 		BF9457D221CBB59D005ACFDE /* UIntBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIntBox.swift; sourceTree = "<group>"; };
 		BF9457D321CBB59D005ACFDE /* FloatBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatBox.swift; sourceTree = "<group>"; };
 		BF9457D421CBB59D005ACFDE /* IntBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntBox.swift; sourceTree = "<group>"; };
@@ -141,11 +141,11 @@
 		BF9457E421CBB6BC005ACFDE /* NullTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NullTests.swift; sourceTree = "<group>"; };
 		BF9457E521CBB6BC005ACFDE /* StringTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
 		BF9457E621CBB6BC005ACFDE /* FloatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatTests.swift; sourceTree = "<group>"; };
-		BF9457E721CBB6BC005ACFDE /* ArrayTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayTests.swift; sourceTree = "<group>"; };
+		BF9457E721CBB6BC005ACFDE /* UnkeyedTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnkeyedTests.swift; sourceTree = "<group>"; };
 		BF9457E821CBB6BC005ACFDE /* DateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTests.swift; sourceTree = "<group>"; };
 		BF9457E921CBB6BC005ACFDE /* UIntTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIntTests.swift; sourceTree = "<group>"; };
 		BF9457EA21CBB6BC005ACFDE /* DecimalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecimalTests.swift; sourceTree = "<group>"; };
-		BF9457EB21CBB6BC005ACFDE /* DictionaryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryTests.swift; sourceTree = "<group>"; };
+		BF9457EB21CBB6BC005ACFDE /* KeyedTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyedTests.swift; sourceTree = "<group>"; };
 		BF9457EC21CBB6BC005ACFDE /* DataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTests.swift; sourceTree = "<group>"; };
 		D1FC040421C7EF8200065B43 /* RJISample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RJISample.swift; sourceTree = "<group>"; };
 		OBJ_10 /* DecodingErrorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingErrorExtension.swift; sourceTree = "<group>"; };
@@ -246,8 +246,8 @@
 				BF9457C421CBB516005ACFDE /* StringBoxTests.swift */,
 				BF9457DE21CBB683005ACFDE /* DataBoxTests.swift */,
 				BF9457DC21CBB62C005ACFDE /* DateBoxTests.swift */,
-				BF9457C721CBB516005ACFDE /* ArrayBoxTests.swift */,
-				BF9457BF21CBB516005ACFDE /* DictionaryBoxTests.swift */,
+				BF9457C721CBB516005ACFDE /* UnkeyedBoxTests.swift */,
+				BF9457BF21CBB516005ACFDE /* KeyedBoxTests.swift */,
 			);
 			path = Box;
 			sourceTree = "<group>";
@@ -260,11 +260,11 @@
 				BF9457E421CBB6BC005ACFDE /* NullTests.swift */,
 				BF9457E521CBB6BC005ACFDE /* StringTests.swift */,
 				BF9457E621CBB6BC005ACFDE /* FloatTests.swift */,
-				BF9457E721CBB6BC005ACFDE /* ArrayTests.swift */,
+				BF9457E721CBB6BC005ACFDE /* UnkeyedTests.swift */,
 				BF9457E821CBB6BC005ACFDE /* DateTests.swift */,
 				BF9457E921CBB6BC005ACFDE /* UIntTests.swift */,
 				BF9457EA21CBB6BC005ACFDE /* DecimalTests.swift */,
-				BF9457EB21CBB6BC005ACFDE /* DictionaryTests.swift */,
+				BF9457EB21CBB6BC005ACFDE /* KeyedTests.swift */,
 				BF9457EC21CBB6BC005ACFDE /* DataTests.swift */,
 			);
 			path = Minimal;
@@ -493,9 +493,9 @@
 			buildActionMask = 0;
 			files = (
 				BF9457CB21CBB516005ACFDE /* DecimalBoxTests.swift in Sources */,
-				BF9457F221CBB6BC005ACFDE /* ArrayTests.swift in Sources */,
+				BF9457F221CBB6BC005ACFDE /* UnkeyedTests.swift in Sources */,
 				BF9457F321CBB6BC005ACFDE /* DateTests.swift in Sources */,
-				BF9457D121CBB516005ACFDE /* ArrayBoxTests.swift in Sources */,
+				BF9457D121CBB516005ACFDE /* UnkeyedBoxTests.swift in Sources */,
 				BF9457F021CBB6BC005ACFDE /* StringTests.swift in Sources */,
 				BF9457ED21CBB6BC005ACFDE /* BoolTests.swift in Sources */,
 				D1FC040521C7EF8200065B43 /* RJISample.swift in Sources */,
@@ -515,11 +515,11 @@
 				BF9457F721CBB6BC005ACFDE /* DataTests.swift in Sources */,
 				BF9457EE21CBB6BC005ACFDE /* IntTests.swift in Sources */,
 				OBJ_87 /* PlantCatalog.swift in Sources */,
-				BF9457C921CBB516005ACFDE /* DictionaryBoxTests.swift in Sources */,
+				BF9457C921CBB516005ACFDE /* KeyedBoxTests.swift in Sources */,
 				OBJ_88 /* PlantTest.swift in Sources */,
 				BF9457DD21CBB62C005ACFDE /* DateBoxTests.swift in Sources */,
 				BF9457CD21CBB516005ACFDE /* FloatBoxTests.swift in Sources */,
-				BF9457F621CBB6BC005ACFDE /* DictionaryTests.swift in Sources */,
+				BF9457F621CBB6BC005ACFDE /* KeyedTests.swift in Sources */,
 				BF9457C821CBB516005ACFDE /* BoolBoxTests.swift in Sources */,
 				BF9457F421CBB6BC005ACFDE /* UIntTests.swift in Sources */,
 				OBJ_89 /* RJITest.swift in Sources */,
