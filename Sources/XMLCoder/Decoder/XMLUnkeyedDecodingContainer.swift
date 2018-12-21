@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
+struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
     // MARK: Properties
 
     /// A reference to the decoder we're reading from.
@@ -26,7 +26,7 @@ internal struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
     // MARK: - Initialization
 
     /// Initializes `self` by referencing the given decoder and container.
-    internal init(referencing decoder: _XMLDecoder, wrapping container: UnkeyedBox) {
+    init(referencing decoder: _XMLDecoder, wrapping container: UnkeyedBox) {
         self.decoder = decoder
         self.container = container
         codingPath = decoder.codingPath

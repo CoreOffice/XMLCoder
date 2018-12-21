@@ -11,7 +11,7 @@ import Foundation
 
 // MARK: - Encoding Storage and Containers
 
-internal struct _XMLEncodingStorage {
+struct _XMLEncodingStorage {
     // MARK: Properties
 
     /// The container stack.

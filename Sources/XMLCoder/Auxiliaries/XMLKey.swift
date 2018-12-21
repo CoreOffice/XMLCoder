@@ -9,7 +9,7 @@
 import Foundation
 
 /// Shared Key Types
-internal struct _XMLKey: CodingKey {
+struct _XMLKey: CodingKey {
     public let stringValue: String
     public let intValue: Int?
 
@@ -28,10 +28,10 @@ internal struct _XMLKey: CodingKey {
         self.intValue = intValue
     }
 
-    internal init(index: Int) {
+    init(index: Int) {
         stringValue = "Index \(index)"
         intValue = index
     }
 
-    internal static let `super` = _XMLKey(stringValue: "super")!
+    static let `super` = _XMLKey(stringValue: "super")!
 }

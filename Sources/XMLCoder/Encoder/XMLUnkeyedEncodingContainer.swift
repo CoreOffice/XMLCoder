@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct _XMLUnkeyedEncodingContainer : UnkeyedEncodingContainer {
+struct _XMLUnkeyedEncodingContainer : UnkeyedEncodingContainer {
     // MARK: Properties
     
     /// A reference to the encoder we're writing to.
@@ -27,7 +27,7 @@ internal struct _XMLUnkeyedEncodingContainer : UnkeyedEncodingContainer {
     // MARK: - Initialization
     
     /// Initializes `self` with the given references.
-    internal init(referencing encoder: _XMLEncoder, codingPath: [CodingKey], wrapping container: UnkeyedBox) {
+    init(referencing encoder: _XMLEncoder, codingPath: [CodingKey], wrapping container: UnkeyedBox) {
         self.encoder = encoder
         self.codingPath = codingPath
         self.container = container

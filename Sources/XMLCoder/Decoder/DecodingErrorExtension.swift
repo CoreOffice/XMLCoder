@@ -12,14 +12,14 @@ import Foundation
 // Error Utilities
 //===----------------------------------------------------------------------===//
 
-internal extension DecodingError {
+extension DecodingError {
     /// Returns a `.typeMismatch` error describing the expected type.
     ///
     /// - parameter path: The path of `CodingKey`s taken to decode a value of this type.
     /// - parameter expectation: The type expected to be encountered.
     /// - parameter reality: The value that was encountered instead of the expected type.
     /// - returns: A `DecodingError` with the appropriate path and debug description.
-    internal static func _typeMismatch(at path: [CodingKey], expectation: Any.Type, reality: Box) -> DecodingError {
+    static func _typeMismatch(at path: [CodingKey], expectation: Any.Type, reality: Box) -> DecodingError {
         let description = "Expected to decode \(expectation) but found \(_typeDescription(of: reality)) instead."
         return .typeMismatch(expectation, Context(codingPath: path, debugDescription: description))
     }
@@ -29,7 +29,7 @@ internal extension DecodingError {
     /// - parameter value: The value whose type to describe.
     /// - returns: A string describing `value`.
     /// - precondition: `value` is one of the types below.
-    internal static func _typeDescription(of box: Box) -> String {
+    static func _typeDescription(of box: Box) -> String {
         switch box {
         case is NullBox:
             return "a null value"

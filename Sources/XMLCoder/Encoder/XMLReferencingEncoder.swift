@@ -12,7 +12,7 @@ import Foundation
 
 /// _XMLReferencingEncoder is a special subclass of _XMLEncoder which has its own storage, but references the contents of a different encoder.
 /// It's used in superEncoder(), which returns a new encoder for encoding a superclass -- the lifetime of the encoder should not escape the scope it's created in, but it doesn't necessarily know when it's done being used (to write to the original container).
-internal class _XMLReferencingEncoder: _XMLEncoder {
+class _XMLReferencingEncoder: _XMLEncoder {
     // MARK: Reference types.
 
     /// The type of container we're referencing.
@@ -27,7 +27,7 @@ internal class _XMLReferencingEncoder: _XMLEncoder {
     // MARK: - Properties
 
     /// The encoder we're referencing.
-    internal let encoder: _XMLEncoder
+    let encoder: _XMLEncoder
 
     /// The container reference itself.
     private let reference: Reference
@@ -35,7 +35,7 @@ internal class _XMLReferencingEncoder: _XMLEncoder {
     // MARK: - Initialization
 
     /// Initializes `self` by referencing the given array container in the given encoder.
-    internal init(
+    init(
         referencing encoder: _XMLEncoder,
         at index: Int,
         wrapping unkeyed: UnkeyedBox
@@ -52,7 +52,7 @@ internal class _XMLReferencingEncoder: _XMLEncoder {
     }
 
     /// Initializes `self` by referencing the given dictionary container in the given encoder.
-    internal init(
+    init(
         referencing encoder: _XMLEncoder,
         key: CodingKey,
         convertedKey: CodingKey,
@@ -71,7 +71,7 @@ internal class _XMLReferencingEncoder: _XMLEncoder {
 
     // MARK: - Coding Path Operations
 
-    internal override var canEncodeNewValue: Bool {
+    override var canEncodeNewValue: Bool {
         // With a regular encoder, the storage and coding path grow together.
         // A referencing encoder, however, inherits its parents coding path, as well as the key it was created for.
         // We have to take this into account.

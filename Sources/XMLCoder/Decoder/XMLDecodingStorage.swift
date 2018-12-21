@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: - Decoding Storage
 
-internal struct _XMLDecodingStorage {
+struct _XMLDecodingStorage {
     // MARK: Properties
 
     /// The container stack.

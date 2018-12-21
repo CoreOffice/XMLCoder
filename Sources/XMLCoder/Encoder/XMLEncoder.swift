@@ -124,7 +124,7 @@ open class XMLEncoder {
         /// If the result of the conversion is a duplicate key, then only one value will be present in the result.
         case custom((_ codingPath: [CodingKey]) -> CodingKey)
 
-        internal static func _convertToSnakeCase(_ stringKey: String) -> String {
+        static func _convertToSnakeCase(_ stringKey: String) -> String {
             guard !stringKey.isEmpty else { return stringKey }
 
             var words: [Range<String.Index>] = []
@@ -185,7 +185,7 @@ open class XMLEncoder {
         /// Return a closure computing the desired node encoding for the value by its coding key.
         case custom((Encodable.Type, Encoder) -> ((CodingKey) -> XMLEncoder.NodeEncoding))
 
-        internal func nodeEncodings(
+        func nodeEncodings(
             forType codableType: Encodable.Type,
             with encoder: Encoder
         ) -> ((CodingKey) -> XMLEncoder.NodeEncoding) {
@@ -223,7 +223,7 @@ open class XMLEncoder {
     open var userInfo: [CodingUserInfoKey: Any] = [:]
 
     /// Options set on the top-level encoder to pass down the encoding hierarchy.
-    internal struct _Options {
+    struct _Options {
         let dateEncodingStrategy: DateEncodingStrategy
         let dataEncodingStrategy: DataEncodingStrategy
         let nonConformingFloatEncodingStrategy: NonConformingFloatEncodingStrategy
@@ -234,7 +234,7 @@ open class XMLEncoder {
     }
 
     /// The options set on the top-level encoder.
-    internal var options: _Options {
+    var options: _Options {
         return _Options(dateEncodingStrategy: dateEncodingStrategy,
                         dataEncodingStrategy: dataEncodingStrategy,
                         nonConformingFloatEncodingStrategy: nonConformingFloatEncodingStrategy,
@@ -294,14 +294,14 @@ open class XMLEncoder {
     }
 }
 
-internal class _XMLEncoder: Encoder {
+class _XMLEncoder: Encoder {
     // MARK: Properties
 
     /// The encoder's storage.
-    internal var storage: _XMLEncodingStorage
+    var storage: _XMLEncodingStorage
 
     /// Options set on the top-level encoder.
-    internal let options: XMLEncoder._Options
+    let options: XMLEncoder._Options
 
     /// The path to the current point in encoding.
     public var codingPath: [CodingKey]
@@ -316,7 +316,7 @@ internal class _XMLEncoder: Encoder {
     // MARK: - Initialization
 
     /// Initializes `self` with the given top-level encoder options.
-    internal init(
+    init(
         options: XMLEncoder._Options,
         nodeEncodings: [(CodingKey) -> XMLEncoder.NodeEncoding],
         codingPath: [CodingKey] = []
@@ -330,7 +330,7 @@ internal class _XMLEncoder: Encoder {
     /// Returns whether a new element can be encoded at this coding path.
     ///
     /// `true` if an element has not yet been encoded at this coding path; `false` otherwise.
-    internal var canEncodeNewValue: Bool {
+    var canEncodeNewValue: Bool {
         // Every time a new value gets encoded, the key it's encoded for is pushed onto the coding path (even if it's a nil key from an unkeyed container).
         // At the same time, every time a container is requested, a new value gets pushed onto the storage stack.
         // If there are more values on the storage stack than on the coding path, it means the value is requesting more than one container, which violates the precondition.
@@ -385,7 +385,7 @@ internal class _XMLEncoder: Encoder {
 extension _XMLEncoder: SingleValueEncodingContainer {
     // MARK: - SingleValueEncodingContainer Methods
     
-    internal func assertCanEncodeNewValue() {
+    func assertCanEncodeNewValue() {
         precondition(self.canEncodeNewValue, "Attempt to encode value through single value container when previously value already encoded.")
     }
 
@@ -472,27 +472,27 @@ extension _XMLEncoder: SingleValueEncodingContainer {
 
 extension _XMLEncoder {
     /// Returns the given value boxed in a container appropriate for pushing onto the container stack.
-    internal func box() -> SimpleBox {
+    func box() -> SimpleBox {
         return NullBox()
     }
     
-    internal func box(_ value: Bool) -> SimpleBox {
+    func box(_ value: Bool) -> SimpleBox {
         return BoolBox(value)
     }
     
-    internal func box(_ value: Decimal) -> SimpleBox {
+    func box(_ value: Decimal) -> SimpleBox {
         return DecimalBox(value)
     }
     
-    internal func box<T: BinaryInteger & SignedInteger & Encodable>(_ value: T) -> SimpleBox {
+    func box<T: BinaryInteger & SignedInteger & Encodable>(_ value: T) -> SimpleBox {
         return IntBox(value)
     }
     
-    internal func box<T: BinaryInteger & UnsignedInteger & Encodable>(_ value: T) -> SimpleBox {
+    func box<T: BinaryInteger & UnsignedInteger & Encodable>(_ value: T) -> SimpleBox {
         return UIntBox(value)
     }
     
-    internal func box<T: BinaryFloatingPoint & Encodable>(_ value: T) throws -> SimpleBox {
+    func box<T: BinaryFloatingPoint & Encodable>(_ value: T) throws -> SimpleBox {
         guard value.isInfinite || value.isNaN else {
             return FloatBox(value)
         }
@@ -507,12 +507,12 @@ extension _XMLEncoder {
             return StringBox(nanString)
         }
     }
-    
-    internal func box(_ value: String) -> SimpleBox {
+
+    func box(_ value: String) -> SimpleBox {
         return StringBox(value)
     }
     
-    internal func box(_ value: Date) throws -> Box {
+    func box(_ value: Date) throws -> Box {
         switch options.dateEncodingStrategy {
         case .deferredToDate:
             try value.encode(to: self)
@@ -535,7 +535,7 @@ extension _XMLEncoder {
         }
     }
 
-    internal func box(_ value: Data) throws -> Box {
+    func box(_ value: Data) throws -> Box {
         switch options.dataEncodingStrategy {
         case .deferredToData:
             try value.encode(to: self)
@@ -551,8 +551,8 @@ extension _XMLEncoder {
             return storage.popContainer()
         }
     }
-    
-    internal func box<T : Encodable>(_ value: T) throws -> Box {
+
+    func box<T : Encodable>(_ value: T) throws -> Box {
         return try self.boxOrNil(value) ?? KeyedBox()
     }
 
