@@ -32,10 +32,6 @@ extension URLBox: Box {
     var isNull: Bool {
         return false
     }
-    
-    var isFragment: Bool {
-        return true
-    }
 
     func xmlString() -> String? {
         return self.unboxed.absoluteString
