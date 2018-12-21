@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal class _XMLStackParser: NSObject, XMLParserDelegate {
+internal class _XMLStackParser: NSObject {
     var root: _XMLElement? = nil
     var stack: [_XMLElement] = []
     var currentNode: _XMLElement? = nil
@@ -42,7 +42,9 @@ internal class _XMLStackParser: NSObject, XMLParserDelegate {
         
         return root
     }
+}
 
+extension _XMLStackParser: XMLParserDelegate {
     func parserDidStartDocument(_: XMLParser) {
         root = nil
         stack = []
