@@ -46,13 +46,13 @@ extension DataBox: Box {
         return false
     }
     
-    var isFragment: Bool {
-        return true
-    }
-    
     func xmlString() -> String? {
         return self.xmlString(format: self.format)
     }
+}
+
+extension DataBox: SimpleBox {
+    
 }
 
 extension DataBox: CustomStringConvertible {

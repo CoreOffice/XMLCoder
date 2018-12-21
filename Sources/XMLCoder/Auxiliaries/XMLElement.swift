@@ -23,7 +23,7 @@ internal class _XMLElement {
         self.children = children
     }
     
-    static func createRootElement(rootKey: String, object: ArrayBox) -> _XMLElement? {
+    static func createRootElement(rootKey: String, object: UnkeyedBox) -> _XMLElement? {
         let element = _XMLElement(key: rootKey)
         
         _XMLElement.createElement(parentElement: element, key: rootKey, object: object)
@@ -31,7 +31,7 @@ internal class _XMLElement {
         return element
     }
     
-    static func createRootElement(rootKey: String, object: DictionaryBox) -> _XMLElement? {
+    static func createRootElement(rootKey: String, object: KeyedBox) -> _XMLElement? {
         let element = _XMLElement(key: rootKey)
         
         _XMLElement.modifyElement(element: element, parentElement: nil, key: nil, object: object)
@@ -39,8 +39,8 @@ internal class _XMLElement {
         return element
     }
     
-    fileprivate static func modifyElement(element: _XMLElement, parentElement: _XMLElement?, key: String?, object: DictionaryBox) {
-        let attributesBox = object[_XMLElement.attributesKey] as? DictionaryBox
+    fileprivate static func modifyElement(element: _XMLElement, parentElement: _XMLElement?, key: String?, object: KeyedBox) {
+        let attributesBox = object[_XMLElement.attributesKey] as? KeyedBox
         let uniqueAttributes: [(String, String)]? = attributesBox?.unbox().compactMap { key, box in
             return box.xmlString().map { (key, $0) }
         }
@@ -59,11 +59,11 @@ internal class _XMLElement {
     
     fileprivate static func createElement(parentElement: _XMLElement, key: String, object: Box) {
         switch object {
-        case let box as ArrayBox:
+        case let box as UnkeyedBox:
             for box in box.unbox() {
                 _XMLElement.createElement(parentElement: parentElement, key: key, object: box)
             }
-        case let box as DictionaryBox:
+        case let box as KeyedBox:
             modifyElement(element: _XMLElement(key: key), parentElement: parentElement, key: key, object: box)
         case _:
             let element = _XMLElement(key: key, value: object.xmlString())
@@ -84,12 +84,12 @@ internal class _XMLElement {
         for childElement in children {
             for child in childElement.value {
                 if let content = child.value {
-                    if let oldContent = node[childElement.key] as? ArrayBox {
+                    if let oldContent = node[childElement.key] as? UnkeyedBox {
                         oldContent.append(StringBox(content))
                         // FIXME: Box is a reference type, so this shouldn't be necessary:
                         node[childElement.key] = oldContent
                     } else if let oldContent = node[childElement.key] {
-                        node[childElement.key] = ArrayBox([oldContent, StringBox(content)])
+                        node[childElement.key] = UnkeyedBox([oldContent, StringBox(content)])
                     } else {
                         node[childElement.key] = StringBox(content)
                     }
@@ -97,15 +97,15 @@ internal class _XMLElement {
                     let newValue = child.flatten()
                     
                     if let existingValue = node[childElement.key] {
-                        if let array = existingValue as? ArrayBox {
-                            array.append(DictionaryBox(newValue))
+                        if let unkeyed = existingValue as? UnkeyedBox {
+                            unkeyed.append(KeyedBox(newValue))
                             // FIXME: Box is a reference type, so this shouldn't be necessary:
-                            node[childElement.key] = array
+                            node[childElement.key] = unkeyed
                         } else {
-                            node[childElement.key] = ArrayBox([existingValue, DictionaryBox(newValue)])
+                            node[childElement.key] = UnkeyedBox([existingValue, KeyedBox(newValue)])
                         }
                     } else {
-                        node[childElement.key] = DictionaryBox(newValue)
+                        node[childElement.key] = KeyedBox(newValue)
                     }
                 }
             }

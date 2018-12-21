@@ -88,13 +88,13 @@ extension DateBox: Box {
         return false
     }
     
-    var isFragment: Bool {
-        return true
-    }
-    
     func xmlString() -> String? {
         return self.xmlString(format: self.format)
     }
+}
+
+extension DateBox: SimpleBox {
+    
 }
 
 extension DateBox: CustomStringConvertible {

@@ -30,13 +30,13 @@ extension StringBox: Box {
         return false
     }
     
-    var isFragment: Bool {
-        return true
-    }
-    
     func xmlString() -> String? {
         return self.unboxed.description
     }
+}
+
+extension StringBox: SimpleBox {
+    
 }
 
 extension StringBox: CustomStringConvertible {

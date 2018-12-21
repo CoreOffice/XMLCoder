@@ -16,7 +16,7 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
     private let encoder: _XMLEncoder
     
     /// A reference to the container we're writing to.
-    private let container: DictionaryBox
+    private let container: KeyedBox
     
     /// The path of coding keys taken to get to this point in encoding.
     private(set) public var codingPath: [CodingKey]
@@ -24,7 +24,7 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
     // MARK: - Initialization
     
     /// Initializes `self` with the given references.
-    internal init(referencing encoder: _XMLEncoder, codingPath: [CodingKey], wrapping container: DictionaryBox) {
+    internal init(referencing encoder: _XMLEncoder, codingPath: [CodingKey], wrapping container: KeyedBox) {
         self.encoder = encoder
         self.codingPath = codingPath
         self.container = container
@@ -51,108 +51,116 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
     }
     
     public mutating func encode(_ value: Bool, forKey key: Key) throws {
-        self.encoder.codingPath.append(key)
-        defer { self.encoder.codingPath.removeLast() }
-        guard let strategy = self.encoder.nodeEncodings.last else {
-            preconditionFailure("Attempt to access node encoding strategy from empty stack.")
-        }
-        switch strategy(key) {
-        case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? DictionaryBox {
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-            } else {
-                let attributesContainer = DictionaryBox()
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-                self.container[_XMLElement.attributesKey] = attributesContainer
-            }
-        case .element:
-            self.container[_converted(key).stringValue] = self.encoder.box(value)
+        return try self.encode(value, forKey: key) { encoder, value in
+            return encoder.box(value)
         }
     }
     
-    public mutating func encode<T: FixedWidthInteger & Encodable>(_ value: T, forKey key: Key) throws {
-        self.encoder.codingPath.append(key)
-        defer { self.encoder.codingPath.removeLast() }
-        guard let strategy = self.encoder.nodeEncodings.last else {
-            preconditionFailure("Attempt to access node encoding strategy from empty stack.")
-        }
-        switch strategy(key) {
-        case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? DictionaryBox {
-                attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
-            } else {
-                let attributesContainer = DictionaryBox()
-                attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
-                self.container[_XMLElement.attributesKey] = attributesContainer
-            }
-        case .element:
-            self.container[_converted(key).stringValue] = try self.encoder.box(value)
+    public mutating func encode(_ value: Decimal, forKey key: Key) throws {
+        return try self.encode(value, forKey: key) { encoder, value in
+            return encoder.box(value)
         }
     }
     
-    public mutating func encode(_ value: String, forKey key: Key) throws {
-        self.encoder.codingPath.append(key)
-        defer { self.encoder.codingPath.removeLast() }
-        guard let strategy = self.encoder.nodeEncodings.last else {
-            preconditionFailure("Attempt to access node encoding strategy from empty stack.")
-        }
-        switch strategy(key) {
-        case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? DictionaryBox {
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-            } else {
-                let attributesContainer = DictionaryBox()
-                attributesContainer[_converted(key).stringValue] = self.encoder.box(value)
-                self.container[_XMLElement.attributesKey] = attributesContainer
-            }
-        case .element:
-            self.container[_converted(key).stringValue] = self.encoder.box(value)
-        }
+    public mutating func encode(_ value: Int, forKey key: Key) throws {
+        return try self.encodeSignedInteger(value, forKey: key)
+    }
+    
+    public mutating func encode(_ value: Int8, forKey key: Key) throws {
+        return try self.encodeSignedInteger(value, forKey: key)
+    }
+    
+    public mutating func encode(_ value: Int16, forKey key: Key) throws {
+        return try self.encodeSignedInteger(value, forKey: key)
+    }
+    
+    public mutating func encode(_ value: Int32, forKey key: Key) throws {
+        return try self.encodeSignedInteger(value, forKey: key)
+    }
+    
+    public mutating func encode(_ value: Int64, forKey key: Key) throws {
+        return try self.encodeSignedInteger(value, forKey: key)
+    }
+    
+    public mutating func encode(_ value: UInt, forKey key: Key) throws {
+        return try self.encodeUnsignedInteger(value, forKey: key)
+    }
+    
+    public mutating func encode(_ value: UInt8, forKey key: Key) throws {
+        return try self.encodeUnsignedInteger(value, forKey: key)
+    }
+    
+    public mutating func encode(_ value: UInt16, forKey key: Key) throws {
+        return try self.encodeUnsignedInteger(value, forKey: key)
+    }
+    
+    public mutating func encode(_ value: UInt32, forKey key: Key) throws {
+        return try self.encodeUnsignedInteger(value, forKey: key)
+    }
+    
+    public mutating func encode(_ value: UInt64, forKey key: Key) throws {
+        return try self.encodeUnsignedInteger(value, forKey: key)
     }
     
     public mutating func encode(_ value: Float, forKey key: Key) throws {
-        // Since the float may be invalid and throw, the coding path needs to contain this key.
-        self.encoder.codingPath.append(key)
-        defer { self.encoder.codingPath.removeLast() }
-        guard let strategy = self.encoder.nodeEncodings.last else {
-            preconditionFailure("Attempt to access node encoding strategy from empty stack.")
-        }
-        switch strategy(key) {
-        case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? DictionaryBox {
-                attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
-            } else {
-                let attributesContainer = DictionaryBox()
-                attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
-                self.container[_XMLElement.attributesKey] = attributesContainer
-            }
-        case .element:
-            self.container[_converted(key).stringValue] = try self.encoder.box(value)
-        }
+        return try self.encodeFloatingPoint(value, forKey: key)
     }
     
     public mutating func encode(_ value: Double, forKey key: Key) throws {
-        // Since the double may be invalid and throw, the coding path needs to contain this key.
-        self.encoder.codingPath.append(key)
-        defer { self.encoder.codingPath.removeLast() }
-        guard let strategy = self.encoder.nodeEncodings.last else {
-            preconditionFailure("Attempt to access node encoding strategy from empty stack.")
-        }
-        switch strategy(key) {
-        case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? DictionaryBox {
-                attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
-            } else {
-                let attributesContainer = DictionaryBox()
-                attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
-                self.container[_XMLElement.attributesKey] = attributesContainer
-            }
-        case .element:
-            self.container[_converted(key).stringValue] = try self.encoder.box(value)
+        return try self.encodeFloatingPoint(value, forKey: key)
+    }
+    
+    public mutating func encode(_ value: String, forKey key: Key) throws {
+        return try self.encode(value, forKey: key) { encoder, value in
+            return encoder.box(value)
         }
     }
     
-    public mutating func encode<T : Encodable>(_ value: T, forKey key: Key) throws {
+    public mutating func encode(_ value: Date, forKey key: Key) throws {
+        return try self.encode(value, forKey: key) { encoder, value in
+            return try encoder.box(value)
+        }
+    }
+    
+    public mutating func encode(_ value: Data, forKey key: Key) throws {
+        return try self.encode(value, forKey: key) { encoder, value in
+            return try encoder.box(value)
+        }
+    }
+    
+    public mutating func encode<T: Encodable>(_ value: T, forKey key: Key) throws {
+        return try self.encode(value, forKey: key) { encoder, value in
+            return try encoder.box(value)
+        }
+    }
+    
+    private mutating func encodeSignedInteger<T: BinaryInteger & SignedInteger & Encodable>(_ value: T, forKey key: Key) throws {
+        return try self.encode(value, forKey: key) { encoder, value in
+            return encoder.box(value)
+        }
+    }
+    
+    private mutating func encodeUnsignedInteger<T: BinaryInteger & UnsignedInteger & Encodable>(_ value: T, forKey key: Key) throws {
+        return try self.encode(value, forKey: key) { encoder, value in
+            return encoder.box(value)
+        }
+    }
+    
+    private mutating func encodeFloatingPoint<T: BinaryFloatingPoint & Encodable>(_ value: T, forKey key: Key) throws {
+        return try self.encode(value, forKey: key) { encoder, value in
+            return try encoder.box(value)
+        }
+    }
+    
+    private mutating func encode<T: Encodable>(
+        _ value: T,
+        forKey key: Key,
+        encode: (_XMLEncoder, T) throws -> Box
+    ) throws {
+        defer {
+            let _ = self.encoder.nodeEncodings.removeLast()
+            self.encoder.codingPath.removeLast()
+        }
         guard let strategy = self.encoder.nodeEncodings.last else {
             preconditionFailure("Attempt to access node encoding strategy from empty stack.")
         }
@@ -162,42 +170,45 @@ internal struct _XMLKeyedEncodingContainer<K : CodingKey> : KeyedEncodingContain
             with: self.encoder
         )
         self.encoder.nodeEncodings.append(nodeEncodings)
-        defer {
-            let _ = self.encoder.nodeEncodings.removeLast()
-            self.encoder.codingPath.removeLast()
-        }
+        let box = try encode(self.encoder, value)
         switch strategy(key) {
         case .attribute:
-            if let attributesContainer = self.container[_XMLElement.attributesKey] as? DictionaryBox {
-                attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
+            guard box is SimpleBox else {
+                throw EncodingError.invalidValue(value, EncodingError.Context(
+                    codingPath: [],
+                    debugDescription: "Complex values cannot be encoded as attributes."
+                ))
+            }
+            if let attributesContainer = self.container[_XMLElement.attributesKey] as? KeyedBox {
+                attributesContainer[_converted(key).stringValue] = box
             } else {
-                let attributesContainer = DictionaryBox()
-                attributesContainer[_converted(key).stringValue] = try self.encoder.box(value)
+                let attributesContainer = KeyedBox()
+                attributesContainer[_converted(key).stringValue] = box
                 self.container[_XMLElement.attributesKey] = attributesContainer
             }
         case .element:
-            self.container[_converted(key).stringValue] = try self.encoder.box(value)
+            self.container[_converted(key).stringValue] = box
         }
     }
     
     public mutating func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type, forKey key: Key) -> KeyedEncodingContainer<NestedKey> {
-        let dictionary = DictionaryBox()
-        self.container[_converted(key).stringValue] = dictionary
+        let keyed = KeyedBox()
+        self.container[_converted(key).stringValue] = keyed
         
         self.codingPath.append(key)
         defer { self.codingPath.removeLast() }
         
-        let container = _XMLKeyedEncodingContainer<NestedKey>(referencing: self.encoder, codingPath: self.codingPath, wrapping: dictionary)
+        let container = _XMLKeyedEncodingContainer<NestedKey>(referencing: self.encoder, codingPath: self.codingPath, wrapping: keyed)
         return KeyedEncodingContainer(container)
     }
     
     public mutating func nestedUnkeyedContainer(forKey key: Key) -> UnkeyedEncodingContainer {
-        let array = ArrayBox()
-        self.container[_converted(key).stringValue] = array
+        let unkeyed = UnkeyedBox()
+        self.container[_converted(key).stringValue] = unkeyed
         
         self.codingPath.append(key)
         defer { self.codingPath.removeLast() }
-        return _XMLUnkeyedEncodingContainer(referencing: self.encoder, codingPath: self.codingPath, wrapping: array)
+        return _XMLUnkeyedEncodingContainer(referencing: self.encoder, codingPath: self.codingPath, wrapping: unkeyed)
     }
     
     public mutating func superEncoder() -> Encoder {

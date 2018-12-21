@@ -1,5 +1,5 @@
 //
-//  DictionaryTests.swift
+//  UnkeyedTests.swift
 //  XMLCoderTests
 //
 //  Created by Max Desiatov on 19/11/2018.
@@ -8,9 +8,9 @@
 import XCTest
 @testable import XMLCoder
 
-class DictionaryTests: XCTestCase {
+class UnkeyedTests: XCTestCase {
     struct Container: Codable, Equatable {
-        let value: [String: Int]
+        let value: [String]
     }
 
     func testEmpty() {
@@ -26,7 +26,7 @@ class DictionaryTests: XCTestCase {
                 let xmlData = xmlString.data(using: .utf8)!
             
             let decoded = try decoder.decode(Container.self, from: xmlData)
-            XCTAssertEqual(decoded.value, [:])
+            XCTAssertEqual(decoded.value, [])
         } catch {
             XCTAssert(false, "failed to decode test xml: \(error)")
         }
@@ -40,15 +40,13 @@ class DictionaryTests: XCTestCase {
 """
 <?xml version="1.0" encoding="UTF-8"?>
 <container>
-    <value>
-        <foo>12</foo>
-    </value>
+    <value>foo</value>
 </container>
 """
                 let xmlData = xmlString.data(using: .utf8)!
             
             let decoded = try decoder.decode(Container.self, from: xmlData)
-            XCTAssertEqual(decoded.value, ["foo": 12])
+            XCTAssertEqual(decoded.value, ["foo"])
         } catch {
             XCTAssert(false, "failed to decode test xml: \(error)")
         }
@@ -62,24 +60,37 @@ class DictionaryTests: XCTestCase {
 """
 <?xml version="1.0" encoding="UTF-8"?>
 <container>
-    <value>
-        <foo>12</foo>
-        <bar>34</bar>
-    </value>
+    <value>foo</value>
+    <value>bar</value>
 </container>
 """
                 let xmlData = xmlString.data(using: .utf8)!
             
             let decoded = try decoder.decode(Container.self, from: xmlData)
-            XCTAssertEqual(decoded.value, ["foo": 12, "bar": 34])
+            XCTAssertEqual(decoded.value, ["foo", "bar"])
         } catch {
             XCTAssert(false, "failed to decode test xml: \(error)")
         }
+    }
+    
+    func testAttribute() {
+        let encoder = XMLEncoder()
+        
+        encoder.nodeEncodingStrategy = .custom { codableType, _ in
+            return { _ in .attribute }
+        }
+        
+        let container = Container(value: ["foo", "bar"])
+        
+        XCTAssertThrowsError(
+            try encoder.encode(container, withRootKey: "container")
+        )
     }
     
     static var allTests = [
         ("testEmpty", testEmpty),
         ("testSingleElement", testSingleElement),
         ("testMultiElement", testMultiElement),
+        ("testAttribute", testAttribute),
     ]
 }

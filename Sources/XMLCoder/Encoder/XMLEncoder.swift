@@ -29,7 +29,7 @@ open class XMLEncoder {
         /// Produce human-readable XML with indented output.
         public static let prettyPrinted = OutputFormatting(rawValue: 1 << 0)
 
-        /// Produce XML with dictionary keys sorted in lexicographic order.
+        /// Produce XML with keys sorted in lexicographic order.
         @available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)
         public static let sortedKeys = OutputFormatting(rawValue: 1 << 1)
     }
@@ -274,10 +274,10 @@ open class XMLEncoder {
         
         let elementOrNone: _XMLElement?
         
-        if let dictionary = topLevel as? DictionaryBox {
-            elementOrNone = _XMLElement.createRootElement(rootKey: rootKey, object: dictionary)
-        } else if let array = topLevel as? ArrayBox {
-            elementOrNone = _XMLElement.createRootElement(rootKey: rootKey, object: array)
+        if let keyed = topLevel as? KeyedBox {
+            elementOrNone = _XMLElement.createRootElement(rootKey: rootKey, object: keyed)
+        } else if let unkeyed = topLevel as? UnkeyedBox {
+            elementOrNone = _XMLElement.createRootElement(rootKey: rootKey, object: unkeyed)
         } else {
             fatalError("Unrecognized top-level element.")
         }
@@ -344,12 +344,12 @@ internal class _XMLEncoder: Encoder {
 
     public func container<Key>(keyedBy _: Key.Type) -> KeyedEncodingContainer<Key> {
         // If an existing keyed container was already requested, return that one.
-        let topContainer: DictionaryBox
+        let topContainer: KeyedBox
         if canEncodeNewValue {
             // We haven't yet pushed a container at this level; do so here.
             topContainer = storage.pushKeyedContainer()
         } else {
-            guard let container = storage.lastContainer as? DictionaryBox else {
+            guard let container = storage.lastContainer as? KeyedBox else {
                 preconditionFailure("Attempt to push new keyed encoding container when already previously encoded at this path.")
             }
 
@@ -362,12 +362,12 @@ internal class _XMLEncoder: Encoder {
 
     public func unkeyedContainer() -> UnkeyedEncodingContainer {
         // If an existing unkeyed container was already requested, return that one.
-        let topContainer: ArrayBox
+        let topContainer: UnkeyedBox
         if canEncodeNewValue {
             // We haven't yet pushed a container at this level; do so here.
             topContainer = storage.pushUnkeyedContainer()
         } else {
-            guard let container = storage.lastContainer as? ArrayBox else {
+            guard let container = storage.lastContainer as? UnkeyedBox else {
                 preconditionFailure("Attempt to push new unkeyed encoding container when already previously encoded at this path.")
             }
 
@@ -472,31 +472,27 @@ extension _XMLEncoder: SingleValueEncodingContainer {
 
 extension _XMLEncoder {
     /// Returns the given value boxed in a container appropriate for pushing onto the container stack.
-    internal func box() -> Box {
+    internal func box() -> SimpleBox {
         return NullBox()
     }
     
-    internal func box(_ value: Bool) -> Box {
+    internal func box(_ value: Bool) -> SimpleBox {
         return BoolBox(value)
     }
     
-    internal func box(_ value: Decimal) -> Box {
+    internal func box(_ value: Decimal) -> SimpleBox {
         return DecimalBox(value)
     }
     
-    internal func box<T: BinaryInteger & SignedInteger & Encodable>(_ value: T) -> Box {
+    internal func box<T: BinaryInteger & SignedInteger & Encodable>(_ value: T) -> SimpleBox {
         return IntBox(value)
     }
     
-    internal func box<T: BinaryInteger & UnsignedInteger & Encodable>(_ value: T) -> Box {
+    internal func box<T: BinaryInteger & UnsignedInteger & Encodable>(_ value: T) -> SimpleBox {
         return UIntBox(value)
     }
     
-    internal func box(_ value: String) -> Box {
-        return StringBox(value)
-    }
-    
-    internal func box<T: BinaryFloatingPoint & Encodable>(_ value: T) throws -> Box {
+    internal func box<T: BinaryFloatingPoint & Encodable>(_ value: T) throws -> SimpleBox {
         guard value.isInfinite || value.isNaN else {
             return FloatBox(value)
         }
@@ -510,6 +506,10 @@ extension _XMLEncoder {
         } else {
             return StringBox(nanString)
         }
+    }
+    
+    internal func box(_ value: String) -> SimpleBox {
+        return StringBox(value)
     }
     
     internal func box(_ value: Date) throws -> Box {
@@ -529,7 +529,7 @@ extension _XMLEncoder {
             let depth = storage.count
             try closure(value, self)
 
-            guard storage.count > depth else { return DictionaryBox() }
+            guard storage.count > depth else { return KeyedBox() }
 
             return storage.popContainer()
         }
@@ -546,22 +546,18 @@ extension _XMLEncoder {
             let depth = storage.count
             try closure(value, self)
 
-            guard storage.count > depth else { return DictionaryBox() }
+            guard storage.count > depth else { return KeyedBox() }
 
             return storage.popContainer()
         }
     }
     
-    internal func boxOrNil<T: Encodable>(_ value: T) throws -> Box? {
-        return try self.box(value)
-    }
-    
     internal func box<T : Encodable>(_ value: T) throws -> Box {
-        return try self.box_(value) ?? DictionaryBox()
+        return try self.boxOrNil(value) ?? KeyedBox()
     }
 
     // This method is called "box_" instead of "box" to disambiguate it from the overloads. Because the return type here is different from all of the "box" overloads (and is more general), any "box" calls in here would call back into "box" recursively instead of calling the appropriate overload, which is not what we want.
-    private func box_<T : Encodable>(_ value: T) throws -> Box? {
+    internal func boxOrNil<T: Encodable>(_ value: T) throws -> Box? {
         if T.self == Date.self || T.self == NSDate.self {
             return try box(value as! Date)
         }

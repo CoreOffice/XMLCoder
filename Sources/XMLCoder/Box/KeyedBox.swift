@@ -1,5 +1,5 @@
 //
-//  DictionaryBox.swift
+//  KeyedBox.swift
 //  XMLCoderPackageDescription
 //
 //  Created by Vincent Esche on 11/19/18.
@@ -8,7 +8,7 @@
 import Foundation
 
 // Minimalist implementation of an order-preserving keyed box:
-class DictionaryBox {
+class KeyedBox {
     typealias Key = String
     typealias Value = Box
     
@@ -58,17 +58,13 @@ class DictionaryBox {
         return try self.unboxed.compactMap(transform)
     }
     
-    func mapValues(_ transform: (Value) throws -> Value) rethrows -> DictionaryBox {
-        return DictionaryBox(try self.unboxed.mapValues(transform))
+    func mapValues(_ transform: (Value) throws -> Value) rethrows -> KeyedBox {
+        return KeyedBox(try self.unboxed.mapValues(transform))
     }
 }
 
-extension DictionaryBox: Box {
+extension KeyedBox: Box {
     var isNull: Bool {
-        return false
-    }
-    
-    var isFragment: Bool {
         return false
     }
     
@@ -77,8 +73,15 @@ extension DictionaryBox: Box {
     }
 }
 
+extension KeyedBox: Sequence {
+    typealias Iterator = Unboxed.Iterator
+    
+    func makeIterator() -> Iterator {
+        return self.unboxed.makeIterator()
+    }
+}
 
-extension DictionaryBox: CustomStringConvertible {
+extension KeyedBox: CustomStringConvertible {
     var description: String {
         return self.unboxed.description
     }

@@ -1,5 +1,5 @@
 //
-//  ArrayBoxTests.swift
+//  UnkeyedBoxTests.swift
 //  XMLCoderTests
 //
 //  Created by Vincent Esche on 12/18/18.
@@ -8,8 +8,8 @@
 import XCTest
 @testable import XMLCoder
 
-class ArrayBoxTests: XCTestCase {
-    lazy var box = ArrayBox([StringBox("foo"), IntBox(42)])
+class UnkeyedBoxTests: XCTestCase {
+    lazy var box = UnkeyedBox([StringBox("foo"), IntBox(42)])
     
     func testUnbox() {
         let unboxed = box.unbox()

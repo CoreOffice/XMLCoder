@@ -33,10 +33,6 @@ extension UIntBox: Box {
         return false
     }
     
-    var isFragment: Bool {
-        return true
-    }
-    
     /// # Lexical representation
     /// Unsigned integer has a lexical representation consisting of an optional
     /// sign followed by a finite-length sequence of decimal digits.
@@ -56,6 +52,10 @@ extension UIntBox: Box {
     func xmlString() -> String? {
         return self.unboxed.description
     }
+}
+
+extension UIntBox: SimpleBox {
+    
 }
 
 extension UIntBox: CustomStringConvertible {

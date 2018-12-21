@@ -17,11 +17,11 @@ internal class _XMLReferencingEncoder: _XMLEncoder {
 
     /// The type of container we're referencing.
     private enum Reference {
-        /// Referencing a specific index in an array container.
-        case array(ArrayBox, Int)
+        /// Referencing a specific index in an unkeyed container.
+        case unkeyed(UnkeyedBox, Int)
 
-        /// Referencing a specific key in a dictionary container.
-        case dictionary(DictionaryBox, String)
+        /// Referencing a specific key in a keyed container.
+        case keyed(KeyedBox, String)
     }
 
     // MARK: - Properties
@@ -38,10 +38,10 @@ internal class _XMLReferencingEncoder: _XMLEncoder {
     internal init(
         referencing encoder: _XMLEncoder,
         at index: Int,
-        wrapping array: ArrayBox
+        wrapping unkeyed: UnkeyedBox
     ) {
         self.encoder = encoder
-        reference = .array(array, index)
+        reference = .unkeyed(unkeyed, index)
         super.init(
             options: encoder.options,
             nodeEncodings: encoder.nodeEncodings,
@@ -56,10 +56,10 @@ internal class _XMLReferencingEncoder: _XMLEncoder {
         referencing encoder: _XMLEncoder,
         key: CodingKey,
         convertedKey: CodingKey,
-        wrapping dictionary: DictionaryBox
+        wrapping keyed: KeyedBox
     ) {
         self.encoder = encoder
-        reference = .dictionary(dictionary, convertedKey.stringValue)
+        reference = .keyed(keyed, convertedKey.stringValue)
         super.init(
             options: encoder.options,
             nodeEncodings: encoder.nodeEncodings,
@@ -84,16 +84,16 @@ internal class _XMLReferencingEncoder: _XMLEncoder {
     deinit {
         let box: Box
         switch self.storage.count {
-        case 0: box = DictionaryBox()
+        case 0: box = KeyedBox()
         case 1: box = self.storage.popContainer()
         default: fatalError("Referencing encoder deallocated with multiple containers on stack.")
         }
 
         switch self.reference {
-        case let .array(array, index):
-            array.insert(box, at: index)
-        case let .dictionary(dictionary, key):
-            dictionary[key] = box
+        case let .unkeyed(unkeyed, index):
+            unkeyed.insert(box, at: index)
+        case let .keyed(keyed, key):
+            keyed[key] = box
         }
     }
 }
