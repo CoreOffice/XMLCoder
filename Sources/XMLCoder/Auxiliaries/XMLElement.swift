@@ -7,7 +7,7 @@
 
 import Foundation
 
-class _XMLElement {
+struct _XMLElement {
     static let attributesKey = "___ATTRIBUTES"
     static let escapedCharacterSet = [("&", "&amp"), ("<", "&lt;"), (">", "&gt;"), ("'", "&apos;"), ("\"", "&quot;")]
     
@@ -23,7 +23,7 @@ class _XMLElement {
         self.elements = elements
     }
     
-    convenience init(key: String, box: UnkeyedBox) {
+    init(key: String, box: UnkeyedBox) {
         self.init(key: key)
         
         self.elements[key] = box.map { box in
@@ -31,7 +31,7 @@ class _XMLElement {
         }
     }
     
-    convenience init(key: String, box: KeyedBox) {
+    init(key: String, box: KeyedBox) {
         self.init(key: key)
         
         self.attributes = Dictionary(uniqueKeysWithValues: box.attributes.compactMap { key, box in
@@ -63,12 +63,12 @@ class _XMLElement {
         }
     }
     
-    convenience init(key: String, box: SimpleBox) {
+    init(key: String, box: SimpleBox) {
         self.init(key: key)
         self.value = box.xmlString()
     }
     
-    convenience init(key: String, box: Box) {
+    init(key: String, box: Box) {
         switch box {
         case let unkeyedBox as UnkeyedBox:
             self.init(key: key, box: unkeyedBox)
@@ -81,10 +81,14 @@ class _XMLElement {
         }
     }
     
-    func append(value string: String) {
+    mutating func append(value string: String) {
         var value = self.value ?? ""
         value += string.trimmingCharacters(in: .whitespacesAndNewlines)
         self.value = value
+    }
+    
+    mutating func append(element: _XMLElement, forKey key: String) {
+        self.elements[key, default: []].append(element)
     }
     
     func flatten() -> KeyedBox {
