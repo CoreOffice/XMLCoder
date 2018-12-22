@@ -11,7 +11,7 @@ struct OrderedDictionary <Key: Hashable, Value> {
     // MARK: - Instance Properties
 
     /// Keys in order.
-    var keys: [Key] = []
+    private(set) var keys: [Key] = []
 
     /// - Returns: The values in order.
     var values: [Value] {
