@@ -9,22 +9,22 @@ import Foundation
 
 struct URLBox: Equatable {
     typealias Unboxed = URL
-    
+
     let unboxed: Unboxed
-    
+
     init(_ unboxed: Unboxed) {
         self.unboxed = unboxed
     }
-    
+
     init?(xmlString: String) {
         guard let unboxed = Unboxed(string: xmlString) else {
             return nil
         }
         self.init(unboxed)
     }
-    
+
     func unbox() -> Unboxed {
-        return self.unboxed
+        return unboxed
     }
 }
 
@@ -34,16 +34,14 @@ extension URLBox: Box {
     }
 
     func xmlString() -> String? {
-        return self.unboxed.absoluteString
+        return unboxed.absoluteString
     }
 }
 
-extension URLBox: SimpleBox {
-    
-}
+extension URLBox: SimpleBox {}
 
 extension URLBox: CustomStringConvertible {
     var description: String {
-        return self.unboxed.description
+        return unboxed.description
     }
 }

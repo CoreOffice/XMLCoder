@@ -45,7 +45,6 @@ private let xml = """
 </breakfast_menu>
 """.data(using: .utf8)!
 
-
 private struct Menu: Codable, Equatable {
     var food: [Food]
 }
@@ -75,7 +74,7 @@ final class BreakfastTest: XCTestCase {
             XCTAssert(false, "failed to decode test xml: \(error)")
         }
     }
-    
+
     static var allTests = [
         ("testXML", testXML),
     ]

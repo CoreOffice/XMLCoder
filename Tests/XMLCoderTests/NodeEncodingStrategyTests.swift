@@ -76,7 +76,7 @@ final class NodeEncodingStrategyTests: XCTestCase {
         }
 
         let encoder = XMLEncoder()
-        
+
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
 
         do {

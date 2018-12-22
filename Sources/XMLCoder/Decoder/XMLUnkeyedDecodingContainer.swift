@@ -60,89 +60,89 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
     }
 
     public mutating func decode(_ type: Bool.Type) throws -> Bool {
-        return try self.decode(type) { decoder, box in
-            return try decoder.unbox(box)
+        return try decode(type) { decoder, box in
+            try decoder.unbox(box)
         }
     }
 
     public mutating func decode(_ type: Int.Type) throws -> Int {
-        return try self.decodeSignedInteger(type)
+        return try decodeSignedInteger(type)
     }
 
     public mutating func decode(_ type: Int8.Type) throws -> Int8 {
-        return try self.decodeSignedInteger(type)
+        return try decodeSignedInteger(type)
     }
 
     public mutating func decode(_ type: Int16.Type) throws -> Int16 {
-        return try self.decodeSignedInteger(type)
+        return try decodeSignedInteger(type)
     }
 
     public mutating func decode(_ type: Int32.Type) throws -> Int32 {
-        return try self.decodeSignedInteger(type)
+        return try decodeSignedInteger(type)
     }
 
     public mutating func decode(_ type: Int64.Type) throws -> Int64 {
-        return try self.decodeSignedInteger(type)
+        return try decodeSignedInteger(type)
     }
-    
+
     public mutating func decode(_ type: UInt.Type) throws -> UInt {
-        return try self.decodeUnsignedInteger(type)
+        return try decodeUnsignedInteger(type)
     }
 
     public mutating func decode(_ type: UInt8.Type) throws -> UInt8 {
-        return try self.decodeUnsignedInteger(type)
+        return try decodeUnsignedInteger(type)
     }
 
     public mutating func decode(_ type: UInt16.Type) throws -> UInt16 {
-        return try self.decodeUnsignedInteger(type)
+        return try decodeUnsignedInteger(type)
     }
 
     public mutating func decode(_ type: UInt32.Type) throws -> UInt32 {
-        return try self.decodeUnsignedInteger(type)
+        return try decodeUnsignedInteger(type)
     }
 
     public mutating func decode(_ type: UInt64.Type) throws -> UInt64 {
-        return try self.decodeUnsignedInteger(type)
+        return try decodeUnsignedInteger(type)
     }
-    
+
     public mutating func decode(_ type: Float.Type) throws -> Float {
-        return try self.decodeFloatingPoint(type)
+        return try decodeFloatingPoint(type)
     }
 
     public mutating func decode(_ type: Double.Type) throws -> Double {
-        return try self.decodeFloatingPoint(type)
+        return try decodeFloatingPoint(type)
     }
 
     public mutating func decode(_ type: String.Type) throws -> String {
-        return try self.decode(type) { decoder, box in
-            return try decoder.unbox(box)
+        return try decode(type) { decoder, box in
+            try decoder.unbox(box)
         }
     }
 
     public mutating func decode<T: Decodable>(_ type: T.Type) throws -> T {
-        return try self.decode(type) { decoder, box in
-            return try decoder.unbox(box)
+        return try decode(type) { decoder, box in
+            try decoder.unbox(box)
         }
     }
-    
+
     private mutating func decodeSignedInteger<T: BinaryInteger & SignedInteger & Decodable>(_ type: T.Type) throws -> T {
-        return try self.decode(type) { decoder, box in
-            return try decoder.unbox(box)
+        return try decode(type) { decoder, box in
+            try decoder.unbox(box)
         }
     }
-    
+
     private mutating func decodeUnsignedInteger<T: BinaryInteger & UnsignedInteger & Decodable>(_ type: T.Type) throws -> T {
-        return try self.decode(type) { decoder, box in
-            return try decoder.unbox(box)
+        return try decode(type) { decoder, box in
+            try decoder.unbox(box)
         }
     }
-    
+
     private mutating func decodeFloatingPoint<T: BinaryFloatingPoint & Decodable>(_ type: T.Type) throws -> T {
-        return try self.decode(type) { decoder, box in
-            return try decoder.unbox(box)
+        return try decode(type) { decoder, box in
+            try decoder.unbox(box)
         }
     }
-    
+
     private mutating func decode<T: Decodable>(
         _ type: T.Type,
         decode: (_XMLDecoder, Box) throws -> T?
@@ -153,11 +153,11 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
                 debugDescription: "Unkeyed container is at end."
             ))
         }
-        
+
         decoder.codingPath.append(_XMLKey(index: currentIndex))
         defer { self.decoder.codingPath.removeLast() }
-        
-        let box = self.container[self.currentIndex]
+
+        let box = container[self.currentIndex]
         let value = try decode(decoder, box)
         guard let decoded: T = value else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(
@@ -165,7 +165,7 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
                 debugDescription: "Expected \(type) but found null instead."
             ))
         }
-        
+
         currentIndex += 1
         return decoded
     }

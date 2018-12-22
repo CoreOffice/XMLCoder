@@ -47,7 +47,7 @@ final class NoteTest: XCTestCase {
             XCTAssertEqual(note1.from, "Jani")
             XCTAssertEqual(note1.heading, "Reminder")
             XCTAssertEqual(note1.body, "Don't forget me this weekend!")
-            
+
             let data = try encoder.encode(note1, withRootKey: "note",
                                           header: XMLHeader(version: 1.0,
                                                             encoding: "UTF-8"))
@@ -57,18 +57,18 @@ final class NoteTest: XCTestCase {
             XCTAssert(false, "failed to decode test xml: \(error)")
         }
     }
-    
+
     func testInvalidXML() {
         let decoder = XMLDecoder()
-        
+
         do {
-            let _ = try decoder.decode(Note.self, from: invalidXml)
+            _ = try decoder.decode(Note.self, from: invalidXml)
             XCTFail("Expected failure due to malformed XML.")
         } catch {
             // success!
         }
     }
-    
+
     static var allTests = [
         ("testValidXML", testValidXML),
         ("testInvalidXML", testInvalidXML),

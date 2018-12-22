@@ -10,36 +10,36 @@ import XCTest
 
 class FloatTests: XCTestCase {
     typealias Value = Float
-    
+
     struct Container: Codable, Equatable {
         let value: Value
     }
-    
+
     let values: [(Value, String)] = [
         (-42.0, "-42.0"),
         (0.0, "0.0"),
         (42.0, "42.0"),
     ]
-    
+
     func testAttribute() {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
-        
-        encoder.nodeEncodingStrategy = .custom { codableType, _ in
+
+        encoder.nodeEncodingStrategy = .custom { _, _ in
             return { _ in .attribute }
         }
-        
+
         for (value, xmlString) in values {
             do {
                 let xmlString =
-"""
-<container value="\(xmlString)" />
-"""
+                    """
+                    <container value="\(xmlString)" />
+                    """
                 let xmlData = xmlString.data(using: .utf8)!
-                
+
                 let decoded = try decoder.decode(Container.self, from: xmlData)
                 XCTAssertEqual(decoded.value, value)
-                
+
                 let encoded = try encoder.encode(decoded, withRootKey: "container")
                 XCTAssertEqual(String(data: encoded, encoding: .utf8)!, xmlString)
             } catch {
@@ -47,26 +47,26 @@ class FloatTests: XCTestCase {
             }
         }
     }
-    
+
     func testElement() {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
-        
+
         encoder.outputFormatting = [.prettyPrinted]
-        
+
         for (value, xmlString) in values {
             do {
                 let xmlString =
-"""
-<container>
-    <value>\(xmlString)</value>
-</container>
-"""
+                    """
+                    <container>
+                        <value>\(xmlString)</value>
+                    </container>
+                    """
                 let xmlData = xmlString.data(using: .utf8)!
-                
+
                 let decoded = try decoder.decode(Container.self, from: xmlData)
                 XCTAssertEqual(decoded.value, value)
-                
+
                 let encoded = try encoder.encode(decoded, withRootKey: "container")
                 XCTAssertEqual(String(data: encoded, encoding: .utf8)!, xmlString)
             } catch {
@@ -74,7 +74,7 @@ class FloatTests: XCTestCase {
             }
         }
     }
-    
+
     static var allTests = [
         ("testAttribute", testAttribute),
         ("testElement", testElement),

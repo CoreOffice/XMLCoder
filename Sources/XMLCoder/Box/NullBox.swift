@@ -15,18 +15,16 @@ extension NullBox: Box {
     var isNull: Bool {
         return true
     }
-    
+
     func xmlString() -> String? {
         return nil
     }
 }
 
-extension NullBox: SimpleBox {
-    
-}
+extension NullBox: SimpleBox {}
 
 extension NullBox: Equatable {
-    static func == (lhs: NullBox, rhs: NullBox) -> Bool {
+    static func == (_: NullBox, _: NullBox) -> Bool {
         return true
     }
 }

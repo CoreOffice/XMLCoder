@@ -10,7 +10,7 @@ import XCTest
 
 class NullBoxTests: XCTestCase {
     typealias Boxed = NullBox
-    
+
     func testXMLString() {
         let box = Boxed()
         XCTAssertEqual(box.xmlString(), nil)

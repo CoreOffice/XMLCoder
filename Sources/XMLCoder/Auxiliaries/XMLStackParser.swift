@@ -8,12 +8,10 @@
 
 import Foundation
 
-struct XMLElementContext {
-    
-}
+struct XMLElementContext {}
 
 class _XMLStackParser: NSObject {
-    var root: _XMLElement? = nil
+    var root: _XMLElement?
     private var stack: [_XMLElement] = []
 
     static func parse(with data: Data) throws -> KeyedBox {
@@ -25,25 +23,25 @@ class _XMLStackParser: NSObject {
                 debugDescription: "The given data could not be parsed into XML."
             ))
         }
-        
+
         return node.flatten()
     }
 
     func parse(with data: Data) throws -> _XMLElement? {
         let xmlParser = XMLParser(data: data)
         xmlParser.delegate = self
-        
+
         guard xmlParser.parse() else {
             if let error = xmlParser.parserError {
                 throw error
             }
             return nil
         }
-        
+
         return root
     }
-    
-    func withCurrentElement(_ body: (inout _XMLElement) throws -> ()) rethrows {
+
+    func withCurrentElement(_ body: (inout _XMLElement) throws -> Void) rethrows {
         guard !stack.isEmpty else {
             return
         }
@@ -66,11 +64,11 @@ extension _XMLStackParser: XMLParserDelegate {
         guard var element = stack.popLast() else {
             return
         }
-        
+
         if let value = element.value {
             element.value = value.isEmpty ? nil : value
         }
-        
+
         withCurrentElement { currentElement in
             currentElement.append(element: element, forKey: element.key)
         }
