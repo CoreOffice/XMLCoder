@@ -102,7 +102,7 @@ struct OrderedDictionary <Key: Hashable, Value> {
         by areInIncreasingOrder: ((key: Key, value: Value), (key: Key, value: Value)) throws -> Bool
     ) rethrows -> OrderedDictionary
     {
-        return OrderedDictionary(uniqueKeysWithValues: try self.sorted(by: areInIncreasingOrder))
+        return OrderedDictionary(uniqueKeysWithValues: try sorted(by: areInIncreasingOrder))
     }
 }
 
