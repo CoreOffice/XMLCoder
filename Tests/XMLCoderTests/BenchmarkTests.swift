@@ -48,7 +48,7 @@ class BenchmarkTests: XCTestCase {
 
     func testDecoding<T: Codable>(of _: T.Type, with value: T, _ closure: (() -> Void) -> Void) throws {
         let data: Data = try encodedContainer(of: T.self, with: value)
-        
+
         let decoder = XMLDecoder()
 
         closure {
