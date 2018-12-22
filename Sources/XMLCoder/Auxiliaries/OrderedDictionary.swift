@@ -14,7 +14,7 @@ struct OrderedDictionary <Key: Hashable, Value> {
     var keys: [Key] = []
 
     /// - Returns: The values in order.
-    public var values: [Value] {
+    var values: [Value] {
         return keys.map { self[$0]! }
     }
 
@@ -63,7 +63,7 @@ struct OrderedDictionary <Key: Hashable, Value> {
     // MARK: - Subscripts
 
     /// - Returns: Value for the given `key`, if available. Otherwise, `nil`.
-    public subscript(key: Key) -> Value? {
+    subscript(key: Key) -> Value? {
         get {
             return unordered[key]
         }
@@ -111,23 +111,23 @@ extension OrderedDictionary: Collection {
     // MARK: - Collection
 
     /// - Index after given index `i`.
-    public func index(after i: Int) -> Int {
+    func index(after i: Int) -> Int {
         precondition(i < endIndex, "Cannot increment beyond endIndex")
         return i + 1
     }
 
     /// Start index.
-    public var startIndex: Int {
+    var startIndex: Int {
         return keys.startIndex
     }
 
     /// End index.
-    public var endIndex: Int {
+    var endIndex: Int {
         return keys.endIndex
     }
 
     /// - Returns: Element at the given `index`.
-    public subscript (index: Int) -> (key: Key, value: Value) {
+    subscript (index: Int) -> (key: Key, value: Value) {
         let key = keys[index]
         let value = unordered[key]!
         return (key,value)
@@ -142,7 +142,7 @@ extension OrderedDictionary: ExpressibleByDictionaryLiteral {
     // MARK: - ExpressibleByDictionaryLiteral
 
     /// Create an `OrderedDictionary` with a `DictionaryLiteral`.
-    public init(dictionaryLiteral elements: (Key,Value)...) {
+    init(dictionaryLiteral elements: (Key,Value)...) {
         self.init(minimumCapacity: elements.count)
         elements.forEach { (k,v) in append(v, key: k) }
     }
@@ -153,7 +153,7 @@ extension OrderedDictionary: CustomStringConvertible {
     // MARK: - CustomStringConvertible
 
     /// - Returns: A string that represents the contents of the `OrderedDictionary`.
-    public var description: String {
+    var description: String {
         if self.count == 0 { return "[:]" }
         var result = "["
         var first = true
