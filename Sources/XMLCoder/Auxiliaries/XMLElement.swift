@@ -230,4 +230,4 @@ struct _XMLElement {
     }
 }
 
-extension _XMLElement: Equatable { }
+extension _XMLElement: Equatable {}
