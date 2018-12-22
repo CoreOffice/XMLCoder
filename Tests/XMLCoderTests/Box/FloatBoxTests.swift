@@ -10,24 +10,24 @@ import XCTest
 
 class FloatBoxTests: XCTestCase {
     typealias Boxed = FloatBox
-    
+
     func testUnbox() {
         let values: [Boxed.Unboxed] = [
-            -3E2,
-            4268.22752E11,
+            -3e2,
+            4268.22752e11,
             +24.3e-3,
             12,
             +3.5,
             -.infinity,
             -0,
         ]
-        
+
         for unboxed in values {
             let box = Boxed(unboxed)
             XCTAssertEqual(box.unbox(), unboxed)
         }
     }
-    
+
     func testXMLString() {
         let values: [(Boxed.Unboxed, String)] = [
             (42.0, "42.0"),
@@ -35,13 +35,13 @@ class FloatBoxTests: XCTestCase {
             (-.infinity, "-INF"),
             (.nan, "NaN"),
         ]
-        
+
         for (double, string) in values {
             let box = FloatBox(double)
             XCTAssertEqual(box.xmlString(), string)
         }
     }
-    
+
     func testValidValues() {
         let values: [String] = [
             "-3E2",
@@ -53,13 +53,13 @@ class FloatBoxTests: XCTestCase {
             "-0",
             "NaN",
         ]
-        
+
         for string in values {
             let box = FloatBox(xmlString: string)
             XCTAssertNotNil(box)
         }
     }
-    
+
     func testInvalidValues() {
         let values: [String] = [
             "-3E2.4",
@@ -67,7 +67,7 @@ class FloatBoxTests: XCTestCase {
             "foobar",
             "",
         ]
-        
+
         for string in values {
             let box = FloatBox(xmlString: string)
             XCTAssertNil(box)

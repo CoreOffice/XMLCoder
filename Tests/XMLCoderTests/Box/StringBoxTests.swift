@@ -10,7 +10,7 @@ import XCTest
 
 class StringBoxTests: XCTestCase {
     typealias Boxed = StringBox
-    
+
     func testUnbox() {
         let values: [Boxed.Unboxed] = [
             "",
@@ -19,13 +19,13 @@ class StringBoxTests: XCTestCase {
             "12.34",
             "lorem ipsum",
         ]
-        
+
         for unboxed in values {
             let box = Boxed(unboxed)
             XCTAssertEqual(box.unbox(), unboxed)
         }
     }
-    
+
     func testXMLString() {
         let values: [(Boxed.Unboxed, String)] = [
             ("", ""),
@@ -34,13 +34,13 @@ class StringBoxTests: XCTestCase {
             ("12.34", "12.34"),
             ("lorem ipsum", "lorem ipsum"),
         ]
-        
+
         for (unboxed, string) in values {
             let box = Boxed(unboxed)
             XCTAssertEqual(box.xmlString(), string)
         }
     }
-    
+
     func testValidValues() {
         let values: [String] = [
             "0",
@@ -48,18 +48,18 @@ class StringBoxTests: XCTestCase {
             "false",
             "true",
         ]
-        
+
         for string in values {
             let box = Boxed(xmlString: string)
             XCTAssertNotNil(box)
         }
     }
-    
+
     func testInvalidValues() {
         let values: [String] = [
             // none.
         ]
-        
+
         for string in values {
             let box = Boxed(xmlString: string)
             XCTAssertNil(box)

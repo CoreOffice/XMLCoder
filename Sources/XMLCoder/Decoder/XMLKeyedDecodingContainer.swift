@@ -113,118 +113,118 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
     }
 
     public func decode(_ type: Bool.Type, forKey key: Key) throws -> Bool {
-        return try self.decode(type, forKey: key) { decoder, box in
-            return try decoder.unbox(box)
+        return try decode(type, forKey: key) { decoder, box in
+            try decoder.unbox(box)
         }
     }
 
     public func decode(_ type: Decimal.Type, forKey key: Key) throws -> Decimal {
-        return try self.decode(type, forKey: key) { decoder, box in
-            return try decoder.unbox(box)
+        return try decode(type, forKey: key) { decoder, box in
+            try decoder.unbox(box)
         }
     }
 
     public func decode(_ type: Int.Type, forKey key: Key) throws -> Int {
-        return try self.decodeSignedInteger(type, forKey: key)
+        return try decodeSignedInteger(type, forKey: key)
     }
 
     public func decode(_ type: Int8.Type, forKey key: Key) throws -> Int8 {
-        return try self.decodeSignedInteger(type, forKey: key)
+        return try decodeSignedInteger(type, forKey: key)
     }
 
     public func decode(_ type: Int16.Type, forKey key: Key) throws -> Int16 {
-        return try self.decodeSignedInteger(type, forKey: key)
+        return try decodeSignedInteger(type, forKey: key)
     }
 
     public func decode(_ type: Int32.Type, forKey key: Key) throws -> Int32 {
-        return try self.decodeSignedInteger(type, forKey: key)
+        return try decodeSignedInteger(type, forKey: key)
     }
 
     public func decode(_ type: Int64.Type, forKey key: Key) throws -> Int64 {
-        return try self.decodeSignedInteger(type, forKey: key)
+        return try decodeSignedInteger(type, forKey: key)
     }
 
     public func decode(_ type: UInt.Type, forKey key: Key) throws -> UInt {
-        return try self.decodeUnsignedInteger(type, forKey: key)
+        return try decodeUnsignedInteger(type, forKey: key)
     }
 
     public func decode(_ type: UInt8.Type, forKey key: Key) throws -> UInt8 {
-        return try self.decodeUnsignedInteger(type, forKey: key)
+        return try decodeUnsignedInteger(type, forKey: key)
     }
 
     public func decode(_ type: UInt16.Type, forKey key: Key) throws -> UInt16 {
-        return try self.decodeUnsignedInteger(type, forKey: key)
+        return try decodeUnsignedInteger(type, forKey: key)
     }
 
     public func decode(_ type: UInt32.Type, forKey key: Key) throws -> UInt32 {
-        return try self.decodeUnsignedInteger(type, forKey: key)
+        return try decodeUnsignedInteger(type, forKey: key)
     }
 
     public func decode(_ type: UInt64.Type, forKey key: Key) throws -> UInt64 {
-        return try self.decodeUnsignedInteger(type, forKey: key)
+        return try decodeUnsignedInteger(type, forKey: key)
     }
 
     public func decode(_ type: Float.Type, forKey key: Key) throws -> Float {
-        return try self.decodeFloatingPoint(type, forKey: key)
+        return try decodeFloatingPoint(type, forKey: key)
     }
 
     public func decode(_ type: Double.Type, forKey key: Key) throws -> Double {
-        return try self.decodeFloatingPoint(type, forKey: key)
+        return try decodeFloatingPoint(type, forKey: key)
     }
 
     public func decode(_ type: String.Type, forKey key: Key) throws -> String {
-        return try self.decode(type, forKey: key) { decoder, box in
-            return try decoder.unbox(box)
+        return try decode(type, forKey: key) { decoder, box in
+            try decoder.unbox(box)
         }
     }
 
     public func decode(_ type: Date.Type, forKey key: Key) throws -> Date {
-        return try self.decode(type, forKey: key) { decoder, box in
-            return try decoder.unbox(box)
+        return try decode(type, forKey: key) { decoder, box in
+            try decoder.unbox(box)
         }
     }
 
     public func decode(_ type: Data.Type, forKey key: Key) throws -> Data {
-        return try self.decode(type, forKey: key) { decoder, box in
-            return try decoder.unbox(box)
+        return try decode(type, forKey: key) { decoder, box in
+            try decoder.unbox(box)
         }
     }
 
     public func decode<T: Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
         let attributeNotFound = (container.attributes[key.stringValue] == nil)
         let elementNotFound = (container.elements[key.stringValue] == nil)
-        
-        if type is AnyEmptySequence.Type && attributeNotFound && elementNotFound {
+
+        if type is AnyEmptySequence.Type, attributeNotFound, elementNotFound {
             return (type as! AnyEmptySequence.Type).init() as! T
         }
 
-        return try self.decode(type, forKey: key) { decoder, box in
-            return try decoder.unbox(box)
+        return try decode(type, forKey: key) { decoder, box in
+            try decoder.unbox(box)
         }
     }
 
     private func decodeSignedInteger<T: BinaryInteger & SignedInteger & Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
-        return try self.decode(type, forKey: key) { decoder, box in
-            return try decoder.unbox(box)
+        return try decode(type, forKey: key) { decoder, box in
+            try decoder.unbox(box)
         }
     }
 
     private func decodeUnsignedInteger<T: BinaryInteger & UnsignedInteger & Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
-        return try self.decode(type, forKey: key) { decoder, box in
-            return try decoder.unbox(box)
+        return try decode(type, forKey: key) { decoder, box in
+            try decoder.unbox(box)
         }
     }
 
     private func decodeFloatingPoint<T: BinaryFloatingPoint & Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
-        return try self.decode(type, forKey: key) { decoder, box in
-            return try decoder.unbox(box)
+        return try decode(type, forKey: key) { decoder, box in
+            try decoder.unbox(box)
         }
     }
 
     private func decode<T: Decodable>(
         _ type: T.Type,
         forKey key: Key,
-        decode: (_XMLDecoder, Box) throws -> T?
+        decode _: (_XMLDecoder, Box) throws -> T?
     ) throws -> T {
         guard let entry = container.elements[key.stringValue] ?? container.attributes[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(

@@ -160,7 +160,7 @@ open class XMLDecoder {
 
             // Find the last non-underscore character
             var lastNonUnderscore = stringKey.index(before: stringKey.endIndex)
-            while lastNonUnderscore > firstNonUnderscore && stringKey[lastNonUnderscore] == "_" {
+            while lastNonUnderscore > firstNonUnderscore, stringKey[lastNonUnderscore] == "_" {
                 stringKey.formIndex(before: &lastNonUnderscore)
             }
 
@@ -179,9 +179,9 @@ open class XMLDecoder {
 
             // Do a cheap isEmpty check before creating and appending potentially empty strings
             let result: String
-            if leadingUnderscoreRange.isEmpty && trailingUnderscoreRange.isEmpty {
+            if leadingUnderscoreRange.isEmpty, trailingUnderscoreRange.isEmpty {
                 result = joinedString
-            } else if !leadingUnderscoreRange.isEmpty && !trailingUnderscoreRange.isEmpty {
+            } else if !leadingUnderscoreRange.isEmpty, !trailingUnderscoreRange.isEmpty {
                 // Both leading and trailing underscores
                 result = String(stringKey[leadingUnderscoreRange]) + joinedString + String(stringKey[trailingUnderscoreRange])
             } else if !leadingUnderscoreRange.isEmpty {
@@ -351,7 +351,7 @@ extension _XMLDecoder: SingleValueDecodingContainer {
         try expectNonNull(Bool.self)
         return try unbox(storage.topContainer)!
     }
-    
+
     public func decode(_: Decimal.Type) throws -> Decimal {
         try expectNonNull(Decimal.self)
         return try unbox(storage.topContainer)!
@@ -361,27 +361,27 @@ extension _XMLDecoder: SingleValueDecodingContainer {
         try expectNonNull(T.self)
         return try unbox(storage.topContainer)!
     }
-    
+
     public func decode<T: BinaryInteger & UnsignedInteger & Decodable>(_: T.Type) throws -> T {
         try expectNonNull(T.self)
         return try unbox(storage.topContainer)!
     }
-    
+
     public func decode<T: BinaryFloatingPoint & Decodable>(_: T.Type) throws -> T {
         try expectNonNull(T.self)
         return try unbox(storage.topContainer)!
     }
-    
+
     public func decode(_: String.Type) throws -> String {
         try expectNonNull(String.self)
         return try unbox(storage.topContainer)!
     }
-    
+
     public func decode(_: String.Type) throws -> Date {
         try expectNonNull(String.self)
         return try unbox(storage.topContainer)!
     }
-    
+
     public func decode(_: String.Type) throws -> Data {
         try expectNonNull(String.self)
         return try unbox(storage.topContainer)!
@@ -397,85 +397,85 @@ extension _XMLDecoder: SingleValueDecodingContainer {
 
 extension _XMLDecoder {
     /// Returns the given box unboxed from a container.
-    
+
     func unbox(_ box: Box) throws -> Bool? {
         guard !box.isNull else { return nil }
-        
+
         guard let string = (box as? StringBox)?.unbox() else { return nil }
-        
+
         guard let boolBox = BoolBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: Bool.self, reality: box)
         }
-        
+
         return boolBox.unbox()
     }
-    
+
     func unbox(_ box: Box) throws -> Decimal? {
         guard !box.isNull else { return nil }
-        
+
         guard let string = (box as? StringBox)?.unbox() else { return nil }
-        
+
         guard let decimalBox = DecimalBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: Decimal.self, reality: box)
         }
-        
+
         return decimalBox.unbox()
     }
 
     func unbox<T: BinaryInteger & SignedInteger & Decodable>(_ box: Box) throws -> T? {
         guard !box.isNull else { return nil }
-        
+
         guard let string = (box as? StringBox)?.unbox() else { return nil }
-        
+
         guard let intBox = IntBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: T.self, reality: box)
         }
-        
+
         guard let int: T = intBox.unbox() else {
             throw DecodingError.dataCorrupted(DecodingError.Context(
                 codingPath: codingPath,
                 debugDescription: "Parsed XML number <\(string)> does not fit in \(T.self)."
             ))
         }
-        
+
         return int
     }
-    
+
     func unbox<T: BinaryInteger & UnsignedInteger & Decodable>(_ box: Box) throws -> T? {
         guard !box.isNull else { return nil }
-        
+
         guard let string = (box as? StringBox)?.unbox() else { return nil }
-        
+
         guard let uintBox = UIntBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: T.self, reality: box)
         }
-        
+
         guard let uint: T = uintBox.unbox() else {
             throw DecodingError.dataCorrupted(DecodingError.Context(
                 codingPath: codingPath,
                 debugDescription: "Parsed XML number <\(string)> does not fit in \(T.self)."
             ))
         }
-        
+
         return uint
     }
 
     func unbox<T: BinaryFloatingPoint & Decodable>(_ box: Box) throws -> T? {
         guard !box.isNull else { return nil }
-        
+
         guard let string = (box as? StringBox)?.unbox() else { return nil }
-        
+
         guard let floatBox = FloatBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: T.self, reality: box)
         }
-        
+
         guard let float: T = floatBox.unbox() else {
             throw DecodingError.dataCorrupted(DecodingError.Context(
                 codingPath: codingPath,
                 debugDescription: "Parsed XML number <\(string)> does not fit in \(T.self)."
             ))
         }
-        
+
         return float
     }
 
@@ -568,26 +568,26 @@ extension _XMLDecoder {
                     debugDescription: "Encountered Data is not valid Base64"
                 ))
             }
-            return dataBox.unbox()            
+            return dataBox.unbox()
         case let .custom(closure):
             storage.push(container: box)
             defer { storage.popContainer() }
             return try closure(self)
         }
     }
-    
+
     func unbox(_ box: Box) throws -> URL? {
         guard !box.isNull else { return nil }
-        
+
         guard let string = (box as? StringBox)?.unbox() else { return nil }
-        
+
         guard let urlBox = URLBox(xmlString: string) else {
             throw DecodingError.dataCorrupted(DecodingError.Context(
                 codingPath: codingPath,
                 debugDescription: "Encountered Data is not valid Base64"
             ))
         }
-        
+
         return urlBox.unbox()
     }
 

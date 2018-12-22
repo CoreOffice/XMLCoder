@@ -9,22 +9,22 @@ import Foundation
 
 struct UIntBox: Equatable {
     typealias Unboxed = UInt64
-    
+
     let unboxed: Unboxed
-    
+
     init<Integer: UnsignedInteger>(_ unboxed: Integer) {
         self.unboxed = Unboxed(unboxed)
     }
-    
+
     init?(xmlString: String) {
         guard let unboxed = Unboxed(xmlString) else {
             return nil
         }
         self.init(unboxed)
     }
-    
+
     func unbox<Integer: BinaryInteger>() -> Integer? {
-        return Integer(exactly: self.unboxed)
+        return Integer(exactly: unboxed)
     }
 }
 
@@ -32,7 +32,7 @@ extension UIntBox: Box {
     var isNull: Bool {
         return false
     }
-    
+
     /// # Lexical representation
     /// Unsigned integer has a lexical representation consisting of an optional
     /// sign followed by a finite-length sequence of decimal digits.
@@ -50,16 +50,14 @@ extension UIntBox: Box {
     ///
     /// [Schema definition](https://www.w3.org/TR/xmlschema-2/#nonNegativeInteger)
     func xmlString() -> String? {
-        return self.unboxed.description
+        return unboxed.description
     }
 }
 
-extension UIntBox: SimpleBox {
-    
-}
+extension UIntBox: SimpleBox {}
 
 extension UIntBox: CustomStringConvertible {
     var description: String {
-        return self.unboxed.description
+        return unboxed.description
     }
 }

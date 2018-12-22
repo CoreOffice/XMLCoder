@@ -13,18 +13,18 @@ class KeyedBoxTests: XCTestCase {
         elements: ["foo": StringBox("bar"), "baz": IntBox(42)],
         attributes: ["baz": StringBox("blee")]
     )
-    
+
     func testUnbox() {
         let (elements, attributes) = box.unbox()
-        
+
         XCTAssertEqual(elements.count, 2)
         XCTAssertEqual(elements["foo"] as? StringBox, StringBox("bar"))
         XCTAssertEqual(elements["baz"] as? IntBox, IntBox(42))
-        
+
         XCTAssertEqual(attributes.count, 1)
         XCTAssertEqual(attributes["baz"] as? StringBox, StringBox("blee"))
     }
-    
+
     func testXMLString() {
         XCTAssertEqual(box.xmlString(), nil)
     }

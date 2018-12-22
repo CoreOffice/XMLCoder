@@ -13,6 +13,4 @@ protocol Box {
 }
 
 /// A box that only describes a single atomic value.
-protocol SimpleBox: Box {
-    
-}
+protocol SimpleBox: Box {}

@@ -9,22 +9,22 @@ import Foundation
 
 struct FloatBox: Equatable {
     typealias Unboxed = Float64
-    
+
     let unboxed: Unboxed
-    
+
     init<Float: BinaryFloatingPoint>(_ unboxed: Float) {
         self.unboxed = Unboxed(unboxed)
     }
-    
+
     init?(xmlString: String) {
         guard let unboxed = Unboxed(xmlString) else {
             return nil
         }
         self.init(unboxed)
     }
-    
+
     func unbox<Float: BinaryFloatingPoint>() -> Float? {
-        return Float(exactly: self.unboxed)
+        return Float(exactly: unboxed)
     }
 }
 
@@ -32,7 +32,7 @@ extension FloatBox: Box {
     var isNull: Bool {
         return false
     }
-    
+
     /// # Lexical representation
     /// float values have a lexical representation consisting of a mantissa followed, optionally,
     /// by the character `"E"` or `"e"`, followed by an exponent. The exponent **must** be an integer.
@@ -62,24 +62,22 @@ extension FloatBox: Box {
     ///
     /// [Schema definition](https://www.w3.org/TR/xmlschema-2/#float)
     func xmlString() -> String? {
-        guard !self.unboxed.isNaN else {
+        guard !unboxed.isNaN else {
             return "NaN"
         }
-        
-        guard !self.unboxed.isInfinite else {
-            return (self.unboxed > 0.0) ? "INF" : "-INF"
+
+        guard !unboxed.isInfinite else {
+            return (unboxed > 0.0) ? "INF" : "-INF"
         }
-        
-        return self.unboxed.description
+
+        return unboxed.description
     }
 }
 
-extension FloatBox: SimpleBox {
-    
-}
+extension FloatBox: SimpleBox {}
 
 extension FloatBox: CustomStringConvertible {
     var description: String {
-        return self.unboxed.description
+        return unboxed.description
     }
 }

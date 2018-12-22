@@ -10,31 +10,31 @@ import XCTest
 
 class BoolBoxTests: XCTestCase {
     typealias Boxed = BoolBox
-    
+
     func testUnbox() {
         let values: [Boxed.Unboxed] = [
             false,
             true,
         ]
-        
+
         for unboxed in values {
             let box = Boxed(unboxed)
             XCTAssertEqual(box.unbox(), unboxed)
         }
     }
-    
+
     func testXMLString() {
         let values: [(Boxed.Unboxed, String)] = [
             (false, "false"),
             (true, "true"),
         ]
-        
+
         for (unboxed, string) in values {
             let box = Boxed(unboxed)
             XCTAssertEqual(box.xmlString(), string)
         }
     }
-    
+
     func testValidValues() {
         let values: [String] = [
             "0",
@@ -42,20 +42,20 @@ class BoolBoxTests: XCTestCase {
             "false",
             "true",
         ]
-        
+
         for string in values {
             let box = Boxed(xmlString: string)
             XCTAssertNotNil(box)
         }
     }
-    
+
     func testInvalidValues() {
         let values: [String] = [
             "42",
             "foobar",
             "",
         ]
-        
+
         for string in values {
             let box = Boxed(xmlString: string)
             XCTAssertNil(box)

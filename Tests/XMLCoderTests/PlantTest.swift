@@ -12,14 +12,13 @@ import XCTest
 
 private struct PlantCatalog: Codable, Equatable {
     var plants: [Plant]
-    
+
     enum CodingKeys: String, CodingKey {
         case plants = "PLANT"
     }
 }
 
-private struct CurrencyCodingError: Error {
-}
+private struct CurrencyCodingError: Error {}
 
 private struct Currency: Codable, Equatable {
     let value: Decimal
@@ -39,7 +38,7 @@ private struct Currency: Codable, Equatable {
         let container = try decoder.singleValueContainer()
         let string = try container.decode(String.self)
         guard let value = Currency.formatter
-        .number(from: string)?.decimalValue else {
+            .number(from: string)?.decimalValue else {
             throw CurrencyCodingError()
         }
 
@@ -60,7 +59,7 @@ private struct Plant: Codable, Equatable {
     var light: String
     var price: Currency
     var amountAvailable: Int
-    
+
     enum CodingKeys: String, CodingKey {
         case common = "COMMON"
         case botanical = "BOTANICAL"
@@ -69,7 +68,7 @@ private struct Plant: Codable, Equatable {
         case price = "PRICE"
         case amountAvailable = "AVAILABILITY"
     }
-    
+
     init(common: String,
          botanical: String,
          zone: String,
@@ -84,7 +83,6 @@ private struct Plant: Codable, Equatable {
         self.amountAvailable = amountAvailable
     }
 
-    
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let common = try values.decode(String.self, forKey: .common)
@@ -93,7 +91,7 @@ private struct Plant: Codable, Equatable {
         let light = try values.decode(String.self, forKey: .light)
         let price = try values.decode(Currency.self, forKey: .price)
         let availability = try values.decode(Int.self, forKey: .amountAvailable)
-        
+
         self.init(common: common,
                   botanical: botanical,
                   zone: zone,
@@ -114,7 +112,7 @@ final class PlantTest: XCTestCase {
     func testXML() {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
-        
+
         do {
             let plantCatalog1 = try decoder.decode(PlantCatalog.self,
                                                    from: plantCatalogXML)
@@ -130,7 +128,6 @@ final class PlantTest: XCTestCase {
         } catch {
             XCTAssert(false, "failed to decode test xml: \(error)")
         }
-
     }
 
     static var allTests = [

@@ -9,22 +9,22 @@ import Foundation
 
 struct DecimalBox: Equatable {
     typealias Unboxed = Decimal
-    
+
     let unboxed: Unboxed
-    
+
     init(_ unboxed: Unboxed) {
         self.unboxed = unboxed
     }
-    
+
     init?(xmlString: String) {
         guard let unboxed = Unboxed(string: xmlString) else {
             return nil
         }
         self.init(unboxed)
     }
-    
+
     func unbox() -> Unboxed {
-        return self.unboxed
+        return unboxed
     }
 }
 
@@ -32,7 +32,7 @@ extension DecimalBox: Box {
     var isNull: Bool {
         return false
     }
-    
+
     /// # Lexical representation
     /// Decimal has a lexical representation consisting of a finite-length sequence of
     /// decimal digits separated by a period as a decimal indicator.
@@ -52,16 +52,14 @@ extension DecimalBox: Box {
     ///
     /// [Schema definition](https://www.w3.org/TR/xmlschema-2/#decimal)
     func xmlString() -> String? {
-        return "\(self.unboxed)"
+        return "\(unboxed)"
     }
 }
 
-extension DecimalBox: SimpleBox {
-    
-}
+extension DecimalBox: SimpleBox {}
 
 extension DecimalBox: CustomStringConvertible {
     var description: String {
-        return self.unboxed.description
+        return unboxed.description
     }
 }

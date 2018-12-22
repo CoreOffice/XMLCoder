@@ -7,171 +7,171 @@
 
 import Foundation
 
-struct _XMLUnkeyedEncodingContainer : UnkeyedEncodingContainer {
+struct _XMLUnkeyedEncodingContainer: UnkeyedEncodingContainer {
     // MARK: Properties
-    
+
     /// A reference to the encoder we're writing to.
     private let encoder: _XMLEncoder
-    
+
     /// A reference to the container we're writing to.
     private let container: UnkeyedBox
-    
+
     /// The path of coding keys taken to get to this point in encoding.
-    private(set) public var codingPath: [CodingKey]
-    
+    public private(set) var codingPath: [CodingKey]
+
     /// The number of elements encoded into the container.
     public var count: Int {
-        return self.container.count
+        return container.count
     }
-    
+
     // MARK: - Initialization
-    
+
     /// Initializes `self` with the given references.
     init(referencing encoder: _XMLEncoder, codingPath: [CodingKey], wrapping container: UnkeyedBox) {
         self.encoder = encoder
         self.codingPath = codingPath
         self.container = container
     }
-    
+
     // MARK: - UnkeyedEncodingContainer Methods
-    
+
     public mutating func encodeNil() throws {
-        self.container.append(self.encoder.box())
+        container.append(encoder.box())
     }
-    
+
     public mutating func encode(_ value: Bool) throws {
-        self.encode(value) { encoder, value in
-            return encoder.box(value)
+        encode(value) { encoder, value in
+            encoder.box(value)
         }
     }
-    
+
     public mutating func encode(_ value: Decimal) throws {
-        self.encode(value) { encoder, value in
-            return encoder.box(value)
+        encode(value) { encoder, value in
+            encoder.box(value)
         }
     }
-    
+
     public mutating func encode(_ value: Int) throws {
-        try self.encodeSignedInteger(value)
+        try encodeSignedInteger(value)
     }
-    
+
     public mutating func encode(_ value: Int8) throws {
-        try self.encodeSignedInteger(value)
+        try encodeSignedInteger(value)
     }
-    
+
     public mutating func encode(_ value: Int16) throws {
-        try self.encodeSignedInteger(value)
+        try encodeSignedInteger(value)
     }
-    
+
     public mutating func encode(_ value: Int32) throws {
-        try self.encodeSignedInteger(value)
+        try encodeSignedInteger(value)
     }
-    
+
     public mutating func encode(_ value: Int64) throws {
-        try self.encodeSignedInteger(value)
+        try encodeSignedInteger(value)
     }
 
     public mutating func encode(_ value: UInt) throws {
-        try self.encodeUnsignedInteger(value)
+        try encodeUnsignedInteger(value)
     }
-    
+
     public mutating func encode(_ value: UInt8) throws {
-        try self.encodeUnsignedInteger(value)
+        try encodeUnsignedInteger(value)
     }
-    
+
     public mutating func encode(_ value: UInt16) throws {
-        try self.encodeUnsignedInteger(value)
+        try encodeUnsignedInteger(value)
     }
-    
+
     public mutating func encode(_ value: UInt32) throws {
-        try self.encodeUnsignedInteger(value)
+        try encodeUnsignedInteger(value)
     }
-    
+
     public mutating func encode(_ value: UInt64) throws {
-        try self.encodeUnsignedInteger(value)
+        try encodeUnsignedInteger(value)
     }
-    
+
     public mutating func encode(_ value: Float) throws {
-        try self.encodeFloatingPoint(value)
+        try encodeFloatingPoint(value)
     }
-    
+
     public mutating func encode(_ value: Double) throws {
-        try self.encodeFloatingPoint(value)
+        try encodeFloatingPoint(value)
     }
-    
+
     public mutating func encode(_ value: String) throws {
-        self.encode(value) { encoder, value in
-            return encoder.box(value)
+        encode(value) { encoder, value in
+            encoder.box(value)
         }
     }
-    
+
     public mutating func encode(_ value: Date) throws {
-        try self.encode(value) { encoder, value in
+        try encode(value) { encoder, value in
             return try encoder.box(value)
         }
     }
-    
+
     public mutating func encode(_ value: Data) throws {
-        try self.encode(value) { encoder, value in
+        try encode(value) { encoder, value in
             return try encoder.box(value)
         }
     }
-    
+
     private mutating func encodeSignedInteger<T: BinaryInteger & SignedInteger & Encodable>(_ value: T) throws {
-        self.encode(value) { encoder, value in
-            return encoder.box(value)
+        encode(value) { encoder, value in
+            encoder.box(value)
         }
     }
-    
+
     private mutating func encodeUnsignedInteger<T: BinaryInteger & UnsignedInteger & Encodable>(_ value: T) throws {
-        self.encode(value) { encoder, value in
-            return encoder.box(value)
+        encode(value) { encoder, value in
+            encoder.box(value)
         }
     }
-    
-    private mutating func encodeFloatingPoint<T: BinaryFloatingPoint & Encodable>(_ value: T)  throws {
-        try self.encode(value) { encoder, value in
+
+    private mutating func encodeFloatingPoint<T: BinaryFloatingPoint & Encodable>(_ value: T) throws {
+        try encode(value) { encoder, value in
             return try encoder.box(value)
         }
     }
-    
+
     public mutating func encode<T: Encodable>(_ value: T) throws {
-        try self.encode(value) { encoder, value in
+        try encode(value) { encoder, value in
             return try encoder.box(value)
         }
     }
-    
+
     private mutating func encode<T: Encodable>(
         _ value: T,
-        encode: (_XMLEncoder, T) throws -> (Box)
+        encode: (_XMLEncoder, T) throws -> Box
     ) rethrows {
-        self.encoder.codingPath.append(_XMLKey(index: self.count))
+        encoder.codingPath.append(_XMLKey(index: count))
         defer { self.encoder.codingPath.removeLast() }
-        self.container.append(try encode(self.encoder, value))
+        container.append(try encode(encoder, value))
     }
-    
-    public mutating func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type) -> KeyedEncodingContainer<NestedKey> {
-        self.codingPath.append(_XMLKey(index: self.count))
+
+    public mutating func nestedContainer<NestedKey>(keyedBy _: NestedKey.Type) -> KeyedEncodingContainer<NestedKey> {
+        codingPath.append(_XMLKey(index: count))
         defer { self.codingPath.removeLast() }
-        
+
         let keyed = KeyedBox()
         self.container.append(keyed)
-        
-        let container = _XMLKeyedEncodingContainer<NestedKey>(referencing: self.encoder, codingPath: self.codingPath, wrapping: keyed)
+
+        let container = _XMLKeyedEncodingContainer<NestedKey>(referencing: encoder, codingPath: codingPath, wrapping: keyed)
         return KeyedEncodingContainer(container)
     }
-    
+
     public mutating func nestedUnkeyedContainer() -> UnkeyedEncodingContainer {
-        self.codingPath.append(_XMLKey(index: self.count))
+        codingPath.append(_XMLKey(index: count))
         defer { self.codingPath.removeLast() }
-        
+
         let unkeyed = UnkeyedBox()
-        self.container.append(unkeyed)
-        
-        return _XMLUnkeyedEncodingContainer(referencing: self.encoder, codingPath: self.codingPath, wrapping: unkeyed)
+        container.append(unkeyed)
+
+        return _XMLUnkeyedEncodingContainer(referencing: encoder, codingPath: codingPath, wrapping: unkeyed)
     }
-    
+
     public mutating func superEncoder() -> Encoder {
-        return _XMLReferencingEncoder(referencing: self.encoder, at: self.container.count, wrapping: self.container)
+        return _XMLReferencingEncoder(referencing: encoder, at: container.count, wrapping: container)
     }
 }

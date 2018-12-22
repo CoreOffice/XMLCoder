@@ -12,7 +12,7 @@ import XCTest
 
 private struct CDCatalog: Codable, Equatable {
     var cds: [CD]
-    
+
     enum CodingKeys: String, CodingKey {
         case cds = "CD"
     }
@@ -25,7 +25,7 @@ private struct CD: Codable, Equatable {
     var company: String
     var price: Decimal
     var year: Int
-    
+
     enum CodingKeys: String, CodingKey {
         case title = "TITLE"
         case artist = "ARTIST"
@@ -37,11 +37,11 @@ private struct CD: Codable, Equatable {
 }
 
 private let lastCD = CD(title: "Unchain my heart",
-                                 artist: "Joe Cocker",
-                                 country: "USA",
-                                 company: "EMI",
-                                 price: 8.20,
-                                 year: 1987)
+                        artist: "Joe Cocker",
+                        country: "USA",
+                        company: "EMI",
+                        price: 8.20,
+                        year: 1987)
 
 final class CDTest: XCTestCase {
     func testXML() {
@@ -50,7 +50,7 @@ final class CDTest: XCTestCase {
 
         do {
             let cdCatalog1 = try decoder.decode(CDCatalog.self,
-                                                   from: cdCatalogXML)
+                                                from: cdCatalogXML)
             XCTAssertEqual(cdCatalog1.cds.count, 26)
             XCTAssertEqual(cdCatalog1.cds[25], lastCD)
 
@@ -64,11 +64,9 @@ final class CDTest: XCTestCase {
         } catch {
             XCTAssert(false, "failed to decode test xml: \(error)")
         }
-
     }
 
     static var allTests = [
         ("testXML", testXML),
     ]
 }
-

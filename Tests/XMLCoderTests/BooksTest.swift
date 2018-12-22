@@ -149,7 +149,7 @@ private let catalogXML = """
 
 private struct Catalog: Codable, Equatable {
     var books: [Book]
-    
+
     enum CodingKeys: String, CodingKey {
         case books = "book"
     }
@@ -163,10 +163,10 @@ private struct Book: Codable, Equatable {
     var price: Double
     var publishDate: Date
     var description: String
-    
+
     enum CodingKeys: String, CodingKey {
         case id, author, title, genre, price, description
-        
+
         case publishDate = "publish_date"
     }
 }
@@ -197,7 +197,7 @@ final class BooksTest: XCTestCase {
         do {
             let book1 = try decoder.decode(Book.self, from: bookXML)
             XCTAssertEqual(book1.publishDate,
-                           Date(timeIntervalSince1970: 970358400))
+                           Date(timeIntervalSince1970: 970_358_400))
 
             let data = try encoder.encode(book1, withRootKey: "book",
                                           header: XMLHeader(version: 1.0,
@@ -220,7 +220,7 @@ final class BooksTest: XCTestCase {
             let catalog1 = try decoder.decode(Catalog.self, from: catalogXML)
             XCTAssertEqual(catalog1.books.count, 12)
             XCTAssertEqual(catalog1.books[0].publishDate,
-                           Date(timeIntervalSince1970: 970358400))
+                           Date(timeIntervalSince1970: 970_358_400))
 
             let data = try encoder.encode(catalog1, withRootKey: "catalog",
                                           header: XMLHeader(version: 1.0,
@@ -235,5 +235,4 @@ final class BooksTest: XCTestCase {
     static var allTests = [
         ("testBookXML", testBookXML),
     ]
-
 }
