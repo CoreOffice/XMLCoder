@@ -13,4 +13,10 @@ protocol Box {
 }
 
 /// A box that only describes a single atomic value.
-protocol SimpleBox: Box {}
+protocol SimpleBox: Box {
+    // A simple tagging protocol, for now.
+}
+
+protocol SharedBoxProtocol {
+    func unbox() -> Box
+}

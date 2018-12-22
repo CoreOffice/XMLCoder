@@ -332,7 +332,7 @@ class _XMLDecoder: Decoder {
             ))
         }
 
-        guard let keyed = topContainer as? KeyedBox else {
+        guard let keyed = topContainer as? SharedBox<KeyedBox> else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: [String: Any].self, reality: topContainer)
         }
 
@@ -350,7 +350,7 @@ class _XMLDecoder: Decoder {
             ))
         }
 
-        let unkeyed = (topContainer as? UnkeyedBox) ?? UnkeyedBox([topContainer])
+        let unkeyed = (topContainer as? SharedBox<UnkeyedBox>) ?? SharedBox(UnkeyedBox([topContainer]))
 
         return _XMLUnkeyedDecodingContainer(referencing: self, wrapping: unkeyed)
     }

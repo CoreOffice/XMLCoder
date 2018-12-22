@@ -63,7 +63,7 @@ extension KeyedStorage: CustomStringConvertible
     }
 }
 
-class KeyedBox {
+struct KeyedBox {
     typealias Key = String
     typealias Attribute = SimpleBox
     typealias Element = Box
@@ -88,6 +88,11 @@ class KeyedBox {
     init(elements: [Key: Element], attributes: [Key: Attribute]) {
         self.elements = Elements(elements)
         self.attributes = Attributes(attributes)
+    }
+
+    init(elements: Elements, attributes: Attributes) {
+        self.elements = elements
+        self.attributes = attributes
     }
 
     func unbox() -> (elements: Elements, attributes: Attributes) {

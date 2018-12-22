@@ -270,12 +270,12 @@ open class XMLEncoder {
 
         let elementOrNone: _XMLElement?
 
-        if let keyed = topLevel as? KeyedBox {
-            elementOrNone = _XMLElement(key: rootKey, box: keyed)
-        } else if let unkeyed = topLevel as? UnkeyedBox {
-            elementOrNone = _XMLElement(key: rootKey, box: unkeyed)
+        if let keyedBox = topLevel as? KeyedBox {
+            elementOrNone = _XMLElement(key: rootKey, box: keyedBox)
+        } else if let unkeyedBox = topLevel as? UnkeyedBox {
+            elementOrNone = _XMLElement(key: rootKey, box: unkeyedBox)
         } else {
-            fatalError("Unrecognized top-level element.")
+            fatalError("Unrecognized top-level element of type: \(type(of: topLevel))")
         }
 
         guard let element = elementOrNone else {
@@ -340,12 +340,12 @@ class _XMLEncoder: Encoder {
 
     public func container<Key>(keyedBy _: Key.Type) -> KeyedEncodingContainer<Key> {
         // If an existing keyed container was already requested, return that one.
-        let topContainer: KeyedBox
+        let topContainer: SharedBox<KeyedBox>
         if canEncodeNewValue {
             // We haven't yet pushed a container at this level; do so here.
             topContainer = storage.pushKeyedContainer()
         } else {
-            guard let container = storage.lastContainer as? KeyedBox else {
+            guard let container = storage.lastContainer as? SharedBox<KeyedBox> else {
                 preconditionFailure("Attempt to push new keyed encoding container when already previously encoded at this path.")
             }
 
@@ -358,12 +358,12 @@ class _XMLEncoder: Encoder {
 
     public func unkeyedContainer() -> UnkeyedEncodingContainer {
         // If an existing unkeyed container was already requested, return that one.
-        let topContainer: UnkeyedBox
+        let topContainer: SharedBox<UnkeyedBox>
         if canEncodeNewValue {
             // We haven't yet pushed a container at this level; do so here.
             topContainer = storage.pushUnkeyedContainer()
         } else {
-            guard let container = storage.lastContainer as? UnkeyedBox else {
+            guard let container = storage.lastContainer as? SharedBox<UnkeyedBox> else {
                 preconditionFailure("Attempt to push new unkeyed encoding container when already previously encoded at this path.")
             }
 
@@ -558,13 +558,13 @@ extension _XMLEncoder {
 
     internal func box<T: Encodable>(_ value: T) throws -> Box {
         if T.self == Date.self || T.self == NSDate.self {
-            return try box(value as! Date)
+            return try self.box(value as! Date)
         } else if T.self == Data.self || T.self == NSData.self {
-            return try box(value as! Data)
+            return try self.box(value as! Data)
         } else if T.self == URL.self || T.self == NSURL.self {
-            return box(value as! URL)
+            return self.box(value as! URL)
         } else if T.self == Decimal.self || T.self == NSDecimalNumber.self {
-            return box(value as! Decimal)
+            return self.box(value as! Decimal)
         }
 
         let depth = storage.count
@@ -575,6 +575,12 @@ extension _XMLEncoder {
             return KeyedBox()
         }
 
-        return storage.popContainer()
+        let box = storage.popContainer()
+
+        guard let sharedBox = box as? SharedBoxProtocol else {
+            return box
+        }
+
+        return sharedBox.unbox()
     }
 }
