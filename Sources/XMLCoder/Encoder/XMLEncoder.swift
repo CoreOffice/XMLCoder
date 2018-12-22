@@ -585,17 +585,17 @@ extension XMLEncoderImplementation {
 
     func box<T: Encodable>(_ value: T) throws -> Box {
         if T.self == Date.self || T.self == NSDate.self,
-            let result = value as? Date {
-            return try self.box(result)
+            let value = value as? Date {
+            return try box(value)
         } else if T.self == Data.self || T.self == NSData.self,
-            let result = value as? Data {
-            return try self.box(result)
+            let value = value as? Data {
+            return try box(value)
         } else if T.self == URL.self || T.self == NSURL.self,
-            let result = value as? URL {
-            return self.box(result)
+            let value = value as? URL {
+            return box(value)
         } else if T.self == Decimal.self || T.self == NSDecimalNumber.self,
-            let result = value as? Decimal {
-            return self.box(result)
+            let value = value as? Decimal {
+            return box(value)
         }
 
         let depth = storage.count
@@ -606,10 +606,10 @@ extension XMLEncoderImplementation {
             return KeyedBox()
         }
 
-        let box = storage.popContainer()
+        let lastContainer = storage.popContainer()
 
-        guard let sharedBox = box as? SharedBoxProtocol else {
-            return box
+        guard let sharedBox = lastContainer as? SharedBoxProtocol else {
+            return lastContainer
         }
 
         return sharedBox.unbox()

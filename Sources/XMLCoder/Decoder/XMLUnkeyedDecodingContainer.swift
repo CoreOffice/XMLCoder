@@ -123,7 +123,6 @@ struct XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
 
         return decoded
     }
-
     public mutating func nestedContainer<NestedKey>(
         keyedBy _: NestedKey.Type
     ) throws -> KeyedDecodingContainer<NestedKey> {
