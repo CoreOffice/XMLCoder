@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: Decoding Containers
 
-struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
+struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
     typealias Key = K
     typealias KeyedContainer = SharedBox<KeyedBox>
     typealias UnkeyedContainer = SharedBox<UnkeyedBox>
@@ -18,7 +18,7 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
     // MARK: Properties
 
     /// A reference to the decoder we're reading from.
-    private let decoder: _XMLDecoder
+    private let decoder: XMLDecoderImplementation
 
     /// A reference to the container we're reading from.
     private let container: KeyedContainer
@@ -29,7 +29,7 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
     // MARK: - Initialization
 
     /// Initializes `self` by referencing the given decoder and container.
-    init(referencing decoder: _XMLDecoder, wrapping container: KeyedContainer) {
+    init(referencing decoder: XMLDecoderImplementation, wrapping container: KeyedContainer) {
         self.decoder = decoder
 
         func mapKeys(_ container: KeyedContainer, closure: (String) -> String) -> KeyedContainer {
@@ -59,7 +59,7 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
             }
         case let .custom(converter):
             self.container = mapKeys(container) { key in
-                let codingPath = decoder.codingPath + [_XMLKey(stringValue: key, intValue: nil)]
+                let codingPath = decoder.codingPath + [XMLKey(stringValue: key, intValue: nil)]
                 return converter(codingPath).stringValue
             }
         }
@@ -123,7 +123,9 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
         return box?.isNull ?? true
     }
 
-    public func decode<T: Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
+    public func decode<T: Decodable>(
+        _ type: T.Type, forKey key: Key
+    ) throws -> T {
         let attributeNotFound = container.withShared { keyedBox in
             keyedBox.attributes[key.stringValue] == nil
         }
@@ -131,8 +133,9 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
             keyedBox.elements[key.stringValue] == nil
         }
 
-        if let type = type as? AnyEmptySequence.Type, attributeNotFound, elementNotFound {
-            return type.init() as! T
+        if let type = type as? AnyEmptySequence.Type, attributeNotFound,
+            elementNotFound, let result = type.init() as? T {
+            return result
         }
 
         return try decodeConcrete(type, forKey: key)
@@ -222,14 +225,14 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
             ))
         }
 
-        let container: _XMLKeyedDecodingContainer<NestedKey>
+        let container: XMLKeyedDecodingContainer<NestedKey>
         if let keyedContainer = value as? KeyedContainer {
-            container = _XMLKeyedDecodingContainer<NestedKey>(
+            container = XMLKeyedDecodingContainer<NestedKey>(
                 referencing: decoder,
                 wrapping: keyedContainer
             )
         } else if let keyedContainer = value as? KeyedBox {
-            container = _XMLKeyedDecodingContainer<NestedKey>(
+            container = XMLKeyedDecodingContainer<NestedKey>(
                 referencing: decoder,
                 wrapping: SharedBox(keyedContainer)
             )
@@ -264,9 +267,9 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
         }
 
         if let unkeyedContainer = value as? UnkeyedContainer {
-            return _XMLUnkeyedDecodingContainer(referencing: decoder, wrapping: unkeyedContainer)
+            return XMLUnkeyedDecodingContainer(referencing: decoder, wrapping: unkeyedContainer)
         } else if let unkeyedContainer = value as? UnkeyedBox {
-            return _XMLUnkeyedDecodingContainer(referencing: decoder, wrapping: SharedBox(unkeyedContainer))
+            return XMLUnkeyedDecodingContainer(referencing: decoder, wrapping: SharedBox(unkeyedContainer))
         } else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: [Any].self, reality: value)
         }
@@ -285,11 +288,11 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
         }
 
         let box: Box = elementOrNil ?? attributeOrNil ?? NullBox()
-        return _XMLDecoder(referencing: box, at: decoder.codingPath, options: decoder.options)
+        return XMLDecoderImplementation(referencing: box, at: decoder.codingPath, options: decoder.options)
     }
 
     public func superDecoder() throws -> Decoder {
-        return try _superDecoder(forKey: _XMLKey.super)
+        return try _superDecoder(forKey: XMLKey.super)
     }
 
     public func superDecoder(forKey key: Key) throws -> Decoder {

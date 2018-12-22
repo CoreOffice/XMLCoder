@@ -8,11 +8,13 @@
 
 import Foundation
 
-// MARK: - _XMLReferencingEncoder
-
-/// _XMLReferencingEncoder is a special subclass of _XMLEncoder which has its own storage, but references the contents of a different encoder.
-/// It's used in superEncoder(), which returns a new encoder for encoding a superclass -- the lifetime of the encoder should not escape the scope it's created in, but it doesn't necessarily know when it's done being used (to write to the original container).
-class _XMLReferencingEncoder: _XMLEncoder {
+/// XMLReferencingEncoder is a special subclass of _XMLEncoder which has its
+/// own storage, but references the contents of a different encoder.
+/// It's used in superEncoder(), which returns a new encoder for encoding a
+// superclass -- the lifetime of the encoder should not escape the scope it's
+/// created in, but it doesn't necessarily know when it's done being used
+/// (to write to the original container).
+class XMLReferencingEncoder: XMLEncoderImplementation {
     // MARK: Reference types.
 
     /// The type of container we're referencing.
@@ -27,7 +29,7 @@ class _XMLReferencingEncoder: _XMLEncoder {
     // MARK: - Properties
 
     /// The encoder we're referencing.
-    let encoder: _XMLEncoder
+    let encoder: XMLEncoderImplementation
 
     /// The container reference itself.
     private let reference: Reference
@@ -36,7 +38,7 @@ class _XMLReferencingEncoder: _XMLEncoder {
 
     /// Initializes `self` by referencing the given array container in the given encoder.
     init(
-        referencing encoder: _XMLEncoder,
+        referencing encoder: XMLEncoderImplementation,
         at index: Int,
         wrapping sharedUnkeyed: SharedBox<UnkeyedBox>
     ) {
@@ -48,12 +50,12 @@ class _XMLReferencingEncoder: _XMLEncoder {
             codingPath: encoder.codingPath
         )
 
-        codingPath.append(_XMLKey(index: index))
+        codingPath.append(XMLKey(index: index))
     }
 
     /// Initializes `self` by referencing the given dictionary container in the given encoder.
     init(
-        referencing encoder: _XMLEncoder,
+        referencing encoder: XMLEncoderImplementation,
         key: CodingKey,
         convertedKey: CodingKey,
         wrapping sharedKeyed: SharedBox<KeyedBox>

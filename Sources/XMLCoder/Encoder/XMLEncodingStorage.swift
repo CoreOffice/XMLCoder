@@ -1,4 +1,3 @@
-
 //
 //  XMLEncodingStorage.swift
 //  XMLCoder
@@ -11,7 +10,7 @@ import Foundation
 
 // MARK: - Encoding Storage and Containers
 
-struct _XMLEncodingStorage {
+struct XMLEncodingStorage {
     // MARK: Properties
 
     /// The container stack.

@@ -10,13 +10,13 @@ import Foundation
 
 struct XMLElementContext {}
 
-class _XMLStackParser: NSObject {
-    var root: _XMLElement?
-    private var stack: [_XMLElement] = []
+class XMLStackParser: NSObject {
+    var root: XMLCoderElement?
+    private var stack: [XMLCoderElement] = []
 
     static func parse(with data: Data,
                       errorContextLength length: UInt) throws -> KeyedBox {
-        let parser = _XMLStackParser()
+        let parser = XMLStackParser()
 
         let node = try parser.parse(with: data, errorContextLength: length)
 
@@ -24,7 +24,7 @@ class _XMLStackParser: NSObject {
     }
 
     func parse(with data: Data,
-               errorContextLength: UInt) throws -> _XMLElement {
+               errorContextLength: UInt) throws -> XMLCoderElement {
         let xmlParser = XMLParser(data: data)
         xmlParser.delegate = self
 
@@ -78,7 +78,7 @@ class _XMLStackParser: NSObject {
         ))
     }
 
-    func withCurrentElement(_ body: (inout _XMLElement) throws -> ()) rethrows {
+    func withCurrentElement(_ body: (inout XMLCoderElement) throws -> ()) rethrows {
         guard !stack.isEmpty else {
             return
         }
@@ -86,7 +86,7 @@ class _XMLStackParser: NSObject {
     }
 }
 
-extension _XMLStackParser: XMLParserDelegate {
+extension XMLStackParser: XMLParserDelegate {
     func parserDidStartDocument(_: XMLParser) {
         root = nil
         stack = []
@@ -97,7 +97,7 @@ extension _XMLStackParser: XMLParserDelegate {
                 namespaceURI _: String?,
                 qualifiedName _: String?,
                 attributes attributeDict: [String: String] = [:]) {
-        let element = _XMLElement(key: elementName, attributes: attributeDict)
+        let element = XMLCoderElement(key: elementName, attributes: attributeDict)
         stack.append(element)
     }
 

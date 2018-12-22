@@ -1,0 +1,17 @@
+disabled_rules:
+- trailing_comma
+- identifier_name
+- private_over_fileprivate
+- void_return
+- operator_whitespace
+- function_parameter_count
+
+line_length:
+- 150
+- 200
+
+function_body_length:
+- 50
+
+type_name:
+  min_length: 1

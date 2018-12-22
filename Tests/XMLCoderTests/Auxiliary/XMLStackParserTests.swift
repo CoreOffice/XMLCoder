@@ -10,7 +10,7 @@ import XCTest
 
 class XMLStackParserTests: XCTestCase {
     func testParseWith() throws {
-        let parser = _XMLStackParser()
+        let parser = XMLStackParser()
 
         let xmlString =
             """
@@ -21,17 +21,17 @@ class XMLStackParserTests: XCTestCase {
             """
         let xmlData = xmlString.data(using: .utf8)!
 
-        let root: _XMLElement? = try parser.parse(with: xmlData,
-                                                  errorContextLength: 0)
+        let root: XMLCoderElement? = try parser.parse(with: xmlData,
+                                                      errorContextLength: 0)
 
-        let expected = _XMLElement(
+        let expected = XMLCoderElement(
             key: "container",
             elements: [
-                _XMLElement(
+                XMLCoderElement(
                     key: "value",
                     value: "42"
                 ),
-                _XMLElement(
+                XMLCoderElement(
                     key: "data",
                     value: "lorem ipsum"
                 ),
@@ -41,7 +41,7 @@ class XMLStackParserTests: XCTestCase {
     }
 
     func testParseWithThrow() throws {
-        let parser = _XMLStackParser()
+        let parser = XMLStackParser()
 
         let xmlString = "lorem ipsum"
         let xmlData = xmlString.data(using: .utf8)!
