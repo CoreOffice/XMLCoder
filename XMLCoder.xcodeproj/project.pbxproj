@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		072C52BE21CECC7E00C95410 /* OrderedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072C52BD21CECC7E00C95410 /* OrderedDictionary.swift */; };
+		072C52C021CED1FC00C95410 /* OrderedDictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072C52BF21CED1FC00C95410 /* OrderedDictionaryTests.swift */; };
 		BF63EF0021CCDED2001D38C5 /* XMLStackParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EEFF21CCDED2001D38C5 /* XMLStackParserTests.swift */; };
 		BF63EF0621CD7A74001D38C5 /* URLBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EF0521CD7A74001D38C5 /* URLBox.swift */; };
 		BF63EF0821CD7AF8001D38C5 /* URLBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EF0721CD7AF8001D38C5 /* URLBoxTests.swift */; };
@@ -110,6 +112,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		072C52BD21CECC7E00C95410 /* OrderedDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderedDictionary.swift; sourceTree = "<group>"; };
+		072C52BF21CED1FC00C95410 /* OrderedDictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderedDictionaryTests.swift; sourceTree = "<group>"; };
 		BF63EEFF21CCDED2001D38C5 /* XMLStackParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLStackParserTests.swift; sourceTree = "<group>"; };
 		BF63EF0521CD7A74001D38C5 /* URLBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBox.swift; sourceTree = "<group>"; };
 		BF63EF0721CD7AF8001D38C5 /* URLBoxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBoxTests.swift; sourceTree = "<group>"; };
@@ -206,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				BF63EEFF21CCDED2001D38C5 /* XMLStackParserTests.swift */,
+				072C52BF21CED1FC00C95410 /* OrderedDictionaryTests.swift */,
 			);
 			path = Auxiliary;
 			sourceTree = "<group>";
@@ -234,6 +239,7 @@
 			isa = PBXGroup;
 			children = (
 				BF9457B121CBB4DB005ACFDE /* XMLHeader.swift */,
+				072C52BD21CECC7E00C95410 /* OrderedDictionary.swift */,
 				BF9457B221CBB4DB005ACFDE /* String+Extensions.swift */,
 				BF9457B321CBB4DB005ACFDE /* XMLStackParser.swift */,
 				BF9457B421CBB4DB005ACFDE /* ISO8601DateFormatter.swift */,
@@ -478,6 +484,7 @@
 				OBJ_54 /* XMLEncoder.swift in Sources */,
 				BF9457BA21CBB4DB005ACFDE /* ISO8601DateFormatter.swift in Sources */,
 				OBJ_55 /* XMLEncodingStorage.swift in Sources */,
+				072C52BE21CECC7E00C95410 /* OrderedDictionary.swift in Sources */,
 				BF9457A921CBB498005ACFDE /* KeyedBox.swift in Sources */,
 				BF9457D721CBB59E005ACFDE /* IntBox.swift in Sources */,
 				BF9457AD21CBB498005ACFDE /* BoolBox.swift in Sources */,
@@ -528,6 +535,7 @@
 				OBJ_83 /* CDTest.swift in Sources */,
 				OBJ_85 /* NodeEncodingStrategyTests.swift in Sources */,
 				OBJ_86 /* NoteTest.swift in Sources */,
+				072C52C021CED1FC00C95410 /* OrderedDictionaryTests.swift in Sources */,
 				BF63EF0C21CD7F28001D38C5 /* EmptyTests.swift in Sources */,
 				BF9457F721CBB6BC005ACFDE /* DataTests.swift in Sources */,
 				BF9457EE21CBB6BC005ACFDE /* IntTests.swift in Sources */,
