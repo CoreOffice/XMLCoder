@@ -74,6 +74,38 @@ class OrderedDictionaryTests: XCTestCase {
         XCTAssertEqual(dict[1].value, "anotherVal")
     }
 
+    func testMapValues() {
+        let dict: OrderedDictionary = ["0": 0, "1": 1, "2": 2, "3": 3]
+        let result = dict.mapValues { $0 * 2 }
+        let expected: OrderedDictionary = ["0": 0, "1": 2, "2": 4, "3": 6]
+        XCTAssertEqual(result, expected)
+    }
+
+    func testSorted() {
+        let dict: OrderedDictionary = ["0": 0, "1": 1, "2": 2, "3": 3]
+        let sorted = dict.sorted(by: { (a,b) in a.value > b.value })
+        let expected: OrderedDictionary = ["3": 3, "2": 2, "1": 1, "0": 0]
+        XCTAssertEqual(sorted, expected)
+    }
+
+    func testKeySubscriptNewValue() {
+        var dict: OrderedDictionary = ["0": 0, "1": 1, "2": 2, "3": 3]
+        dict["4"] = 4
+        XCTAssertEqual(dict, ["0": 0, "1": 1, "2": 2, "3": 3, "4": 4])
+    }
+
+    func testKeySubscriptReplaceValue() {
+        var dict: OrderedDictionary = ["0": 0, "1": 1, "2": 2, "3": 3]
+        dict["0"] = 42
+        XCTAssertEqual(dict, ["0": 42, "1": 1, "2": 2, "3": 3])
+    }
+
+    func testKeySubscriptNil() {
+        var dict: OrderedDictionary = ["0": 0, "1": 1, "2": 2, "3": 3]
+        dict["0"] = nil
+        XCTAssertEqual(dict, ["1": 1, "2": 2, "3": 3])
+    }
+
     func testIterationOrdered() {
         var dict = OrderedDictionary<Int, String>()
         dict[1] = "one"
@@ -91,4 +123,20 @@ class OrderedDictionaryTests: XCTestCase {
         XCTAssertEqual(a,b)
     }
 
+    func testEquatableUnequal() {
+        let a: OrderedDictionary = [1: "one", 2: "two", 3: "three"]
+        let b: OrderedDictionary = [1: "one", 2: "two", 42: "forty-two"]
+        XCTAssertNotEqual(a,b)
+    }
+
+    func testDescription() {
+        let dict: OrderedDictionary = ["0": 0, "1": 1, "2": 2, "3": 3]
+        let expected = "[\"0\": 0, \"1\": 1, \"2\": 2, \"3\": 3]"
+        XCTAssertEqual(dict.description, expected)
+    }
+
+    func testDescriptionEmpty() {
+        let dict: OrderedDictionary<String,Int> = [:]
+        XCTAssertEqual(dict.description, "[:]")
+    }
 }

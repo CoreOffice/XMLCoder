@@ -100,9 +100,9 @@ struct OrderedDictionary <Key: Hashable, Value> {
     /// - Returns: An array of key-value pairs sorted by the given comparison closure.
     func sorted(
         by areInIncreasingOrder: ((key: Key, value: Value), (key: Key, value: Value)) throws -> Bool
-    ) rethrows -> [(key: Key, value: Value)]
+    ) rethrows -> OrderedDictionary
     {
-        return try Array(self).sorted(by: areInIncreasingOrder)
+        return OrderedDictionary(uniqueKeysWithValues: try self.sorted(by: areInIncreasingOrder))
     }
 }
 
