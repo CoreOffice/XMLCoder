@@ -26,6 +26,7 @@
 		BF63EF0821CD7AF8001D38C5 /* URLBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EF0721CD7AF8001D38C5 /* URLBoxTests.swift */; };
 		BF63EF0A21CD7C1A001D38C5 /* URLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EF0921CD7C1A001D38C5 /* URLTests.swift */; };
 		BF63EF0C21CD7F28001D38C5 /* EmptyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EF0B21CD7F28001D38C5 /* EmptyTests.swift */; };
+		BF63EF1E21CEC99B001D38C5 /* BenchmarkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EF1D21CEC99A001D38C5 /* BenchmarkTests.swift */; };
 		BF63EF6721D0F874001D38C5 /* XMLKeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EF6621D0F874001D38C5 /* XMLKeyTests.swift */; };
 		BF63EF6921D0FDB5001D38C5 /* XMLHeaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EF6821D0FDB5001D38C5 /* XMLHeaderTests.swift */; };
 		BF63EF6B21D10284001D38C5 /* XMLElementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EF6A21D10284001D38C5 /* XMLElementTests.swift */; };
@@ -118,6 +119,7 @@
 		BF63EF0721CD7AF8001D38C5 /* URLBoxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBoxTests.swift; sourceTree = "<group>"; };
 		BF63EF0921CD7C1A001D38C5 /* URLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLTests.swift; sourceTree = "<group>"; };
 		BF63EF0B21CD7F28001D38C5 /* EmptyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTests.swift; sourceTree = "<group>"; };
+		BF63EF1D21CEC99A001D38C5 /* BenchmarkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BenchmarkTests.swift; sourceTree = "<group>"; };
 		BF63EF6621D0F874001D38C5 /* XMLKeyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLKeyTests.swift; sourceTree = "<group>"; };
 		BF63EF6821D0FDB5001D38C5 /* XMLHeaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLHeaderTests.swift; sourceTree = "<group>"; };
 		BF63EF6A21D10284001D38C5 /* XMLElementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLElementTests.swift; sourceTree = "<group>"; };
@@ -328,6 +330,7 @@
 				OBJ_36 /* PlantTest.swift */,
 				OBJ_37 /* RJITest.swift */,
 				OBJ_38 /* RelationshipsTest.swift */,
+				BF63EF1D21CEC99A001D38C5 /* BenchmarkTests.swift */,
 				D1FC040421C7EF8200065B43 /* RJISample.swift */,
 			);
 			name = XMLCoderTests;
@@ -533,6 +536,7 @@
 				OBJ_82 /* CDCatalog.swift in Sources */,
 				BF63EF0021CCDED2001D38C5 /* XMLStackParserTests.swift in Sources */,
 				BF9457CC21CBB516005ACFDE /* NullBoxTests.swift in Sources */,
+				BF63EF1E21CEC99B001D38C5 /* BenchmarkTests.swift in Sources */,
 				BF9457CF21CBB516005ACFDE /* IntBoxTests.swift in Sources */,
 				BF9457E021CBB68A005ACFDE /* DataBoxTests.swift in Sources */,
 				BF9457F521CBB6BC005ACFDE /* DecimalTests.swift in Sources */,
