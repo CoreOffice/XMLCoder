@@ -230,16 +230,4 @@ struct _XMLElement {
     }
 }
 
-extension _XMLElement: Equatable {
-    static func == (lhs: _XMLElement, rhs: _XMLElement) -> Bool {
-        guard
-            lhs.key == rhs.key,
-            lhs.value == rhs.value,
-            lhs.attributes == rhs.attributes,
-            lhs.elements == rhs.elements
-        else {
-            return false
-        }
-        return true
-    }
-}
+extension _XMLElement: Equatable {}
