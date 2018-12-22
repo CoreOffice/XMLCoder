@@ -7,7 +7,7 @@ before_install:
 - gem install cocoapods --pre # Since Travis is not always on latest version
 - brew update
 - brew install swiftformat
-- brew outdated carthage || brew upgrade carthage
+- brew outdated swiftlint || brew upgrade swiftlint
 script:
 - swiftformat --lint --verbose .
 - swiftlint
