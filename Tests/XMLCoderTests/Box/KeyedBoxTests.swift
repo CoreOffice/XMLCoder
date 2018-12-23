@@ -10,7 +10,7 @@ import XCTest
 
 class KeyedBoxTests: XCTestCase {
     typealias Boxed = KeyedBox
-    
+
     var box = Boxed(
         elements: ["foo": StringBox("bar"), "baz": IntBox(42)],
         attributes: ["baz": StringBox("blee")]
@@ -20,7 +20,7 @@ class KeyedBoxTests: XCTestCase {
         let box = Boxed()
         XCTAssertEqual(box.isNull, false)
     }
-    
+
     func testUnbox() {
         let (elements, attributes) = box.unbox()
 
@@ -35,7 +35,7 @@ class KeyedBoxTests: XCTestCase {
     func testXMLString() {
         XCTAssertEqual(box.xmlString(), nil)
     }
-    
+
     func testDescription() {
         // FIXME: once we have an order-preserving storage
         // we can check against the full description:
@@ -43,11 +43,11 @@ class KeyedBoxTests: XCTestCase {
         XCTAssertTrue(description.contains("\"foo\": bar"))
         XCTAssertTrue(description.contains("\"baz\": 42"))
     }
-    
+
     func testSequence() {
         var sortedElements: [(String, Box)] = Array(box.elements)
         sortedElements.sort { $0.0 < $1.0 }
-        
+
         XCTAssertEqual(sortedElements[0].0, "baz")
         XCTAssertEqual(sortedElements[1].0, "foo")
     }

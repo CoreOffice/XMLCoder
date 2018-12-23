@@ -15,7 +15,7 @@ class UIntBoxTests: XCTestCase {
         let box = Boxed(UInt(42))
         XCTAssertEqual(box.isNull, false)
     }
-    
+
     func testUnbox() {
         let values: [Boxed.Unboxed] = [
             1,

@@ -15,7 +15,7 @@ class DecimalBoxTests: XCTestCase {
         let box = Boxed(42.0)
         XCTAssertEqual(box.isNull, false)
     }
-    
+
     func testUnbox() {
         let values: [Boxed.Unboxed] = [
             -1.23,

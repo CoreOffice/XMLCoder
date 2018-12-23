@@ -15,7 +15,7 @@ class URLBoxTests: XCTestCase {
         let box = Boxed(URL(string: "http://example.com")!)
         XCTAssertEqual(box.isNull, false)
     }
-    
+
     func testUnbox() {
         let values: [Boxed.Unboxed] = [
             URL(string: "file:///")!,

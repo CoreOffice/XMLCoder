@@ -15,7 +15,7 @@ class StringBoxTests: XCTestCase {
         let box = Boxed("lorem ipsum")
         XCTAssertEqual(box.isNull, false)
     }
-    
+
     func testUnbox() {
         let values: [Boxed.Unboxed] = [
             "",

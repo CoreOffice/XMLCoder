@@ -12,19 +12,19 @@ class NullBoxTests: XCTestCase {
     typealias Boxed = NullBox
 
     let box = Boxed()
-    
+
     func testIsNull() {
         XCTAssertEqual(box.isNull, true)
     }
-    
+
     func testXMLString() {
         XCTAssertEqual(box.xmlString(), nil)
     }
-    
+
     func testEqual() {
         XCTAssertEqual(box, Boxed())
     }
-    
+
     func testDescription() {
         XCTAssertEqual(box.description, "null")
     }

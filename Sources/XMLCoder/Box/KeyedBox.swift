@@ -57,8 +57,7 @@ extension KeyedStorage: ExpressibleByDictionaryLiteral {
 }
 
 extension KeyedStorage: CustomStringConvertible
-    where Key: Comparable
-{
+    where Key: Comparable {
     var description: String {
         return "[\(buffer)]"
     }
