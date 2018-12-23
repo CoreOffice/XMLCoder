@@ -11,7 +11,7 @@ import XCTest
 class KeyedBoxTests: XCTestCase {
     typealias Boxed = KeyedBox
 
-    var box = Boxed(
+    let box = Boxed(
         elements: ["foo": StringBox("bar"), "baz": IntBox(42)],
         attributes: ["baz": StringBox("blee")]
     )
