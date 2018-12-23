@@ -17,6 +17,11 @@ class DateBoxTests: XCTestCase {
         return formatter
     }()
 
+    func testIsNull() {
+        let box = Boxed(Date(), format: .iso8601)
+        XCTAssertEqual(box.isNull, false)
+    }
+    
     func testUnbox() {
         let values: [Boxed.Unboxed] = [
             Date(timeIntervalSince1970: 0.0),

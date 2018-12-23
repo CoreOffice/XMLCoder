@@ -11,6 +11,11 @@ import XCTest
 class FloatBoxTests: XCTestCase {
     typealias Boxed = FloatBox
 
+    func testIsNull() {
+        let box = Boxed(42.0)
+        XCTAssertEqual(box.isNull, false)
+    }
+    
     func testUnbox() {
         let values: [Boxed.Unboxed] = [
             -3e2,

@@ -11,8 +11,11 @@ import XCTest
 class DataBoxTests: XCTestCase {
     typealias Boxed = DataBox
 
-    typealias FromXMLString = (String) -> Boxed?
-
+    func testIsNull() {
+        let box = Boxed(Data(), format: .base64)
+        XCTAssertEqual(box.isNull, false)
+    }
+    
     func testUnbox() {
         let values: [Boxed.Unboxed] = [
             Data(base64Encoded: "bG9yZW0gaXBzdW0=")!,

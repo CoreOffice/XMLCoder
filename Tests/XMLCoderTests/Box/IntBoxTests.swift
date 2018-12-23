@@ -11,6 +11,11 @@ import XCTest
 class IntBoxTests: XCTestCase {
     typealias Boxed = IntBox
 
+    func testIsNull() {
+        let box = Boxed(-42)
+        XCTAssertEqual(box.isNull, false)
+    }
+    
     func testUnbox() {
         let values: [Boxed.Unboxed] = [
             -42,
