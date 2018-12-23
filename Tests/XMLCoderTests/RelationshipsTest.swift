@@ -45,17 +45,13 @@ private struct Relationship: Codable {
 }
 
 final class RelationshipsTest: XCTestCase {
-    func testDecoder() {
-        do {
-            let decoder = XMLDecoder()
-            decoder.keyDecodingStrategy = .convertFromCapitalized
+    func testDecoder() throws {
+        let decoder = XMLDecoder()
+        decoder.keyDecodingStrategy = .convertFromCapitalized
 
-            let rels = try decoder.decode(Relationships.self, from: xml)
+        let rels = try decoder.decode(Relationships.self, from: xml)
 
-            XCTAssertEqual(rels.items[0].id, "rId1")
-        } catch {
-            XCTAssert(false, "failed to decode test xml: \(error)")
-        }
+        XCTAssertEqual(rels.items[0].id, "rId1")
     }
 
     static var allTests = [

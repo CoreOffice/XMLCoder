@@ -187,49 +187,41 @@ final class BooksTest: XCTestCase {
         return formatter
     }()
 
-    func testBookXML() {
+    func testBookXML() throws {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
 
         decoder.dateDecodingStrategy = .formatted(formatter)
         encoder.dateEncodingStrategy = .formatted(formatter)
 
-        do {
-            let book1 = try decoder.decode(Book.self, from: bookXML)
-            XCTAssertEqual(book1.publishDate,
-                           Date(timeIntervalSince1970: 970_358_400))
+        let book1 = try decoder.decode(Book.self, from: bookXML)
+        XCTAssertEqual(book1.publishDate,
+                       Date(timeIntervalSince1970: 970_358_400))
 
-            let data = try encoder.encode(book1, withRootKey: "book",
-                                          header: XMLHeader(version: 1.0,
-                                                            encoding: "UTF-8"))
-            let book2 = try decoder.decode(Book.self, from: data)
-            XCTAssertEqual(book1, book2)
-        } catch {
-            XCTAssert(false, "failed to decode test xml: \(error)")
-        }
+        let data = try encoder.encode(book1, withRootKey: "book",
+                                      header: XMLHeader(version: 1.0,
+                                                        encoding: "UTF-8"))
+        let book2 = try decoder.decode(Book.self, from: data)
+        XCTAssertEqual(book1, book2)
     }
 
-    func testCatalogXML() {
+    func testCatalogXML() throws {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
 
         decoder.dateDecodingStrategy = .formatted(formatter)
         encoder.dateEncodingStrategy = .formatted(formatter)
 
-        do {
-            let catalog1 = try decoder.decode(Catalog.self, from: catalogXML)
-            XCTAssertEqual(catalog1.books.count, 12)
-            XCTAssertEqual(catalog1.books[0].publishDate,
-                           Date(timeIntervalSince1970: 970_358_400))
+        let catalog1 = try decoder.decode(Catalog.self, from: catalogXML)
+        XCTAssertEqual(catalog1.books.count, 12)
+        XCTAssertEqual(catalog1.books[0].publishDate,
+                       Date(timeIntervalSince1970: 970_358_400))
 
-            let data = try encoder.encode(catalog1, withRootKey: "catalog",
-                                          header: XMLHeader(version: 1.0,
-                                                            encoding: "UTF-8"))
-            let catalog2 = try decoder.decode(Catalog.self, from: data)
-            XCTAssertEqual(catalog1, catalog2)
-        } catch {
-            XCTAssert(false, "failed to decode test xml: \(error)")
-        }
+        let data = try encoder.encode(catalog1, withRootKey: "catalog",
+                                      header: XMLHeader(version: 1.0,
+                                                        encoding: "UTF-8"))
+        let catalog2 = try decoder.decode(Catalog.self, from: data)
+        XCTAssertEqual(catalog1, catalog2)
     }
 
     static var allTests = [

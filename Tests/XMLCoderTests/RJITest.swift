@@ -141,7 +141,7 @@ class RJITest: XCTestCase {
         let type: String
     }
 
-    func testRSS() {
+    func testRSS() throws {
         let decoder = XMLDecoder()
 //        let encoder = XMLEncoder()
 
@@ -149,39 +149,18 @@ class RJITest: XCTestCase {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
 
-        do {
-//            let rss1
-            _ = try decoder.decode(RSS.self, from: rjiSampleXML)
-            // this is a very peculiar case of `XMLCoder` not being able to decode an XML
-            // that it itself encoded
-//            data = try encoder.encode(rss1, withRootKey: "note",
-//                                      header: XMLHeader(version: 1.0,
-//                                                        encoding: "UTF-8"))
-//            let rss2 = try decoder.decode(RSS.self, from: data)
-//            XCTAssertEqual(rss1, rss2)
-        } catch {
-            XCTAssert(false, "failed to decode test xml: \(error)")
-        }
-    }
-
-    func testBenchmarkRSS() throws {
-        let decoder = XMLDecoder()
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        decoder.dateDecodingStrategy = .formatted(dateFormatter)
-
-        measure {
-            do {
-                _ = try decoder.decode(RSS.self, from: rjiSampleXML)
-            } catch {
-                XCTFail("failed to decode test xml: \(error)")
-            }
-        }
+//        let rss1
+        _ = try decoder.decode(RSS.self, from: rjiSampleXML)
+        // this is a very peculiar case of `XMLCoder` not being able to decode an XML
+        // that it itself encoded
+//        data = try encoder.encode(rss1, withRootKey: "note",
+//                                  header: XMLHeader(version: 1.0,
+//                                                    encoding: "UTF-8"))
+//        let rss2 = try decoder.decode(RSS.self, from: data)
+//        XCTAssertEqual(rss1, rss2)
     }
 
     static var allTests = [
         ("testRSS", testRSS),
-        ("testBenchmarkRSS", testBenchmarkRSS),
     ]
 }

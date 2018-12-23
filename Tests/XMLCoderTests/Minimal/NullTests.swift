@@ -12,8 +12,8 @@ class NullTests: XCTestCase {
     struct Container: Codable, Equatable {
         let value: Int?
     }
-
-    func testAttribute() {
+    
+    func testAttribute() throws {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
 
@@ -21,44 +21,36 @@ class NullTests: XCTestCase {
             return { _ in .attribute }
         }
 
-        do {
-            let xmlString =
-                """
-                <container />
-                """
-            let xmlData = xmlString.data(using: .utf8)!
+        let xmlString =
+            """
+            <container />
+            """
+        let xmlData = xmlString.data(using: .utf8)!
 
-            let decoded = try decoder.decode(Container.self, from: xmlData)
-            XCTAssertNil(decoded.value)
+        let decoded = try decoder.decode(Container.self, from: xmlData)
+        XCTAssertNil(decoded.value)
 
-            let encoded = try encoder.encode(decoded, withRootKey: "container")
-            XCTAssertEqual(String(data: encoded, encoding: .utf8)!, xmlString)
-        } catch {
-            XCTAssert(false, "failed to decode test xml: \(error)")
-        }
+        let encoded = try encoder.encode(decoded, withRootKey: "container")
+        XCTAssertEqual(String(data: encoded, encoding: .utf8)!, xmlString)
     }
 
-    func testElement() {
+    func testElement() throws {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
 
         encoder.outputFormatting = [.prettyPrinted]
 
-        do {
-            let xmlString =
-                """
-                <container />
-                """
-            let xmlData = xmlString.data(using: .utf8)!
+        let xmlString =
+            """
+            <container />
+            """
+        let xmlData = xmlString.data(using: .utf8)!
 
-            let decoded = try decoder.decode(Container.self, from: xmlData)
-            XCTAssertNil(decoded.value)
+        let decoded = try decoder.decode(Container.self, from: xmlData)
+        XCTAssertNil(decoded.value)
 
-            let encoded = try encoder.encode(decoded, withRootKey: "container")
-            XCTAssertEqual(String(data: encoded, encoding: .utf8)!, xmlString)
-        } catch {
-            XCTAssert(false, "failed to decode test xml: \(error)")
-        }
+        let encoded = try encoder.encode(decoded, withRootKey: "container")
+        XCTAssertEqual(String(data: encoded, encoding: .utf8)!, xmlString)
     }
 
     static var allTests = [

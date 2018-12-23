@@ -44,26 +44,21 @@ private let lastCD = CD(title: "Unchain my heart",
                         year: 1987)
 
 final class CDTest: XCTestCase {
-    func testXML() {
+    func testXML() throws {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
 
-        do {
-            let cdCatalog1 = try decoder.decode(CDCatalog.self,
-                                                from: cdCatalogXML)
-            XCTAssertEqual(cdCatalog1.cds.count, 26)
-            XCTAssertEqual(cdCatalog1.cds[25], lastCD)
+        let cdCatalog1 = try decoder.decode(CDCatalog.self,
+                                            from: cdCatalogXML)
+        XCTAssertEqual(cdCatalog1.cds.count, 26)
+        XCTAssertEqual(cdCatalog1.cds[25], lastCD)
 
-            let data = try encoder.encode(cdCatalog1, withRootKey: "CATALOG",
-                                          header: XMLHeader(version: 1.0,
-                                                            encoding: "UTF-8"))
-            let cdCatalog2 = try decoder.decode(CDCatalog.self, from: data)
+        let data = try encoder.encode(cdCatalog1, withRootKey: "CATALOG",
+                                      header: XMLHeader(version: 1.0,
+                                                        encoding: "UTF-8"))
+        let cdCatalog2 = try decoder.decode(CDCatalog.self, from: data)
 
-            XCTAssertEqual(cdCatalog1, cdCatalog2)
-
-        } catch {
-            XCTAssert(false, "failed to decode test xml: \(error)")
-        }
+        XCTAssertEqual(cdCatalog1, cdCatalog2)
     }
 
     static var allTests = [

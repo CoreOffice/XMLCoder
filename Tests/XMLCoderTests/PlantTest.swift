@@ -109,25 +109,21 @@ private let lastPlant = Plant(common: "Cardinal Flower",
                               amountAvailable: 22299)
 
 final class PlantTest: XCTestCase {
-    func testXML() {
+    func testXML() throws {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
 
-        do {
-            let plantCatalog1 = try decoder.decode(PlantCatalog.self,
-                                                   from: plantCatalogXML)
-            XCTAssertEqual(plantCatalog1.plants.count, 36)
-            XCTAssertEqual(plantCatalog1.plants[35], lastPlant)
+        let plantCatalog1 = try decoder.decode(PlantCatalog.self,
+                                               from: plantCatalogXML)
+        XCTAssertEqual(plantCatalog1.plants.count, 36)
+        XCTAssertEqual(plantCatalog1.plants[35], lastPlant)
 
-            let data = try encoder.encode(plantCatalog1, withRootKey: "CATALOG",
-                                          header: XMLHeader(version: 1.0,
-                                                            encoding: "UTF-8"))
-            let plantCatalog2 = try decoder.decode(PlantCatalog.self, from: data)
+        let data = try encoder.encode(plantCatalog1, withRootKey: "CATALOG",
+                                      header: XMLHeader(version: 1.0,
+                                                        encoding: "UTF-8"))
+        let plantCatalog2 = try decoder.decode(PlantCatalog.self, from: data)
 
-            XCTAssertEqual(plantCatalog1, plantCatalog2)
-        } catch {
-            XCTAssert(false, "failed to decode test xml: \(error)")
-        }
+        XCTAssertEqual(plantCatalog1, plantCatalog2)
     }
 
     static var allTests = [

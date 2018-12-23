@@ -12,65 +12,46 @@ class UnkeyedTests: XCTestCase {
     struct Container: Codable, Equatable {
         let value: [String]
     }
-
-    func testEmpty() {
+    
+    func testEmpty() throws {
         let decoder = XMLDecoder()
 
-        do {
-            let xmlString =
-                """
-                <?xml version="1.0" encoding="UTF-8"?>
-                <container>
-                </container>
-                """
-            let xmlData = xmlString.data(using: .utf8)!
+        let xmlString = "<container />"
+        let xmlData = xmlString.data(using: .utf8)!
 
-            let decoded = try decoder.decode(Container.self, from: xmlData)
-            XCTAssertEqual(decoded.value, [])
-        } catch {
-            XCTAssert(false, "failed to decode test xml: \(error)")
-        }
+        let decoded = try decoder.decode(Container.self, from: xmlData)
+        XCTAssertEqual(decoded.value, [])
     }
 
-    func testSingleElement() {
+    func testSingleElement() throws {
         let decoder = XMLDecoder()
 
-        do {
             let xmlString =
-                """
-                <?xml version="1.0" encoding="UTF-8"?>
-                <container>
-                    <value>foo</value>
-                </container>
-                """
-            let xmlData = xmlString.data(using: .utf8)!
+"""
+<container>
+<value>foo</value>
+</container>
+"""
+        let xmlData = xmlString.data(using: .utf8)!
 
-            let decoded = try decoder.decode(Container.self, from: xmlData)
-            XCTAssertEqual(decoded.value, ["foo"])
-        } catch {
-            XCTAssert(false, "failed to decode test xml: \(error)")
-        }
+        let decoded = try decoder.decode(Container.self, from: xmlData)
+        XCTAssertEqual(decoded.value, ["foo"])
     }
 
-    func testMultiElement() {
+    func testMultiElement() throws {
         let decoder = XMLDecoder()
 
-        do {
-            let xmlString =
-                """
-                <?xml version="1.0" encoding="UTF-8"?>
-                <container>
-                    <value>foo</value>
-                    <value>bar</value>
-                </container>
-                """
-            let xmlData = xmlString.data(using: .utf8)!
+        let xmlString =
+"""
+<container>
+    <value>foo</value>
+    <value>bar</value>
+</container>
+"""
+        let xmlData = xmlString.data(using: .utf8)!
 
-            let decoded = try decoder.decode(Container.self, from: xmlData)
-            XCTAssertEqual(decoded.value, ["foo", "bar"])
-        } catch {
-            XCTAssert(false, "failed to decode test xml: \(error)")
-        }
+        let decoded = try decoder.decode(Container.self, from: xmlData)
+        XCTAssertEqual(decoded.value, ["foo", "bar"])
     }
 
     func testAttribute() {
