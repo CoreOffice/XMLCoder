@@ -20,6 +20,15 @@ class IntTests: XCTestCase {
         (0, "0"),
         (42, "42"),
     ]
+    
+    func testMissing() {
+        let decoder = XMLDecoder()
+        
+        let xmlString = "<container />"
+        let xmlData = xmlString.data(using: .utf8)!
+        
+        XCTAssertThrowsError(try decoder.decode(Container.self, from: xmlData))
+    }
 
     func testAttribute() throws {
         let decoder = XMLDecoder()
