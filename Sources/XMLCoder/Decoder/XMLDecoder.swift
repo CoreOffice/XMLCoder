@@ -300,7 +300,7 @@ class _XMLDecoder: Decoder {
     }
 
     // MARK: - Decoder Methods
-    
+
     private func topContainer() throws -> Box {
         guard let topContainer = storage.topContainer() else {
             throw DecodingError.valueNotFound(Box.self, DecodingError.Context(
@@ -310,7 +310,7 @@ class _XMLDecoder: Decoder {
         }
         return topContainer
     }
-    
+
     private func popContainer() throws -> Box {
         guard let topContainer = storage.popContainer() else {
             throw DecodingError.valueNotFound(Box.self, DecodingError.Context(
@@ -363,43 +363,43 @@ extension _XMLDecoder: SingleValueDecodingContainer {
     // MARK: SingleValueDecodingContainer Methods
 
     public func decodeNil() -> Bool {
-        return (try? self.topContainer().isNull) ?? true
+        return (try? topContainer().isNull) ?? true
     }
 
     public func decode(_: Bool.Type) throws -> Bool {
-        return try unbox(try self.topContainer())
+        return try unbox(try topContainer())
     }
 
     public func decode(_: Decimal.Type) throws -> Decimal {
-        return try unbox(try self.topContainer())
+        return try unbox(try topContainer())
     }
 
     public func decode<T: BinaryInteger & SignedInteger & Decodable>(_: T.Type) throws -> T {
-        return try unbox(try self.topContainer())
+        return try unbox(try topContainer())
     }
 
     public func decode<T: BinaryInteger & UnsignedInteger & Decodable>(_: T.Type) throws -> T {
-        return try unbox(try self.topContainer())
+        return try unbox(try topContainer())
     }
 
     public func decode<T: BinaryFloatingPoint & Decodable>(_: T.Type) throws -> T {
-        return try unbox(try self.topContainer())
+        return try unbox(try topContainer())
     }
 
     public func decode(_: String.Type) throws -> String {
-        return try unbox(try self.topContainer())
+        return try unbox(try topContainer())
     }
 
     public func decode(_: String.Type) throws -> Date {
-        return try unbox(try self.topContainer())
+        return try unbox(try topContainer())
     }
 
     public func decode(_: String.Type) throws -> Data {
-        return try unbox(try self.topContainer())
+        return try unbox(try topContainer())
     }
 
     public func decode<T: Decodable>(_: T.Type) throws -> T {
-        return try unbox(try self.topContainer())
+        return try unbox(try topContainer())
     }
 }
 
@@ -510,7 +510,7 @@ extension _XMLDecoder {
         switch options.dateDecodingStrategy {
         case .deferredToDate:
             storage.push(container: box)
-            defer { let _ = storage.popContainer() }
+            defer { storage.popContainer() }
             return try Date(from: self)
 
         case .secondsSince1970:
@@ -559,7 +559,7 @@ extension _XMLDecoder {
             return dateBox.unbox()
         case let .custom(closure):
             storage.push(container: box)
-            defer { let _ = storage.popContainer() }
+            defer { storage.popContainer() }
             return try closure(self)
         }
     }
@@ -568,7 +568,7 @@ extension _XMLDecoder {
         switch options.dataDecodingStrategy {
         case .deferredToData:
             storage.push(container: box)
-            defer { let _ = storage.popContainer() }
+            defer { storage.popContainer() }
             return try Data(from: self)
         case .base64:
             let stringBox: StringBox = try typedBox(box, for: Data.self)
@@ -583,7 +583,7 @@ extension _XMLDecoder {
             return dataBox.unbox()
         case let .custom(closure):
             storage.push(container: box)
-            defer { let _ = storage.popContainer() }
+            defer { storage.popContainer() }
             return try closure(self)
         }
     }
@@ -619,7 +619,7 @@ extension _XMLDecoder {
             decoded = decimal as! T
         } else {
             storage.push(container: box)
-            defer { let _ = storage.popContainer() }
+            defer { storage.popContainer() }
             return try type.init(from: self)
         }
         return decoded

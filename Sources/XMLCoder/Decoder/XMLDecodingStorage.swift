@@ -36,6 +36,7 @@ struct _XMLDecodingStorage {
         containers.append(container)
     }
 
+    @discardableResult
     mutating func popContainer() -> Box? {
         guard !containers.isEmpty else {
             return nil
