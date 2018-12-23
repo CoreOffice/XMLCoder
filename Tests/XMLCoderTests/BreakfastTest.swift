@@ -57,22 +57,18 @@ private struct Food: Codable, Equatable {
 }
 
 final class BreakfastTest: XCTestCase {
-    func testXML() {
+    func testXML() throws {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
 
-        do {
-            let menu1 = try decoder.decode(Menu.self, from: xml)
-            XCTAssertEqual(menu1.food.count, 5)
+        let menu1 = try decoder.decode(Menu.self, from: xml)
+        XCTAssertEqual(menu1.food.count, 5)
 
-            let data = try encoder.encode(menu1, withRootKey: "breakfast_menu",
-                                          header: XMLHeader(version: 1.0,
-                                                            encoding: "UTF-8"))
-            let menu2 = try decoder.decode(Menu.self, from: data)
-            XCTAssertEqual(menu1, menu2)
-        } catch {
-            XCTAssert(false, "failed to decode test xml: \(error)")
-        }
+        let data = try encoder.encode(menu1, withRootKey: "breakfast_menu",
+                                      header: XMLHeader(version: 1.0,
+                                                        encoding: "UTF-8"))
+        let menu2 = try decoder.decode(Menu.self, from: data)
+        XCTAssertEqual(menu1, menu2)
     }
 
     static var allTests = [
