@@ -42,18 +42,6 @@ class UnkeyedBox {
     func insert(_ newElement: Element, at index: Int) {
         unboxed.insert(newElement, at: index)
     }
-
-    func filter(_ isIncluded: (Element) throws -> Bool) rethrows -> [Element] {
-        return try unboxed.filter(isIncluded)
-    }
-
-    func map<T>(_ transform: (Element) throws -> T) rethrows -> [T] {
-        return try unboxed.map(transform)
-    }
-
-    func compactMap<T>(_ transform: (Element) throws -> T?) rethrows -> [T] {
-        return try unboxed.compactMap(transform)
-    }
 }
 
 extension UnkeyedBox: Box {
@@ -76,6 +64,6 @@ extension UnkeyedBox: Sequence {
 
 extension UnkeyedBox: CustomStringConvertible {
     var description: String {
-        return unboxed.description
+        return "\(unboxed)"
     }
 }
