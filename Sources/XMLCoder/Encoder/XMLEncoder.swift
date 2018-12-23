@@ -125,7 +125,9 @@ open class XMLEncoder {
         case custom((_ codingPath: [CodingKey]) -> CodingKey)
 
         static func _convertToSnakeCase(_ stringKey: String) -> String {
-            guard !stringKey.isEmpty else { return stringKey }
+            guard !stringKey.isEmpty else {
+                return stringKey
+            }
 
             var words: [Range<String.Index>] = []
             // The general idea of this algorithm is to split words on transition from lower to upper case, then on transition of >1 upper case characters to lowercase
@@ -524,7 +526,9 @@ extension _XMLEncoder {
             let depth = storage.count
             try closure(value, self)
 
-            guard storage.count > depth else { return KeyedBox() }
+            guard storage.count > depth else {
+                return KeyedBox()
+            }
 
             return storage.popContainer()
         }
@@ -541,7 +545,9 @@ extension _XMLEncoder {
             let depth = storage.count
             try closure(value, self)
 
-            guard storage.count > depth else { return KeyedBox() }
+            guard storage.count > depth else {
+                return KeyedBox()
+            }
 
             return storage.popContainer()
         }
