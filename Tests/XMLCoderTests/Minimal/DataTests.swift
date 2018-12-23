@@ -20,13 +20,13 @@ class DataTests: XCTestCase {
         // (Data(base64Encoded: "")!, ""),
         (Data(base64Encoded: "bG9yZW0gaXBzdW0=")!, "bG9yZW0gaXBzdW0="),
     ]
-    
+
     func testMissing() {
         let decoder = XMLDecoder()
-        
+
         let xmlString = "<container />"
         let xmlData = xmlString.data(using: .utf8)!
-        
+
         XCTAssertThrowsError(try decoder.decode(Container.self, from: xmlData))
     }
 

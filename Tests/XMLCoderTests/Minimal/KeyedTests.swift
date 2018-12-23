@@ -18,7 +18,7 @@ class KeyedTests: XCTestCase {
 
         let xmlString = "<container />"
         let xmlData = xmlString.data(using: .utf8)!
-        
+
         let decoded = try decoder.decode(Container.self, from: xmlData)
         XCTAssertEqual(decoded.value, [:])
     }
@@ -27,13 +27,13 @@ class KeyedTests: XCTestCase {
         let decoder = XMLDecoder()
 
         let xmlString =
-"""
-<container>
-    <value>
-        <foo>12</foo>
-    </value>
-</container>
-"""
+            """
+            <container>
+                <value>
+                    <foo>12</foo>
+                </value>
+            </container>
+            """
         let xmlData = xmlString.data(using: .utf8)!
 
         let decoded = try decoder.decode(Container.self, from: xmlData)
@@ -44,14 +44,14 @@ class KeyedTests: XCTestCase {
         let decoder = XMLDecoder()
 
         let xmlString =
-"""
-<container>
-    <value>
-        <foo>12</foo>
-        <bar>34</bar>
-    </value>
-</container>
-"""
+            """
+            <container>
+                <value>
+                    <foo>12</foo>
+                    <bar>34</bar>
+                </value>
+            </container>
+            """
         let xmlData = xmlString.data(using: .utf8)!
 
         let decoded = try decoder.decode(Container.self, from: xmlData)

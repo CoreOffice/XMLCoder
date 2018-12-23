@@ -12,7 +12,7 @@ class UnkeyedTests: XCTestCase {
     struct Container: Codable, Equatable {
         let value: [String]
     }
-    
+
     func testEmpty() throws {
         let decoder = XMLDecoder()
 
@@ -26,12 +26,12 @@ class UnkeyedTests: XCTestCase {
     func testSingleElement() throws {
         let decoder = XMLDecoder()
 
-            let xmlString =
-"""
-<container>
-<value>foo</value>
-</container>
-"""
+        let xmlString =
+            """
+            <container>
+            <value>foo</value>
+            </container>
+            """
         let xmlData = xmlString.data(using: .utf8)!
 
         let decoded = try decoder.decode(Container.self, from: xmlData)
@@ -42,12 +42,12 @@ class UnkeyedTests: XCTestCase {
         let decoder = XMLDecoder()
 
         let xmlString =
-"""
-<container>
-    <value>foo</value>
-    <value>bar</value>
-</container>
-"""
+            """
+            <container>
+                <value>foo</value>
+                <value>bar</value>
+            </container>
+            """
         let xmlData = xmlString.data(using: .utf8)!
 
         let decoded = try decoder.decode(Container.self, from: xmlData)

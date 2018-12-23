@@ -22,13 +22,13 @@ class URLTests: XCTestCase {
 
     func testMissing() {
         let decoder = XMLDecoder()
-        
+
         let xmlString = "<container />"
         let xmlData = xmlString.data(using: .utf8)!
-        
+
         XCTAssertThrowsError(try decoder.decode(Container.self, from: xmlData))
     }
-    
+
     func testAttribute() throws {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
@@ -39,9 +39,9 @@ class URLTests: XCTestCase {
 
         for (value, xmlString) in values {
             let xmlString =
-"""
-<container value="\(xmlString)" />
-"""
+                """
+                <container value="\(xmlString)" />
+                """
             let xmlData = xmlString.data(using: .utf8)!
 
             let decoded = try decoder.decode(Container.self, from: xmlData)
@@ -60,11 +60,11 @@ class URLTests: XCTestCase {
 
         for (value, xmlString) in values {
             let xmlString =
-"""
-<container>
-    <value>\(xmlString)</value>
-</container>
-"""
+                """
+                <container>
+                    <value>\(xmlString)</value>
+                </container>
+                """
             let xmlData = xmlString.data(using: .utf8)!
 
             let decoded = try decoder.decode(Container.self, from: xmlData)

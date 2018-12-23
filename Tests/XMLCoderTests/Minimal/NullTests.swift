@@ -12,7 +12,7 @@ class NullTests: XCTestCase {
     struct Container: Codable, Equatable {
         let value: Int?
     }
-    
+
     func testAttribute() throws {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
