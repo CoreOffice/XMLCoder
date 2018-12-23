@@ -26,7 +26,9 @@ public struct XMLHeader {
     }
 
     func toXML() -> String? {
-        guard !isEmpty() else { return nil }
+        guard !isEmpty() else {
+            return nil
+        }
 
         var string = "<?xml "
 

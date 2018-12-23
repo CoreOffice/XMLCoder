@@ -142,7 +142,9 @@ open class XMLDecoder {
         case custom((_ codingPath: [CodingKey]) -> CodingKey)
 
         static func _convertFromCapitalized(_ stringKey: String) -> String {
-            guard !stringKey.isEmpty else { return stringKey }
+            guard !stringKey.isEmpty else {
+                return stringKey
+            }
             var result = stringKey
             let range = result.startIndex...result.index(after: result.startIndex)
             result.replaceSubrange(range, with: result[range].lowercased())
@@ -150,7 +152,9 @@ open class XMLDecoder {
         }
 
         static func _convertFromSnakeCase(_ stringKey: String) -> String {
-            guard !stringKey.isEmpty else { return stringKey }
+            guard !stringKey.isEmpty else {
+                return stringKey
+            }
 
             // Find the first non-underscore character
             guard let firstNonUnderscore = stringKey.index(where: { $0 != "_" }) else {
@@ -399,9 +403,13 @@ extension _XMLDecoder {
     /// Returns the given box unboxed from a container.
 
     func unbox(_ box: Box) throws -> Bool? {
-        guard !box.isNull else { return nil }
+        guard !box.isNull else {
+            return nil
+        }
 
-        guard let string = (box as? StringBox)?.unbox() else { return nil }
+        guard let string = (box as? StringBox)?.unbox() else {
+            return nil
+        }
 
         guard let boolBox = BoolBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: Bool.self, reality: box)
@@ -411,9 +419,13 @@ extension _XMLDecoder {
     }
 
     func unbox(_ box: Box) throws -> Decimal? {
-        guard !box.isNull else { return nil }
+        guard !box.isNull else {
+            return nil
+        }
 
-        guard let string = (box as? StringBox)?.unbox() else { return nil }
+        guard let string = (box as? StringBox)?.unbox() else {
+            return nil
+        }
 
         guard let decimalBox = DecimalBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: Decimal.self, reality: box)
@@ -423,9 +435,13 @@ extension _XMLDecoder {
     }
 
     func unbox<T: BinaryInteger & SignedInteger & Decodable>(_ box: Box) throws -> T? {
-        guard !box.isNull else { return nil }
+        guard !box.isNull else {
+            return nil
+        }
 
-        guard let string = (box as? StringBox)?.unbox() else { return nil }
+        guard let string = (box as? StringBox)?.unbox() else {
+            return nil
+        }
 
         guard let intBox = IntBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: T.self, reality: box)
@@ -442,9 +458,13 @@ extension _XMLDecoder {
     }
 
     func unbox<T: BinaryInteger & UnsignedInteger & Decodable>(_ box: Box) throws -> T? {
-        guard !box.isNull else { return nil }
+        guard !box.isNull else {
+            return nil
+        }
 
-        guard let string = (box as? StringBox)?.unbox() else { return nil }
+        guard let string = (box as? StringBox)?.unbox() else {
+            return nil
+        }
 
         guard let uintBox = UIntBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: T.self, reality: box)
@@ -461,9 +481,13 @@ extension _XMLDecoder {
     }
 
     func unbox<T: BinaryFloatingPoint & Decodable>(_ box: Box) throws -> T? {
-        guard !box.isNull else { return nil }
+        guard !box.isNull else {
+            return nil
+        }
 
-        guard let string = (box as? StringBox)?.unbox() else { return nil }
+        guard let string = (box as? StringBox)?.unbox() else {
+            return nil
+        }
 
         guard let floatBox = FloatBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: T.self, reality: box)
@@ -480,7 +504,9 @@ extension _XMLDecoder {
     }
 
     func unbox(_ box: Box) throws -> String? {
-        guard !box.isNull else { return nil }
+        guard !box.isNull else {
+            return nil
+        }
 
         guard let string = (box as? StringBox)?.unbox() else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: String.self, reality: box)
@@ -490,7 +516,9 @@ extension _XMLDecoder {
     }
 
     func unbox(_ box: Box) throws -> Date? {
-        guard !box.isNull else { return nil }
+        guard !box.isNull else {
+            return nil
+        }
 
         switch options.dateDecodingStrategy {
         case .deferredToDate:
@@ -550,7 +578,9 @@ extension _XMLDecoder {
     }
 
     func unbox(_ box: Box) throws -> Data? {
-        guard !box.isNull else { return nil }
+        guard !box.isNull else {
+            return nil
+        }
 
         switch options.dataDecodingStrategy {
         case .deferredToData:
@@ -577,9 +607,13 @@ extension _XMLDecoder {
     }
 
     func unbox(_ box: Box) throws -> URL? {
-        guard !box.isNull else { return nil }
+        guard !box.isNull else {
+            return nil
+        }
 
-        guard let string = (box as? StringBox)?.unbox() else { return nil }
+        guard let string = (box as? StringBox)?.unbox() else {
+            return nil
+        }
 
         guard let urlBox = URLBox(xmlString: string) else {
             throw DecodingError.dataCorrupted(DecodingError.Context(
@@ -595,16 +629,24 @@ extension _XMLDecoder {
         let decoded: T
         let type = T.self
         if type == Date.self || type == NSDate.self {
-            guard let date: Date = try unbox(box) else { return nil }
+            guard let date: Date = try unbox(box) else {
+                return nil
+            }
             decoded = date as! T
         } else if type == Data.self || type == NSData.self {
-            guard let data: Data = try unbox(box) else { return nil }
+            guard let data: Data = try unbox(box) else {
+                return nil
+            }
             decoded = data as! T
         } else if type == URL.self || type == NSURL.self {
-            guard let data: URL = try unbox(box) else { return nil }
+            guard let data: URL = try unbox(box) else {
+                return nil
+            }
             decoded = data as! T
         } else if type == Decimal.self || type == NSDecimalNumber.self {
-            guard let decimal: Decimal = try unbox(box) else { return nil }
+            guard let decimal: Decimal = try unbox(box) else {
+                return nil
+            }
             decoded = decimal as! T
         } else {
             storage.push(container: box)
