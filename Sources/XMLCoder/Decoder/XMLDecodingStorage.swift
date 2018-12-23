@@ -28,17 +28,18 @@ struct _XMLDecodingStorage {
         return containers.count
     }
 
-    var topContainer: Box {
-        precondition(!containers.isEmpty, "Empty container stack.")
-        return containers.last!
+    func topContainer() -> Box? {
+        return containers.last
     }
 
     mutating func push(container: Box) {
         containers.append(container)
     }
 
-    mutating func popContainer() {
-        precondition(!containers.isEmpty, "Empty container stack.")
-        containers.removeLast()
+    mutating func popContainer() -> Box? {
+        guard !containers.isEmpty else {
+            return nil
+        }
+        return containers.removeLast()
     }
 }

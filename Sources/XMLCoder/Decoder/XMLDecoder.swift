@@ -300,17 +300,39 @@ class _XMLDecoder: Decoder {
     }
 
     // MARK: - Decoder Methods
+    
+    private func topContainer() throws -> Box {
+        guard let topContainer = storage.topContainer() else {
+            throw DecodingError.valueNotFound(Box.self, DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "Cannot get decoding container -- empty container stack."
+            ))
+        }
+        return topContainer
+    }
+    
+    private func popContainer() throws -> Box {
+        guard let topContainer = storage.popContainer() else {
+            throw DecodingError.valueNotFound(Box.self, DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "Cannot get decoding container -- empty container stack."
+            ))
+        }
+        return topContainer
+    }
 
     public func container<Key>(keyedBy _: Key.Type) throws -> KeyedDecodingContainer<Key> {
-        guard !storage.topContainer.isNull else {
+        let topContainer = try self.topContainer()
+
+        guard !topContainer.isNull else {
             throw DecodingError.valueNotFound(KeyedDecodingContainer<Key>.self, DecodingError.Context(
                 codingPath: codingPath,
                 debugDescription: "Cannot get keyed decoding container -- found null box instead."
             ))
         }
 
-        guard let keyed = storage.topContainer as? KeyedBox else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: [String: Any].self, reality: storage.topContainer)
+        guard let keyed = topContainer as? KeyedBox else {
+            throw DecodingError._typeMismatch(at: codingPath, expectation: [String: Any].self, reality: topContainer)
         }
 
         let container = _XMLKeyedDecodingContainer<Key>(referencing: self, wrapping: keyed)
@@ -318,14 +340,16 @@ class _XMLDecoder: Decoder {
     }
 
     public func unkeyedContainer() throws -> UnkeyedDecodingContainer {
-        guard !storage.topContainer.isNull else {
+        let topContainer = try self.topContainer()
+
+        guard !topContainer.isNull else {
             throw DecodingError.valueNotFound(UnkeyedDecodingContainer.self, DecodingError.Context(
                 codingPath: codingPath,
                 debugDescription: "Cannot get unkeyed decoding container -- found null box instead."
             ))
         }
 
-        let unkeyed = (storage.topContainer as? UnkeyedBox) ?? UnkeyedBox([storage.topContainer])
+        let unkeyed = (topContainer as? UnkeyedBox) ?? UnkeyedBox([topContainer])
 
         return _XMLUnkeyedDecodingContainer(referencing: self, wrapping: unkeyed)
     }
@@ -338,62 +362,44 @@ class _XMLDecoder: Decoder {
 extension _XMLDecoder: SingleValueDecodingContainer {
     // MARK: SingleValueDecodingContainer Methods
 
-    private func expectNonNull<T>(_ type: T.Type) throws {
-        guard !decodeNil() else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(
-                codingPath: codingPath,
-                debugDescription: "Expected \(type) but found null box instead."
-            ))
-        }
-    }
-
     public func decodeNil() -> Bool {
-        return storage.topContainer.isNull
+        return (try? self.topContainer().isNull) ?? true
     }
 
     public func decode(_: Bool.Type) throws -> Bool {
-        try expectNonNull(Bool.self)
-        return try unbox(storage.topContainer)!
+        return try unbox(try self.topContainer())
     }
 
     public func decode(_: Decimal.Type) throws -> Decimal {
-        try expectNonNull(Decimal.self)
-        return try unbox(storage.topContainer)!
+        return try unbox(try self.topContainer())
     }
 
     public func decode<T: BinaryInteger & SignedInteger & Decodable>(_: T.Type) throws -> T {
-        try expectNonNull(T.self)
-        return try unbox(storage.topContainer)!
+        return try unbox(try self.topContainer())
     }
 
     public func decode<T: BinaryInteger & UnsignedInteger & Decodable>(_: T.Type) throws -> T {
-        try expectNonNull(T.self)
-        return try unbox(storage.topContainer)!
+        return try unbox(try self.topContainer())
     }
 
     public func decode<T: BinaryFloatingPoint & Decodable>(_: T.Type) throws -> T {
-        try expectNonNull(T.self)
-        return try unbox(storage.topContainer)!
+        return try unbox(try self.topContainer())
     }
 
     public func decode(_: String.Type) throws -> String {
-        try expectNonNull(String.self)
-        return try unbox(storage.topContainer)!
+        return try unbox(try self.topContainer())
     }
 
     public func decode(_: String.Type) throws -> Date {
-        try expectNonNull(String.self)
-        return try unbox(storage.topContainer)!
+        return try unbox(try self.topContainer())
     }
 
     public func decode(_: String.Type) throws -> Data {
-        try expectNonNull(String.self)
-        return try unbox(storage.topContainer)!
+        return try unbox(try self.topContainer())
     }
 
-    public func decode<T: Decodable>(_ type: T.Type) throws -> T {
-        try expectNonNull(type)
-        return try unbox(storage.topContainer)!
+    public func decode<T: Decodable>(_: T.Type) throws -> T {
+        return try unbox(try self.topContainer())
     }
 }
 
@@ -402,14 +408,24 @@ extension _XMLDecoder: SingleValueDecodingContainer {
 extension _XMLDecoder {
     /// Returns the given box unboxed from a container.
 
-    func unbox(_ box: Box) throws -> Bool? {
-        guard !box.isNull else {
-            return nil
+    private func typedBox<T, B: Box>(_ box: Box, for valueType: T.Type) throws -> B {
+        guard let typedBox = box as? B else {
+            if box is NullBox {
+                throw DecodingError.valueNotFound(valueType, DecodingError.Context(
+                    codingPath: codingPath,
+                    debugDescription: "Expected \(valueType) but found null instead."
+                ))
+            } else {
+                throw DecodingError._typeMismatch(at: codingPath, expectation: valueType, reality: box)
+            }
         }
 
-        guard let string = (box as? StringBox)?.unbox() else {
-            return nil
-        }
+        return typedBox
+    }
+
+    func unbox(_ box: Box) throws -> Bool {
+        let stringBox: StringBox = try typedBox(box, for: Bool.self)
+        let string = stringBox.unbox()
 
         guard let boolBox = BoolBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: Bool.self, reality: box)
@@ -418,14 +434,9 @@ extension _XMLDecoder {
         return boolBox.unbox()
     }
 
-    func unbox(_ box: Box) throws -> Decimal? {
-        guard !box.isNull else {
-            return nil
-        }
-
-        guard let string = (box as? StringBox)?.unbox() else {
-            return nil
-        }
+    func unbox(_ box: Box) throws -> Decimal {
+        let stringBox: StringBox = try typedBox(box, for: Decimal.self)
+        let string = stringBox.unbox()
 
         guard let decimalBox = DecimalBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: Decimal.self, reality: box)
@@ -434,14 +445,9 @@ extension _XMLDecoder {
         return decimalBox.unbox()
     }
 
-    func unbox<T: BinaryInteger & SignedInteger & Decodable>(_ box: Box) throws -> T? {
-        guard !box.isNull else {
-            return nil
-        }
-
-        guard let string = (box as? StringBox)?.unbox() else {
-            return nil
-        }
+    func unbox<T: BinaryInteger & SignedInteger & Decodable>(_ box: Box) throws -> T {
+        let stringBox: StringBox = try typedBox(box, for: T.self)
+        let string = stringBox.unbox()
 
         guard let intBox = IntBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: T.self, reality: box)
@@ -457,14 +463,9 @@ extension _XMLDecoder {
         return int
     }
 
-    func unbox<T: BinaryInteger & UnsignedInteger & Decodable>(_ box: Box) throws -> T? {
-        guard !box.isNull else {
-            return nil
-        }
-
-        guard let string = (box as? StringBox)?.unbox() else {
-            return nil
-        }
+    func unbox<T: BinaryInteger & UnsignedInteger & Decodable>(_ box: Box) throws -> T {
+        let stringBox: StringBox = try typedBox(box, for: T.self)
+        let string = stringBox.unbox()
 
         guard let uintBox = UIntBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: T.self, reality: box)
@@ -480,14 +481,9 @@ extension _XMLDecoder {
         return uint
     }
 
-    func unbox<T: BinaryFloatingPoint & Decodable>(_ box: Box) throws -> T? {
-        guard !box.isNull else {
-            return nil
-        }
-
-        guard let string = (box as? StringBox)?.unbox() else {
-            return nil
-        }
+    func unbox<T: BinaryFloatingPoint & Decodable>(_ box: Box) throws -> T {
+        let stringBox: StringBox = try typedBox(box, for: T.self)
+        let string = stringBox.unbox()
 
         guard let floatBox = FloatBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: T.self, reality: box)
@@ -503,33 +499,24 @@ extension _XMLDecoder {
         return float
     }
 
-    func unbox(_ box: Box) throws -> String? {
-        guard !box.isNull else {
-            return nil
-        }
-
-        guard let string = (box as? StringBox)?.unbox() else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: String.self, reality: box)
-        }
+    func unbox(_ box: Box) throws -> String {
+        let stringBox: StringBox = try typedBox(box, for: String.self)
+        let string = stringBox.unbox()
 
         return string
     }
 
-    func unbox(_ box: Box) throws -> Date? {
-        guard !box.isNull else {
-            return nil
-        }
-
+    func unbox(_ box: Box) throws -> Date {
         switch options.dateDecodingStrategy {
         case .deferredToDate:
             storage.push(container: box)
-            defer { storage.popContainer() }
+            defer { let _ = storage.popContainer() }
             return try Date(from: self)
 
         case .secondsSince1970:
-            guard let string = (box as? StringBox)?.unbox() else {
-                throw DecodingError._typeMismatch(at: codingPath, expectation: Date.self, reality: box)
-            }
+            let stringBox: StringBox = try typedBox(box, for: Date.self)
+            let string = stringBox.unbox()
+
             guard let dateBox = DateBox(secondsSince1970: string) else {
                 throw DecodingError.dataCorrupted(DecodingError.Context(
                     codingPath: codingPath,
@@ -538,9 +525,9 @@ extension _XMLDecoder {
             }
             return dateBox.unbox()
         case .millisecondsSince1970:
-            guard let string = (box as? StringBox)?.unbox() else {
-                throw DecodingError._typeMismatch(at: codingPath, expectation: Date.self, reality: box)
-            }
+            let stringBox: StringBox = try typedBox(box, for: Date.self)
+            let string = stringBox.unbox()
+
             guard let dateBox = DateBox(millisecondsSince1970: string) else {
                 throw DecodingError.dataCorrupted(DecodingError.Context(
                     codingPath: codingPath,
@@ -549,9 +536,9 @@ extension _XMLDecoder {
             }
             return dateBox.unbox()
         case .iso8601:
-            guard let string = (box as? StringBox)?.unbox() else {
-                throw DecodingError._typeMismatch(at: codingPath, expectation: Date.self, reality: box)
-            }
+            let stringBox: StringBox = try typedBox(box, for: Date.self)
+            let string = stringBox.unbox()
+
             guard let dateBox = DateBox(iso8601: string) else {
                 throw DecodingError.dataCorrupted(DecodingError.Context(
                     codingPath: codingPath,
@@ -560,9 +547,9 @@ extension _XMLDecoder {
             }
             return dateBox.unbox()
         case let .formatted(formatter):
-            guard let string = (box as? StringBox)?.unbox() else {
-                throw DecodingError._typeMismatch(at: codingPath, expectation: Date.self, reality: box)
-            }
+            let stringBox: StringBox = try typedBox(box, for: Date.self)
+            let string = stringBox.unbox()
+
             guard let dateBox = DateBox(xmlString: string, formatter: formatter) else {
                 throw DecodingError.dataCorrupted(DecodingError.Context(
                     codingPath: codingPath,
@@ -572,26 +559,21 @@ extension _XMLDecoder {
             return dateBox.unbox()
         case let .custom(closure):
             storage.push(container: box)
-            defer { storage.popContainer() }
+            defer { let _ = storage.popContainer() }
             return try closure(self)
         }
     }
 
-    func unbox(_ box: Box) throws -> Data? {
-        guard !box.isNull else {
-            return nil
-        }
-
+    func unbox(_ box: Box) throws -> Data {
         switch options.dataDecodingStrategy {
         case .deferredToData:
             storage.push(container: box)
-            defer { storage.popContainer() }
+            defer { let _ = storage.popContainer() }
             return try Data(from: self)
-
         case .base64:
-            guard let string = (box as? StringBox)?.unbox() else {
-                throw DecodingError._typeMismatch(at: codingPath, expectation: Date.self, reality: box)
-            }
+            let stringBox: StringBox = try typedBox(box, for: Data.self)
+            let string = stringBox.unbox()
+
             guard let dataBox = DataBox(base64: string) else {
                 throw DecodingError.dataCorrupted(DecodingError.Context(
                     codingPath: codingPath,
@@ -601,19 +583,14 @@ extension _XMLDecoder {
             return dataBox.unbox()
         case let .custom(closure):
             storage.push(container: box)
-            defer { storage.popContainer() }
+            defer { let _ = storage.popContainer() }
             return try closure(self)
         }
     }
 
-    func unbox(_ box: Box) throws -> URL? {
-        guard !box.isNull else {
-            return nil
-        }
-
-        guard let string = (box as? StringBox)?.unbox() else {
-            return nil
-        }
+    func unbox(_ box: Box) throws -> URL {
+        let stringBox: StringBox = try typedBox(box, for: URL.self)
+        let string = stringBox.unbox()
 
         guard let urlBox = URLBox(xmlString: string) else {
             throw DecodingError.dataCorrupted(DecodingError.Context(
@@ -625,35 +602,26 @@ extension _XMLDecoder {
         return urlBox.unbox()
     }
 
-    func unbox<T: Decodable>(_ box: Box) throws -> T? {
+    func unbox<T: Decodable>(_ box: Box) throws -> T {
         let decoded: T
         let type = T.self
         if type == Date.self || type == NSDate.self {
-            guard let date: Date = try unbox(box) else {
-                return nil
-            }
+            let date: Date = try unbox(box)
             decoded = date as! T
         } else if type == Data.self || type == NSData.self {
-            guard let data: Data = try unbox(box) else {
-                return nil
-            }
+            let data: Data = try unbox(box)
             decoded = data as! T
         } else if type == URL.self || type == NSURL.self {
-            guard let data: URL = try unbox(box) else {
-                return nil
-            }
+            let data: URL = try unbox(box)
             decoded = data as! T
         } else if type == Decimal.self || type == NSDecimalNumber.self {
-            guard let decimal: Decimal = try unbox(box) else {
-                return nil
-            }
+            let decimal: Decimal = try unbox(box)
             decoded = decimal as! T
         } else {
             storage.push(container: box)
-            defer { storage.popContainer() }
+            defer { let _ = storage.popContainer() }
             return try type.init(from: self)
         }
-
         return decoded
     }
 }
