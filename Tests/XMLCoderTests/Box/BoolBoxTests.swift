@@ -11,6 +11,11 @@ import XCTest
 class BoolBoxTests: XCTestCase {
     typealias Boxed = BoolBox
 
+    func testIsNull() {
+        let box = Boxed(false)
+        XCTAssertEqual(box.isNull, false)
+    }
+
     func testUnbox() {
         let values: [Boxed.Unboxed] = [
             false,

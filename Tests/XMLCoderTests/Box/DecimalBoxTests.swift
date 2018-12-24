@@ -11,6 +11,11 @@ import XCTest
 class DecimalBoxTests: XCTestCase {
     typealias Boxed = DecimalBox
 
+    func testIsNull() {
+        let box = Boxed(42.0)
+        XCTAssertEqual(box.isNull, false)
+    }
+
     func testUnbox() {
         let values: [Boxed.Unboxed] = [
             -1.23,
