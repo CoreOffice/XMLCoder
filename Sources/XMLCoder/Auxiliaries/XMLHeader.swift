@@ -10,8 +10,10 @@ import Foundation
 public struct XMLHeader {
     /// the XML standard that the produced document conforms to.
     public let version: Double?
+
     /// the encoding standard used to represent the characters in the produced document.
     public let encoding: String?
+
     /// indicates whether a document relies on information from an external source.
     public let standalone: String?
 
@@ -30,20 +32,22 @@ public struct XMLHeader {
             return nil
         }
 
-        var string = "<?xml "
+        var string = "<?xml"
 
         if let version = version {
-            string += "version=\"\(version)\" "
+            string += " version=\"\(version)\""
         }
 
         if let encoding = encoding {
-            string += "encoding=\"\(encoding)\" "
+            string += " encoding=\"\(encoding)\""
         }
 
         if let standalone = standalone {
-            string += "standalone=\"\(standalone)\""
+            string += " standalone=\"\(standalone)\""
         }
 
-        return string.trimmingCharacters(in: .whitespaces) + "?>\n"
+        string += "?>\n"
+
+        return string
     }
 }

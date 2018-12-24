@@ -41,7 +41,7 @@ struct _XMLElement {
             return (key, value)
         })
 
-        let elementsByKey: [(String, [_XMLElement])] = box.elements.map { key, box in
+        elements = Dictionary(uniqueKeysWithValues: box.elements.map { key, box in
             switch box {
             case let unkeyedBox as UnkeyedBox:
                 // This basically injects the unkeyed children directly into self:
@@ -56,11 +56,7 @@ struct _XMLElement {
             case let box:
                 preconditionFailure("Unclassified box: \(type(of: box))")
             }
-        }
-
-        elements = Dictionary(elementsByKey) { existingElements, newElements in
-            existingElements + newElements
-        }
+        })
     }
 
     init(key: String, box: SimpleBox) {
@@ -182,8 +178,6 @@ struct _XMLElement {
                 formatSortedXMLAttributes(&string)
                 return
             }
-            formatUnsortedXMLAttributes(&string)
-            return
         }
         formatUnsortedXMLAttributes(&string)
     }
@@ -194,8 +188,6 @@ struct _XMLElement {
                 formatSortedXMLElements(&string, level, cdata, formatting, prettyPrinted)
                 return
             }
-            formatUnsortedXMLElements(&string, level, cdata, formatting, prettyPrinted)
-            return
         }
         formatUnsortedXMLElements(&string, level, cdata, formatting, prettyPrinted)
     }
