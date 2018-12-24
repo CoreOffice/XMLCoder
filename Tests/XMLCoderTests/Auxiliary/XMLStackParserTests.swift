@@ -30,4 +30,13 @@ class XMLStackParserTests: XCTestCase {
         )
         XCTAssertEqual(root, expected)
     }
+
+    func testParseWithThrow() throws {
+        let parser = _XMLStackParser()
+
+        let xmlString = "lorem ipsum"
+        let xmlData = xmlString.data(using: .utf8)!
+
+        XCTAssertThrowsError(try parser.parse(with: xmlData))
+    }
 }
