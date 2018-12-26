@@ -37,8 +37,18 @@ class BenchmarkTests: XCTestCase {
 
         let encoder = XMLEncoder()
 
+        var caughtError: Error?
+
         closure {
-            _ = try! encoder.encode(container, withRootKey: "container")
+            do {
+                _ = try encoder.encode(container, withRootKey: "container")
+            } catch {
+                caughtError = error
+            }
+        }
+
+        if let error = caughtError {
+            throw error
         }
     }
 
@@ -51,8 +61,18 @@ class BenchmarkTests: XCTestCase {
 
         let decoder = XMLDecoder()
 
+        var caughtError: Error?
+
         closure {
-            _ = try! decoder.decode(Container<T>.self, from: data)
+            do {
+                _ = try decoder.decode(Container<T>.self, from: data)
+            } catch {
+                caughtError = error
+            }
+        }
+
+        if let error = caughtError {
+            throw error
         }
     }
 
