@@ -44,10 +44,38 @@ private struct Relationship: Codable {
     }
 }
 
+private struct NodeCodingStrategyProvider {
+    typealias Strategy = (CodingKey) -> XMLEncoder.NodeEncoding
+
+    private func strategy(for _: Relationship.Type) -> Strategy {
+        return { _ in .attribute }
+    }
+
+    func strategy(for type: Any.Type) -> Strategy {
+        switch type {
+        case let concreteType as Relationship.Type:
+            return strategy(for: concreteType)
+        case _:
+            return { _ in .default }
+        }
+    }
+}
+
 final class RelationshipsTest: XCTestCase {
     func testDecoder() throws {
+        let strategyProvider = NodeCodingStrategyProvider()
+
         let decoder = XMLDecoder()
         decoder.keyDecodingStrategy = .convertFromCapitalized
+        decoder.nodeDecodingStrategy = .custom { type, _ in
+            return strategyProvider.strategy(for: type)
+        }
+
+        do {
+            try decoder.decode(Relationships.self, from: xml)
+        } catch {
+            fatalError("\(error)")
+        }
 
         let rels = try decoder.decode(Relationships.self, from: xml)
 

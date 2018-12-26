@@ -37,35 +37,22 @@ fileprivate struct Element: Encodable {
         case int8Key
         case doubleKey
     }
-
-    static func nodeEncoding(forKey _: CodingKey) -> XMLEncoder.NodeEncoding {
-        return .attribute
-    }
 }
 
-fileprivate struct ComplexUnkeyedContainer: Encodable {
-    let elements: [ComplexElement]
+private struct NodeCodingStrategyProvider {
+    typealias Strategy = (CodingKey) -> XMLEncoder.NodeEncoding
 
-    enum CodingKeys: String, CodingKey {
-        case elements = "element"
-    }
-}
-
-fileprivate struct ComplexElement: Encodable {
-    struct Key: Encodable {
-        let a: String
-        let b: String
-        let c: String
+    private func strategy(for _: Element.Type) -> Strategy {
+        return { _ in .attribute }
     }
 
-    var key: Key = Key(a: "C", b: "B", c: "A")
-
-    enum CodingKeys: CodingKey {
-        case key
-    }
-
-    static func nodeEncoding(forKey _: CodingKey) -> XMLEncoder.NodeEncoding {
-        return .attribute
+    func strategy(for type: Any.Type) -> Strategy {
+        switch type {
+        case let concreteType as Element.Type:
+            return strategy(for: concreteType)
+        case _:
+            return { _ in .default }
+        }
     }
 }
 
@@ -74,6 +61,8 @@ final class NodeEncodingStrategyTests: XCTestCase {
         guard #available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *) else {
             return
         }
+
+        let strategyProvider = NodeCodingStrategyProvider()
 
         let encoder = XMLEncoder()
 
@@ -100,11 +89,8 @@ final class NodeEncodingStrategyTests: XCTestCase {
             XCTAssert(false, "failed to decode the example: \(error)")
         }
 
-        encoder.nodeEncodingStrategy = .custom { codableType, _ in
-            guard let barType = codableType as? Element.Type else {
-                return { _ in .default }
-            }
-            return barType.nodeEncoding(forKey:)
+        encoder.nodeEncodingStrategy = .custom { type, _ in
+            return strategyProvider.strategy(for: type)
         }
 
         do {
@@ -128,6 +114,8 @@ final class NodeEncodingStrategyTests: XCTestCase {
         guard #available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *) else {
             return
         }
+
+        let strategyProvider = NodeCodingStrategyProvider()
 
         let encoder = XMLEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
@@ -155,11 +143,8 @@ final class NodeEncodingStrategyTests: XCTestCase {
             XCTAssert(false, "failed to decode the example: \(error)")
         }
 
-        encoder.nodeEncodingStrategy = .custom { codableType, _ in
-            guard let barType = codableType as? Element.Type else {
-                return { _ in .default }
-            }
-            return barType.nodeEncoding(forKey:)
+        encoder.nodeEncodingStrategy = .custom { type, _ in
+            return strategyProvider.strategy(for: type)
         }
 
         do {
@@ -185,6 +170,8 @@ final class NodeEncodingStrategyTests: XCTestCase {
         guard #available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *) else {
             return
         }
+
+        let strategyProvider = NodeCodingStrategyProvider()
 
         let encoder = XMLEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
@@ -216,11 +203,8 @@ final class NodeEncodingStrategyTests: XCTestCase {
             XCTAssert(false, "failed to decode the example: \(error)")
         }
 
-        encoder.nodeEncodingStrategy = .custom { codableType, _ in
-            guard codableType is [Element].Type else {
-                return { _ in .default }
-            }
-            return Element.nodeEncoding(forKey:)
+        encoder.nodeEncodingStrategy = .custom { type, _ in
+            return strategyProvider.strategy(for: type)
         }
 
         do {
@@ -246,68 +230,4 @@ final class NodeEncodingStrategyTests: XCTestCase {
         ("testKeyedContainer", testKeyedContainer),
         ("testUnkeyedContainer", testUnkeyedContainer),
     ]
-
-    func testItSortsKeysWhenEncodingAsElements() {
-        guard #available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *) else {
-            return
-        }
-
-        let encoder = XMLEncoder()
-        encoder.outputFormatting = [.sortedKeys, .prettyPrinted]
-
-        do {
-            let container = ComplexUnkeyedContainer(elements: [ComplexElement()])
-            let data = try encoder.encode(container, withRootKey: "container")
-            let xml = String(data: data, encoding: .utf8)!
-
-            let expected =
-                """
-                <container>
-                    <element>
-                        <key>
-                            <a>C</a>
-                            <b>B</b>
-                            <c>A</c>
-                        </key>
-                    </element>
-                </container>
-                """
-            XCTAssertEqual(xml, expected)
-        } catch {
-            XCTAssert(false, "failed to decode the example: \(error)")
-        }
-    }
-
-    func testItSortsKeysWhenEncodingAsAttributes() {
-        let encoder = XMLEncoder()
-        if #available(macOS 10.13, *) {
-            encoder.outputFormatting = [.sortedKeys, .prettyPrinted]
-            encoder.nodeEncodingStrategy = .custom { key, _ in
-                if key == ComplexElement.Key.self {
-                    return { _ in .attribute }
-                }
-                return { _ in .element }
-            }
-        } else {
-            return
-        }
-
-        do {
-            let container = ComplexUnkeyedContainer(elements: [ComplexElement()])
-            let data = try encoder.encode(container, withRootKey: "container")
-            let xml = String(data: data, encoding: .utf8)!
-
-            let expected =
-                """
-                <container>
-                    <element>
-                        <key a="C" b="B" c="A" />
-                    </element>
-                </container>
-                """
-            XCTAssertEqual(xml, expected)
-        } catch {
-            XCTAssert(false, "failed to decode the example: \(error)")
-        }
-    }
 }

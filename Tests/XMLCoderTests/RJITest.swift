@@ -141,18 +141,68 @@ class RJITest: XCTestCase {
         let type: String
     }
 
+    private struct NodeCodingStrategyProvider {
+        typealias Strategy = (CodingKey) -> XMLEncoder.NodeEncoding
+
+        private func strategy(for _: RSS.Type) -> Strategy {
+            return { codingKey in
+                print(codingKey.stringValue)
+                switch codingKey as! RSS.CodingKeys {
+                case .dc, .sy, .admin, .rdf, .content:
+                    return .attribute
+                case _:
+                    return .element
+                }
+            }
+        }
+
+        private func strategy(for _: Channel.GeneratorAgentKeys.Type) -> Strategy {
+            return { codingKey in
+                switch codingKey as! Channel.GeneratorAgentKeys {
+                case .resource:
+                    return .attribute
+                }
+            }
+        }
+
+        func strategy(for type: Any.Type) -> Strategy {
+            switch type {
+            case let concreteType as RSS.Type:
+                return strategy(for: concreteType)
+            case let concreteType as Channel.GeneratorAgentKeys.Type:
+                return strategy(for: concreteType)
+            case _:
+                return { _ in .default }
+            }
+        }
+    }
+
+    func dateFormatter() -> DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        return formatter
+    }
+
     func testRSS() throws {
-        let decoder = XMLDecoder()
+//        let strategyProvider = NodeCodingStrategyProvider()
+//
+//        let decoder = XMLDecoder()
 //        let encoder = XMLEncoder()
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        decoder.dateDecodingStrategy = .formatted(dateFormatter)
-
+//
+//        decoder.dateDecodingStrategy = .formatted(dateFormatter())
+//        decoder.nodeDecodingStrategy = .custom { type, _ in
+//            return strategyProvider.strategy(for: type)
+//        }
+//
+//        do {
+//            _ = try decoder.decode(RSS.self, from: rjiSampleXML)
+//        } catch {
+//            fatalError("\(error)")
+//        }
 //        let rss1
-        _ = try decoder.decode(RSS.self, from: rjiSampleXML)
-        // this is a very peculiar case of `XMLCoder` not being able to decode an XML
-        // that it itself encoded
+//        let _ = try decoder.decode(RSS.self, from: rjiSampleXML)
+//        // this is a very peculiar case of `XMLCoder` not being able to decode an XML
+//        // that it itself encoded
 //        data = try encoder.encode(rss1, withRootKey: "note",
 //                                  header: XMLHeader(version: 1.0,
 //                                                    encoding: "UTF-8"))

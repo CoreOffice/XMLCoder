@@ -145,8 +145,19 @@ struct _XMLUnkeyedEncodingContainer: UnkeyedEncodingContainer {
         _ value: T,
         encode: (_XMLEncoder, T) throws -> Box
     ) rethrows {
+        guard let strategy = self.encoder.nodeEncodings.last else {
+            preconditionFailure("Attempt to access node encoding strategy from empty stack.")
+        }
         encoder.codingPath.append(_XMLKey(index: count))
-        defer { self.encoder.codingPath.removeLast() }
+        let nodeEncodings = encoder.options.nodeEncodingStrategy.nodeEncodings(
+            forType: T.self,
+            with: encoder
+        )
+        encoder.nodeEncodings.append(nodeEncodings)
+        defer {
+            _ = self.encoder.nodeEncodings.removeLast()
+            _ = self.encoder.codingPath.removeLast()
+        }
         container.append(try encode(encoder, value))
     }
 

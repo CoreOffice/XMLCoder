@@ -34,13 +34,7 @@ open class XMLEncoder {
         public static let sortedKeys = OutputFormatting(rawValue: 1 << 1)
     }
 
-    /// A node's encoding tyoe
-    public enum NodeEncoding {
-        case attribute
-        case element
-
-        public static let `default`: NodeEncoding = .element
-    }
+    public typealias NodeEncoding = XMLNodeCoding
 
     /// The strategy to use for encoding `Date` values.
     public enum DateEncodingStrategy {
@@ -265,7 +259,16 @@ open class XMLEncoder {
             options: options,
             nodeEncodings: []
         )
-        encoder.nodeEncodings.append(options.nodeEncodingStrategy.nodeEncodings(forType: T.self, with: encoder))
+        encoder.nodeEncodings = [
+            options.nodeEncodingStrategy.nodeEncodings(
+                forType: T.self,
+                with: encoder
+            ),
+        ]
+
+        defer {
+            _ = encoder.nodeEncodings.removeLast()
+        }
 
         let topLevel = try encoder.box(value)
 
@@ -287,7 +290,12 @@ open class XMLEncoder {
         }
 
         let withCDATA = stringEncodingStrategy != .deferredToString
-        return element.toXMLString(with: header, withCDATA: withCDATA, formatting: outputFormatting).data(using: .utf8, allowLossyConversion: true)!
+        let xmlString = element.toXMLString(
+            with: header,
+            withCDATA: withCDATA,
+            formatting: outputFormatting
+        )
+        return xmlString.data(using: .utf8, allowLossyConversion: true)!
     }
 }
 
@@ -318,8 +326,9 @@ class _XMLEncoder: Encoder {
         nodeEncodings: [(CodingKey) -> XMLEncoder.NodeEncoding],
         codingPath: [CodingKey] = []
     ) {
-        self.options = options
         storage = _XMLEncodingStorage()
+
+        self.options = options
         self.codingPath = codingPath
         self.nodeEncodings = nodeEncodings
     }
@@ -353,7 +362,11 @@ class _XMLEncoder: Encoder {
             topContainer = container
         }
 
-        let container = _XMLKeyedEncodingContainer<Key>(referencing: self, codingPath: codingPath, wrapping: topContainer)
+        let container = _XMLKeyedEncodingContainer<Key>(
+            referencing: self,
+            codingPath: codingPath,
+            wrapping: topContainer
+        )
         return KeyedEncodingContainer(container)
     }
 
@@ -371,7 +384,11 @@ class _XMLEncoder: Encoder {
             topContainer = container
         }
 
-        return _XMLUnkeyedEncodingContainer(referencing: self, codingPath: codingPath, wrapping: topContainer)
+        return _XMLUnkeyedEncodingContainer(
+            referencing: self,
+            codingPath: codingPath,
+            wrapping: topContainer
+        )
     }
 
     public func singleValueContainer() -> SingleValueEncodingContainer {

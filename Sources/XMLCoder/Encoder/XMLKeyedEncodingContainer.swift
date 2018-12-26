@@ -157,10 +157,6 @@ struct _XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
         forKey key: Key,
         encode: (_XMLEncoder, T) throws -> Box
     ) throws {
-        defer {
-            _ = self.encoder.nodeEncodings.removeLast()
-            self.encoder.codingPath.removeLast()
-        }
         guard let strategy = self.encoder.nodeEncodings.last else {
             preconditionFailure("Attempt to access node encoding strategy from empty stack.")
         }
@@ -170,6 +166,10 @@ struct _XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
             with: encoder
         )
         encoder.nodeEncodings.append(nodeEncodings)
+        defer {
+            _ = self.encoder.nodeEncodings.removeLast()
+            _ = self.encoder.codingPath.removeLast()
+        }
         let box = try encode(encoder, value)
         switch strategy(key) {
         case .attribute:
@@ -190,7 +190,9 @@ struct _XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
         self.container.elements[_converted(key).stringValue] = keyed
 
         codingPath.append(key)
-        defer { self.codingPath.removeLast() }
+        defer {
+            _ = self.codingPath.removeLast()
+        }
 
         let container = _XMLKeyedEncodingContainer<NestedKey>(referencing: encoder, codingPath: codingPath, wrapping: keyed)
         return KeyedEncodingContainer(container)
@@ -201,15 +203,26 @@ struct _XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
         container.elements[_converted(key).stringValue] = unkeyed
 
         codingPath.append(key)
-        defer { self.codingPath.removeLast() }
+        defer {
+            _ = self.codingPath.removeLast()
+        }
         return _XMLUnkeyedEncodingContainer(referencing: encoder, codingPath: codingPath, wrapping: unkeyed)
     }
 
     public mutating func superEncoder() -> Encoder {
-        return _XMLReferencingEncoder(referencing: encoder, key: _XMLKey.super, convertedKey: _converted(_XMLKey.super), wrapping: container)
+        return _superEncoder(forKey: _XMLKey.super)
     }
 
     public mutating func superEncoder(forKey key: Key) -> Encoder {
-        return _XMLReferencingEncoder(referencing: encoder, key: key, convertedKey: _converted(key), wrapping: container)
+        return _superEncoder(forKey: key)
+    }
+
+    private func _superEncoder(forKey key: CodingKey) -> Encoder {
+        return _XMLReferencingEncoder(
+            referencing: encoder,
+            key: key,
+            convertedKey: _converted(key),
+            wrapping: container
+        )
     }
 }

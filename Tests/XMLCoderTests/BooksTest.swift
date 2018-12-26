@@ -179,48 +179,82 @@ private enum Genre: String, Codable {
     case sciFi = "Science Fiction"
 }
 
+private struct NodeCodingStrategyProvider {
+    typealias Strategy = (CodingKey) -> XMLEncoder.NodeEncoding
+
+    private func strategy(for _: Book.Type) -> Strategy {
+        return { codingKey in
+            switch codingKey as! Book.CodingKeys {
+            case .id:
+                return .attribute
+            case _:
+                return .element
+            }
+        }
+    }
+
+    func strategy(for type: Any.Type) -> Strategy {
+        switch type {
+        case let concreteType as Book.Type:
+            return strategy(for: concreteType)
+        case _:
+            return { _ in .default }
+        }
+    }
+}
+
 final class BooksTest: XCTestCase {
-    private let formatter: DateFormatter = {
+    private func formatter() -> DateFormatter {
         let formatter = DateFormatter()
         formatter.timeZone = TimeZone(secondsFromGMT: 0)
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
-    }()
+    }
+
+    private func encoder() -> XMLEncoder {
+        let strategyProvider = NodeCodingStrategyProvider()
+
+        let encoder = XMLEncoder()
+        encoder.dateEncodingStrategy = .formatted(formatter())
+        encoder.nodeEncodingStrategy = .custom { type, _ in
+            return strategyProvider.strategy(for: type)
+        }
+        return encoder
+    }
+
+    private func decoder() -> XMLDecoder {
+        let strategyProvider = NodeCodingStrategyProvider()
+
+        let decoder = XMLDecoder()
+        decoder.dateDecodingStrategy = .formatted(formatter())
+        decoder.nodeDecodingStrategy = .custom { type, _ in
+            return strategyProvider.strategy(for: type)
+        }
+        return decoder
+    }
 
     func testBookXML() throws {
-        let decoder = XMLDecoder()
-        let encoder = XMLEncoder()
-
-        decoder.dateDecodingStrategy = .formatted(formatter)
-        encoder.dateEncodingStrategy = .formatted(formatter)
-
-        let book1 = try decoder.decode(Book.self, from: bookXML)
+        let book1 = try decoder().decode(Book.self, from: bookXML)
         XCTAssertEqual(book1.publishDate,
                        Date(timeIntervalSince1970: 970_358_400))
 
-        let data = try encoder.encode(book1, withRootKey: "book",
-                                      header: XMLHeader(version: 1.0,
-                                                        encoding: "UTF-8"))
-        let book2 = try decoder.decode(Book.self, from: data)
+        let data = try encoder().encode(book1, withRootKey: "book",
+                                        header: XMLHeader(version: 1.0,
+                                                          encoding: "UTF-8"))
+        let book2 = try decoder().decode(Book.self, from: data)
         XCTAssertEqual(book1, book2)
     }
 
     func testCatalogXML() throws {
-        let decoder = XMLDecoder()
-        let encoder = XMLEncoder()
-
-        decoder.dateDecodingStrategy = .formatted(formatter)
-        encoder.dateEncodingStrategy = .formatted(formatter)
-
-        let catalog1 = try decoder.decode(Catalog.self, from: catalogXML)
+        let catalog1 = try decoder().decode(Catalog.self, from: catalogXML)
         XCTAssertEqual(catalog1.books.count, 12)
         XCTAssertEqual(catalog1.books[0].publishDate,
                        Date(timeIntervalSince1970: 970_358_400))
 
-        let data = try encoder.encode(catalog1, withRootKey: "catalog",
-                                      header: XMLHeader(version: 1.0,
-                                                        encoding: "UTF-8"))
-        let catalog2 = try decoder.decode(Catalog.self, from: data)
+        let data = try encoder().encode(catalog1, withRootKey: "catalog",
+                                        header: XMLHeader(version: 1.0,
+                                                          encoding: "UTF-8"))
+        let catalog2 = try decoder().decode(Catalog.self, from: data)
         XCTAssertEqual(catalog1, catalog2)
     }
 

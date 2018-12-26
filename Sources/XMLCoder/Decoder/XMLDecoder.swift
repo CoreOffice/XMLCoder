@@ -16,6 +16,8 @@ import Foundation
 open class XMLDecoder {
     // MARK: Options
 
+    public typealias NodeDecoding = XMLNodeCoding
+
     /// The strategy to use for decoding `Date` values.
     public enum DateDecodingStrategy {
         /// Defer to `Date` for decoding. This is the default strategy.
@@ -211,6 +213,30 @@ open class XMLDecoder {
     /// The strategy to use for decoding keys. Defaults to `.useDefaultKeys`.
     open var keyDecodingStrategy: KeyDecodingStrategy = .useDefaultKeys
 
+    /// The strategy to use in encoding encoding attributes. Defaults to `.deferredToEncoder`.
+    open var nodeDecodingStrategy: NodeDecodingStrategy = .deferredToDecoder
+
+    /// Set of strategies to use for encoding of nodes.
+    public enum NodeDecodingStrategy {
+        /// Defer to `Encoder` for choosing an encoding. This is the default strategy.
+        case deferredToDecoder
+
+        /// Return a closure computing the desired node encoding for the value by its coding key.
+        case custom((Decodable.Type, Decoder) -> ((CodingKey) -> XMLDecoder.NodeDecoding))
+
+        func nodeDecodings(
+            forType codableType: Decodable.Type,
+            with decoder: Decoder
+        ) -> ((CodingKey) -> XMLDecoder.NodeDecoding) {
+            switch self {
+            case .deferredToDecoder:
+                return { _ in .default }
+            case let .custom(closure):
+                return closure(codableType, decoder)
+            }
+        }
+    }
+
     /// Contextual user-provided information for use during decoding.
     open var userInfo: [CodingUserInfoKey: Any] = [:]
 
@@ -220,16 +246,20 @@ open class XMLDecoder {
         let dataDecodingStrategy: DataDecodingStrategy
         let nonConformingFloatDecodingStrategy: NonConformingFloatDecodingStrategy
         let keyDecodingStrategy: KeyDecodingStrategy
+        let nodeDecodingStrategy: NodeDecodingStrategy
         let userInfo: [CodingUserInfoKey: Any]
     }
 
     /// The options set on the top-level decoder.
     var options: _Options {
-        return _Options(dateDecodingStrategy: dateDecodingStrategy,
-                        dataDecodingStrategy: dataDecodingStrategy,
-                        nonConformingFloatDecodingStrategy: nonConformingFloatDecodingStrategy,
-                        keyDecodingStrategy: keyDecodingStrategy,
-                        userInfo: userInfo)
+        return _Options(
+            dateDecodingStrategy: dateDecodingStrategy,
+            dataDecodingStrategy: dataDecodingStrategy,
+            nonConformingFloatDecodingStrategy: nonConformingFloatDecodingStrategy,
+            keyDecodingStrategy: keyDecodingStrategy,
+            nodeDecodingStrategy: nodeDecodingStrategy,
+            userInfo: userInfo
+        )
     }
 
     // MARK: - Constructing a XML Decoder
@@ -257,7 +287,22 @@ open class XMLDecoder {
             ))
         }
 
-        let decoder = _XMLDecoder(referencing: topLevel, options: options)
+        let decoder = _XMLDecoder(
+            referencing: topLevel,
+            options: options,
+            nodeDecodings: []
+        )
+
+        decoder.nodeDecodings = [
+            options.nodeDecodingStrategy.nodeDecodings(
+                forType: T.self,
+                with: decoder
+            ),
+        ]
+
+        defer {
+            _ = decoder.nodeDecodings.removeLast()
+        }
 
         guard let box: T = try decoder.unbox(topLevel) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(
@@ -284,6 +329,8 @@ class _XMLDecoder: Decoder {
     /// The path to the current point in encoding.
     public internal(set) var codingPath: [CodingKey]
 
+    public var nodeDecodings: [(CodingKey) -> XMLDecoder.NodeDecoding]
+
     /// Contextual user-provided information for use during encoding.
     public var userInfo: [CodingUserInfoKey: Any] {
         return options.userInfo
@@ -292,11 +339,18 @@ class _XMLDecoder: Decoder {
     // MARK: - Initialization
 
     /// Initializes `self` with the given top-level container and options.
-    init(referencing container: Box, at codingPath: [CodingKey] = [], options: XMLDecoder._Options) {
+    init(
+        referencing container: Box,
+        options: XMLDecoder._Options,
+        nodeDecodings: [(CodingKey) -> XMLDecoder.NodeDecoding],
+        codingPath: [CodingKey] = []
+    ) {
         storage = _XMLDecodingStorage()
         storage.push(container: container)
-        self.codingPath = codingPath
+
         self.options = options
+        self.nodeDecodings = nodeDecodings
+        self.codingPath = codingPath
     }
 
     // MARK: - Decoder Methods

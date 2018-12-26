@@ -147,16 +147,25 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         _ type: T.Type,
         decode: (_XMLDecoder, Box) throws -> T?
     ) throws -> T {
+        guard let strategy = self.decoder.nodeDecodings.last else {
+            preconditionFailure("Attempt to access node decoding strategy from empty stack.")
+        }
+        decoder.codingPath.append(_XMLKey(index: currentIndex))
+        let nodeDecodings = decoder.options.nodeDecodingStrategy.nodeDecodings(
+            forType: T.self,
+            with: decoder
+        )
+        decoder.nodeDecodings.append(nodeDecodings)
+        defer {
+            _ = decoder.nodeDecodings.removeLast()
+            _ = decoder.codingPath.removeLast()
+        }
         guard !isAtEnd else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(
                 codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)],
                 debugDescription: "Unkeyed container is at end."
             ))
         }
-
-        decoder.codingPath.append(_XMLKey(index: currentIndex))
-        defer { self.decoder.codingPath.removeLast() }
-
         let box = container[self.currentIndex]
         let value = try decode(decoder, box)
         guard let decoded: T = value else {
@@ -165,7 +174,6 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
                 debugDescription: "Expected \(type) but found null instead."
             ))
         }
-
         currentIndex += 1
         return decoded
     }
@@ -238,6 +246,11 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
 
         let value = container[self.currentIndex]
         currentIndex += 1
-        return _XMLDecoder(referencing: value, at: decoder.codingPath, options: decoder.options)
+        return _XMLDecoder(
+            referencing: value,
+            options: decoder.options,
+            nodeDecodings: decoder.nodeDecodings,
+            codingPath: decoder.codingPath
+        )
     }
 }

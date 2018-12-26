@@ -32,8 +32,11 @@ class DataTests: XCTestCase {
 
     func testAttribute() throws {
         let decoder = XMLDecoder()
-        let encoder = XMLEncoder()
+        decoder.nodeDecodingStrategy = .custom { _, _ in
+            return { _ in .attribute }
+        }
 
+        let encoder = XMLEncoder()
         encoder.nodeEncodingStrategy = .custom { _, _ in
             return { _ in .attribute }
         }

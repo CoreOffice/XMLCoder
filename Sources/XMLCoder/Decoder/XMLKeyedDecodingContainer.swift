@@ -226,17 +226,40 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
         forKey key: Key,
         decode _: (_XMLDecoder, Box) throws -> T?
     ) throws -> T {
-        guard let entry = container.elements[key.stringValue] ?? container.attributes[key.stringValue] else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(
-                codingPath: decoder.codingPath,
-                debugDescription: "No value associated with key \(_errorDescription(of: key))."
-            ))
+        guard let strategy = self.decoder.nodeDecodings.last else {
+            preconditionFailure("Attempt to access node decoding strategy from empty stack.")
+        }
+        decoder.codingPath.append(key)
+        let nodeDecodings = decoder.options.nodeDecodingStrategy.nodeDecodings(
+            forType: T.self,
+            with: decoder
+        )
+        decoder.nodeDecodings.append(nodeDecodings)
+        defer {
+            _ = decoder.nodeDecodings.removeLast()
+            _ = decoder.codingPath.removeLast()
+        }
+        let box: Box
+        switch strategy(key) {
+        case .attribute:
+            guard let attributeBox = container.attributes[key.stringValue] else {
+                throw DecodingError.keyNotFound(key, DecodingError.Context(
+                    codingPath: decoder.codingPath,
+                    debugDescription: "No attribute found for key \(_errorDescription(of: key))."
+                ))
+            }
+            box = attributeBox
+        case .element:
+            guard let elementBox = container.elements[key.stringValue] else {
+                throw DecodingError.keyNotFound(key, DecodingError.Context(
+                    codingPath: decoder.codingPath,
+                    debugDescription: "No element found for key \(_errorDescription(of: key))."
+                ))
+            }
+            box = elementBox
         }
 
-        decoder.codingPath.append(key)
-        defer { decoder.codingPath.removeLast() }
-
-        guard let value: T = try decoder.unbox(entry) else {
+        guard let value: T = try decoder.unbox(box) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(
                 codingPath: decoder.codingPath,
                 debugDescription: "Expected \(type) value but found null instead."
@@ -248,7 +271,9 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
 
     public func nestedContainer<NestedKey>(keyedBy _: NestedKey.Type, forKey key: Key) throws -> KeyedDecodingContainer<NestedKey> {
         decoder.codingPath.append(key)
-        defer { decoder.codingPath.removeLast() }
+        defer {
+            _ = decoder.codingPath.removeLast()
+        }
 
         guard let value = self.container.elements[key.stringValue] ?? self.container.attributes[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(
@@ -267,7 +292,9 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
 
     public func nestedUnkeyedContainer(forKey key: Key) throws -> UnkeyedDecodingContainer {
         decoder.codingPath.append(key)
-        defer { decoder.codingPath.removeLast() }
+        defer {
+            _ = decoder.codingPath.removeLast()
+        }
 
         guard let value = container.elements[key.stringValue] ?? container.attributes[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(
@@ -283,19 +310,24 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
         return _XMLUnkeyedDecodingContainer(referencing: decoder, wrapping: unkeyed)
     }
 
-    private func _superDecoder(forKey key: CodingKey) throws -> Decoder {
-        decoder.codingPath.append(key)
-        defer { decoder.codingPath.removeLast() }
-
-        let box: Box = container.elements[key.stringValue] ?? container.attributes[key.stringValue] ?? NullBox()
-        return _XMLDecoder(referencing: box, at: decoder.codingPath, options: decoder.options)
-    }
-
     public func superDecoder() throws -> Decoder {
         return try _superDecoder(forKey: _XMLKey.super)
     }
 
     public func superDecoder(forKey key: Key) throws -> Decoder {
         return try _superDecoder(forKey: key)
+    }
+
+    private func _superDecoder(forKey key: CodingKey) throws -> Decoder {
+        decoder.codingPath.append(key)
+        defer { decoder.codingPath.removeLast() }
+
+        let box: Box = container.elements[key.stringValue] ?? container.attributes[key.stringValue] ?? NullBox()
+        return _XMLDecoder(
+            referencing: box,
+            options: decoder.options,
+            nodeDecodings: decoder.nodeDecodings,
+            codingPath: decoder.codingPath
+        )
     }
 }
