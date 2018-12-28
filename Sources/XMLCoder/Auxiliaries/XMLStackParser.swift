@@ -27,12 +27,25 @@ class _XMLStackParser: NSObject {
         return node.flatten()
     }
 
-    func parse(with data: Data) throws -> _XMLElement? {
+    func parse(with data: Data, errorContextLength) throws -> _XMLElement? {
         let xmlParser = XMLParser(data: data)
         xmlParser.delegate = self
-
+        
         guard xmlParser.parse() else {
             if let error = xmlParser.parserError {
+                if errorContextLength {
+                    let str = String(data: data, encoding: .utf8) ?? ""
+                    let strArray = str.split(separator: "\n")
+                    var indx = 0
+                    for i in 0...xmlParser.lineNumber{
+                        indx += strArray[i].count
+                    }
+                    let lowerBound = String.Index.init(encodedOffset: indx-errorContextLength)
+                    let upperBound = String.Index.init(encodedOffset: indx+errorContextLength)
+                    
+                    throw str[lowerBound..<upperBound]
+                }
+
                 throw error
             }
             return nil

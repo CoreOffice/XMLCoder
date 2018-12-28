@@ -213,6 +213,9 @@ open class XMLDecoder {
 
     /// Contextual user-provided information for use during decoding.
     open var userInfo: [CodingUserInfoKey: Any] = [:]
+    
+    // The error context lenght
+    open var errorContextLenght: UInt = 0
 
     /// Options set on the top-level encoder to pass down the decoding hierarchy.
     struct _Options {
@@ -221,6 +224,7 @@ open class XMLDecoder {
         let nonConformingFloatDecodingStrategy: NonConformingFloatDecodingStrategy
         let keyDecodingStrategy: KeyDecodingStrategy
         let userInfo: [CodingUserInfoKey: Any]
+        let errorContextLenght: errorContextLenght
     }
 
     /// The options set on the top-level decoder.
@@ -229,7 +233,8 @@ open class XMLDecoder {
                         dataDecodingStrategy: dataDecodingStrategy,
                         nonConformingFloatDecodingStrategy: nonConformingFloatDecodingStrategy,
                         keyDecodingStrategy: keyDecodingStrategy,
-                        userInfo: userInfo)
+                        userInfo: userInfo,
+                        errorContextLenght: errorContextLenght)
     }
 
     // MARK: - Constructing a XML Decoder
@@ -249,7 +254,7 @@ open class XMLDecoder {
     open func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
         let topLevel: Box
         do {
-            topLevel = try _XMLStackParser.parse(with: data)
+            topLevel = try _XMLStackParser.parse(with: data, errorContextLength: options.errorContextLenght))
         } catch {
             throw DecodingError.dataCorrupted(DecodingError.Context(
                 codingPath: [],
@@ -288,6 +293,9 @@ class _XMLDecoder: Decoder {
     public var userInfo: [CodingUserInfoKey: Any] {
         return options.userInfo
     }
+    
+    // The error context lenght
+    open var errorContextLenght: UInt
 
     // MARK: - Initialization
 
