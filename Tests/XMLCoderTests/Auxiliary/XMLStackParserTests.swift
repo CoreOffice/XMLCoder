@@ -15,7 +15,8 @@ class XMLStackParserTests: XCTestCase {
         let xmlString = "<container><value>42</value></container>"
         let xmlData = xmlString.data(using: .utf8)!
 
-        let root: _XMLElement? = try parser.parse(with: xmlData)
+        let root: _XMLElement? = try parser.parse(with: xmlData,
+                                                  errorContextLength: 0)
 
         let expected = _XMLElement(
             key: "container",
@@ -37,6 +38,7 @@ class XMLStackParserTests: XCTestCase {
         let xmlString = "lorem ipsum"
         let xmlData = xmlString.data(using: .utf8)!
 
-        XCTAssertThrowsError(try parser.parse(with: xmlData))
+        XCTAssertThrowsError(try parser.parse(with: xmlData,
+                                              errorContextLength: 0))
     }
 }
