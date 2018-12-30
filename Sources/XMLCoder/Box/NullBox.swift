@@ -24,7 +24,7 @@ extension NullBox: Box {
 extension NullBox: SimpleBox {}
 
 extension NullBox: Equatable {
-    static func == (_: NullBox, _: NullBox) -> Bool {
+    static func ==(_: NullBox, _: NullBox) -> Bool {
         return true
     }
 }

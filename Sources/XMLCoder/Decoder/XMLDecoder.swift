@@ -214,6 +214,9 @@ open class XMLDecoder {
     /// Contextual user-provided information for use during decoding.
     open var userInfo: [CodingUserInfoKey: Any] = [:]
 
+    // The error context length
+    open var errorContextLength: UInt = 0
+
     /// Options set on the top-level encoder to pass down the decoding hierarchy.
     struct _Options {
         let dateDecodingStrategy: DateDecodingStrategy
@@ -247,15 +250,10 @@ open class XMLDecoder {
     /// - throws: `DecodingError.dataCorrupted` if values requested from the payload are corrupted, or if the given data is not valid XML.
     /// - throws: An error if any box throws an error during decoding.
     open func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
-        let topLevel: Box
-        do {
-            topLevel = try _XMLStackParser.parse(with: data)
-        } catch {
-            throw DecodingError.dataCorrupted(DecodingError.Context(
-                codingPath: [],
-                debugDescription: "The given data was not valid XML.", underlyingError: error
-            ))
-        }
+        let topLevel: Box = try _XMLStackParser.parse(
+            with: data,
+            errorContextLength: errorContextLength
+        )
 
         let decoder = _XMLDecoder(referencing: topLevel, options: options)
 
@@ -288,6 +286,9 @@ class _XMLDecoder: Decoder {
     public var userInfo: [CodingUserInfoKey: Any] {
         return options.userInfo
     }
+
+    // The error context lenght
+    open var errorContextLenght: UInt = 0
 
     // MARK: - Initialization
 

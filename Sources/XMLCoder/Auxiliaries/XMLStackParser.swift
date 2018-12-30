@@ -14,34 +14,58 @@ class _XMLStackParser: NSObject {
     var root: _XMLElement?
     private var stack: [_XMLElement] = []
 
-    static func parse(with data: Data) throws -> KeyedBox {
+    static func parse(with data: Data, errorContextLength length: UInt) throws -> KeyedBox {
         let parser = _XMLStackParser()
 
-        guard let node = try parser.parse(with: data) else {
+        let node = try parser.parse(with: data, errorContextLength: length)
+
+        return node.flatten()
+    }
+
+    func parse(with data: Data, errorContextLength: UInt) throws -> _XMLElement {
+        let xmlParser = XMLParser(data: data)
+        xmlParser.delegate = self
+
+        guard !xmlParser.parse(), root == nil else {
+            return root!
+        }
+
+        guard let error = xmlParser.parserError else {
             throw DecodingError.dataCorrupted(DecodingError.Context(
                 codingPath: [],
                 debugDescription: "The given data could not be parsed into XML."
             ))
         }
 
-        return node.flatten()
-    }
-
-    func parse(with data: Data) throws -> _XMLElement? {
-        let xmlParser = XMLParser(data: data)
-        xmlParser.delegate = self
-
-        guard xmlParser.parse() else {
-            if let error = xmlParser.parserError {
-                throw error
-            }
-            return nil
+        guard errorContextLength > 0 else {
+            throw error
         }
 
-        return root
+        let string = String(data: data, encoding: .utf8) ?? ""
+        let lines = string.split(separator: "\n")
+        var errorPosition = 0
+        let offset = Int(errorContextLength / 2)
+        for i in 0..<xmlParser.lineNumber - 1 {
+            errorPosition += lines[i].count
+        }
+        errorPosition += xmlParser.columnNumber
+        let lowerBound = String.Index(encodedOffset: errorPosition - offset)
+        let upperBound = String.Index(encodedOffset: errorPosition + offset)
+
+        let context = string[lowerBound..<upperBound]
+
+        throw DecodingError.dataCorrupted(DecodingError.Context(
+            codingPath: [],
+            debugDescription: """
+            \(error.localizedDescription) \
+            at line \(xmlParser.lineNumber), column \(xmlParser.columnNumber):
+            `\(context)`
+            """,
+            underlyingError: error
+        ))
     }
 
-    func withCurrentElement(_ body: (inout _XMLElement) throws -> Void) rethrows {
+    func withCurrentElement(_ body: (inout _XMLElement) throws -> ()) rethrows {
         guard !stack.isEmpty else {
             return
         }
@@ -91,9 +115,5 @@ extension _XMLStackParser: XMLParserDelegate {
         withCurrentElement { currentElement in
             currentElement.append(value: string)
         }
-    }
-
-    func parser(_: XMLParser, parseErrorOccurred parseError: Error) {
-        print(parseError)
     }
 }
