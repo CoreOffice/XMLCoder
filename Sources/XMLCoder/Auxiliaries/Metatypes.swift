@@ -20,6 +20,7 @@ extension Array: AnyEmptySequence, AnyArray {
         return Element.self
     }
 }
+
 extension Dictionary: AnyEmptySequence {}
 
 /// Type-erased protocol helper for a metatype check in generic `decode`
