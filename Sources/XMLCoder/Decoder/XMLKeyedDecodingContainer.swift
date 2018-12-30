@@ -8,15 +8,6 @@
 
 import Foundation
 
-/// Type-erased protocol helper for a metatype check in generic `decode`
-/// overload.
-private protocol AnyEmptySequence {
-    init()
-}
-
-extension Array: AnyEmptySequence {}
-extension Dictionary: AnyEmptySequence {}
-
 // MARK: Decoding Containers
 
 struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
@@ -43,7 +34,8 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
             self.container = container
         case .convertFromSnakeCase:
             // Convert the snake case keys in the container to camel case.
-            // If we hit a duplicate key after conversion, then we'll use the first one we saw. Effectively an undefined behavior with dictionaries.
+            // If we hit a duplicate key after conversion, then we'll use the
+            // first one we saw. Effectively an undefined behavior with dictionaries.
             let attributes = container.attributes.map { key, value in
                 (XMLDecoder.KeyDecodingStrategy._convertFromSnakeCase(key), value)
             }
@@ -61,10 +53,14 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
             self.container = KeyedBox(elements: elements, attributes: attributes)
         case let .custom(converter):
             let attributes = container.attributes.map { key, value in
-                (converter(decoder.codingPath + [_XMLKey(stringValue: key, intValue: nil)]).stringValue, value)
+                (converter(decoder.codingPath +
+                     [_XMLKey(stringValue: key, intValue: nil)]).stringValue,
+                 value)
             }
             let elements = container.elements.map { key, value in
-                (converter(decoder.codingPath + [_XMLKey(stringValue: key, intValue: nil)]).stringValue, value)
+                (converter(decoder.codingPath +
+                     [_XMLKey(stringValue: key, intValue: nil)]).stringValue,
+                 value)
             }
             self.container = KeyedBox(elements: elements, attributes: attributes)
         }
@@ -113,15 +109,11 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
     }
 
     public func decode(_ type: Bool.Type, forKey key: Key) throws -> Bool {
-        return try decode(type, forKey: key) { decoder, box in
-            try decoder.unbox(box)
-        }
+        return try decodeConcrete(type, forKey: key)
     }
 
     public func decode(_ type: Decimal.Type, forKey key: Key) throws -> Decimal {
-        return try decode(type, forKey: key) { decoder, box in
-            try decoder.unbox(box)
-        }
+        return try decodeConcrete(type, forKey: key)
     }
 
     public func decode(_ type: Int.Type, forKey key: Key) throws -> Int {
@@ -173,58 +165,50 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
     }
 
     public func decode(_ type: String.Type, forKey key: Key) throws -> String {
-        return try decode(type, forKey: key) { decoder, box in
-            try decoder.unbox(box)
-        }
+        return try decodeConcrete(type, forKey: key)
     }
 
     public func decode(_ type: Date.Type, forKey key: Key) throws -> Date {
-        return try decode(type, forKey: key) { decoder, box in
-            try decoder.unbox(box)
-        }
+        return try decodeConcrete(type, forKey: key)
     }
 
     public func decode(_ type: Data.Type, forKey key: Key) throws -> Data {
-        return try decode(type, forKey: key) { decoder, box in
-            try decoder.unbox(box)
-        }
+        return try decodeConcrete(type, forKey: key)
     }
 
     public func decode<T: Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
         let attributeNotFound = (container.attributes[key.stringValue] == nil)
         let elementNotFound = (container.elements[key.stringValue] == nil)
 
-        if type is AnyEmptySequence.Type, attributeNotFound, elementNotFound {
-            return (type as! AnyEmptySequence.Type).init() as! T
+        if let type = type as? AnyEmptySequence.Type,
+            attributeNotFound, elementNotFound {
+            return type.init() as! T
         }
 
-        return try decode(type, forKey: key) { decoder, box in
-            try decoder.unbox(box)
-        }
+        return try decodeConcrete(type, forKey: key)
     }
 
-    private func decodeSignedInteger<T: BinaryInteger & SignedInteger & Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
-        return try decode(type, forKey: key) { decoder, box in
-            try decoder.unbox(box)
-        }
+    private func decodeSignedInteger<T>(_ type: T.Type,
+                                        forKey key: Key) throws -> T
+        where T: BinaryInteger & SignedInteger & Decodable {
+        return try decodeConcrete(type, forKey: key)
     }
 
-    private func decodeUnsignedInteger<T: BinaryInteger & UnsignedInteger & Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
-        return try decode(type, forKey: key) { decoder, box in
-            try decoder.unbox(box)
-        }
+    private func decodeUnsignedInteger<T>(_ type: T.Type,
+                                          forKey key: Key) throws -> T
+        where T: BinaryInteger & UnsignedInteger & Decodable {
+        return try decodeConcrete(type, forKey: key)
     }
 
-    private func decodeFloatingPoint<T: BinaryFloatingPoint & Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
-        return try decode(type, forKey: key) { decoder, box in
-            try decoder.unbox(box)
-        }
+    private func decodeFloatingPoint<T>(_ type: T.Type,
+                                        forKey key: Key) throws -> T
+        where T: BinaryFloatingPoint & Decodable {
+        return try decodeConcrete(type, forKey: key)
     }
 
-    private func decode<T: Decodable>(
+    private func decodeConcrete<T: Decodable>(
         _ type: T.Type,
-        forKey key: Key,
-        decode _: (_XMLDecoder, Box) throws -> T?
+        forKey key: Key
     ) throws -> T {
         guard let entry = container.elements[key.stringValue] ?? container.attributes[key.stringValue] else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(
@@ -236,14 +220,22 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
         decoder.codingPath.append(key)
         defer { decoder.codingPath.removeLast() }
 
-        guard let value: T = try decoder.unbox(entry) else {
+        let value: T? = try decoder.unbox(entry)
+
+        if value == nil,
+            let type = type as? AnyArray.Type,
+            type.elementType is AnyOptional.Type {
+            return [nil] as! T
+        }
+
+        guard let unwrapped = value else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(
                 codingPath: decoder.codingPath,
                 debugDescription: "Expected \(type) value but found null instead."
             ))
         }
 
-        return value
+        return unwrapped
     }
 
     public func nestedContainer<NestedKey>(keyedBy _: NestedKey.Type, forKey key: Key) throws -> KeyedDecodingContainer<NestedKey> {

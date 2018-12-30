@@ -96,12 +96,11 @@ struct _XMLElement {
                 if let content = child.value {
                     switch elements[key] {
                     case let unkeyedBox as UnkeyedBox:
-                        var boxes = unkeyedBox.unbox()
-                        boxes.append(StringBox(content))
-                        elements[key] = UnkeyedBox(boxes)
+                        unkeyedBox.append(StringBox(content))
+                        elements[key] = unkeyedBox
                     case let keyedBox as StringBox:
                         elements[key] = UnkeyedBox([keyedBox, StringBox(content)])
-                    case _:
+                    default:
                         elements[key] = StringBox(content)
                     }
                 } else if !child.elements.isEmpty || !child.attributes.isEmpty {
@@ -116,6 +115,16 @@ struct _XMLElement {
                         }
                     } else {
                         elements[key] = content
+                    }
+                } else {
+                    switch elements[key] {
+                    case let unkeyedBox as UnkeyedBox:
+                        unkeyedBox.append(NullBox())
+                        elements[key] = unkeyedBox
+                    case let keyedBox as StringBox:
+                        elements[key] = UnkeyedBox([keyedBox, NullBox()])
+                    default:
+                        elements[key] = NullBox()
                     }
                 }
             }

@@ -606,6 +606,7 @@ extension _XMLDecoder {
     func unbox<T: Decodable>(_ box: Box) throws -> T {
         let decoded: T
         let type = T.self
+
         if type == Date.self || type == NSDate.self {
             let date: Date = try unbox(box)
             decoded = date as! T
@@ -620,9 +621,10 @@ extension _XMLDecoder {
             decoded = decimal as! T
         } else {
             storage.push(container: box)
-            defer { storage.popContainer() }
-            return try type.init(from: self)
+            decoded = try type.init(from: self)
+            storage.popContainer()
         }
+
         return decoded
     }
 }

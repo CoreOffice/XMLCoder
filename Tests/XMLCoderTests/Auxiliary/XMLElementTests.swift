@@ -23,7 +23,6 @@ class XMLElementTests: XCTestCase {
 
         XCTAssertEqual(keyed.key, "foo")
         XCTAssertNil(keyed.value)
-        debugPrint(keyed.elements)
         XCTAssertEqual(keyed.elements, ["foo": []])
         XCTAssertEqual(keyed.attributes, [:])
     }
