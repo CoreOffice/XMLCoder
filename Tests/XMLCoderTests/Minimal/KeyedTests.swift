@@ -12,6 +12,10 @@ class KeyedTests: XCTestCase {
     struct Container: Codable, Equatable {
         let value: [String: Int]
     }
+    
+    struct ContainerCamelCase: Codable, Equatable {
+        let valUe: [String: Int]
+    }
 
     func testEmpty() throws {
         let decoder = XMLDecoder()
@@ -71,11 +75,31 @@ class KeyedTests: XCTestCase {
             try encoder.encode(container, withRootKey: "container")
         )
     }
+    
+    func testConvertFromSnakeCase() throws {
+        let decoder = XMLDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        
+        let xmlString =
+        """
+            <cont_ainer>
+                <val_ue>
+                    <fo_o>12</fo_o>
+                </val_ue>
+            </cont_ainer>
+            """
+        let xmlData = xmlString.data(using: .utf8)!
+        
+        let decoded = try decoder.decode(ContainerCamelCase.self, from: xmlData)
+        
+        XCTAssertEqual(decoded.valUe, ["foO": 12])
+    }
 
     static var allTests = [
         ("testEmpty", testEmpty),
         ("testSingleElement", testSingleElement),
         ("testMultiElement", testMultiElement),
         ("testAttribute", testAttribute),
+        ("testConvertFromSnakeCase", testConvertFromSnakeCase)
     ]
 }
