@@ -51,7 +51,13 @@ final class RelationshipsTest: XCTestCase {
 
         let rels = try decoder.decode(Relationships.self, from: xml)
 
-        XCTAssertEqual(rels.items[0].id, "rId1")
+        XCTAssertEqual(rels.items.count, 3)
+
+        guard let relationship = rels.items.first else {
+            return
+        }
+
+        XCTAssertEqual(relationship.id, "rId1")
     }
 
     static var allTests = [
