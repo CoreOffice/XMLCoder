@@ -139,7 +139,7 @@ open class XMLDecoder {
         /// Provide a custom conversion from the key in the encoded XML to the keys specified by the decoded types.
         /// The returned key is used in place of the last component in the coding path before decoding.
         /// If the result of the conversion is a duplicate key, then only one box will be present in the container for the type to decode from.
-        case custom((_ codingPath: String) -> String)
+        case custom((_ stringKey: String) -> String)
 
         static func _convertFromCapitalized(_ stringKey: String) -> String {
             guard !stringKey.isEmpty else {
