@@ -53,14 +53,10 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
             self.container = KeyedBox(elements: elements, attributes: attributes)
         case let .custom(converter):
             let attributes = container.attributes.map { key, value in
-                (converter(decoder.codingPath +
-                     [_XMLKey(stringValue: key, intValue: nil)]).stringValue,
-                 value)
+                (converter(key), value)
             }
             let elements = container.elements.map { key, value in
-                (converter(decoder.codingPath +
-                     [_XMLKey(stringValue: key, intValue: nil)]).stringValue,
-                 value)
+                (converter(key), value)
             }
             self.container = KeyedBox(elements: elements, attributes: attributes)
         }
