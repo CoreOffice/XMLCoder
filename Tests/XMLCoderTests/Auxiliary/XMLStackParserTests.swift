@@ -12,7 +12,13 @@ class XMLStackParserTests: XCTestCase {
     func testParseWith() throws {
         let parser = _XMLStackParser()
 
-        let xmlString = "<container><value>42</value></container>"
+        let xmlString =
+            """
+            <container>
+                <value>42</value>
+                <data><![CDATA[lorem ipsum]]></data>
+            </container>
+            """
         let xmlData = xmlString.data(using: .utf8)!
 
         let root: _XMLElement? = try parser.parse(with: xmlData,
@@ -25,6 +31,12 @@ class XMLStackParserTests: XCTestCase {
                     _XMLElement(
                         key: "value",
                         value: "42"
+                    ),
+                ],
+                "data": [
+                    _XMLElement(
+                        key: "data",
+                        value: "lorem ipsum"
                     ),
                 ],
             ]
