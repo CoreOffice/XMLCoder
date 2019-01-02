@@ -12,22 +12,22 @@ class KeyedTests: XCTestCase {
     struct Container: Codable, Equatable {
         let value: [String: Int]
     }
-    
+
     struct ContainerCamelCase: Codable, Equatable {
         let valUe: [String: Int]
     }
-    
+
     struct AnyKey: CodingKey {
         var stringValue: String
         var intValue: Int?
-        
+
         init?(stringValue: String) {
             self.stringValue = stringValue
-            self.intValue = nil
+            intValue = nil
         }
-        
+
         init?(intValue: Int) {
-            self.stringValue = String(intValue)
+            stringValue = String(intValue)
             self.intValue = intValue
         }
     }
@@ -90,13 +90,13 @@ class KeyedTests: XCTestCase {
             try encoder.encode(container, withRootKey: "container")
         )
     }
-    
+
     func testConvertFromSnakeCase() throws {
         let decoder = XMLDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        
+
         let xmlString =
-        """
+            """
             <cont_ainer>
                 <val_ue>
                     <fo_o>12</fo_o>
@@ -104,21 +104,21 @@ class KeyedTests: XCTestCase {
             </cont_ainer>
             """
         let xmlData = xmlString.data(using: .utf8)!
-        
+
         let decoded = try decoder.decode(ContainerCamelCase.self, from: xmlData)
-        
+
         XCTAssertEqual(decoded.valUe, ["foO": 12])
     }
-    
+
     func testCustomDecoderConvert() throws {
         let decoder = XMLDecoder()
         decoder.keyDecodingStrategy = .custom { keys in
             let lastComponent = keys.last!.stringValue.split(separator: "_").last!
             return AnyKey(stringValue: String(lastComponent))!
         }
-        
+
         let xmlString =
-        """
+            """
             <container>
                 <test_value>
                     <foo>12</foo>
@@ -126,9 +126,9 @@ class KeyedTests: XCTestCase {
             </container>
             """
         let xmlData = xmlString.data(using: .utf8)!
-        
+
         let decoded = try decoder.decode(Container.self, from: xmlData)
-        
+
         XCTAssertEqual(decoded.value, ["foo": 12])
     }
 
@@ -137,6 +137,6 @@ class KeyedTests: XCTestCase {
         ("testSingleElement", testSingleElement),
         ("testMultiElement", testMultiElement),
         ("testAttribute", testAttribute),
-        ("testConvertFromSnakeCase", testConvertFromSnakeCase)
+        ("testConvertFromSnakeCase", testConvertFromSnakeCase),
     ]
 }
