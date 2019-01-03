@@ -8,11 +8,23 @@
 import XCTest
 @testable import XMLCoder
 
+protocol IntegerContainer {
+    associatedtype Integer: BinaryInteger
+
+    var value: Integer { get }
+}
+
+extension IntegerContainer {
+    var intValue: Int {
+        return Int(value)
+    }
+}
+
 class IntTests: XCTestCase {
     typealias Value = Int
 
-    struct Container: Codable, Equatable {
-        let value: Value
+    struct Container<T>: Codable, Equatable, IntegerContainer where T: Codable & Equatable & BinaryInteger {
+        let value: T
     }
 
     let values: [(Value, String)] = [
@@ -21,16 +33,14 @@ class IntTests: XCTestCase {
         (42, "42"),
     ]
 
-    func testMissing() {
+    func testMissing<T: Decodable>(_ type: T.Type) throws {
         let decoder = XMLDecoder()
-
         let xmlString = "<container />"
         let xmlData = xmlString.data(using: .utf8)!
-
-        XCTAssertThrowsError(try decoder.decode(Container.self, from: xmlData))
+        XCTAssertThrowsError(try decoder.decode(type, from: xmlData))
     }
 
-    func testAttribute() throws {
+    func testAttribute<T: Decodable & IntegerContainer>(_ type: T.Type) throws {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
 
@@ -45,15 +55,15 @@ class IntTests: XCTestCase {
                 """
             let xmlData = xmlString.data(using: .utf8)!
 
-            let decoded = try decoder.decode(Container.self, from: xmlData)
-            XCTAssertEqual(decoded.value, value)
+            let decoded = try decoder.decode(type, from: xmlData)
+            XCTAssertEqual(decoded.intValue, value)
 
-            let encoded = try encoder.encode(decoded, withRootKey: "container")
+            let encoded = try encoder.encode(decoded as type, withRootKey: "container")
             XCTAssertEqual(String(data: encoded, encoding: .utf8)!, xmlString)
         }
     }
 
-    func testElement() throws {
+    func testElement<T: Decodable>(_ type: T.Type) throws {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
 
@@ -68,7 +78,7 @@ class IntTests: XCTestCase {
                 """
             let xmlData = xmlString.data(using: .utf8)!
 
-            let decoded = try decoder.decode(Container.self, from: xmlData)
+            let decoded = try decoder.decode(type, from: xmlData)
             XCTAssertEqual(decoded.value, value)
 
             let encoded = try encoder.encode(decoded, withRootKey: "container")
@@ -76,8 +86,27 @@ class IntTests: XCTestCase {
         }
     }
 
+    func differentTypeTestMissing() throws {
+        try testMissing(Container<Int>.self)
+        try testMissing(Container<Int8>.self)
+        try testMissing(Container<Int16>.self)
+    }
+
+    func differentTypeTestAttribute() throws {
+        try testAttribute(Container<Int>.self)
+        try testAttribute(Container<Int8>.self)
+        try testAttribute(Container<Int16>.self)
+    }
+
+    func differentTypeTestElement() throws {
+        try testElement(Container<Int>.self)
+        try testElement(Container<Int8>.self)
+        try testElement(Container<Int16>.self)
+    }
+
     static var allTests = [
-        ("testAttribute", testAttribute),
-        ("testElement", testElement),
+        ("differentTypeTestMissing", differentTypeTestMissing),
+        ("differentTypeTestAttribute", differentTypeTestAttribute),
+        ("differentTypeTestElement", differentTypeTestElement),
     ]
 }
