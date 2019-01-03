@@ -15,6 +15,7 @@ class KeyedTests: XCTestCase {
 
     struct ContainerCamelCase: Codable, Equatable {
         let valUe: [String: Int]
+        let testAttribute: String
     }
 
     struct AnyKey: CodingKey {
@@ -97,7 +98,7 @@ class KeyedTests: XCTestCase {
 
         let xmlString =
             """
-            <cont_ainer>
+            <cont_ainer test_attribute="test_container">
                 <val_ue>
                     <fo_o>12</fo_o>
                 </val_ue>
@@ -119,17 +120,17 @@ class KeyedTests: XCTestCase {
 
         let xmlString =
             """
-            <container>
-                <test_value>
+            <container testAttribute="test_container">
+                <test_valUe>
                     <foo>12</foo>
-                </test_value>
+                </test_valUe>
             </container>
             """
         let xmlData = xmlString.data(using: .utf8)!
 
-        let decoded = try decoder.decode(Container.self, from: xmlData)
+        let decoded = try decoder.decode(ContainerCamelCase.self, from: xmlData)
 
-        XCTAssertEqual(decoded.value, ["foo": 12])
+        XCTAssertEqual(decoded.valUe, ["foo": 12])
     }
 
     static var allTests = [
