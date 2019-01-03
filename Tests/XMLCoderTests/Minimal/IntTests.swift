@@ -28,7 +28,6 @@ class IntTests: XCTestCase {
     }
 
     let values: [(Value, String)] = [
-        (-42, "-42"),
         (0, "0"),
         (42, "42"),
     ]
@@ -40,7 +39,7 @@ class IntTests: XCTestCase {
         XCTAssertThrowsError(try decoder.decode(type, from: xmlData))
     }
 
-    func testAttribute<T: Decodable & IntegerContainer>(_ type: T.Type) throws {
+    func testAttribute<T: Codable & IntegerContainer>(_ type: T.Type) throws {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
 
@@ -58,12 +57,12 @@ class IntTests: XCTestCase {
             let decoded = try decoder.decode(type, from: xmlData)
             XCTAssertEqual(decoded.intValue, value)
 
-            let encoded = try encoder.encode(decoded as type, withRootKey: "container")
+            let encoded = try encoder.encode(decoded, withRootKey: "container")
             XCTAssertEqual(String(data: encoded, encoding: .utf8)!, xmlString)
         }
     }
 
-    func testElement<T: Decodable>(_ type: T.Type) throws {
+    func testElement<T: Codable & IntegerContainer>(_ type: T.Type) throws {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
 
@@ -79,34 +78,55 @@ class IntTests: XCTestCase {
             let xmlData = xmlString.data(using: .utf8)!
 
             let decoded = try decoder.decode(type, from: xmlData)
-            XCTAssertEqual(decoded.value, value)
+            XCTAssertEqual(decoded.intValue, value)
 
             let encoded = try encoder.encode(decoded, withRootKey: "container")
             XCTAssertEqual(String(data: encoded, encoding: .utf8)!, xmlString)
         }
     }
 
-    func differentTypeTestMissing() throws {
+    func testIntegerTypeMissing() throws {
         try testMissing(Container<Int>.self)
         try testMissing(Container<Int8>.self)
         try testMissing(Container<Int16>.self)
+        try testMissing(Container<Int32>.self)
+        try testMissing(Container<Int64>.self)
+        try testMissing(Container<UInt>.self)
+        try testMissing(Container<UInt8>.self)
+        try testMissing(Container<UInt16>.self)
+        try testMissing(Container<UInt32>.self)
+        try testMissing(Container<UInt64>.self)
     }
 
-    func differentTypeTestAttribute() throws {
+    func testIntegerTypeAttribute() throws {
         try testAttribute(Container<Int>.self)
         try testAttribute(Container<Int8>.self)
         try testAttribute(Container<Int16>.self)
+        try testAttribute(Container<Int32>.self)
+        try testAttribute(Container<Int64>.self)
+        try testAttribute(Container<UInt>.self)
+        try testAttribute(Container<UInt8>.self)
+        try testAttribute(Container<UInt16>.self)
+        try testAttribute(Container<UInt32>.self)
+        try testAttribute(Container<UInt64>.self)
     }
 
-    func differentTypeTestElement() throws {
+    func testIntegerTypeElement() throws {
         try testElement(Container<Int>.self)
         try testElement(Container<Int8>.self)
         try testElement(Container<Int16>.self)
+        try testElement(Container<Int32>.self)
+        try testElement(Container<Int64>.self)
+        try testElement(Container<UInt>.self)
+        try testElement(Container<UInt8>.self)
+        try testElement(Container<UInt16>.self)
+        try testElement(Container<UInt32>.self)
+        try testElement(Container<UInt64>.self)
     }
 
     static var allTests = [
-        ("differentTypeTestMissing", differentTypeTestMissing),
-        ("differentTypeTestAttribute", differentTypeTestAttribute),
-        ("differentTypeTestElement", differentTypeTestElement),
+        ("testIntegerTypeMissing", testIntegerTypeMissing),
+        ("testIntegerTypeAttribute", testIntegerTypeAttribute),
+        ("testIntegerTypeElement", testIntegerTypeElement),
     ]
 }
