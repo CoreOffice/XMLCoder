@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		A61DCCD821DF9CA200C0A19D /* ClassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61DCCD621DF8DB300C0A19D /* ClassTests.swift */; };
 		BF63EF0021CCDED2001D38C5 /* XMLStackParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EEFF21CCDED2001D38C5 /* XMLStackParserTests.swift */; };
 		BF63EF0621CD7A74001D38C5 /* URLBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EF0521CD7A74001D38C5 /* URLBox.swift */; };
 		BF63EF0821CD7AF8001D38C5 /* URLBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EF0721CD7AF8001D38C5 /* URLBoxTests.swift */; };
@@ -115,6 +116,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A61DCCD621DF8DB300C0A19D /* ClassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassTests.swift; sourceTree = "<group>"; };
 		BF63EEFF21CCDED2001D38C5 /* XMLStackParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLStackParserTests.swift; sourceTree = "<group>"; };
 		BF63EF0521CD7A74001D38C5 /* URLBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBox.swift; sourceTree = "<group>"; };
 		BF63EF0721CD7AF8001D38C5 /* URLBoxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBoxTests.swift; sourceTree = "<group>"; };
@@ -335,6 +337,7 @@
 				OBJ_37 /* RJITest.swift */,
 				OBJ_38 /* RelationshipsTest.swift */,
 				D1FC040421C7EF8200065B43 /* RJISample.swift */,
+				A61DCCD621DF8DB300C0A19D /* ClassTests.swift */,
 			);
 			name = XMLCoderTests;
 			path = Tests/XMLCoderTests;
@@ -555,6 +558,7 @@
 				OBJ_88 /* PlantTest.swift in Sources */,
 				BF63EF0821CD7AF8001D38C5 /* URLBoxTests.swift in Sources */,
 				BF9457DD21CBB62C005ACFDE /* DateBoxTests.swift in Sources */,
+				A61DCCD821DF9CA200C0A19D /* ClassTests.swift in Sources */,
 				BF9457CD21CBB516005ACFDE /* FloatBoxTests.swift in Sources */,
 				BF9457F621CBB6BC005ACFDE /* KeyedTests.swift in Sources */,
 				BF9457C821CBB516005ACFDE /* BoolBoxTests.swift in Sources */,

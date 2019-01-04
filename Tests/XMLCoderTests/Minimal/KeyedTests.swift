@@ -13,6 +13,26 @@ class KeyedTests: XCTestCase {
         let value: [String: Int]
     }
 
+    struct ContainerCamelCase: Codable, Equatable {
+        let valUe: [String: Int]
+        let testAttribute: String
+    }
+
+    struct AnyKey: CodingKey {
+        var stringValue: String
+        var intValue: Int?
+
+        init?(stringValue: String) {
+            self.stringValue = stringValue
+            intValue = nil
+        }
+
+        init?(intValue: Int) {
+            stringValue = String(intValue)
+            self.intValue = intValue
+        }
+    }
+
     func testEmpty() throws {
         let decoder = XMLDecoder()
 
@@ -72,10 +92,69 @@ class KeyedTests: XCTestCase {
         )
     }
 
+    func testConvertFromSnakeCase() throws {
+        let decoder = XMLDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+        let xmlString =
+            """
+            <cont_ainer test_attribute="test_container">
+                <val_ue>
+                    <fo_o>12</fo_o>
+                </val_ue>
+            </cont_ainer>
+            """
+        let xmlData = xmlString.data(using: .utf8)!
+
+        let decoded = try decoder.decode(ContainerCamelCase.self, from: xmlData)
+
+        XCTAssertEqual(decoded.valUe, ["foO": 12])
+    }
+
+    func testErrorDescriptionConvertFromSnakeCase() throws {
+        let decoder = XMLDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+        let xmlString =
+            """
+            <cont_aine test_attribut="test_container">
+                <val_u>
+                    <fo_oo>12</fo_oo>
+                </val_u>
+            </cont_aine>
+            """
+        let xmlData = xmlString.data(using: .utf8)!
+
+        XCTAssertThrowsError(try decoder.decode(ContainerCamelCase.self, from: xmlData))
+    }
+
+    func testCustomDecoderConvert() throws {
+        let decoder = XMLDecoder()
+        decoder.keyDecodingStrategy = .custom { keys in
+            let lastComponent = keys.last!.stringValue.split(separator: "_").last!
+            return AnyKey(stringValue: String(lastComponent))!
+        }
+
+        let xmlString =
+            """
+            <container testAttribute="test_container">
+                <test_valUe>
+                    <foo>12</foo>
+                </test_valUe>
+            </container>
+            """
+        let xmlData = xmlString.data(using: .utf8)!
+
+        let decoded = try decoder.decode(ContainerCamelCase.self, from: xmlData)
+
+        XCTAssertEqual(decoded.valUe, ["foo": 12])
+    }
+
     static var allTests = [
         ("testEmpty", testEmpty),
         ("testSingleElement", testSingleElement),
         ("testMultiElement", testMultiElement),
         ("testAttribute", testAttribute),
+        ("testConvertFromSnakeCase", testConvertFromSnakeCase),
     ]
 }
