@@ -18,7 +18,6 @@ class B: A {
 
     private enum CodingKeys: CodingKey {
         case y
-        case x
     }
 
     required init(from decoder: Decoder) throws {
@@ -27,6 +26,13 @@ class B: A {
         let superDecoder = try container.superDecoder()
         try super.init(from: superDecoder)
     }
+
+    override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(y, forKey: .y)
+        let superEncoder = container.superEncoder()
+        try super.encode(to: superEncoder)
+    }
 }
 
 class C: B {
@@ -34,8 +40,6 @@ class C: B {
 
     private enum CodingKeys: CodingKey {
         case z
-        case y
-        case x
     }
 
     required init(from decoder: Decoder) throws {
@@ -43,6 +47,13 @@ class C: B {
         z = try container.decode(Int.self, forKey: .z)
         let superDecoder = try container.superDecoder()
         try super.init(from: superDecoder)
+    }
+
+    override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(z, forKey: .z)
+        let superEncoder = container.superEncoder()
+        try super.encode(to: superEncoder)
     }
 }
 
@@ -57,27 +68,33 @@ let int = 42
 let double = 4.2
 
 let xmlData = """
-    <s>
-        <a>
+<s>
+    <a>
+        <x>\(str)</x>
+    </a>
+    <b>
+        <super>
             <x>\(str)</x>
-        </a>
-        <b>
-    <y>\(double)</y>
-            <x>\(str)</x>
-    
-        </b>
-        <c>
-            <z>\(int)</z>
-            <x>\(str)</x>
+        </super>
+        <y>\(double)</y>
+    </b>
+    <c>
+        <super>
+            <super>
+                <x>\(str)</x>
+            </super>
             <y>\(double)</y>
-        </c>
-    </s>
+        </super>
+        <z>\(int)</z>
+    </c>
+</s>
 """.data(using: .utf8)!
 
 class ClassTests: XCTestCase {
     func testEmpty() throws {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
 
         let decoded = try decoder.decode(S.self, from: xmlData)
         XCTAssertEqual(decoded.a.x, str)
@@ -88,7 +105,8 @@ class ClassTests: XCTestCase {
         XCTAssertEqual(decoded.c.y, double)
 
         let encoded = try encoder.encode(decoded, withRootKey: "s")
-        print(encoded)
+
+        print(NSString(data: encoded, encoding: String.Encoding.utf8.rawValue))
         XCTAssertEqual(encoded, xmlData)
     }
 
