@@ -106,7 +106,6 @@ class ClassTests: XCTestCase {
 
         let encoded = try encoder.encode(decoded, withRootKey: "s")
 
-        print(NSString(data: encoded, encoding: String.Encoding.utf8.rawValue))
         XCTAssertEqual(encoded, xmlData)
     }
 
