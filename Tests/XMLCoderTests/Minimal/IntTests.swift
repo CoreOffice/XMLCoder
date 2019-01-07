@@ -126,6 +126,16 @@ class IntTests: XCTestCase {
     }
 
     func testIntegerTypeMissing() throws {
+        try testMissing(Container<Int>.self)
+        try testMissing(Container<Int8>.self)
+        try testMissing(Container<Int16>.self)
+        try testMissing(Container<Int32>.self)
+        try testMissing(Container<Int64>.self)
+        try testMissing(Container<UInt>.self)
+        try testMissing(Container<UInt8>.self)
+        try testMissing(Container<UInt16>.self)
+        try testMissing(Container<UInt32>.self)
+        try testMissing(Container<UInt64>.self)
         try testMissing(ContainerInt.self)
         try testMissing(ContainerInt8.self)
         try testMissing(ContainerInt16.self)
@@ -139,6 +149,16 @@ class IntTests: XCTestCase {
     }
 
     func testIntegerTypeAttribute() throws {
+        try testAttribute(Container<Int>.self)
+        try testAttribute(Container<Int8>.self)
+        try testAttribute(Container<Int16>.self)
+        try testAttribute(Container<Int32>.self)
+        try testAttribute(Container<Int64>.self)
+        try testAttribute(Container<UInt>.self)
+        try testAttribute(Container<UInt8>.self)
+        try testAttribute(Container<UInt16>.self)
+        try testAttribute(Container<UInt32>.self)
+        try testAttribute(Container<UInt64>.self)
         try testAttribute(ContainerInt.self)
         try testAttribute(ContainerInt8.self)
         try testAttribute(ContainerInt16.self)
@@ -152,6 +172,16 @@ class IntTests: XCTestCase {
     }
 
     func testIntegerTypeElement() throws {
+        try testElement(Container<Int>.self)
+        try testElement(Container<Int8>.self)
+        try testElement(Container<Int16>.self)
+        try testElement(Container<Int32>.self)
+        try testElement(Container<Int64>.self)
+        try testElement(Container<UInt>.self)
+        try testElement(Container<UInt8>.self)
+        try testElement(Container<UInt16>.self)
+        try testElement(Container<UInt32>.self)
+        try testElement(Container<UInt64>.self)
         try testElement(ContainerInt.self)
         try testElement(ContainerInt8.self)
         try testElement(ContainerInt16.self)
