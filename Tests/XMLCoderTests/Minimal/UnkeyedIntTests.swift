@@ -46,6 +46,16 @@ private func decodeArray<T>(
     return decoded
 }
 
+struct UnkeyedContainerInt<T>: Codable, Equatable, IntegerArrayContainer where T: Codable & Equatable & BinaryInteger {
+    let value: [T]
+
+    init(from decoder: Decoder) throws {
+        value = try decodeArray(decoder) {
+            try $0.decode(T.self)
+        }
+    }
+}
+
 struct UnkeyedContainerInt8: Codable, Equatable, IntegerArrayContainer {
     let value: [Int8]
 
@@ -126,136 +136,50 @@ struct UnkeyedContainerUInt64: Codable, Equatable, IntegerArrayContainer {
     }
 }
 
-let xmlString =
-    """
-    <container>
-        <value>42</value>
-        <value>43</value>
-        <value>44</value>
-    </container>
-    """
-
 class UnkeyedIntTests: XCTestCase {
-    func testInt8() throws {
+    func testInt<T: Codable & IntegerArrayContainer>(_ type: T.Type) throws {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
 
+        let xmlString =
+            """
+            <container>
+                <value>42</value>
+                <value>43</value>
+                <value>44</value>
+            </container>
+            """
+
         let xmlData = xmlString.data(using: .utf8)!
 
-        let decoded = try decoder.decode(UnkeyedContainerInt8.self, from: xmlData)
+        let decoded = try decoder.decode(type, from: xmlData)
         XCTAssertEqual(decoded.intValue, [42, 43, 44])
 
         let encoded = try encoder.encode(decoded, withRootKey: "container")
         XCTAssertEqual(String(data: encoded, encoding: .utf8)!, xmlString)
     }
 
-    func testInt16() throws {
-        let decoder = XMLDecoder()
-        let encoder = XMLEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-
-        let xmlData = xmlString.data(using: .utf8)!
-
-        let decoded = try decoder.decode(UnkeyedContainerInt16.self, from: xmlData)
-        XCTAssertEqual(decoded.intValue, [42, 43, 44])
-
-        let encoded = try encoder.encode(decoded, withRootKey: "container")
-        XCTAssertEqual(String(data: encoded, encoding: .utf8)!, xmlString)
-    }
-
-    func testInt32() throws {
-        let decoder = XMLDecoder()
-        let encoder = XMLEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-
-        let xmlData = xmlString.data(using: .utf8)!
-
-        let decoded = try decoder.decode(UnkeyedContainerInt32.self, from: xmlData)
-        XCTAssertEqual(decoded.intValue, [42, 43, 44])
-
-        let encoded = try encoder.encode(decoded, withRootKey: "container")
-        XCTAssertEqual(String(data: encoded, encoding: .utf8)!, xmlString)
-    }
-
-    func testInt64() throws {
-        let decoder = XMLDecoder()
-        let encoder = XMLEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-
-        let xmlData = xmlString.data(using: .utf8)!
-
-        let decoded = try decoder.decode(UnkeyedContainerInt64.self, from: xmlData)
-        XCTAssertEqual(decoded.intValue, [42, 43, 44])
-
-        let encoded = try encoder.encode(decoded, withRootKey: "container")
-        XCTAssertEqual(String(data: encoded, encoding: .utf8)!, xmlString)
-    }
-
-    func testUInt8() throws {
-        let decoder = XMLDecoder()
-        let encoder = XMLEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-
-        let xmlData = xmlString.data(using: .utf8)!
-
-        let decoded = try decoder.decode(UnkeyedContainerUInt8.self, from: xmlData)
-        XCTAssertEqual(decoded.intValue, [42, 43, 44])
-
-        let encoded = try encoder.encode(decoded, withRootKey: "container")
-        XCTAssertEqual(String(data: encoded, encoding: .utf8)!, xmlString)
-    }
-
-    func testUInt16() throws {
-        let decoder = XMLDecoder()
-        let encoder = XMLEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-
-        let xmlData = xmlString.data(using: .utf8)!
-
-        let decoded = try decoder.decode(UnkeyedContainerUInt16.self, from: xmlData)
-        XCTAssertEqual(decoded.intValue, [42, 43, 44])
-
-        let encoded = try encoder.encode(decoded, withRootKey: "container")
-        XCTAssertEqual(String(data: encoded, encoding: .utf8)!, xmlString)
-    }
-
-    func testUInt32() throws {
-        let decoder = XMLDecoder()
-        let encoder = XMLEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-
-        let xmlData = xmlString.data(using: .utf8)!
-
-        let decoded = try decoder.decode(UnkeyedContainerUInt32.self, from: xmlData)
-        XCTAssertEqual(decoded.intValue, [42, 43, 44])
-
-        let encoded = try encoder.encode(decoded, withRootKey: "container")
-        XCTAssertEqual(String(data: encoded, encoding: .utf8)!, xmlString)
-    }
-
-    func testUInt64() throws {
-        let decoder = XMLDecoder()
-        let encoder = XMLEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-
-        let xmlData = xmlString.data(using: .utf8)!
-
-        let decoded = try decoder.decode(UnkeyedContainerUInt64.self, from: xmlData)
-        XCTAssertEqual(decoded.intValue, [42, 43, 44])
-
-        let encoded = try encoder.encode(decoded, withRootKey: "container")
-        XCTAssertEqual(String(data: encoded, encoding: .utf8)!, xmlString)
+    func testInts() throws {
+        try testInt(UnkeyedContainerInt<Int8>.self)
+        try testInt(UnkeyedContainerInt<Int16>.self)
+        try testInt(UnkeyedContainerInt<Int32>.self)
+        try testInt(UnkeyedContainerInt<Int64>.self)
+        try testInt(UnkeyedContainerInt<UInt8>.self)
+        try testInt(UnkeyedContainerInt<UInt16>.self)
+        try testInt(UnkeyedContainerInt<UInt32>.self)
+        try testInt(UnkeyedContainerInt<UInt64>.self)
+        try testInt(UnkeyedContainerInt8.self)
+        try testInt(UnkeyedContainerInt16.self)
+        try testInt(UnkeyedContainerInt32.self)
+        try testInt(UnkeyedContainerInt64.self)
+        try testInt(UnkeyedContainerUInt8.self)
+        try testInt(UnkeyedContainerUInt16.self)
+        try testInt(UnkeyedContainerUInt32.self)
+        try testInt(UnkeyedContainerUInt64.self)
     }
 
     static var allTests = [
-        ("testInt8", testInt8),
-        ("testInt16", testInt16),
-        ("testInt32", testInt32),
-        ("testInt64", testInt64),
-        ("testUInt8", testUInt8),
-        ("testUInt16", testUInt16),
-        ("testUInt32", testUInt32),
-        ("testUInt64", testUInt64),
+        ("testInts", testInts),
     ]
 }
