@@ -112,7 +112,7 @@ class KeyedIntTests: XCTestCase {
             let xmlString =
                 """
                 <container>
-                <value>\(xmlString)</value>
+                    <value>\(xmlString)</value>
                 </container>
                 """
             let xmlData = xmlString.data(using: .utf8)!
