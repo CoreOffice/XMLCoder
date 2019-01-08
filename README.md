@@ -5,10 +5,11 @@ Encoder &amp; Decoder for XML using Swift's `Codable` protocols.
 [![Version](https://img.shields.io/cocoapods/v/XMLCoder.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
 [![License](https://img.shields.io/cocoapods/l/XMLCoder.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
 [![Platform](https://img.shields.io/cocoapods/p/XMLCoder.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
+[![Coverage](https://img.shields.io/codecov/c/github/MaxDesiatov/XMLCoder/master.svg?style=flat)](https://codecov.io/gh/maxdesiatov/XMLCoder)
 
-This package is a fork of the original 
+This package is a fork of the original
 [ShawnMoore/XMLParsing](https://github.com/ShawnMoore/XMLParsing)
-with more options and tests added. 
+with more options and tests added.
 
 ## Example
 
@@ -23,7 +24,7 @@ let xmlStr = """
     <body>Don't forget to use XMLCoder!</body>
 </note>
 """
-    
+
 struct Note: Codable {
     var to: String
     var from: String
@@ -120,3 +121,39 @@ dependencies: [
     .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.2.1")
 ]
 ```
+
+## Contributing
+
+This project adheres to the [Contributor Covenant Code of
+Conduct](https://github.com/MaxDesiatov/XMLCoder/blob/master/CODE_OF_CONDUCT.md).
+By participating, you are expected to uphold this code. Please report
+unacceptable behavior to xmlcoder@desiatov.com.
+
+### Coding Style
+
+This project uses [SwiftFormat](https://github.com/nicklockwood/SwiftFormat) to
+enforce formatting style. We encourage you to run SwiftFormat within a local
+clone of the repository in whatever way works best for you either manually or
+automatically via an [Xcode
+extension](https://github.com/nicklockwood/SwiftFormat#xcode-source-editor-extension),
+[build phase](https://github.com/nicklockwood/SwiftFormat#xcode-build-phase) or
+[git pre-commit
+hook](https://github.com/nicklockwood/SwiftFormat#git-pre-commit-hook) etc.
+Please check [SwiftFormat
+documentation](https://github.com/nicklockwood/SwiftFormat#how-do-i-install-it)
+for more details.
+
+SwiftFormat also runs within our [Travis
+CI](https://travis-ci.org/MaxDesiatov/XMLCoder) setup and a CI build can fail
+with incosistent formatting. We require CI builds to pass for any PR before
+merging.
+
+### Test Coverage
+
+Our goal is to keep XMLCoder stable and to serialize any XML correctly according
+to [XML 1.0 standard](https://www.w3.org/TR/2008/REC-xml-20081126/). All of this
+can be easily tested automatically and we're slowly improving [test coverage of
+XMLCoder](https://codecov.io/gh/MaxDesiatov/XMLCoder) and don't expect it to
+decrease. PRs that decrease the test coverage have a much lower chance of being
+merged. If you add any new features, please make sure to add tests, likewise for
+changes and any refactoring in existing code.

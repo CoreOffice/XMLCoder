@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct KeyedStorage<Key: Hashable, Value> {
+struct KeyedStorage<Key: Hashable & Comparable, Value> {
     typealias Buffer = [Key: Value]
 
     fileprivate var buffer: Buffer = [:]
@@ -33,28 +33,12 @@ struct KeyedStorage<Key: Hashable, Value> {
         }
     }
 
-    func filter(_ isIncluded: (Key, Value) throws -> Bool) rethrows -> [(Key, Value)] {
-        return try buffer.filter(isIncluded)
-    }
-
     func map<T>(_ transform: (Key, Value) throws -> T) rethrows -> [T] {
         return try buffer.map(transform)
     }
 
     func compactMap<T>(_ transform: ((Key, Value)) throws -> T?) rethrows -> [T] {
         return try buffer.compactMap(transform)
-    }
-
-    func mapValues<T>(_ transform: (Value) throws -> T) rethrows -> [Key: T] {
-        return try buffer.mapValues(transform)
-    }
-
-    func mapValues<T>(_ transform: (Value) throws -> T) rethrows -> [(Key, T)] {
-        return Array(try mapValues(transform))
-    }
-
-    func mapValues(_ transform: (Value) throws -> Value) rethrows -> KeyedStorage {
-        return KeyedStorage(try mapValues(transform))
     }
 }
 
@@ -69,6 +53,13 @@ extension KeyedStorage: Sequence {
 extension KeyedStorage: ExpressibleByDictionaryLiteral {
     init(dictionaryLiteral elements: (Key, Value)...) {
         self.init(Dictionary(uniqueKeysWithValues: elements))
+    }
+}
+
+extension KeyedStorage: CustomStringConvertible
+    where Key: Comparable {
+    var description: String {
+        return "[\(buffer)]"
     }
 }
 
@@ -114,5 +105,11 @@ extension KeyedBox: Box {
 
     func xmlString() -> String? {
         return nil
+    }
+}
+
+extension KeyedBox: CustomStringConvertible {
+    var description: String {
+        return "\(elements)"
     }
 }

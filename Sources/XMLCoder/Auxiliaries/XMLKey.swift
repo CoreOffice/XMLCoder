@@ -14,13 +14,11 @@ struct _XMLKey: CodingKey {
     public let intValue: Int?
 
     public init?(stringValue: String) {
-        self.stringValue = stringValue
-        intValue = nil
+        self.init(key: stringValue)
     }
 
     public init?(intValue: Int) {
-        stringValue = "\(intValue)"
-        self.intValue = intValue
+        self.init(index: intValue)
     }
 
     public init(stringValue: String, intValue: Int?) {
@@ -28,9 +26,12 @@ struct _XMLKey: CodingKey {
         self.intValue = intValue
     }
 
+    init(key: String) {
+        self.init(stringValue: key, intValue: nil)
+    }
+
     init(index: Int) {
-        stringValue = "Index \(index)"
-        intValue = index
+        self.init(stringValue: "\(index)", intValue: index)
     }
 
     static let `super` = _XMLKey(stringValue: "super")!

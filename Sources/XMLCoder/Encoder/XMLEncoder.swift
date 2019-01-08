@@ -30,7 +30,6 @@ open class XMLEncoder {
         public static let prettyPrinted = OutputFormatting(rawValue: 1 << 0)
 
         /// Produce XML with keys sorted in lexicographic order.
-        @available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)
         public static let sortedKeys = OutputFormatting(rawValue: 1 << 1)
     }
 
@@ -63,7 +62,7 @@ open class XMLEncoder {
         /// Encode the `Date` as a custom value encoded by the given closure.
         ///
         /// If the closure fails to encode a value into the given encoder, the encoder will encode an empty automatic container in its place.
-        case custom((Date, Encoder) throws -> Void)
+        case custom((Date, Encoder) throws -> ())
     }
 
     /// The strategy to use for encoding `String` values.
@@ -86,7 +85,7 @@ open class XMLEncoder {
         /// Encode the `Data` as a custom value encoded by the given closure.
         ///
         /// If the closure fails to encode a value into the given encoder, the encoder will encode an empty automatic container in its place.
-        case custom((Data, Encoder) throws -> Void)
+        case custom((Data, Encoder) throws -> ())
     }
 
     /// The strategy to use for non-XML-conforming floating-point values (IEEE 754 infinity and NaN).

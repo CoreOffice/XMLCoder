@@ -7,12 +7,17 @@ before_install:
 - gem install cocoapods --pre # Since Travis is not always on latest version
 - brew update
 - brew install swiftformat
-- brew outdated carthage || brew upgrade carthage
 script:
 - swiftformat --lint --verbose .
 - pod lib lint
 - xcodebuild test -enableCodeCoverage YES -scheme XMLCoder
+# this runs the tests the second time, but it's the only way to make sure
+# that `Package.swift` is in a good state and `swift test` can only generate
+# coverage reports in Swift 5.0, see this issue for more details:
+# https://github.com/apple/swift-package-manager/pull/1787
+- swift test
 before_deploy:
+- brew outdated carthage || brew upgrade carthage
 - carthage build --no-skip-current
 - carthage archive $FRAMEWORK_NAME
 after_success:
