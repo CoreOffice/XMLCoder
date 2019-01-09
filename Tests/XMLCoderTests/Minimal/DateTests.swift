@@ -78,8 +78,87 @@ class DateTests: XCTestCase {
         }
     }
 
+    func testKeyFormatedError() throws {
+        let decoder = XMLDecoder()
+        let encoder = XMLEncoder()
+
+        decoder.dateDecodingStrategy = .keyFormatted { _ in
+            let formatter = DateFormatter()
+            formatter.dateFormat = "value"
+            return formatter
+        }
+
+        encoder.outputFormatting = [.prettyPrinted]
+
+        for (_, xmlString) in values {
+            let xmlString =
+                """
+                <container>
+                    <value>\(xmlString)</value>
+                </container>
+                """
+            let xmlData = xmlString.data(using: .utf8)!
+
+            XCTAssertThrowsError(try decoder.decode(Container.self, from: xmlData))
+        }
+    }
+
+    func testKeyFormatedCouldNotDecodeError() throws {
+        let decoder = XMLDecoder()
+        let encoder = XMLEncoder()
+
+        decoder.dateDecodingStrategy = .keyFormatted { _ in
+            let formatter = DateFormatter()
+            formatter.dateFormat = "value"
+            return formatter
+        }
+
+        encoder.outputFormatting = [.prettyPrinted]
+
+        for (_, xmlString) in values {
+            let xmlString =
+                """
+                <container>
+                <value>\(xmlString)</value>
+                <value>\(xmlString)</value>
+                </container>
+                """
+            let xmlData = xmlString.data(using: .utf8)!
+
+            XCTAssertThrowsError(try decoder.decode(Container.self, from: xmlData))
+        }
+    }
+
+    func testKeyFormatedNoPathError() throws {
+        let decoder = XMLDecoder()
+        let encoder = XMLEncoder()
+
+        decoder.dateDecodingStrategy = .keyFormatted { _ in
+            let formatter = DateFormatter()
+            formatter.dateFormat = "value"
+            return formatter
+        }
+
+        encoder.outputFormatting = [.prettyPrinted]
+
+        for (_, _) in values {
+            let xmlString =
+                """
+                <container>
+                    <value>12</value>
+                </container>
+                """
+            let xmlData = xmlString.data(using: .utf8)!
+
+            XCTAssertThrowsError(try decoder.decode(Container.self, from: xmlData))
+        }
+    }
+
     static var allTests = [
         ("testAttribute", testAttribute),
         ("testElement", testElement),
+        ("testKeyFormatedError", testKeyFormatedError),
+        ("testKeyFormatedCouldNotDecodeError", testKeyFormatedCouldNotDecodeError),
+        ("testKeyFormatedNoPathError", testKeyFormatedNoPathError),
     ]
 }
