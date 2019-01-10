@@ -222,10 +222,15 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
 
         let value: T? = try decoder.unbox(entry)
 
-        if value == nil,
-            let type = type as? AnyArray.Type,
-            type.elementType is AnyOptional.Type {
-            return [nil] as! T
+        if value == nil {
+            if let type = type as? AnyArray.Type,
+                type.elementType is AnyOptional.Type,
+                let result = [nil] as? T {
+                return result
+            } else if let type = type as? AnyOptional.Type,
+                let result = type.init() as? T {
+                return result
+            }
         }
 
         guard let unwrapped = value else {
