@@ -28,11 +28,11 @@ class BenchmarkTests: XCTestCase {
         return try encoder.encode(container, withRootKey: "container")
     }
 
-    func testEncoding<T: Codable>(with value: T, _ closure: (() -> Void) -> Void) throws {
+    func testEncoding<T: Codable>(with value: T, _ closure: (() -> ()) -> ()) throws {
         try testEncoding(of: T.self, with: value, closure)
     }
 
-    func testEncoding<T: Codable>(of _: T.Type, with value: T, _ closure: (() -> Void) -> Void) throws {
+    func testEncoding<T: Codable>(of _: T.Type, with value: T, _ closure: (() -> ()) -> ()) throws {
         let container: Container<T> = self.container(with: value)
 
         let encoder = XMLEncoder()
@@ -52,11 +52,11 @@ class BenchmarkTests: XCTestCase {
         }
     }
 
-    func testDecoding<T: Codable>(with value: T, _ closure: (() -> Void) -> Void) throws {
+    func testDecoding<T: Codable>(with value: T, _ closure: (() -> ()) -> ()) throws {
         try testDecoding(of: T.self, with: value, closure)
     }
 
-    func testDecoding<T: Codable>(of _: T.Type, with value: T, _ closure: (() -> Void) -> Void) throws {
+    func testDecoding<T: Codable>(of _: T.Type, with value: T, _ closure: (() -> ()) -> ()) throws {
         let data: Data = try encodedContainer(of: T.self, with: value)
 
         let decoder = XMLDecoder()
