@@ -76,6 +76,7 @@ class IntTests: XCTestCase {
     }
 
     static var allTests = [
+        ("testMissing", testMissing),
         ("testAttribute", testAttribute),
         ("testElement", testElement),
     ]
