@@ -192,12 +192,6 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
     }
 
     public func decode<T: Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
-        print(#function, type, key)
-        container.withShared { keyedBox in
-            print("attributes: ", keyedBox.attributes.keys)
-            print("elements: ", keyedBox.elements.keys)
-        }
-
         let attributeNotFound = container.withShared { keyedBox in
             keyedBox.attributes[key.stringValue] == nil
         }
