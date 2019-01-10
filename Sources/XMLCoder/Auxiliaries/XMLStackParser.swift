@@ -51,8 +51,19 @@ class _XMLStackParser: NSObject {
             errorPosition += lines[i].count
         }
         errorPosition += xmlParser.columnNumber
-        let lowerBound = String.Index(encodedOffset: errorPosition - offset)
-        let upperBound = String.Index(encodedOffset: errorPosition + offset)
+
+        var lowerBoundIndex = 0
+        if errorPosition - offset > 0 {
+            lowerBoundIndex = errorPosition - offset
+        }
+
+        var upperBoundIndex = string.count
+        if errorPosition + offset < string.count {
+            upperBoundIndex = errorPosition + offset
+        }
+
+        let lowerBound = String.Index(encodedOffset: lowerBoundIndex)
+        let upperBound = String.Index(encodedOffset: upperBoundIndex)
 
         let context = string[lowerBound..<upperBound]
 

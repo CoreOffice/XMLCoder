@@ -77,6 +77,7 @@ class FloatTests: XCTestCase {
     }
 
     static var allTests = [
+        ("testMissing", testMissing),
         ("testAttribute", testAttribute),
         ("testElement", testElement),
     ]
