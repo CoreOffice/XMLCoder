@@ -125,19 +125,22 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         }
     }
 
-    private mutating func decodeSignedInteger<T: BinaryInteger & SignedInteger & Decodable>(_ type: T.Type) throws -> T {
+    private mutating func decodeSignedInteger<T>(_ type: T.Type) throws -> T
+        where T: BinaryInteger & SignedInteger & Decodable {
         return try decode(type) { decoder, box in
             try decoder.unbox(box)
         }
     }
 
-    private mutating func decodeUnsignedInteger<T: BinaryInteger & UnsignedInteger & Decodable>(_ type: T.Type) throws -> T {
+    private mutating func decodeUnsignedInteger<T>(_ type: T.Type) throws -> T
+        where T: BinaryInteger & UnsignedInteger & Decodable {
         return try decode(type) { decoder, box in
             try decoder.unbox(box)
         }
     }
 
-    private mutating func decodeFloatingPoint<T: BinaryFloatingPoint & Decodable>(_ type: T.Type) throws -> T {
+    private mutating func decodeFloatingPoint<T>(_ type: T.Type) throws -> T
+        where T: BinaryFloatingPoint & Decodable {
         return try decode(type) { decoder, box in
             try decoder.unbox(box)
         }
@@ -159,6 +162,13 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
 
         let box = container[self.currentIndex]
         let value = try decode(decoder, box)
+
+        defer { currentIndex += 1 }
+
+        if value == nil, let type = type as? AnyOptional.Type {
+            return type.init() as! T
+        }
+
         guard let decoded: T = value else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(
                 codingPath: decoder.codingPath + [_XMLKey(index: self.currentIndex)],
@@ -166,19 +176,22 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
             ))
         }
 
-        currentIndex += 1
         return decoded
     }
 
-    public mutating func nestedContainer<NestedKey>(keyedBy _: NestedKey.Type) throws -> KeyedDecodingContainer<NestedKey> {
+    public mutating func nestedContainer<NestedKey>(
+        keyedBy _: NestedKey.Type
+    ) throws -> KeyedDecodingContainer<NestedKey> {
         decoder.codingPath.append(_XMLKey(index: currentIndex))
         defer { self.decoder.codingPath.removeLast() }
 
         guard !isAtEnd else {
-            throw DecodingError.valueNotFound(KeyedDecodingContainer<NestedKey>.self, DecodingError.Context(
-                codingPath: codingPath,
-                debugDescription: "Cannot get nested keyed container -- unkeyed container is at end."
-            ))
+            throw DecodingError.valueNotFound(
+                KeyedDecodingContainer<NestedKey>.self, DecodingError.Context(
+                    codingPath: codingPath,
+                    debugDescription: "Cannot get nested keyed container -- unkeyed container is at end."
+                )
+            )
         }
 
         let value = self.container[self.currentIndex]
@@ -190,11 +203,16 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         }
 
         guard let keyed = value as? KeyedBox else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: [String: Any].self, reality: value)
+            throw DecodingError._typeMismatch(at: codingPath,
+                                              expectation: [String: Any].self,
+                                              reality: value)
         }
 
         currentIndex += 1
-        let container = _XMLKeyedDecodingContainer<NestedKey>(referencing: decoder, wrapping: keyed)
+        let container = _XMLKeyedDecodingContainer<NestedKey>(
+            referencing: decoder,
+            wrapping: keyed
+        )
         return KeyedDecodingContainer(container)
     }
 
@@ -203,10 +221,12 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         defer { self.decoder.codingPath.removeLast() }
 
         guard !isAtEnd else {
-            throw DecodingError.valueNotFound(UnkeyedDecodingContainer.self, DecodingError.Context(
-                codingPath: codingPath,
-                debugDescription: "Cannot get nested keyed container -- unkeyed container is at end."
-            ))
+            throw DecodingError.valueNotFound(
+                UnkeyedDecodingContainer.self, DecodingError.Context(
+                    codingPath: codingPath,
+                    debugDescription: "Cannot get nested keyed container -- unkeyed container is at end."
+                )
+            )
         }
 
         let value = container[self.currentIndex]
@@ -218,7 +238,9 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         }
 
         guard let unkeyed = value as? UnkeyedBox else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: UnkeyedBox.self, reality: value)
+            throw DecodingError._typeMismatch(at: codingPath,
+                                              expectation: UnkeyedBox.self,
+                                              reality: value)
         }
 
         currentIndex += 1
@@ -238,6 +260,8 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
 
         let value = container[self.currentIndex]
         currentIndex += 1
-        return _XMLDecoder(referencing: value, at: decoder.codingPath, options: decoder.options)
+        return _XMLDecoder(referencing: value,
+                           at: decoder.codingPath,
+                           options: decoder.options)
     }
 }

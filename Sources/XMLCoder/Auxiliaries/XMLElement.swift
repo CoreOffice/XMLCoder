@@ -9,7 +9,7 @@ import Foundation
 
 struct _XMLElement {
     static let attributesKey = "___ATTRIBUTES"
-    static let escapedCharacterSet = [("&", "&amp"), ("<", "&lt;"), (">", "&gt;"), ("'", "&apos;"), ("\"", "&quot;")]
+    static let escapedCharacterSet = [("&", "&amp;"), ("<", "&lt;"), (">", "&gt;"), ("'", "&apos;"), ("\"", "&quot;")]
 
     var key: String
     var value: String?
@@ -96,12 +96,11 @@ struct _XMLElement {
                 if let content = child.value {
                     switch elements[key] {
                     case let unkeyedBox as UnkeyedBox:
-                        var boxes = unkeyedBox.unbox()
-                        boxes.append(StringBox(content))
-                        elements[key] = UnkeyedBox(boxes)
+                        unkeyedBox.append(StringBox(content))
+                        elements[key] = unkeyedBox
                     case let keyedBox as StringBox:
                         elements[key] = UnkeyedBox([keyedBox, StringBox(content)])
-                    case _:
+                    default:
                         elements[key] = StringBox(content)
                     }
                 } else if !child.elements.isEmpty || !child.attributes.isEmpty {
@@ -116,6 +115,16 @@ struct _XMLElement {
                         }
                     } else {
                         elements[key] = content
+                    }
+                } else {
+                    switch elements[key] {
+                    case let unkeyedBox as UnkeyedBox:
+                        unkeyedBox.append(NullBox())
+                        elements[key] = unkeyedBox
+                    case let keyedBox as StringBox:
+                        elements[key] = UnkeyedBox([keyedBox, NullBox()])
+                    default:
+                        elements[key] = NullBox()
                     }
                 }
             }
@@ -173,21 +182,17 @@ struct _XMLElement {
     }
 
     fileprivate func formatXMLAttributes(_ formatting: XMLEncoder.OutputFormatting, _ string: inout String) {
-        if #available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *) {
-            if formatting.contains(.sortedKeys) {
-                formatSortedXMLAttributes(&string)
-                return
-            }
+        if formatting.contains(.sortedKeys) {
+            formatSortedXMLAttributes(&string)
+            return
         }
         formatUnsortedXMLAttributes(&string)
     }
 
     fileprivate func formatXMLElements(_ formatting: XMLEncoder.OutputFormatting, _ string: inout String, _ level: Int, _ cdata: Bool, _ prettyPrinted: Bool) {
-        if #available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *) {
-            if formatting.contains(.sortedKeys) {
-                formatSortedXMLElements(&string, level, cdata, formatting, prettyPrinted)
-                return
-            }
+        if formatting.contains(.sortedKeys) {
+            formatSortedXMLElements(&string, level, cdata, formatting, prettyPrinted)
+            return
         }
         formatUnsortedXMLElements(&string, level, cdata, formatting, prettyPrinted)
     }
