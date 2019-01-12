@@ -89,11 +89,6 @@ struct KeyedBox {
         self.attributes = Attributes(attributes)
     }
 
-    init(elements: Elements, attributes: Attributes) {
-        self.elements = elements
-        self.attributes = attributes
-    }
-
     func unbox() -> (elements: Elements, attributes: Attributes) {
         return (
             elements: elements,
