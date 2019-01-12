@@ -269,7 +269,9 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
         return unwrapped
     }
 
-    public func nestedContainer<NestedKey>(keyedBy _: NestedKey.Type, forKey key: Key) throws -> KeyedDecodingContainer<NestedKey> {
+    public func nestedContainer<NestedKey>(
+        keyedBy _: NestedKey.Type, forKey key: Key
+    ) throws -> KeyedDecodingContainer<NestedKey> {
         decoder.codingPath.append(key)
         defer { decoder.codingPath.removeLast() }
 
@@ -288,11 +290,25 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
             ))
         }
 
-        guard let keyedContainer = value as? KeyedContainer else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: [String: Any].self, reality: value)
+        let container: _XMLKeyedDecodingContainer<NestedKey>
+        if let keyedContainer = value as? KeyedContainer {
+            container = _XMLKeyedDecodingContainer<NestedKey>(
+                referencing: decoder,
+                wrapping: keyedContainer
+            )
+        } else if let keyedContainer = value as? KeyedBox {
+            container = _XMLKeyedDecodingContainer<NestedKey>(
+                referencing: decoder,
+                wrapping: SharedBox(keyedContainer)
+            )
+        } else {
+            throw DecodingError._typeMismatch(
+                at: codingPath,
+                expectation: [String: Any].self,
+                reality: value
+            )
         }
 
-        let container = _XMLKeyedDecodingContainer<NestedKey>(referencing: decoder, wrapping: keyedContainer)
         return KeyedDecodingContainer(container)
     }
 
