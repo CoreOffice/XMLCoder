@@ -315,11 +315,13 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
             ))
         }
 
-        guard let unkeyedContainer = value as? UnkeyedContainer else {
+        if let unkeyedContainer = value as? UnkeyedContainer {
+            return _XMLUnkeyedDecodingContainer(referencing: decoder, wrapping: unkeyedContainer)
+        } else if let unkeyedContainer = value as? UnkeyedBox {
+            return _XMLUnkeyedDecodingContainer(referencing: decoder, wrapping: SharedBox(unkeyedContainer))
+        } else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: [Any].self, reality: value)
         }
-
-        return _XMLUnkeyedDecodingContainer(referencing: decoder, wrapping: unkeyedContainer)
     }
 
     private func _superDecoder(forKey key: CodingKey) throws -> Decoder {

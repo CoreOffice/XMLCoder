@@ -43,9 +43,17 @@ struct _XMLElement {
 
         elements = Dictionary(uniqueKeysWithValues: box.elements.map { key, box in
             switch box {
+            case let sharedUnkeyedBox as SharedBox<UnkeyedBox>:
+                let box = sharedUnkeyedBox.unbox() as! UnkeyedBox
+                let elements = box.map { _XMLElement(key: key, box: $0) }
+                return (key, elements)
             case let unkeyedBox as UnkeyedBox:
                 // This basically injects the unkeyed children directly into self:
                 let elements = unkeyedBox.map { _XMLElement(key: key, box: $0) }
+                return (key, elements)
+            case let sharedKeyedBox as SharedBox<KeyedBox>:
+                let box = sharedKeyedBox.unbox() as! KeyedBox
+                let elements = [_XMLElement(key: key, box: box)]
                 return (key, elements)
             case let keyedBox as KeyedBox:
                 let elements = [_XMLElement(key: key, box: keyedBox)]
