@@ -16,7 +16,7 @@ struct _XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
     private let encoder: _XMLEncoder
 
     /// A reference to the container we're writing to.
-    private let container: KeyedBox
+    private var container: SharedBox<KeyedBox>
 
     /// The path of coding keys taken to get to this point in encoding.
     public private(set) var codingPath: [CodingKey]
@@ -24,7 +24,7 @@ struct _XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
     // MARK: - Initialization
 
     /// Initializes `self` with the given references.
-    init(referencing encoder: _XMLEncoder, codingPath: [CodingKey], wrapping container: KeyedBox) {
+    init(referencing encoder: _XMLEncoder, codingPath: [CodingKey], wrapping container: SharedBox<KeyedBox>) {
         self.encoder = encoder
         self.codingPath = codingPath
         self.container = container
@@ -47,7 +47,9 @@ struct _XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
     // MARK: - KeyedEncodingContainerProtocol Methods
 
     public mutating func encodeNil(forKey key: Key) throws {
-        container.elements[_converted(key).stringValue] = NullBox()
+        container.withShared { container in
+            container.elements[_converted(key).stringValue] = NullBox()
+        }
     }
 
     public mutating func encode<T: Encodable>(_ value: T, forKey key: Key) throws {
@@ -83,30 +85,40 @@ struct _XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
                     debugDescription: "Complex values cannot be encoded as attributes."
                 ))
             }
-            container.attributes[_converted(key).stringValue] = attribute
+            container.withShared { container in
+                container.attributes[_converted(key).stringValue] = attribute
+            }
         case .element:
-            container.elements[_converted(key).stringValue] = box
+            container.withShared { container in
+                container.elements[_converted(key).stringValue] = box
+            }
         }
     }
 
     public mutating func nestedContainer<NestedKey>(keyedBy _: NestedKey.Type, forKey key: Key) -> KeyedEncodingContainer<NestedKey> {
-        let keyed = KeyedBox()
-        self.container.elements[_converted(key).stringValue] = keyed
+        let sharedKeyed = SharedBox(KeyedBox())
+
+        self.container.withShared { container in
+            container.elements[_converted(key).stringValue] = sharedKeyed
+        }
 
         codingPath.append(key)
         defer { self.codingPath.removeLast() }
 
-        let container = _XMLKeyedEncodingContainer<NestedKey>(referencing: encoder, codingPath: codingPath, wrapping: keyed)
+        let container = _XMLKeyedEncodingContainer<NestedKey>(referencing: encoder, codingPath: codingPath, wrapping: sharedKeyed)
         return KeyedEncodingContainer(container)
     }
 
     public mutating func nestedUnkeyedContainer(forKey key: Key) -> UnkeyedEncodingContainer {
-        let unkeyed = UnkeyedBox()
-        container.elements[_converted(key).stringValue] = unkeyed
+        let sharedUnkeyed = SharedBox(UnkeyedBox())
+
+        container.withShared { container in
+            container.elements[_converted(key).stringValue] = sharedUnkeyed
+        }
 
         codingPath.append(key)
         defer { self.codingPath.removeLast() }
-        return _XMLUnkeyedEncodingContainer(referencing: encoder, codingPath: codingPath, wrapping: unkeyed)
+        return _XMLUnkeyedEncodingContainer(referencing: encoder, codingPath: codingPath, wrapping: sharedUnkeyed)
     }
 
     public mutating func superEncoder() -> Encoder {

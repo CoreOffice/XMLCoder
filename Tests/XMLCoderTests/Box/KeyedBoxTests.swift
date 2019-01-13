@@ -53,7 +53,7 @@ class KeyedBoxTests: XCTestCase {
     }
 
     func testSubscript() {
-        let box = Boxed(
+        var box = Boxed(
             elements: ["foo": StringBox("bar"), "baz": IntBox(42)],
             attributes: ["baz": StringBox("blee")]
         )

@@ -9,13 +9,16 @@
 import Foundation
 
 struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
+    typealias KeyedContainer = SharedBox<KeyedBox>
+    typealias UnkeyedContainer = SharedBox<UnkeyedBox>
+
     // MARK: Properties
 
     /// A reference to the decoder we're reading from.
     private let decoder: _XMLDecoder
 
     /// A reference to the container we're reading from.
-    private let container: UnkeyedBox
+    private let container: UnkeyedContainer
 
     /// The path of coding keys taken to get to this point in decoding.
     public private(set) var codingPath: [CodingKey]
@@ -26,7 +29,7 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
     // MARK: - Initialization
 
     /// Initializes `self` by referencing the given decoder and container.
-    init(referencing decoder: _XMLDecoder, wrapping container: UnkeyedBox) {
+    init(referencing decoder: _XMLDecoder, wrapping container: UnkeyedContainer) {
         self.decoder = decoder
         self.container = container
         codingPath = decoder.codingPath
@@ -36,7 +39,9 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
     // MARK: - UnkeyedDecodingContainer Methods
 
     public var count: Int? {
-        return container.count
+        return container.withShared { unkeyedBox in
+            unkeyedBox.count
+        }
     }
 
     public var isAtEnd: Bool {
@@ -51,7 +56,11 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
             ))
         }
 
-        if container[self.currentIndex].isNull {
+        let isNull = container.withShared { unkeyedBox in
+            unkeyedBox[self.currentIndex].isNull
+        }
+
+        if isNull {
             currentIndex += 1
             return true
         } else {
@@ -83,14 +92,17 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
 
         // work around unkeyed box wrapped as single element of keyed box
         if let type = type as? AnyArray.Type,
-            let keyedBox = container[self.currentIndex] as? KeyedBox,
+            let keyedBox = container
+            .withShared({ $0[self.currentIndex] as? KeyedBox }),
             keyedBox.attributes.count == 0,
             keyedBox.elements.count == 1,
             let firstKey = keyedBox.elements.keys.first,
             let unkeyedBox = keyedBox.elements[firstKey] {
             box = unkeyedBox
         } else {
-            box = container[self.currentIndex]
+            box = container.withShared { unkeyedBox in
+                unkeyedBox[self.currentIndex]
+            }
         }
 
         let value = try decode(decoder, box)
@@ -126,7 +138,9 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
             )
         }
 
-        let value = self.container[self.currentIndex]
+        let value = self.container.withShared { unkeyedBox in
+            unkeyedBox[self.currentIndex]
+        }
         guard !value.isNull else {
             throw DecodingError.valueNotFound(KeyedDecodingContainer<NestedKey>.self, DecodingError.Context(
                 codingPath: codingPath,
@@ -134,7 +148,7 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
             ))
         }
 
-        guard let keyed = value as? KeyedBox else {
+        guard let keyedContainer = value as? KeyedContainer else {
             throw DecodingError._typeMismatch(at: codingPath,
                                               expectation: [String: Any].self,
                                               reality: value)
@@ -143,7 +157,7 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         currentIndex += 1
         let container = _XMLKeyedDecodingContainer<NestedKey>(
             referencing: decoder,
-            wrapping: keyed
+            wrapping: keyedContainer
         )
         return KeyedDecodingContainer(container)
     }
@@ -161,7 +175,9 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
             )
         }
 
-        let value = container[self.currentIndex]
+        let value = container.withShared { unkeyedBox in
+            unkeyedBox[self.currentIndex]
+        }
         guard !value.isNull else {
             throw DecodingError.valueNotFound(UnkeyedDecodingContainer.self, DecodingError.Context(
                 codingPath: codingPath,
@@ -169,14 +185,14 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
             ))
         }
 
-        guard let unkeyed = value as? UnkeyedBox else {
+        guard let unkeyedContainer = value as? UnkeyedContainer else {
             throw DecodingError._typeMismatch(at: codingPath,
                                               expectation: UnkeyedBox.self,
                                               reality: value)
         }
 
         currentIndex += 1
-        return _XMLUnkeyedDecodingContainer(referencing: decoder, wrapping: unkeyed)
+        return _XMLUnkeyedDecodingContainer(referencing: decoder, wrapping: unkeyedContainer)
     }
 
     public mutating func superDecoder() throws -> Decoder {
@@ -190,7 +206,9 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
             ))
         }
 
-        let value = container[self.currentIndex]
+        let value = container.withShared { unkeyedBox in
+            unkeyedBox[self.currentIndex]
+        }
         currentIndex += 1
         return _XMLDecoder(referencing: value,
                            at: decoder.codingPath,
