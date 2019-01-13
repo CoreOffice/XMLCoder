@@ -32,20 +32,26 @@ struct _XMLEncodingStorage {
         return containers.last
     }
 
-    mutating func pushKeyedContainer() -> KeyedBox {
-        let keyed = KeyedBox()
-        containers.append(keyed)
-        return keyed
+    mutating func pushKeyedContainer() -> SharedBox<KeyedBox> {
+        let container = SharedBox(KeyedBox())
+        containers.append(container)
+        return container
     }
 
-    mutating func pushUnkeyedContainer() -> UnkeyedBox {
-        let unkeyed = UnkeyedBox()
-        containers.append(unkeyed)
-        return unkeyed
+    mutating func pushUnkeyedContainer() -> SharedBox<UnkeyedBox> {
+        let container = SharedBox(UnkeyedBox())
+        containers.append(container)
+        return container
     }
 
     mutating func push(container: Box) {
-        containers.append(container)
+        if let keyedBox = container as? KeyedBox {
+            containers.append(SharedBox(keyedBox))
+        } else if let unkeyedBox = container as? UnkeyedBox {
+            containers.append(SharedBox(unkeyedBox))
+        } else {
+            containers.append(container)
+        }
     }
 
     mutating func popContainer() -> Box {

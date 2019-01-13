@@ -18,10 +18,10 @@ class _XMLReferencingEncoder: _XMLEncoder {
     /// The type of container we're referencing.
     private enum Reference {
         /// Referencing a specific index in an unkeyed container.
-        case unkeyed(UnkeyedBox, Int)
+        case unkeyed(SharedBox<UnkeyedBox>, Int)
 
         /// Referencing a specific key in a keyed container.
-        case keyed(KeyedBox, String)
+        case keyed(SharedBox<KeyedBox>, String)
     }
 
     // MARK: - Properties
@@ -38,10 +38,10 @@ class _XMLReferencingEncoder: _XMLEncoder {
     init(
         referencing encoder: _XMLEncoder,
         at index: Int,
-        wrapping unkeyed: UnkeyedBox
+        wrapping sharedUnkeyed: SharedBox<UnkeyedBox>
     ) {
         self.encoder = encoder
-        reference = .unkeyed(unkeyed, index)
+        reference = .unkeyed(sharedUnkeyed, index)
         super.init(
             options: encoder.options,
             nodeEncodings: encoder.nodeEncodings,
@@ -56,10 +56,10 @@ class _XMLReferencingEncoder: _XMLEncoder {
         referencing encoder: _XMLEncoder,
         key: CodingKey,
         convertedKey: CodingKey,
-        wrapping keyed: KeyedBox
+        wrapping sharedKeyed: SharedBox<KeyedBox>
     ) {
         self.encoder = encoder
-        reference = .keyed(keyed, convertedKey.stringValue)
+        reference = .keyed(sharedKeyed, convertedKey.stringValue)
         super.init(
             options: encoder.options,
             nodeEncodings: encoder.nodeEncodings,
@@ -90,10 +90,14 @@ class _XMLReferencingEncoder: _XMLEncoder {
         }
 
         switch self.reference {
-        case let .unkeyed(unkeyed, index):
-            unkeyed.insert(box, at: index)
-        case let .keyed(keyed, key):
-            keyed.elements[key] = box
+        case let .unkeyed(sharedUnkeyedBox, index):
+            sharedUnkeyedBox.withShared { unkeyedBox in
+                unkeyedBox.insert(box, at: index)
+            }
+        case let .keyed(sharedKeyedBox, key):
+            sharedKeyedBox.withShared { keyedBox in
+                keyedBox.elements[key] = box
+            }
         }
     }
 }

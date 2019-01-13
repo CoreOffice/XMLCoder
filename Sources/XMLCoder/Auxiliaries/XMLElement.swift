@@ -43,9 +43,17 @@ struct _XMLElement {
 
         elements = Dictionary(uniqueKeysWithValues: box.elements.map { key, box in
             switch box {
+            case let sharedUnkeyedBox as SharedBox<UnkeyedBox>:
+                let box = sharedUnkeyedBox.unbox() as! UnkeyedBox
+                let elements = box.map { _XMLElement(key: key, box: $0) }
+                return (key, elements)
             case let unkeyedBox as UnkeyedBox:
                 // This basically injects the unkeyed children directly into self:
                 let elements = unkeyedBox.map { _XMLElement(key: key, box: $0) }
+                return (key, elements)
+            case let sharedKeyedBox as SharedBox<KeyedBox>:
+                let box = sharedKeyedBox.unbox() as! KeyedBox
+                let elements = [_XMLElement(key: key, box: box)]
                 return (key, elements)
             case let keyedBox as KeyedBox:
                 let elements = [_XMLElement(key: key, box: keyedBox)]
@@ -66,6 +74,10 @@ struct _XMLElement {
 
     init(key: String, box: Box) {
         switch box {
+        case let sharedUnkeyedBox as SharedBox<UnkeyedBox>:
+            self.init(key: key, box: sharedUnkeyedBox.unbox())
+        case let sharedKeyedBox as SharedBox<KeyedBox>:
+            self.init(key: key, box: sharedKeyedBox.unbox())
         case let unkeyedBox as UnkeyedBox:
             self.init(key: key, box: unkeyedBox)
         case let keyedBox as KeyedBox:
@@ -93,36 +105,41 @@ struct _XMLElement {
         var elements: [String: Box] = [:]
         for (key, value) in self.elements {
             for child in value {
-                if let content = child.value {
-                    switch elements[key] {
-                    case let unkeyedBox as UnkeyedBox:
-                        unkeyedBox.append(StringBox(content))
-                        elements[key] = unkeyedBox
-                    case let keyedBox as StringBox:
-                        elements[key] = UnkeyedBox([keyedBox, StringBox(content)])
-                    default:
-                        elements[key] = StringBox(content)
-                    }
-                } else if !child.elements.isEmpty || !child.attributes.isEmpty {
-                    let content = child.flatten()
-                    if let existingValue = elements[key] {
-                        if let unkeyedBox = existingValue as? UnkeyedBox {
-                            var boxes = unkeyedBox.unbox()
-                            boxes.append(content)
-                            elements[key] = UnkeyedBox(boxes)
-                        } else {
-                            elements[key] = UnkeyedBox([existingValue, content])
+                let hasValue = child.value != nil
+                let hasElements = !child.elements.isEmpty
+                let hasAttributes = !child.attributes.isEmpty
+
+                if hasValue || hasElements || hasAttributes {
+                    if let content = child.value {
+                        switch elements[key] {
+                        case var unkeyedBox as UnkeyedBox:
+                            unkeyedBox.append(StringBox(content))
+                            elements[key] = unkeyedBox
+                        case let stringBox as StringBox:
+                            elements[key] = UnkeyedBox([stringBox, StringBox(content)])
+                        default:
+                            elements[key] = StringBox(content)
                         }
-                    } else {
-                        elements[key] = content
+                    }
+                    if hasElements || hasAttributes {
+                        let content = child.flatten()
+                        switch elements[key] {
+                        case var unkeyedBox as UnkeyedBox:
+                            unkeyedBox.append(content)
+                            elements[key] = unkeyedBox
+                        case let box?:
+                            elements[key] = UnkeyedBox([box, content])
+                        default:
+                            elements[key] = content
+                        }
                     }
                 } else {
                     switch elements[key] {
-                    case let unkeyedBox as UnkeyedBox:
+                    case var unkeyedBox as UnkeyedBox:
                         unkeyedBox.append(NullBox())
                         elements[key] = unkeyedBox
-                    case let keyedBox as StringBox:
-                        elements[key] = UnkeyedBox([keyedBox, NullBox()])
+                    case let box?:
+                        elements[key] = UnkeyedBox([box, NullBox()])
                     default:
                         elements[key] = NullBox()
                     }
@@ -130,7 +147,9 @@ struct _XMLElement {
             }
         }
 
-        return KeyedBox(elements: elements, attributes: attributes)
+        let keyedBox = KeyedBox(elements: elements, attributes: attributes)
+
+        return keyedBox
     }
 
     func toXMLString(with header: XMLHeader? = nil, withCDATA cdata: Bool, formatting: XMLEncoder.OutputFormatting, ignoreEscaping _: Bool = false) -> String {

@@ -62,7 +62,7 @@ extension KeyedStorage: CustomStringConvertible {
     }
 }
 
-class KeyedBox {
+struct KeyedBox {
     typealias Key = String
     typealias Attribute = SimpleBox
     typealias Element = Box
