@@ -56,10 +56,9 @@ extension KeyedStorage: ExpressibleByDictionaryLiteral {
     }
 }
 
-extension KeyedStorage: CustomStringConvertible
-    where Key: Comparable {
+extension KeyedStorage: CustomStringConvertible {
     var description: String {
-        return "[\(buffer)]"
+        return "\(buffer)"
     }
 }
 
@@ -115,6 +114,6 @@ extension KeyedBox: Box {
 
 extension KeyedBox: CustomStringConvertible {
     var description: String {
-        return "\(elements)"
+        return "{attributes: \(attributes), elements: \(elements)}"
     }
 }

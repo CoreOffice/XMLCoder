@@ -169,9 +169,23 @@ struct _XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         decoder.codingPath.append(_XMLKey(index: currentIndex))
         defer { self.decoder.codingPath.removeLast() }
 
-        let box = container.withShared { unkeyedBox in
-            unkeyedBox[self.currentIndex]
+        let box: Box
+
+        // work around unkeyed box wrapped as single element of keyed box
+        if let type = type as? AnyArray.Type,
+            let keyedBox = container
+            .withShared({ $0[self.currentIndex] as? KeyedBox }),
+            keyedBox.attributes.count == 0,
+            keyedBox.elements.count == 1,
+            let firstKey = keyedBox.elements.keys.first,
+            let unkeyedBox = keyedBox.elements[firstKey] {
+            box = unkeyedBox
+        } else {
+            box = container.withShared { unkeyedBox in
+                unkeyedBox[self.currentIndex]
+            }
         }
+
         let value = try decode(decoder, box)
 
         defer { currentIndex += 1 }

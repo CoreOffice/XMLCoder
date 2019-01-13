@@ -36,11 +36,17 @@ struct _XMLElement {
 
         for (key, box) in box.elements {
             switch box {
+            case let sharedUnkeyedBox as SharedBox<UnkeyedBox>:
+                let box = sharedUnkeyedBox.unbox() as! UnkeyedBox
+                elements.append(contentsOf: box.map { _XMLElement(key: key, box: $0) })
             case let unkeyedBox as UnkeyedBox:
                 // This basically injects the unkeyed children directly into self:
                 elements.append(contentsOf: unkeyedBox.map {
                     _XMLElement(key: key, box: $0)
                 })
+            case let sharedKeyedBox as SharedBox<KeyedBox>:
+                let box = sharedKeyedBox.unbox() as! KeyedBox
+                elements.append(_XMLElement(key: key, box: box))
             case let keyedBox as KeyedBox:
                 elements.append(_XMLElement(key: key, box: keyedBox))
             case let simpleBox as SimpleBox:
@@ -96,6 +102,7 @@ struct _XMLElement {
         let attributes = self.attributes.mapValues { StringBox($0) }
 
         var elements: [String: Box] = [:]
+
         for element in self.elements {
             let key = element.key
 

@@ -192,12 +192,6 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
     }
 
     public func decode<T: Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
-        print(#function, type, key)
-        container.withShared { keyedBox in
-            print("attributes: ", keyedBox.attributes.keys)
-            print("elements: ", keyedBox.elements.keys)
-        }
-
         let attributeNotFound = container.withShared { keyedBox in
             keyedBox.attributes[key.stringValue] == nil
         }
@@ -254,10 +248,15 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
 
         let value: T? = try decoder.unbox(entry)
 
-        if value == nil,
-            let type = type as? AnyArray.Type,
-            type.elementType is AnyOptional.Type {
-            return [nil] as! T
+        if value == nil {
+            if let type = type as? AnyArray.Type,
+                type.elementType is AnyOptional.Type,
+                let result = [nil] as? T {
+                return result
+            } else if let type = type as? AnyOptional.Type,
+                let result = type.init() as? T {
+                return result
+            }
         }
 
         guard let unwrapped = value else {
@@ -270,7 +269,9 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
         return unwrapped
     }
 
-    public func nestedContainer<NestedKey>(keyedBy _: NestedKey.Type, forKey key: Key) throws -> KeyedDecodingContainer<NestedKey> {
+    public func nestedContainer<NestedKey>(
+        keyedBy _: NestedKey.Type, forKey key: Key
+    ) throws -> KeyedDecodingContainer<NestedKey> {
         decoder.codingPath.append(key)
         defer { decoder.codingPath.removeLast() }
 
@@ -289,11 +290,25 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
             ))
         }
 
-        guard let keyedContainer = value as? KeyedContainer else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: [String: Any].self, reality: value)
+        let container: _XMLKeyedDecodingContainer<NestedKey>
+        if let keyedContainer = value as? KeyedContainer {
+            container = _XMLKeyedDecodingContainer<NestedKey>(
+                referencing: decoder,
+                wrapping: keyedContainer
+            )
+        } else if let keyedContainer = value as? KeyedBox {
+            container = _XMLKeyedDecodingContainer<NestedKey>(
+                referencing: decoder,
+                wrapping: SharedBox(keyedContainer)
+            )
+        } else {
+            throw DecodingError._typeMismatch(
+                at: codingPath,
+                expectation: [String: Any].self,
+                reality: value
+            )
         }
 
-        let container = _XMLKeyedDecodingContainer<NestedKey>(referencing: decoder, wrapping: keyedContainer)
         return KeyedDecodingContainer(container)
     }
 
@@ -316,11 +331,13 @@ struct _XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
             ))
         }
 
-        guard let unkeyedContainer = value as? UnkeyedContainer else {
+        if let unkeyedContainer = value as? UnkeyedContainer {
+            return _XMLUnkeyedDecodingContainer(referencing: decoder, wrapping: unkeyedContainer)
+        } else if let unkeyedContainer = value as? UnkeyedBox {
+            return _XMLUnkeyedDecodingContainer(referencing: decoder, wrapping: SharedBox(unkeyedContainer))
+        } else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: [Any].self, reality: value)
         }
-
-        return _XMLUnkeyedDecodingContainer(referencing: decoder, wrapping: unkeyedContainer)
     }
 
     private func _superDecoder(forKey key: CodingKey) throws -> Decoder {
