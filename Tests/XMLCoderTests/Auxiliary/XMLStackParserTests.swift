@@ -27,18 +27,14 @@ class XMLStackParserTests: XCTestCase {
         let expected = _XMLElement(
             key: "container",
             elements: [
-                "value": [
-                    _XMLElement(
-                        key: "value",
-                        value: "42"
-                    ),
-                ],
-                "data": [
-                    _XMLElement(
-                        key: "data",
-                        value: "lorem ipsum"
-                    ),
-                ],
+                _XMLElement(
+                    key: "value",
+                    value: "42"
+                ),
+                _XMLElement(
+                    key: "data",
+                    value: "lorem ipsum"
+                ),
             ]
         )
         XCTAssertEqual(root, expected)

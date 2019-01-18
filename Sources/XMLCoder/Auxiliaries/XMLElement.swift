@@ -13,58 +13,57 @@ struct _XMLElement {
 
     var key: String
     var value: String?
+    var elements: [_XMLElement] = []
     var attributes: [String: String] = [:]
-    var elements: [String: [_XMLElement]] = [:]
 
-    init(key: String, value: String? = nil, attributes: [String: String] = [:], elements: [String: [_XMLElement]] = [:]) {
+    init(key: String, value: String? = nil, elements: [_XMLElement] = [], attributes: [String: String] = [:]) {
         self.key = key
         self.value = value
-        self.attributes = attributes
         self.elements = elements
+        self.attributes = attributes
     }
 
     init(key: String, box: UnkeyedBox) {
-        self.init(key: key)
-
-        elements[key] = box.map { box in
+        let elements = box.map { box in
             _XMLElement(key: key, box: box)
         }
+
+        self.init(key: key, elements: elements)
     }
 
     init(key: String, box: KeyedBox) {
-        self.init(key: key)
+        var elements: [_XMLElement] = []
 
-        attributes = Dictionary(uniqueKeysWithValues: box.attributes.compactMap { key, box in
+        for (key, box) in box.elements {
+            switch box {
+            case let sharedUnkeyedBox as SharedBox<UnkeyedBox>:
+                let box = sharedUnkeyedBox.unbox() as! UnkeyedBox
+                elements.append(contentsOf: box.map { _XMLElement(key: key, box: $0) })
+            case let unkeyedBox as UnkeyedBox:
+                // This basically injects the unkeyed children directly into self:
+                elements.append(contentsOf: unkeyedBox.map {
+                    _XMLElement(key: key, box: $0)
+                })
+            case let sharedKeyedBox as SharedBox<KeyedBox>:
+                let box = sharedKeyedBox.unbox() as! KeyedBox
+                elements.append(_XMLElement(key: key, box: box))
+            case let keyedBox as KeyedBox:
+                elements.append(_XMLElement(key: key, box: keyedBox))
+            case let simpleBox as SimpleBox:
+                elements.append(_XMLElement(key: key, box: simpleBox))
+            case let box:
+                preconditionFailure("Unclassified box: \(type(of: box))")
+            }
+        }
+
+        let attributes: [String: String] = Dictionary(uniqueKeysWithValues: box.attributes.compactMap { key, box in
             guard let value = box.xmlString() else {
                 return nil
             }
             return (key, value)
         })
 
-        elements = Dictionary(uniqueKeysWithValues: box.elements.map { key, box in
-            switch box {
-            case let sharedUnkeyedBox as SharedBox<UnkeyedBox>:
-                let box = sharedUnkeyedBox.unbox() as! UnkeyedBox
-                let elements = box.map { _XMLElement(key: key, box: $0) }
-                return (key, elements)
-            case let unkeyedBox as UnkeyedBox:
-                // This basically injects the unkeyed children directly into self:
-                let elements = unkeyedBox.map { _XMLElement(key: key, box: $0) }
-                return (key, elements)
-            case let sharedKeyedBox as SharedBox<KeyedBox>:
-                let box = sharedKeyedBox.unbox() as! KeyedBox
-                let elements = [_XMLElement(key: key, box: box)]
-                return (key, elements)
-            case let keyedBox as KeyedBox:
-                let elements = [_XMLElement(key: key, box: keyedBox)]
-                return (key, elements)
-            case let simpleBox as SimpleBox:
-                let elements = [_XMLElement(key: key, box: simpleBox)]
-                return (key, elements)
-            case let box:
-                preconditionFailure("Unclassified box: \(type(of: box))")
-            }
-        })
+        self.init(key: key, elements: elements, attributes: attributes)
     }
 
     init(key: String, box: SimpleBox) {
@@ -96,53 +95,54 @@ struct _XMLElement {
     }
 
     mutating func append(element: _XMLElement, forKey key: String) {
-        elements[key, default: []].append(element)
+        elements.append(element)
     }
 
     func flatten() -> KeyedBox {
         let attributes = self.attributes.mapValues { StringBox($0) }
 
         var elements: [String: Box] = [:]
-        for (key, value) in self.elements {
-            for child in value {
-                let hasValue = child.value != nil
-                let hasElements = !child.elements.isEmpty
-                let hasAttributes = !child.attributes.isEmpty
 
-                if hasValue || hasElements || hasAttributes {
-                    if let content = child.value {
-                        switch elements[key] {
-                        case var unkeyedBox as UnkeyedBox:
-                            unkeyedBox.append(StringBox(content))
-                            elements[key] = unkeyedBox
-                        case let stringBox as StringBox:
-                            elements[key] = UnkeyedBox([stringBox, StringBox(content)])
-                        default:
-                            elements[key] = StringBox(content)
-                        }
-                    }
-                    if hasElements || hasAttributes {
-                        let content = child.flatten()
-                        switch elements[key] {
-                        case var unkeyedBox as UnkeyedBox:
-                            unkeyedBox.append(content)
-                            elements[key] = unkeyedBox
-                        case let box?:
-                            elements[key] = UnkeyedBox([box, content])
-                        default:
-                            elements[key] = content
-                        }
-                    }
-                } else {
+        for element in self.elements {
+            let key = element.key
+
+            let hasValue = element.value != nil
+            let hasElements = !element.elements.isEmpty
+            let hasAttributes = !element.attributes.isEmpty
+
+            if hasValue || hasElements || hasAttributes {
+                if let content = element.value {
                     switch elements[key] {
                     case var unkeyedBox as UnkeyedBox:
-                        unkeyedBox.append(NullBox())
+                        unkeyedBox.append(StringBox(content))
+                        elements[key] = unkeyedBox
+                    case let stringBox as StringBox:
+                        elements[key] = UnkeyedBox([stringBox, StringBox(content)])
+                    default:
+                        elements[key] = StringBox(content)
+                    }
+                }
+                if hasElements || hasAttributes {
+                    let content = element.flatten()
+                    switch elements[key] {
+                    case var unkeyedBox as UnkeyedBox:
+                        unkeyedBox.append(content)
                         elements[key] = unkeyedBox
                     case let box?:
-                        elements[key] = UnkeyedBox([box, NullBox()])
+                        elements[key] = UnkeyedBox([box, content])
                     default:
-                        elements[key] = NullBox()
+                        elements[key] = content
                     }
+                }
+            } else {
+                switch elements[key] {
+                case var unkeyedBox as UnkeyedBox:
+                    unkeyedBox.append(NullBox())
+                    elements[key] = unkeyedBox
+                case let box?:
+                    elements[key] = UnkeyedBox([box, NullBox()])
+                default:
+                    elements[key] = NullBox()
                 }
             }
         }
@@ -160,15 +160,13 @@ struct _XMLElement {
     }
 
     fileprivate func formatUnsortedXMLElements(_ string: inout String, _ level: Int, _ cdata: Bool, _ formatting: XMLEncoder.OutputFormatting, _ prettyPrinted: Bool) {
-        formatXMLElements(from: elements.map { (key: $0, value: $1) }, into: &string, at: level, cdata: cdata, formatting: formatting, prettyPrinted: prettyPrinted)
+        formatXMLElements(from: elements, into: &string, at: level, cdata: cdata, formatting: formatting, prettyPrinted: prettyPrinted)
     }
 
-    fileprivate func elementString(for element: (key: String, value: [_XMLElement]), at level: Int, cdata: Bool, formatting: XMLEncoder.OutputFormatting, prettyPrinted: Bool) -> String {
+    fileprivate func elementString(for element: _XMLElement, at level: Int, cdata: Bool, formatting: XMLEncoder.OutputFormatting, prettyPrinted: Bool) -> String {
         var string = ""
-        for child in element.value {
-            string += child._toXMLString(indented: level + 1, withCDATA: cdata, formatting: formatting)
-            string += prettyPrinted ? "\n" : ""
-        }
+        string += element._toXMLString(indented: level + 1, withCDATA: cdata, formatting: formatting)
+        string += prettyPrinted ? "\n" : ""
         return string
     }
 
@@ -186,7 +184,7 @@ struct _XMLElement {
         }
     }
 
-    fileprivate func formatXMLElements(from elements: [(key: String, value: [_XMLElement])], into string: inout String, at level: Int, cdata: Bool, formatting: XMLEncoder.OutputFormatting, prettyPrinted: Bool) {
+    fileprivate func formatXMLElements(from elements: [_XMLElement], into string: inout String, at level: Int, cdata: Bool, formatting: XMLEncoder.OutputFormatting, prettyPrinted: Bool) {
         for element in elements {
             string += elementString(for: element, at: level, cdata: cdata, formatting: formatting, prettyPrinted: prettyPrinted)
         }

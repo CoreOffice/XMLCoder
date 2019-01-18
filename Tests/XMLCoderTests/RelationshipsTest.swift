@@ -49,11 +49,11 @@ final class RelationshipsTest: XCTestCase {
         let decoder = XMLDecoder()
         decoder.keyDecodingStrategy = .convertFromCapitalized
 
-        let rels = try decoder.decode(Relationships.self, from: xml)
+        let relationships = try decoder.decode(Relationships.self, from: xml)
 
-        XCTAssertEqual(rels.items.count, 3)
+        XCTAssertEqual(relationships.items.count, 3)
 
-        guard let relationship = rels.items.first else {
+        guard let relationship = relationships.items.first else {
             return
         }
 

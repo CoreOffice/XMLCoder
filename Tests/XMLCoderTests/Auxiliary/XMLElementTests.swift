@@ -14,7 +14,7 @@ class XMLElementTests: XCTestCase {
 
         XCTAssertEqual(null.key, "foo")
         XCTAssertNil(null.value)
-        XCTAssertEqual(null.elements, [:])
+        XCTAssertEqual(null.elements, [])
         XCTAssertEqual(null.attributes, [:])
     }
 
@@ -23,7 +23,7 @@ class XMLElementTests: XCTestCase {
 
         XCTAssertEqual(keyed.key, "foo")
         XCTAssertNil(keyed.value)
-        XCTAssertEqual(keyed.elements, ["foo": []])
+        XCTAssertEqual(keyed.elements, [])
         XCTAssertEqual(keyed.attributes, [:])
     }
 
@@ -35,7 +35,7 @@ class XMLElementTests: XCTestCase {
 
         XCTAssertEqual(keyed.key, "foo")
         XCTAssertNil(keyed.value)
-        XCTAssertEqual(keyed.elements, [:])
+        XCTAssertEqual(keyed.elements, [])
         XCTAssertEqual(keyed.attributes, ["blee": "42"])
     }
 
@@ -44,7 +44,7 @@ class XMLElementTests: XCTestCase {
 
         XCTAssertEqual(keyed.key, "foo")
         XCTAssertEqual(keyed.value, "bar")
-        XCTAssertEqual(keyed.elements, [:])
+        XCTAssertEqual(keyed.elements, [])
         XCTAssertEqual(keyed.attributes, [:])
     }
 }
