@@ -7,8 +7,10 @@ before_install:
 - gem install cocoapods --pre # Since Travis is not always on latest version
 - brew update
 - brew install swiftformat
+- brew outdated swiftlint || brew upgrade swiftlint
 script:
 - swiftformat --lint --verbose .
+- swiftlint
 - pod lib lint
 - xcodebuild test -enableCodeCoverage YES -scheme XMLCoder
 # this runs the tests the second time, but it's the only way to make sure

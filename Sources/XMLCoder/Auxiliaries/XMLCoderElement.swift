@@ -1,5 +1,5 @@
 //
-//  XMLElement.swift
+//  XMLCoderElement.swift
 //  XMLCoder
 //
 //  Created by Vincent Esche on 12/18/18.
@@ -7,16 +7,27 @@
 
 import Foundation
 
-struct _XMLElement {
+struct XMLCoderElement: Equatable {
     static let attributesKey = "___ATTRIBUTES"
-    static let escapedCharacterSet = [("&", "&amp;"), ("<", "&lt;"), (">", "&gt;"), ("'", "&apos;"), ("\"", "&quot;")]
+    static let escapedCharacterSet = [
+        ("&", "&amp;"),
+        ("<", "&lt;"),
+        (">", "&gt;"),
+        ("'", "&apos;"),
+        ("\"", "&quot;"),
+    ]
 
     var key: String
     var value: String?
-    var elements: [_XMLElement] = []
+    var elements: [XMLCoderElement] = []
     var attributes: [String: String] = [:]
 
-    init(key: String, value: String? = nil, elements: [_XMLElement] = [], attributes: [String: String] = [:]) {
+    init(
+        key: String,
+        value: String? = nil,
+        elements: [XMLCoderElement] = [],
+        attributes: [String: String] = [:]
+    ) {
         self.key = key
         self.value = value
         self.elements = elements
@@ -25,43 +36,55 @@ struct _XMLElement {
 
     init(key: String, box: UnkeyedBox) {
         let elements = box.map { box in
-            _XMLElement(key: key, box: box)
+            XMLCoderElement(key: key, box: box)
         }
 
         self.init(key: key, elements: elements)
     }
 
     init(key: String, box: KeyedBox) {
-        var elements: [_XMLElement] = []
+        var elements: [XMLCoderElement] = []
 
         for (key, box) in box.elements {
+            let fail = {
+                preconditionFailure("Unclassified box: \(type(of: box))")
+            }
+
             switch box {
             case let sharedUnkeyedBox as SharedBox<UnkeyedBox>:
-                let box = sharedUnkeyedBox.unbox() as! UnkeyedBox
-                elements.append(contentsOf: box.map { _XMLElement(key: key, box: $0) })
+                guard let box = sharedUnkeyedBox.unbox() as? UnkeyedBox else {
+                    fail()
+                }
+                elements.append(contentsOf: box.map {
+                    XMLCoderElement(key: key, box: $0)
+                })
             case let unkeyedBox as UnkeyedBox:
                 // This basically injects the unkeyed children directly into self:
                 elements.append(contentsOf: unkeyedBox.map {
-                    _XMLElement(key: key, box: $0)
+                    XMLCoderElement(key: key, box: $0)
                 })
             case let sharedKeyedBox as SharedBox<KeyedBox>:
-                let box = sharedKeyedBox.unbox() as! KeyedBox
-                elements.append(_XMLElement(key: key, box: box))
+                guard let box = sharedKeyedBox.unbox() as? KeyedBox else {
+                    fail()
+                }
+                elements.append(XMLCoderElement(key: key, box: box))
             case let keyedBox as KeyedBox:
-                elements.append(_XMLElement(key: key, box: keyedBox))
+                elements.append(XMLCoderElement(key: key, box: keyedBox))
             case let simpleBox as SimpleBox:
-                elements.append(_XMLElement(key: key, box: simpleBox))
-            case let box:
-                preconditionFailure("Unclassified box: \(type(of: box))")
+                elements.append(XMLCoderElement(key: key, box: simpleBox))
+            default:
+                fail()
             }
         }
 
-        let attributes: [String: String] = Dictionary(uniqueKeysWithValues: box.attributes.compactMap { key, box in
-            guard let value = box.xmlString() else {
-                return nil
+        let attributes: [String: String] = Dictionary(
+            uniqueKeysWithValues: box.attributes.compactMap { key, box in
+                guard let value = box.xmlString() else {
+                    return nil
+                }
+                return (key, value)
             }
-            return (key, value)
-        })
+        )
 
         self.init(key: key, elements: elements, attributes: attributes)
     }
@@ -94,7 +117,7 @@ struct _XMLElement {
         self.value = value
     }
 
-    mutating func append(element: _XMLElement, forKey key: String) {
+    mutating func append(element: XMLCoderElement, forKey key: String) {
         elements.append(element)
     }
 
@@ -152,53 +175,109 @@ struct _XMLElement {
         return keyedBox
     }
 
-    func toXMLString(with header: XMLHeader? = nil, withCDATA cdata: Bool, formatting: XMLEncoder.OutputFormatting, ignoreEscaping _: Bool = false) -> String {
+    func toXMLString(with header: XMLHeader? = nil,
+                     withCDATA cdata: Bool,
+                     formatting: XMLEncoder.OutputFormatting,
+                     ignoreEscaping _: Bool = false) -> String {
         if let header = header, let headerXML = header.toXML() {
             return headerXML + _toXMLString(withCDATA: cdata, formatting: formatting)
         }
         return _toXMLString(withCDATA: cdata, formatting: formatting)
     }
 
-    fileprivate func formatUnsortedXMLElements(_ string: inout String, _ level: Int, _ cdata: Bool, _ formatting: XMLEncoder.OutputFormatting, _ prettyPrinted: Bool) {
-        formatXMLElements(from: elements, into: &string, at: level, cdata: cdata, formatting: formatting, prettyPrinted: prettyPrinted)
+    private func formatUnsortedXMLElements(
+        _ string: inout String,
+        _ level: Int,
+        _ cdata: Bool,
+        _ formatting: XMLEncoder.OutputFormatting,
+        _ prettyPrinted: Bool
+    ) {
+        formatXMLElements(
+            from: elements,
+            into: &string,
+            at: level,
+            cdata: cdata,
+            formatting: formatting,
+            prettyPrinted: prettyPrinted
+        )
     }
 
-    fileprivate func elementString(for element: _XMLElement, at level: Int, cdata: Bool, formatting: XMLEncoder.OutputFormatting, prettyPrinted: Bool) -> String {
+    fileprivate func elementString(
+        for element: XMLCoderElement,
+        at level: Int,
+        cdata: Bool,
+        formatting: XMLEncoder.OutputFormatting,
+        prettyPrinted: Bool
+    ) -> String {
         var string = ""
-        string += element._toXMLString(indented: level + 1, withCDATA: cdata, formatting: formatting)
+        string += element._toXMLString(
+            indented: level + 1, withCDATA: cdata, formatting: formatting
+        )
         string += prettyPrinted ? "\n" : ""
         return string
     }
 
-    fileprivate func formatSortedXMLElements(_ string: inout String, _ level: Int, _ cdata: Bool, _ formatting: XMLEncoder.OutputFormatting, _ prettyPrinted: Bool) {
-        formatXMLElements(from: elements.sorted { $0.key < $1.key }, into: &string, at: level, cdata: cdata, formatting: formatting, prettyPrinted: prettyPrinted)
+    fileprivate func formatSortedXMLElements(
+        _ string: inout String,
+        _ level: Int,
+        _ cdata: Bool,
+        _ formatting: XMLEncoder.OutputFormatting,
+        _ prettyPrinted: Bool
+    ) {
+        formatXMLElements(from: elements.sorted { $0.key < $1.key },
+                          into: &string,
+                          at: level,
+                          cdata: cdata,
+                          formatting: formatting,
+                          prettyPrinted: prettyPrinted)
     }
 
     fileprivate func attributeString(key: String, value: String) -> String {
-        return " \(key)=\"\(value.escape(_XMLElement.escapedCharacterSet))\""
+        return " \(key)=\"\(value.escape(XMLCoderElement.escapedCharacterSet))\""
     }
 
-    fileprivate func formatXMLAttributes(from keyValuePairs: [(key: String, value: String)], into string: inout String) {
+    fileprivate func formatXMLAttributes(
+        from keyValuePairs: [(key: String, value: String)],
+        into string: inout String
+    ) {
         for (key, value) in keyValuePairs {
             string += attributeString(key: key, value: value)
         }
     }
 
-    fileprivate func formatXMLElements(from elements: [_XMLElement], into string: inout String, at level: Int, cdata: Bool, formatting: XMLEncoder.OutputFormatting, prettyPrinted: Bool) {
+    fileprivate func formatXMLElements(
+        from elements: [XMLCoderElement],
+        into string: inout String,
+        at level: Int,
+        cdata: Bool,
+        formatting: XMLEncoder.OutputFormatting,
+        prettyPrinted: Bool
+    ) {
         for element in elements {
-            string += elementString(for: element, at: level, cdata: cdata, formatting: formatting, prettyPrinted: prettyPrinted)
+            string += elementString(for: element,
+                                    at: level,
+                                    cdata: cdata,
+                                    formatting: formatting,
+                                    prettyPrinted: prettyPrinted)
         }
     }
 
     fileprivate func formatSortedXMLAttributes(_ string: inout String) {
-        formatXMLAttributes(from: attributes.sorted(by: { $0.key < $1.key }), into: &string)
+        formatXMLAttributes(
+            from: attributes.sorted(by: { $0.key < $1.key }), into: &string
+        )
     }
 
     fileprivate func formatUnsortedXMLAttributes(_ string: inout String) {
-        formatXMLAttributes(from: attributes.map { (key: $0, value: $1) }, into: &string)
+        formatXMLAttributes(
+            from: attributes.map { (key: $0, value: $1) }, into: &string
+        )
     }
 
-    fileprivate func formatXMLAttributes(_ formatting: XMLEncoder.OutputFormatting, _ string: inout String) {
+    private func formatXMLAttributes(
+        _ formatting: XMLEncoder.OutputFormatting,
+        _ string: inout String
+    ) {
         if formatting.contains(.sortedKeys) {
             formatSortedXMLAttributes(&string)
             return
@@ -206,17 +285,34 @@ struct _XMLElement {
         formatUnsortedXMLAttributes(&string)
     }
 
-    fileprivate func formatXMLElements(_ formatting: XMLEncoder.OutputFormatting, _ string: inout String, _ level: Int, _ cdata: Bool, _ prettyPrinted: Bool) {
+    private func formatXMLElements(
+        _ formatting: XMLEncoder.OutputFormatting,
+        _ string: inout String,
+        _ level: Int,
+        _ cdata: Bool,
+        _ prettyPrinted: Bool
+    ) {
         if formatting.contains(.sortedKeys) {
-            formatSortedXMLElements(&string, level, cdata, formatting, prettyPrinted)
+            formatSortedXMLElements(
+                &string, level, cdata, formatting, prettyPrinted
+            )
             return
         }
-        formatUnsortedXMLElements(&string, level, cdata, formatting, prettyPrinted)
+        formatUnsortedXMLElements(
+            &string, level, cdata, formatting, prettyPrinted
+        )
     }
 
-    fileprivate func _toXMLString(indented level: Int = 0, withCDATA cdata: Bool, formatting: XMLEncoder.OutputFormatting, ignoreEscaping: Bool = false) -> String {
+    private func _toXMLString(
+        indented level: Int = 0,
+        withCDATA cdata: Bool,
+        formatting: XMLEncoder.OutputFormatting,
+        ignoreEscaping: Bool = false
+    ) -> String {
         let prettyPrinted = formatting.contains(.prettyPrinted)
-        let indentation = String(repeating: " ", count: (prettyPrinted ? level : 0) * 4)
+        let indentation = String(
+            repeating: " ", count: (prettyPrinted ? level : 0) * 4
+        )
         var string = indentation
         string += "<\(key)"
 
@@ -225,7 +321,8 @@ struct _XMLElement {
         if let value = value {
             string += ">"
             if !ignoreEscaping {
-                string += (cdata == true ? "<![CDATA[\(value)]]>" : "\(value.escape(_XMLElement.escapedCharacterSet))")
+                string += (cdata == true ? "<![CDATA[\(value)]]>" :
+                    "\(value.escape(XMLCoderElement.escapedCharacterSet))")
             } else {
                 string += "\(value)"
             }
@@ -243,5 +340,3 @@ struct _XMLElement {
         return string
     }
 }
-
-extension _XMLElement: Equatable {}

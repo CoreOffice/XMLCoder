@@ -5,6 +5,8 @@
 //  Created by Max Desiatov on 17/12/2018.
 //
 
+// swiftlint:disable line_length file_length
+
 let rjiSampleXML = """
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0"
