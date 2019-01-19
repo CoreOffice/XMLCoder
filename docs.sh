@@ -12,4 +12,5 @@ fi
 
 echo "docs will be uploaded to s3://xmlcoder.org/docs/$PREFIX"
 
-brew install jazzy && jazzy && aws s3 sync docs s3://xmlcoder.org/docs/$PREFIX
+gem install --user-install jazzy && \
+  jazzy && aws s3 sync docs s3://xmlcoder.org/docs/$PREFIX
