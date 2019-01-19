@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if [[ $TRAVIS_BRANCH == "master" ]]:
+if [[ $TRAVIS_BRANCH == "master" ]]; then
   PREFIX="master"
-elif [[ -z $TRAVIS_TAG ]]:
+elif [[ ! -z $TRAVIS_TAG ]]; then
   PREFIX=$TRAVIS_TAG
 else
-  echo "no tag set or branch isn't `master`, no upload will happen"
+  echo "no tag set or branch isn't 'master', no upload will happen"
   exit 0
 fi
 
