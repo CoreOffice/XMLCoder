@@ -202,8 +202,8 @@
 		OBJ_37 /* RJITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RJITest.swift; sourceTree = "<group>"; };
 		OBJ_38 /* RelationshipsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipsTest.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		"XMLCoder::XMLCoder::Product" /* XMLCoder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = XMLCoder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"XMLCoder::XMLCoderTests::Product" /* XMLCoderTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = XMLCoderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"XMLCoder::XMLCoder::Product" /* XMLCoder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = XMLCoder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"XMLCoder::XMLCoderTests::Product" /* XMLCoderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = XMLCoderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -471,6 +471,14 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 9999;
+				TargetAttributes = {
+					"XMLCoder::XMLCoder" = {
+						LastSwiftMigration = 1010;
+					};
+					"XMLCoder::XMLCoderTests" = {
+						LastSwiftMigration = 1010;
+					};
+				};
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "XMLCoder" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -701,7 +709,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGET_NAME = XMLCoder;
 			};
 			name = Debug;
@@ -725,7 +733,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGET_NAME = XMLCoder;
 			};
 			name = Release;
@@ -776,7 +784,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGET_NAME = XMLCoderTests;
 			};
 			name = Debug;
@@ -797,7 +805,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGET_NAME = XMLCoderTests;
 			};
 			name = Release;

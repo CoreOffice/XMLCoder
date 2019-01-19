@@ -18,6 +18,7 @@ script:
 # coverage reports in Swift 5.0, see this issue for more details:
 # https://github.com/apple/swift-package-manager/pull/1787
 - swift test
+- ./docs.sh
 before_deploy:
 - brew outdated carthage || brew upgrade carthage
 - carthage build --no-skip-current
