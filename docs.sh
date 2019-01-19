@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "TRAVIS_BRANCH is $TRAVIS_BRANCH"
 if [[ $TRAVIS_BRANCH == "master" ]]; then
   PREFIX="master"
 elif [[ ! -z $TRAVIS_TAG ]]; then
@@ -11,4 +12,4 @@ fi
 
 echo "docs will be uploaded to s3://xmlcoder.org/docs/$PREFIX"
 
-jazzy && aws s3 sync docs s3://xmlcoder.org/docs/$PREFIX
+brew install jazzy && jazzy && aws s3 sync docs s3://xmlcoder.org/docs/$PREFIX
