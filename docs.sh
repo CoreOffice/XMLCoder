@@ -13,4 +13,4 @@ fi
 echo "docs will be uploaded to s3://xmlcoder.org/docs/$PREFIX"
 
 gem install --user-install jazzy && \
-  jazzy && aws s3 sync docs s3://xmlcoder.org/docs/$PREFIX
+  ~/.gem/ruby/2.4.0/bin/jazzy && aws s3 sync docs s3://xmlcoder.org/docs/$PREFIX
