@@ -1,7 +1,7 @@
 import XCTest
 @testable import XMLCoder
 
-fileprivate struct SingleContainer: Encodable {
+private struct SingleContainer: Encodable {
     let element: Element
 
     enum CodingKeys: String, CodingKey {
@@ -9,7 +9,7 @@ fileprivate struct SingleContainer: Encodable {
     }
 }
 
-fileprivate struct KeyedContainer: Encodable {
+private struct KeyedContainer: Encodable {
     let elements: [String: Element]
 
     enum CodingKeys: String, CodingKey {
@@ -17,7 +17,7 @@ fileprivate struct KeyedContainer: Encodable {
     }
 }
 
-fileprivate struct UnkeyedContainer: Encodable {
+private struct UnkeyedContainer: Encodable {
     let elements: [Element]
 
     enum CodingKeys: String, CodingKey {
@@ -25,7 +25,7 @@ fileprivate struct UnkeyedContainer: Encodable {
     }
 }
 
-fileprivate struct Element: Encodable {
+private struct Element: Encodable {
     let key: String = "value"
     let intKey: Int = 42
     let int8Key: Int8 = 42
@@ -43,7 +43,7 @@ fileprivate struct Element: Encodable {
     }
 }
 
-fileprivate struct ComplexUnkeyedContainer: Encodable {
+private struct ComplexUnkeyedContainer: Encodable {
     let elements: [ComplexElement]
 
     enum CodingKeys: String, CodingKey {
@@ -51,7 +51,7 @@ fileprivate struct ComplexUnkeyedContainer: Encodable {
     }
 }
 
-fileprivate struct ComplexElement: Encodable {
+private struct ComplexElement: Encodable {
     struct Key: Encodable {
         let a: String
         let b: String
