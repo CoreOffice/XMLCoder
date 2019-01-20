@@ -47,7 +47,7 @@ struct XMLUnkeyedEncodingContainer: UnkeyedEncodingContainer {
 
     public mutating func encode<T: Encodable>(_ value: T) throws {
         try encode(value) { encoder, value in
-            return try encoder.box(value)
+            try encoder.box(value)
         }
     }
 

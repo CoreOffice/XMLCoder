@@ -35,7 +35,7 @@ class DecimalTests: XCTestCase {
         let encoder = XMLEncoder()
 
         encoder.nodeEncodingStrategy = .custom { _, _ in
-            return { _ in .attribute }
+            { _ in .attribute }
         }
 
         for (value, xmlString) in values {

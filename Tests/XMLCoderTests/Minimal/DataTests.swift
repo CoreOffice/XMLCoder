@@ -35,7 +35,7 @@ class DataTests: XCTestCase {
         let encoder = XMLEncoder()
 
         encoder.nodeEncodingStrategy = .custom { _, _ in
-            return { _ in .attribute }
+            { _ in .attribute }
         }
 
         for (value, xmlString) in values {
@@ -127,7 +127,7 @@ class DataTests: XCTestCase {
         let encoder = XMLEncoder()
 
         decoder.dataDecodingStrategy = .keyFormatted { codingKey in
-            return Data(base64Encoded: codingKey.stringValue)
+            Data(base64Encoded: codingKey.stringValue)
         }
 
         encoder.outputFormatting = [.prettyPrinted]
@@ -150,7 +150,7 @@ class DataTests: XCTestCase {
         let encoder = XMLEncoder()
 
         decoder.dataDecodingStrategy = .keyFormatted { codingKey in
-            return Data(base64Encoded: codingKey.stringValue)
+            Data(base64Encoded: codingKey.stringValue)
         }
 
         encoder.outputFormatting = [.prettyPrinted]
@@ -174,7 +174,7 @@ class DataTests: XCTestCase {
         let encoder = XMLEncoder()
 
         decoder.dataDecodingStrategy = .keyFormatted { codingKey in
-            return Data(base64Encoded: codingKey.stringValue)
+            Data(base64Encoded: codingKey.stringValue)
         }
 
         encoder.outputFormatting = [.prettyPrinted]
