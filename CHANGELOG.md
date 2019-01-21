@@ -1,4 +1,4 @@
-#  0.3.0 (November 18, 2018)
+#  0.3.0 (January 22, 2019)
 
 * Add SwiftLint and fix linter errors ([#35](https://github.com/MaxDesiatov/XMLCoder/pull/35), [@MaxDesiatov](https://github.com/MaxDesiatov))
 * Add single array element example to tests ([#66](https://github.com/MaxDesiatov/XMLCoder/pull/66), [@MaxDesiatov](https://github.com/MaxDesiatov))
