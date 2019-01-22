@@ -1,5 +1,22 @@
 #  0.3.0 (January 22, 2019)
 
+A maintenance release focused on fixing bugs, improving error reporting
+and overall internal architecture of the library. For this release we've started
+tracking test coverage and were able to increase it from 11.8% to 75.6%. 🎉
+
+## Additions
+
+You can now set `errorContextLength: UInt` property on `XMLDecoder` instance,
+which will make it add a snippet of XML of at most this length from parser state
+when a parsing error occurs. This can greatly help with attempts to parse
+invalid XML, where previously only a line and column number were reported.
+
+## Deprecations
+
+`NodeEncodingStrategies` was renamed to `NodeEncodingStrategy` for consistency.
+`NodeEncodingStrategies` is still available as a deprecated typealias, which
+will be removed in future versions.
+
 * Add SwiftLint and fix linter errors ([#35](https://github.com/MaxDesiatov/XMLCoder/pull/35), [@MaxDesiatov](https://github.com/MaxDesiatov))
 * Add single array element example to tests ([#66](https://github.com/MaxDesiatov/XMLCoder/pull/66), [@MaxDesiatov](https://github.com/MaxDesiatov))
 * Remove generic encode/decode functions ([#64](https://github.com/MaxDesiatov/XMLCoder/pull/64), [@hodovani](https://github.com/hodovani))
