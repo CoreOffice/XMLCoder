@@ -4,6 +4,7 @@ disabled_rules:
 - void_return
 - operator_whitespace
 - function_parameter_count
+- opening_brace
 
 line_length:
 - 150
