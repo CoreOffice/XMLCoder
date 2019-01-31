@@ -15,14 +15,14 @@ let libraryXML = """
     <book id="123">
         <id>123</id>
         <title>Cat in the Hat</title>
-        <category main="Y">Kids</category>
-        <category main="N">Wildlife</category>
+        <category main="Y"><value>Kids</value></category>
+        <category main="N"><value>Wildlife</value></category>
     </book>
     <book id="456">
         <id>789</id>
         <title>1984</title>
-        <category main="Y">Classics</category>
-        <category main="N">News</category>
+        <category main="Y"><value>Classics</value></category>
+        <category main="N"><value>News</value></category>
     </book>
 </library>
 """.data(using: .utf8)!
@@ -56,39 +56,13 @@ private struct Book: Codable, Equatable, DynamicNodeEncoding {
     }
 }
 
-extension Book {
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decode(UInt.self, forKey: .id)
-        title = try container.decode(String.self, forKey: .title)
-
-        var nested = try container.nestedUnkeyedContainer(forKey: .categories)
-
-        var decoded = [Category]()
-        var finished = false
-
-        while !finished {
-            do {
-                 let another = try nested.decode(Category.self)
-                decoded.append(another)
-            } catch DecodingError.valueNotFound {
-                finished = true
-            } catch {
-                throw error
-            }
-        }
-
-        categories = decoded
-    }
-}
-
 private struct Category: Codable, Equatable, DynamicNodeEncoding {
     let main: Bool
     let value: String
 
     private enum CodingKeys: String, CodingKey {
         case main
-        case value = ""
+        case value
     }
 
     static func nodeEncoding(forKey key: CodingKey) -> XMLEncoder.NodeEncoding {
@@ -99,26 +73,6 @@ private struct Category: Codable, Equatable, DynamicNodeEncoding {
             return .element
         }
     }
-}
-
-private func decodeArray<T>(_ decoder: Decoder, decode: (inout UnkeyedDecodingContainer) throws -> T) throws -> [T] {
-    let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
-    var container = try keyedContainer.nestedUnkeyedContainer(forKey: .value)
-
-    var decoded = [T]()
-    var finished = false
-
-    while !finished {
-        do {
-            decoded.append(try decode(&container))
-        } catch DecodingError.valueNotFound {
-            finished = true
-        } catch {
-            throw error
-        }
-    }
-
-    return decoded
 }
 
 final class DynamicNodeEncodingTest: XCTestCase {
@@ -153,7 +107,92 @@ final class DynamicNodeEncodingTest: XCTestCase {
         }
     }
 
+    func testDecode() {
+        do {
+
+            let decoder = XMLDecoder()
+            decoder.errorContextLength = 10
+
+            let library = try decoder.decode(Library.self, from: libraryXML)
+            XCTAssertEqual(library.books.count, 2)
+            XCTAssertEqual(library.count, 2)
+
+            let book1 = library.books[0]
+            XCTAssertEqual(book1.id, 123)
+            XCTAssertEqual(book1.title, "Cat in the Hat")
+
+            let book1Categories = book1.categories
+            XCTAssertEqual(book1Categories.count, 2)
+            XCTAssertEqual(book1Categories[0].value, "Kids")
+            XCTAssertTrue(book1Categories[0].main)
+            XCTAssertEqual(book1Categories[1].value, "Wildlife")
+            XCTAssertFalse(book1Categories[1].main)
+
+            let book2 = library.books[1]
+            //            XCTAssertEqual(book2.id, 456)
+            XCTAssertEqual(book2.title, "1984")
+
+            let book2Categories = book2.categories
+            XCTAssertEqual(book2Categories.count, 2)
+            XCTAssertEqual(book2Categories[0].value, "Classics")
+            XCTAssertTrue(book2Categories[0].main)
+            XCTAssertEqual(book2Categories[1].value, "News")
+            XCTAssertFalse(book2Categories[1].main)
+        } catch {
+            print("Test threw error: " + error.localizedDescription)
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testEncodeDecode() {
+        do {
+            let decoder = XMLDecoder()
+            decoder.errorContextLength = 10
+
+            let encoder = XMLEncoder()
+            encoder.outputFormatting = [.prettyPrinted]
+
+            let library = try decoder.decode(Library.self, from: libraryXML)
+            XCTAssertEqual(library.books.count, 2)
+            XCTAssertEqual(library.count, 2)
+
+            let book1 = library.books[0]
+            XCTAssertEqual(book1.id, 123)
+            XCTAssertEqual(book1.title, "Cat in the Hat")
+
+            let book1Categories = book1.categories
+            XCTAssertEqual(book1Categories.count, 2)
+            XCTAssertEqual(book1Categories[0].value, "Kids")
+            XCTAssertTrue(book1Categories[0].main)
+            XCTAssertEqual(book1Categories[1].value, "Wildlife")
+            XCTAssertFalse(book1Categories[1].main)
+
+            let book2 = library.books[1]
+            //            XCTAssertEqual(book2.id, 456)
+            XCTAssertEqual(book2.title, "1984")
+
+            let book2Categories = book2.categories
+            XCTAssertEqual(book2Categories.count, 2)
+            XCTAssertEqual(book2Categories[0].value, "Classics")
+            XCTAssertTrue(book2Categories[0].main)
+            XCTAssertEqual(book2Categories[1].value, "News")
+            XCTAssertFalse(book2Categories[1].main)
+
+            let data = try encoder.encode(library, withRootKey: "library",
+                                          header: XMLHeader(version: 1.0,
+                                                            encoding: "UTF-8"))
+            print(String(data: data, encoding: .utf8)!)
+            let library2 = try decoder.decode(Library.self, from: data)
+            XCTAssertEqual(library, library2)
+        } catch {
+            print("Test threw error: " + error.localizedDescription)
+            XCTFail(error.localizedDescription)
+        }
+    }
+
     static var allTests = [
         ("testEncode", testEncode),
+        ("testDecode", testDecode),
+        ("testEncodeDecode", testEncodeDecode),
         ]
 }
