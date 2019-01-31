@@ -27,88 +27,11 @@ struct XMLCoderElement: Equatable {
         value: String? = nil,
         elements: [XMLCoderElement] = [],
         attributes: [String: String] = [:]
-    ) {
+        ) {
         self.key = key
         self.value = value
         self.elements = elements
         self.attributes = attributes
-    }
-
-    init(key: String, box: UnkeyedBox) {
-        let elements = box.map { box in
-            XMLCoderElement(key: key, box: box)
-        }
-
-        self.init(key: key, elements: elements)
-    }
-
-    init(key: String, box: KeyedBox) {
-        var elements: [XMLCoderElement] = []
-
-        for (key, box) in box.elements {
-            let fail = {
-                preconditionFailure("Unclassified box: \(type(of: box))")
-            }
-
-            switch box {
-            case let sharedUnkeyedBox as SharedBox<UnkeyedBox>:
-                guard let box = sharedUnkeyedBox.unbox() as? UnkeyedBox else {
-                    fail()
-                }
-                elements.append(contentsOf: box.map {
-                    XMLCoderElement(key: key, box: $0)
-                })
-            case let unkeyedBox as UnkeyedBox:
-                // This basically injects the unkeyed children directly into self:
-                elements.append(contentsOf: unkeyedBox.map {
-                    XMLCoderElement(key: key, box: $0)
-                })
-            case let sharedKeyedBox as SharedBox<KeyedBox>:
-                guard let box = sharedKeyedBox.unbox() as? KeyedBox else {
-                    fail()
-                }
-                elements.append(XMLCoderElement(key: key, box: box))
-            case let keyedBox as KeyedBox:
-                elements.append(XMLCoderElement(key: key, box: keyedBox))
-            case let simpleBox as SimpleBox:
-                elements.append(XMLCoderElement(key: key, box: simpleBox))
-            default:
-                fail()
-            }
-        }
-
-        let attributes: [String: String] = Dictionary(
-            uniqueKeysWithValues: box.attributes.compactMap { key, box in
-                guard let value = box.xmlString() else {
-                    return nil
-                }
-                return (key, value)
-            }
-        )
-
-        self.init(key: key, elements: elements, attributes: attributes)
-    }
-
-    init(key: String, box: SimpleBox) {
-        self.init(key: key)
-        value = box.xmlString()
-    }
-
-    init(key: String, box: Box) {
-        switch box {
-        case let sharedUnkeyedBox as SharedBox<UnkeyedBox>:
-            self.init(key: key, box: sharedUnkeyedBox.unbox())
-        case let sharedKeyedBox as SharedBox<KeyedBox>:
-            self.init(key: key, box: sharedKeyedBox.unbox())
-        case let unkeyedBox as UnkeyedBox:
-            self.init(key: key, box: unkeyedBox)
-        case let keyedBox as KeyedBox:
-            self.init(key: key, box: keyedBox)
-        case let simpleBox as SimpleBox:
-            self.init(key: key, box: simpleBox)
-        case let box:
-            preconditionFailure("Unclassified box: \(type(of: box))")
-        }
     }
 
     mutating func append(value string: String) {
@@ -124,9 +47,8 @@ struct XMLCoderElement: Equatable {
     func flatten() -> KeyedBox {
         let attributes = self.attributes.mapValues { StringBox($0) }
 
-        var elements: [String: Box] = [:]
-
-        for element in self.elements {
+        let keyedElements: [String: Box] = self.elements.reduce([String: Box]()) { (result, element) -> [String: Box] in
+            var result = result
             let key = element.key
 
             let hasValue = element.value != nil
@@ -135,42 +57,43 @@ struct XMLCoderElement: Equatable {
 
             if hasValue || hasElements || hasAttributes {
                 if let content = element.value {
-                    switch elements[key] {
+                    switch result[key] {
                     case var unkeyedBox as UnkeyedBox:
                         unkeyedBox.append(StringBox(content))
-                        elements[key] = unkeyedBox
+                        result[key] = unkeyedBox
                     case let stringBox as StringBox:
-                        elements[key] = UnkeyedBox([stringBox, StringBox(content)])
+                        result[key] = UnkeyedBox([stringBox, StringBox(content)])
                     default:
-                        elements[key] = StringBox(content)
+                        result[key] = StringBox(content)
                     }
                 }
                 if hasElements || hasAttributes {
                     let content = element.flatten()
-                    switch elements[key] {
+                    switch result[key] {
                     case var unkeyedBox as UnkeyedBox:
                         unkeyedBox.append(content)
-                        elements[key] = unkeyedBox
+                        result[key] = unkeyedBox
                     case let box?:
-                        elements[key] = UnkeyedBox([box, content])
+                        result[key] = UnkeyedBox([box, content])
                     default:
-                        elements[key] = content
+                        result[key] = content
                     }
                 }
             } else {
-                switch elements[key] {
+                switch result[key] {
                 case var unkeyedBox as UnkeyedBox:
                     unkeyedBox.append(NullBox())
-                    elements[key] = unkeyedBox
+                    result[key] = unkeyedBox
                 case let box?:
-                    elements[key] = UnkeyedBox([box, NullBox()])
+                    result[key] = UnkeyedBox([box, NullBox()])
                 default:
-                    elements[key] = NullBox()
+                    result[key] = NullBox()
                 }
             }
+            return result
         }
 
-        let keyedBox = KeyedBox(elements: elements, attributes: attributes)
+        let keyedBox = KeyedBox(elements: keyedElements, attributes: attributes)
 
         return keyedBox
     }
@@ -347,5 +270,81 @@ struct XMLCoderElement: Equatable {
         }
 
         return string
+    }
+}
+
+// MARK: - Convenience Initializers
+extension XMLCoderElement {
+    init(key: String, box: UnkeyedBox) {
+        let elements = box.map { box in
+            XMLCoderElement(key: key, box: box)
+        }
+
+        self.init(key: key, elements: elements)
+    }
+
+    init(key: String, box: KeyedBox) {
+        var elements: [XMLCoderElement] = []
+
+        for (key, box) in box.elements {
+            let fail = {
+                preconditionFailure("Unclassified box: \(type(of: box))")
+            }
+
+            switch box {
+            case let sharedUnkeyedBox as SharedBox<UnkeyedBox>:
+                let box = sharedUnkeyedBox.unbox()
+                elements.append(contentsOf: box.map {
+                    XMLCoderElement(key: key, box: $0)
+                })
+            case let unkeyedBox as UnkeyedBox:
+                // This basically injects the unkeyed children directly into self:
+                elements.append(contentsOf: unkeyedBox.map {
+                    XMLCoderElement(key: key, box: $0)
+                })
+            case let sharedKeyedBox as SharedBox<KeyedBox>:
+                let box = sharedKeyedBox.unbox()
+                elements.append(XMLCoderElement(key: key, box: box))
+            case let keyedBox as KeyedBox:
+                elements.append(XMLCoderElement(key: key, box: keyedBox))
+            case let simpleBox as SimpleBox:
+                elements.append(XMLCoderElement(key: key, box: simpleBox))
+            default:
+                fail()
+            }
+        }
+
+        let attributes: [String: String] = Dictionary(
+            uniqueKeysWithValues: box.attributes.compactMap { key, box in
+                guard let value = box.xmlString() else {
+                    return nil
+                }
+                return (key, value)
+            }
+        )
+
+        self.init(key: key, elements: elements, attributes: attributes)
+    }
+
+    init(key: String, box: SimpleBox) {
+        self.init(key: key)
+        value = box.xmlString()
+    }
+
+    init(key: String, box: Box) {
+        switch box {
+        case let sharedUnkeyedBox as SharedBox<UnkeyedBox>:
+            self.init(key: key, box: sharedUnkeyedBox.unbox())
+        case let sharedKeyedBox as SharedBox<KeyedBox>:
+            self.init(key: key, box: sharedKeyedBox.unbox())
+        case let unkeyedBox as UnkeyedBox:
+            self.init(key: key, box: unkeyedBox)
+        case let keyedBox as KeyedBox:
+            self.init(key: key, box: keyedBox)
+        case let simpleBox as SimpleBox:
+            self.init(key: key, box: simpleBox)
+        case let box:
+            preconditionFailure("Unclassified box: \(type(of: box))")
+        }
     }
 }

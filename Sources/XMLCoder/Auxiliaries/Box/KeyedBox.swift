@@ -70,30 +70,27 @@ struct KeyedBox {
     typealias Attributes = KeyedStorage<Key, Attribute>
     typealias Elements = KeyedStorage<Key, Element>
 
-    var attributes: Attributes = [:]
     var elements: Elements = [:]
-
-    init() {
-        attributes = [:]
-        elements = [:]
-    }
-
-    init<E, A>(elements: E, attributes: A)
-        where E: Sequence, E.Element == (Key, Element), A: Sequence, A.Element == (Key, Attribute) {
-        self.elements = Elements(Dictionary(uniqueKeysWithValues: elements))
-        self.attributes = Attributes(Dictionary(uniqueKeysWithValues: attributes))
-    }
-
-    init(elements: [Key: Element], attributes: [Key: Attribute]) {
-        self.elements = Elements(elements)
-        self.attributes = Attributes(attributes)
-    }
+    var attributes: Attributes = [:]
 
     func unbox() -> (elements: Elements, attributes: Attributes) {
         return (
             elements: elements,
             attributes: attributes
         )
+    }
+}
+
+extension KeyedBox {
+    init<E, A>(elements: E, attributes: A)
+        where E: Sequence, E.Element == (Key, Element), A: Sequence, A.Element == (Key, Attribute) {
+            let elements = Elements(Dictionary(uniqueKeysWithValues: elements))
+            let attributes = Attributes(Dictionary(uniqueKeysWithValues: attributes))
+            self.init(elements: elements, attributes: attributes)
+    }
+
+    init(elements: [Key: Element], attributes: [Key: Attribute]) {
+        self.init(elements: Elements(elements), attributes: Attributes(attributes))
     }
 }
 
