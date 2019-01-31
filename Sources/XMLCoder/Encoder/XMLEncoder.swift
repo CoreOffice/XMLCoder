@@ -122,6 +122,18 @@ open class XMLEncoder {
         /// - Note: Using a key encoding strategy has a nominal performance cost, as each string key has to be converted.
         case convertToSnakeCase
 
+        /// Capitalize the first letter only
+        /// `oneTwoThree` becomes  `OneTwoThree`
+        case capitalized
+
+        /// Uppercase ize all letters
+        /// `oneTwoThree` becomes  `ONETWOTHREE`
+        case uppercased
+
+        /// Lowercase all letters
+        /// `oneTwoThree` becomes  `onetwothree`
+        case lowercased
+
         /// Provide a custom conversion to the key in the encoded XML from the
         /// keys specified by the encoded types.
         /// The full path to the current encoding position is provided for
@@ -185,6 +197,18 @@ open class XMLEncoder {
                 stringKey[range].lowercased()
             }).joined(separator: "_")
             return result
+        }
+
+        static func _convertToCapitalized(_ stringKey: String) -> String {
+            return stringKey.capitalizingFirstLetter()
+        }
+
+        static func _convertToLowercased(_ stringKey: String) -> String {
+            return stringKey.lowercased()
+        }
+
+        static func _convertToUppercased(_ stringKey: String) -> String {
+            return stringKey.uppercased()
         }
     }
 
