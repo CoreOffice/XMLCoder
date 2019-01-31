@@ -308,7 +308,6 @@ extension XMLDecoderImplementation {
 
         if type == Date.self || type == NSDate.self {
             let date: Date = try unbox(box)
-
             decoded = date as? T
         } else if type == Data.self || type == NSData.self {
             let data: Data = try unbox(box)

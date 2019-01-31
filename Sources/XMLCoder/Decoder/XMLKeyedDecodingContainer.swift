@@ -126,15 +126,18 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
     public func decode<T: Decodable>(
         _ type: T.Type, forKey key: Key
     ) throws -> T {
-        let attributeNotFound = container.withShared { keyedBox in
-            keyedBox.attributes[key.stringValue] == nil
-        }
-        let elementNotFound = container.withShared { keyedBox in
-            keyedBox.elements[key.stringValue] == nil
+        let attributeFound = container.withShared { keyedBox in
+            keyedBox.attributes[key.stringValue] != nil
         }
 
-        if let type = type as? AnyEmptySequence.Type, attributeNotFound,
-            elementNotFound, let result = type.init() as? T {
+        let elementFound = container.withShared { keyedBox -> Bool in
+            keyedBox.elements[key.stringValue] != nil || keyedBox.value != nil
+        }
+
+        if let type = type as? AnyEmptySequence.Type,
+            !attributeFound,
+            !elementFound,
+            let result = type.init() as? T {
             return result
         }
 
@@ -163,8 +166,12 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
         _ type: T.Type,
         forKey key: Key
     ) throws -> T {
-        let elementOrNil = container.withShared { keyedBox in
-            keyedBox.elements[key.stringValue]
+        let elementOrNil = container.withShared { keyedBox -> KeyedBox.Element? in
+            if ["value", ""].contains(key.stringValue) {
+                return keyedBox.value
+            } else {
+                return keyedBox.elements[key.stringValue]
+            }
         }
 
         let attributeOrNil = container.withShared { keyedBox in
