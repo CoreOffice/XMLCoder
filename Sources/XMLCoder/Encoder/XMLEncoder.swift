@@ -37,6 +37,7 @@ open class XMLEncoder {
     public enum NodeEncoding {
         case attribute
         case element
+        case both
 
         public static let `default`: NodeEncoding = .element
     }
@@ -215,24 +216,34 @@ open class XMLEncoder {
     @available(*, deprecated, renamed: "NodeEncodingStrategy")
     public typealias NodeEncodingStrategies = NodeEncodingStrategy
 
+    public typealias XMLNodeEncoderClosure = ((CodingKey) -> XMLEncoder.NodeEncoding)
+    public typealias XMLEncodingClosure = (Encodable.Type, Encoder) -> XMLNodeEncoderClosure
+
     /// Set of strategies to use for encoding of nodes.
     public enum NodeEncodingStrategy {
         /// Defer to `Encoder` for choosing an encoding. This is the default strategy.
         case deferredToEncoder
 
         /// Return a closure computing the desired node encoding for the value by its coding key.
-        case custom((Encodable.Type, Encoder) -> ((CodingKey) -> XMLEncoder.NodeEncoding))
+        case custom(XMLEncodingClosure)
 
-        func nodeEncodings(
-            forType codableType: Encodable.Type,
-            with encoder: Encoder
-        ) -> ((CodingKey) -> XMLEncoder.NodeEncoding) {
+        func nodeEncodings(forType codableType: Encodable.Type,
+                           with encoder: Encoder) -> ((CodingKey) -> XMLEncoder.NodeEncoding) {
+            return self.encoderClosure(codableType, encoder)
+        }
+
+        var encoderClosure: XMLEncodingClosure {
             switch self {
-            case .deferredToEncoder:
-                return { _ in .default }
-            case let .custom(closure):
-                return closure(codableType, encoder)
+            case .deferredToEncoder: return NodeEncodingStrategy.defaultEncoder
+            case let .custom(closure): return closure
             }
+        }
+
+        static let defaultEncoder: XMLEncodingClosure = { codableType, encoder in
+            guard let dynamicType = codableType as? DynamicNodeEncoding.Type else {
+                return { _ in return .default }
+            }
+            return dynamicType.nodeEncoding(forKey:)
         }
     }
 

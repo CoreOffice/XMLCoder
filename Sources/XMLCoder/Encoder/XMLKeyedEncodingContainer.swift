@@ -99,21 +99,38 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
         )
         encoder.nodeEncodings.append(nodeEncodings)
         let box = try encode(encoder, value)
-        switch strategy(key) {
-        case .attribute:
+
+        let mySelf = self
+        let attributeEncoder: (T, Key, Box) throws -> () = { value, key, box in
             guard let attribute = box as? SimpleBox else {
                 throw EncodingError.invalidValue(value, EncodingError.Context(
                     codingPath: [],
                     debugDescription: "Complex values cannot be encoded as attributes."
                 ))
             }
-            container.withShared { container in
-                container.attributes[_converted(key).stringValue] = attribute
+            mySelf.container.withShared { container in
+                container.attributes[mySelf._converted(key).stringValue] = attribute
             }
+        }
+
+        let elementEncoder: (T, Key, Box) throws -> () = { value, key, box in
+            mySelf.container.withShared { container in
+                container.elements[mySelf._converted(key).stringValue] = box
+            }
+        }
+
+        defer {
+            self = mySelf
+        }
+
+        switch strategy(key) {
+        case .attribute:
+            try attributeEncoder(value, key, box)
         case .element:
-            container.withShared { container in
-                container.elements[_converted(key).stringValue] = box
-            }
+            try elementEncoder(value, key, box)
+        case .both:
+            try attributeEncoder(value, key, box)
+            try elementEncoder(value, key, box)
         }
     }
 
