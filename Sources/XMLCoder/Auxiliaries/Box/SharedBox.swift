@@ -30,7 +30,7 @@ extension SharedBox: Box {
 }
 
 extension SharedBox: SharedBoxProtocol {
-    func unbox() -> Box {
+    func unbox() -> Unboxed {
         return unboxed
     }
 }

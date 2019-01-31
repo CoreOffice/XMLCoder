@@ -632,10 +632,10 @@ extension XMLEncoderImplementation {
 
         let lastContainer = storage.popContainer()
 
-        guard let sharedBox = lastContainer as? SharedBoxProtocol else {
+        guard let sharedBox = lastContainer as? TypeErasedSharedBoxProtocol else {
             return lastContainer
         }
 
-        return sharedBox.unbox()
+        return sharedBox.typeErasedUnbox()
     }
 }
