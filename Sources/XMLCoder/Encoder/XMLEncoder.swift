@@ -229,7 +229,7 @@ open class XMLEncoder {
 
         func nodeEncodings(forType codableType: Encodable.Type,
                            with encoder: Encoder) -> ((CodingKey) -> XMLEncoder.NodeEncoding) {
-            return self.encoderClosure(codableType, encoder)
+            return encoderClosure(codableType, encoder)
         }
 
         var encoderClosure: XMLEncodingClosure {
@@ -239,9 +239,9 @@ open class XMLEncoder {
             }
         }
 
-        static let defaultEncoder: XMLEncodingClosure = { codableType, encoder in
+        static let defaultEncoder: XMLEncodingClosure = { codableType, _ in
             guard let dynamicType = codableType as? DynamicNodeEncoding.Type else {
-                return { _ in return .default }
+                return { _ in .default }
             }
             return dynamicType.nodeEncoding(forKey:)
         }

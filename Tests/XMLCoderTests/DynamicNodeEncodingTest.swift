@@ -80,16 +80,16 @@ final class DynamicNodeEncodingTest: XCTestCase {
         let book1 = Book(id: 123,
                          title: "Cat in the Hat",
                          categories: [
-                            Category(main: true, value: "Kids"),
-                            Category(main: false, value: "Wildlife")
-            ])
+                             Category(main: true, value: "Kids"),
+                             Category(main: false, value: "Wildlife"),
+        ])
 
         let book2 = Book(id: 456,
                          title: "1984",
                          categories: [
-                            Category(main: true, value: "Classics"),
-                            Category(main: false, value: "News")
-            ])
+                             Category(main: true, value: "Classics"),
+                             Category(main: false, value: "News"),
+        ])
 
         let library = Library(count: 2, books: [book1, book2])
         let encoder = XMLEncoder()
@@ -109,7 +109,6 @@ final class DynamicNodeEncodingTest: XCTestCase {
 
     func testDecode() {
         do {
-
             let decoder = XMLDecoder()
             decoder.errorContextLength = 10
 
@@ -194,5 +193,5 @@ final class DynamicNodeEncodingTest: XCTestCase {
         ("testEncode", testEncode),
         ("testDecode", testDecode),
         ("testEncodeDecode", testEncodeDecode),
-        ]
+    ]
 }

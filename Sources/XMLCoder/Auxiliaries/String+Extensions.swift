@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension StringProtocol where Self.Index == String.Index  {
+extension StringProtocol where Self.Index == String.Index {
     func escape(_ characterSet: [(character: String, escapedCharacter: String)]) -> String {
         var string = String(self)
 
@@ -24,22 +24,22 @@ extension StringProtocol {
         guard count > 1 else {
             return self
         }
-        return Self(prefix(1).uppercased() + self.dropFirst())!
+        return Self(prefix(1).uppercased() + dropFirst())!
     }
 
     mutating func capitalizeFirstLetter() {
-        self = self.capitalizingFirstLetter()
+        self = capitalizingFirstLetter()
     }
 
     func lowercasingFirstLetter() -> Self {
         // avoid lowercasing single letters (I), or capitalized multiples (AThing ! to aThing, leave as AThing)
-        guard count > 1 && !(String(prefix(2)) == prefix(2).uppercased()) else {
+        guard count > 1, !(String(prefix(2)) == prefix(2).uppercased()) else {
             return self
         }
-        return Self(prefix(1).lowercased() + self.dropFirst())!
+        return Self(prefix(1).lowercased() + dropFirst())!
     }
 
     mutating func lowercaseFirstLetter() {
-        self = self.capitalizingFirstLetter()
+        self = capitalizingFirstLetter()
     }
 }

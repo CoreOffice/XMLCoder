@@ -113,7 +113,7 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
             }
         }
 
-        let elementEncoder: (T, Key, Box) throws -> () = { value, key, box in
+        let elementEncoder: (T, Key, Box) throws -> () = { _, key, box in
             mySelf.container.withShared { container in
                 container.elements[mySelf._converted(key).stringValue] = box
             }

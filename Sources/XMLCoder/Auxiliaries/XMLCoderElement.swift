@@ -27,7 +27,7 @@ struct XMLCoderElement: Equatable {
         value: String? = nil,
         elements: [XMLCoderElement] = [],
         attributes: [String: String] = [:]
-        ) {
+    ) {
         self.key = key
         self.value = value
         self.elements = elements
@@ -47,7 +47,7 @@ struct XMLCoderElement: Equatable {
     func flatten() -> KeyedBox {
         let attributes = self.attributes.mapValues { StringBox($0) }
 
-        let keyedElements: [String: Box] = self.elements.reduce([String: Box]()) { (result, element) -> [String: Box] in
+        let keyedElements: [String: Box] = elements.reduce([String: Box]()) { (result, element) -> [String: Box] in
             var result = result
             let key = element.key
 
@@ -274,6 +274,7 @@ struct XMLCoderElement: Equatable {
 }
 
 // MARK: - Convenience Initializers
+
 extension XMLCoderElement {
     init(key: String, box: UnkeyedBox) {
         let elements = box.map { box in

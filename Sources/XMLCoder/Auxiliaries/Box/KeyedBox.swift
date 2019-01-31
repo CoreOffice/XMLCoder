@@ -84,9 +84,9 @@ struct KeyedBox {
 extension KeyedBox {
     init<E, A>(elements: E, attributes: A)
         where E: Sequence, E.Element == (Key, Element), A: Sequence, A.Element == (Key, Attribute) {
-            let elements = Elements(Dictionary(uniqueKeysWithValues: elements))
-            let attributes = Attributes(Dictionary(uniqueKeysWithValues: attributes))
-            self.init(elements: elements, attributes: attributes)
+        let elements = Elements(Dictionary(uniqueKeysWithValues: elements))
+        let attributes = Attributes(Dictionary(uniqueKeysWithValues: attributes))
+        self.init(elements: elements, attributes: attributes)
     }
 
     init(elements: [Key: Element], attributes: [Key: Attribute]) {

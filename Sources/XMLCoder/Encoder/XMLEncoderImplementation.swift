@@ -34,7 +34,7 @@ class XMLEncoderImplementation: Encoder {
         options: XMLEncoder.Options,
         nodeEncodings: [(CodingKey) -> XMLEncoder.NodeEncoding],
         codingPath: [CodingKey] = []
-        ) {
+    ) {
         self.options = options
         storage = XMLEncodingStorage()
         self.codingPath = codingPath
@@ -132,7 +132,7 @@ extension XMLEncoderImplementation {
         guard case let .convertToString(positiveInfinity: posInfString,
                                         negativeInfinity: negInfString,
                                         nan: nanString) = options.nonConformingFloatEncodingStrategy else {
-                                            throw EncodingError._invalidFloatingPointValue(value, at: codingPath)
+            throw EncodingError._invalidFloatingPointValue(value, at: codingPath)
         }
         if value == T.infinity {
             return StringBox(posInfString)
