@@ -24,6 +24,8 @@
 		A61DCCD821DF9CA200C0A19D /* ClassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61DCCD621DF8DB300C0A19D /* ClassTests.swift */; };
 		A61FE03921E4D60B0015D993 /* UnkeyedIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61FE03721E4D4F10015D993 /* UnkeyedIntTests.swift */; };
 		A61FE03C21E4EAB10015D993 /* KeyedIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61FE03A21E4EA8B0015D993 /* KeyedIntTests.swift */; };
+		B35157CE21F986DD009CA0CC /* DynamicNodeEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35157CD21F986DD009CA0CC /* DynamicNodeEncoding.swift */; };
+		B3BE1D612202C1F600259831 /* DynamicNodeEncodingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BE1D602202C1F600259831 /* DynamicNodeEncodingTest.swift */; };
 		BF63EF0021CCDED2001D38C5 /* XMLStackParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EEFF21CCDED2001D38C5 /* XMLStackParserTests.swift */; };
 		BF63EF0621CD7A74001D38C5 /* URLBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EF0521CD7A74001D38C5 /* URLBox.swift */; };
 		BF63EF0821CD7AF8001D38C5 /* URLBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EF0721CD7AF8001D38C5 /* URLBoxTests.swift */; };
@@ -126,6 +128,8 @@
 		A61DCCD621DF8DB300C0A19D /* ClassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassTests.swift; sourceTree = "<group>"; };
 		A61FE03721E4D4F10015D993 /* UnkeyedIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnkeyedIntTests.swift; sourceTree = "<group>"; };
 		A61FE03A21E4EA8B0015D993 /* KeyedIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedIntTests.swift; sourceTree = "<group>"; };
+		B35157CD21F986DD009CA0CC /* DynamicNodeEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicNodeEncoding.swift; sourceTree = "<group>"; };
+		B3BE1D602202C1F600259831 /* DynamicNodeEncodingTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicNodeEncodingTest.swift; sourceTree = "<group>"; };
 		BF63EEFF21CCDED2001D38C5 /* XMLStackParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLStackParserTests.swift; sourceTree = "<group>"; };
 		BF63EF0521CD7A74001D38C5 /* URLBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBox.swift; sourceTree = "<group>"; };
 		BF63EF0721CD7AF8001D38C5 /* URLBoxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBoxTests.swift; sourceTree = "<group>"; };
@@ -329,6 +333,7 @@
 				OBJ_19 /* XMLKeyedEncodingContainer.swift */,
 				OBJ_20 /* XMLReferencingEncoder.swift */,
 				OBJ_21 /* XMLUnkeyedEncodingContainer.swift */,
+				B35157CD21F986DD009CA0CC /* DynamicNodeEncoding.swift */,
 			);
 			path = Encoder;
 			sourceTree = "<group>";
@@ -360,6 +365,7 @@
 				OBJ_38 /* RelationshipsTest.swift */,
 				BF63EF1D21CEC99A001D38C5 /* BenchmarkTests.swift */,
 				D1FC040421C7EF8200065B43 /* RJISample.swift */,
+				B3BE1D602202C1F600259831 /* DynamicNodeEncodingTest.swift */,
 				A61DCCD621DF8DB300C0A19D /* ClassTests.swift */,
 				D14D8A8521F1D6B300B0D31A /* SingleChildTests.swift */,
 			);
@@ -549,6 +555,7 @@
 				OBJ_53 /* EncodingErrorExtension.swift in Sources */,
 				BF9457B921CBB4DB005ACFDE /* XMLStackParser.swift in Sources */,
 				OBJ_54 /* XMLEncoder.swift in Sources */,
+				B35157CE21F986DD009CA0CC /* DynamicNodeEncoding.swift in Sources */,
 				BF9457BA21CBB4DB005ACFDE /* ISO8601DateFormatter.swift in Sources */,
 				OBJ_55 /* XMLEncodingStorage.swift in Sources */,
 				BF9457A921CBB498005ACFDE /* KeyedBox.swift in Sources */,
@@ -611,6 +618,7 @@
 				OBJ_85 /* NodeEncodingStrategyTests.swift in Sources */,
 				OBJ_86 /* NoteTest.swift in Sources */,
 				BF63EF0C21CD7F28001D38C5 /* EmptyTests.swift in Sources */,
+				B3BE1D612202C1F600259831 /* DynamicNodeEncodingTest.swift in Sources */,
 				BF9457F721CBB6BC005ACFDE /* DataTests.swift in Sources */,
 				BF9457EE21CBB6BC005ACFDE /* IntTests.swift in Sources */,
 				BF8171F221D3D03E00901EB0 /* SharedBoxTests.swift in Sources */,
