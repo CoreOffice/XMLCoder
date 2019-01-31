@@ -303,7 +303,7 @@ class XMLDecoderImplementation: Decoder {
     // MARK: Properties
 
     /// The decoder's storage.
-    var storage: XMLDecodingStorage
+    var storage: XMLDecodingStorage = XMLDecodingStorage()
 
     /// Options set on the top-level decoder.
     let options: XMLDecoder.Options
@@ -323,7 +323,6 @@ class XMLDecoderImplementation: Decoder {
 
     /// Initializes `self` with the given top-level container and options.
     init(referencing container: Box, at codingPath: [CodingKey] = [], options: XMLDecoder.Options) {
-        storage = XMLDecodingStorage()
         storage.push(container: container)
         self.codingPath = codingPath
         self.options = options
