@@ -1,5 +1,5 @@
 //
-//  SOAPSample.swift
+//  DynamicNodeEncodingTest.swift
 //  XMLCoderTests
 //
 //  Created by Joseph Mattiello on 1/23/19.
@@ -121,8 +121,7 @@ private func decodeArray<T>(_ decoder: Decoder, decode: (inout UnkeyedDecodingCo
     return decoded
 }
 
-final class IntrinsicTest: XCTestCase {
-
+final class DynamicNodeEncodingTest: XCTestCase {
     func testEncode() {
         let book1 = Book(id: 123,
                          title: "Cat in the Hat",
