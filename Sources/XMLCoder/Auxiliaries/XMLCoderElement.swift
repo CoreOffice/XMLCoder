@@ -314,25 +314,34 @@ struct XMLCoderElement: Equatable {
             repeating: " ", count: (prettyPrinted ? level : 0) * 4
         )
         var string = indentation
-        string += "<\(key)"
+        if !key.isEmpty {
+            string += "<\(key)"
+        }
 
         formatXMLAttributes(formatting, &string)
 
         if let value = value {
-            string += ">"
+            if !key.isEmpty {
+                string += ">"
+            }
             if !ignoreEscaping {
                 string += (cdata == true ? "<![CDATA[\(value)]]>" :
                     "\(value.escape(XMLCoderElement.escapedCharacterSet))")
             } else {
                 string += "\(value)"
             }
-            string += "</\(key)>"
+
+            if !key.isEmpty {
+                string += "</\(key)>"
+            }
         } else if !elements.isEmpty {
             string += prettyPrinted ? ">\n" : ">"
             formatXMLElements(formatting, &string, level, cdata, prettyPrinted)
 
             string += indentation
-            string += "</\(key)>"
+            if !key.isEmpty {
+                string += "</\(key)>"
+            }
         } else {
             string += " />"
         }

@@ -655,6 +655,10 @@ extension XMLDecoderImplementation {
         } else if type == Decimal.self || type == NSDecimalNumber.self {
             let decimal: Decimal = try unbox(box)
             decoded = decimal as? T
+        } else if
+            type == String.self || type == NSString.self,
+            let str: String = try? unbox(box), let value = str as? T {
+            decoded = value
         } else {
             storage.push(container: box)
             decoded = try type.init(from: self)
