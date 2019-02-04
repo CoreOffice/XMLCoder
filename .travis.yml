@@ -11,7 +11,7 @@ before_install:
 script:
 - swiftformat --lint --verbose .
 - swiftlint
-- pod lib lint
+- pod lib lint --verbose
 - xcodebuild test -enableCodeCoverage YES -scheme XMLCoder
 # this runs the tests the second time, but it's the only way to make sure
 # that `Package.swift` is in a good state and `swift test` can only generate
