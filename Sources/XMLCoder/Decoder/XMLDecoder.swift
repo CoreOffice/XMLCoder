@@ -235,7 +235,14 @@ open class XMLDecoder {
     /// Contextual user-provided information for use during decoding.
     open var userInfo: [CodingUserInfoKey: Any] = [:]
 
-    // The error context length
+    /// The error context length. Makes an error thrown from the XML parser with
+    /// line/column location is repackaged with a context around that location
+    /// of specified length. For example, if an error was thrown indicating that
+    /// there's an unexpected character at line 3, column 15 with
+    /// `errorContextLength` set to 10, a new error type is rethrown containing
+    /// 5 characters before column 15 and 5 characters after, all on line 3.
+    /// Line wrapping should be handled correctly too as the context can span
+    /// more than a few lines.
     open var errorContextLength: UInt = 0
 
     /// Options set on the top-level encoder to pass down the decoding hierarchy.

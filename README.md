@@ -41,6 +41,12 @@ let returnData = try? XMLEncoder().encode(note, withRootKey: "note")
 
 ## Installation
 
+## Requirements
+
+- Xcode 10
+- Swift 4.2
+- iOS 9.0 / watchOS 2.0 / tvOS 9.0 / macOS 10.10 or later
+
 ### CocoaPods
 
 [CocoaPods](https://cocoapods.org) is a dependency manager for Swift and Objective-C Cocoa projects. You can install it with the following command:

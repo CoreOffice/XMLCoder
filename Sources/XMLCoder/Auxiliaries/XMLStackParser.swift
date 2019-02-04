@@ -8,8 +8,6 @@
 
 import Foundation
 
-struct XMLElementContext {}
-
 class XMLStackParser: NSObject {
     var root: XMLCoderElement?
     private var stack: [XMLCoderElement] = []
