@@ -12,6 +12,10 @@ struct KeyedStorage<Key: Hashable & Comparable, Value> {
 
     fileprivate var buffer: Buffer = [:]
 
+    var isEmpty: Bool {
+        return buffer.isEmpty
+    }
+
     var count: Int {
         return buffer.count
     }
@@ -43,9 +47,7 @@ struct KeyedStorage<Key: Hashable & Comparable, Value> {
 }
 
 extension KeyedStorage: Sequence {
-    typealias Iterator = Buffer.Iterator
-
-    func makeIterator() -> Iterator {
+    func makeIterator() -> Buffer.Iterator {
         return buffer.makeIterator()
     }
 }
