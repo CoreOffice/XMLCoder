@@ -1,3 +1,13 @@
+#  0.3.1 (February 6, 2019)
+
+A bugfix release that adds missing `CFBundleVersion` in generated framework's 
+`Info.plist` ([#72](https://github.com/MaxDesiatov/XMLCoder/issues/72) reported by 
+[@stonedauwg](https://github.com/stonedauwg)).
+
+## Changes
+
+* Set `CURRENT_PROJECT_VERSION` in project file ([#74](https://github.com/MaxDesiatov/XMLCoder/pull/74), [@MaxDesiatov](https://github.com/MaxDesiatov))
+
 #  0.3.0 (January 22, 2019)
 
 A maintenance release focused on fixing bugs, improving error reporting and
