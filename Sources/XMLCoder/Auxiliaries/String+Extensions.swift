@@ -33,13 +33,13 @@ extension StringProtocol {
 
     func lowercasingFirstLetter() -> Self {
         // avoid lowercasing single letters (I), or capitalized multiples (AThing ! to aThing, leave as AThing)
-        guard count > 1, !(String(prefix(2)) == prefix(2).uppercased()) else {
+        guard count > 1, !(String(prefix(2)) == prefix(2).lowercased()) else {
             return self
         }
         return Self(prefix(1).lowercased() + dropFirst())!
     }
 
     mutating func lowercaseFirstLetter() {
-        self = capitalizingFirstLetter()
+        self = lowercasingFirstLetter()
     }
 }
