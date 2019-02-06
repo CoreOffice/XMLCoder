@@ -1,6 +1,6 @@
 //
 //  KeyedBox.swift
-//  XMLCoderPackageDescription
+//  XMLCoder
 //
 //  Created by Vincent Esche on 11/19/18.
 //
