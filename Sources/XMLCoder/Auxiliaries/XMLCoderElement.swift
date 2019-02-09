@@ -47,7 +47,7 @@ struct XMLCoderElement: Equatable {
     func flatten() -> KeyedBox {
         let attributes = self.attributes.mapValues { StringBox($0) }
 
-        let keyedElements: [String: Box] = elements.reduce([String: Box]()) { (result, element) -> [String: Box] in
+        var keyedElements: [String: Box] = elements.reduce([String: Box]()) { (result, element) -> [String: Box] in
             var result = result
             let key = element.key
 
