@@ -47,9 +47,7 @@ struct KeyedStorage<Key: Hashable & Comparable, Value> {
 }
 
 extension KeyedStorage: Sequence {
-    typealias Iterator = Buffer.Iterator
-
-    func makeIterator() -> Iterator {
+    func makeIterator() -> Buffer.Iterator {
         return buffer.makeIterator()
     }
 }
