@@ -1,6 +1,6 @@
 //
 //  KeyedBox.swift
-//  XMLCoderPackageDescription
+//  XMLCoder
 //
 //  Created by Vincent Esche on 11/19/18.
 //
@@ -11,6 +11,10 @@ struct KeyedStorage<Key: Hashable & Comparable, Value> {
     typealias Buffer = [Key: Value]
 
     fileprivate var buffer: Buffer = [:]
+
+    var isEmpty: Bool {
+        return buffer.isEmpty
+    }
 
     var count: Int {
         return buffer.count
