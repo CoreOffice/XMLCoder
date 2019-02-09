@@ -94,7 +94,7 @@ struct XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         if let type = type as? AnyArray.Type,
             let keyedBox = container
             .withShared({ $0[self.currentIndex] as? KeyedBox }),
-            keyedBox.attributes.count == 0,
+            keyedBox.attributes.isEmpty,
             keyedBox.elements.count == 1,
             let firstKey = keyedBox.elements.keys.first,
             let unkeyedBox = keyedBox.elements[firstKey] {

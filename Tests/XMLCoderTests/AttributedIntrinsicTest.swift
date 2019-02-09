@@ -53,7 +53,6 @@ private struct FooEmptyKeyed: Codable, DynamicNodeEncoding {
 }
 
 final class AttributedIntrinsicTest: XCTestCase {
-
     func testEncode() {
         let encoder = XMLEncoder()
         encoder.outputFormatting = []
@@ -98,5 +97,5 @@ final class AttributedIntrinsicTest: XCTestCase {
     static var allTests = [
         ("testEncode", testEncode),
         ("testDecode", testDecode),
-        ]
+    ]
 }
