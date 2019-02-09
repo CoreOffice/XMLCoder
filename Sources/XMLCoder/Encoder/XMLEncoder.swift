@@ -37,6 +37,7 @@ open class XMLEncoder {
     public enum NodeEncoding {
         case attribute
         case element
+        case both
 
         public static let `default`: NodeEncoding = .element
     }
@@ -122,6 +123,18 @@ open class XMLEncoder {
         /// - Note: Using a key encoding strategy has a nominal performance cost, as each string key has to be converted.
         case convertToSnakeCase
 
+        /// Capitalize the first letter only
+        /// `oneTwoThree` becomes  `OneTwoThree`
+        case capitalized
+
+        /// Uppercase ize all letters
+        /// `oneTwoThree` becomes  `ONETWOTHREE`
+        case uppercased
+
+        /// Lowercase all letters
+        /// `oneTwoThree` becomes  `onetwothree`
+        case lowercased
+
         /// Provide a custom conversion to the key in the encoded XML from the
         /// keys specified by the encoded types.
         /// The full path to the current encoding position is provided for
@@ -186,10 +199,25 @@ open class XMLEncoder {
             }).joined(separator: "_")
             return result
         }
+
+        static func _convertToCapitalized(_ stringKey: String) -> String {
+            return stringKey.capitalizingFirstLetter()
+        }
+
+        static func _convertToLowercased(_ stringKey: String) -> String {
+            return stringKey.lowercased()
+        }
+
+        static func _convertToUppercased(_ stringKey: String) -> String {
+            return stringKey.uppercased()
+        }
     }
 
     @available(*, deprecated, renamed: "NodeEncodingStrategy")
     public typealias NodeEncodingStrategies = NodeEncodingStrategy
+
+    public typealias XMLNodeEncoderClosure = ((CodingKey) -> XMLEncoder.NodeEncoding)
+    public typealias XMLEncodingClosure = (Encodable.Type, Encoder) -> XMLNodeEncoderClosure
 
     /// Set of strategies to use for encoding of nodes.
     public enum NodeEncodingStrategy {
@@ -197,18 +225,25 @@ open class XMLEncoder {
         case deferredToEncoder
 
         /// Return a closure computing the desired node encoding for the value by its coding key.
-        case custom((Encodable.Type, Encoder) -> ((CodingKey) -> XMLEncoder.NodeEncoding))
+        case custom(XMLEncodingClosure)
 
-        func nodeEncodings(
-            forType codableType: Encodable.Type,
-            with encoder: Encoder
-        ) -> ((CodingKey) -> XMLEncoder.NodeEncoding) {
+        func nodeEncodings(forType codableType: Encodable.Type,
+                           with encoder: Encoder) -> ((CodingKey) -> XMLEncoder.NodeEncoding) {
+            return encoderClosure(codableType, encoder)
+        }
+
+        var encoderClosure: XMLEncodingClosure {
             switch self {
-            case .deferredToEncoder:
-                return { _ in .default }
-            case let .custom(closure):
-                return closure(codableType, encoder)
+            case .deferredToEncoder: return NodeEncodingStrategy.defaultEncoder
+            case let .custom(closure): return closure
             }
+        }
+
+        static let defaultEncoder: XMLEncodingClosure = { codableType, _ in
+            guard let dynamicType = codableType as? DynamicNodeEncoding.Type else {
+                return { _ in .default }
+            }
+            return dynamicType.nodeEncoding(forKey:)
         }
     }
 
@@ -305,313 +340,5 @@ open class XMLEncoder {
                                    withCDATA: withCDATA,
                                    formatting: outputFormatting)
             .data(using: .utf8, allowLossyConversion: true)!
-    }
-}
-
-class XMLEncoderImplementation: Encoder {
-    // MARK: Properties
-
-    /// The encoder's storage.
-    var storage: XMLEncodingStorage
-
-    /// Options set on the top-level encoder.
-    let options: XMLEncoder.Options
-
-    /// The path to the current point in encoding.
-    public var codingPath: [CodingKey]
-
-    public var nodeEncodings: [(CodingKey) -> XMLEncoder.NodeEncoding]
-
-    /// Contextual user-provided information for use during encoding.
-    public var userInfo: [CodingUserInfoKey: Any] {
-        return options.userInfo
-    }
-
-    // MARK: - Initialization
-
-    /// Initializes `self` with the given top-level encoder options.
-    init(
-        options: XMLEncoder.Options,
-        nodeEncodings: [(CodingKey) -> XMLEncoder.NodeEncoding],
-        codingPath: [CodingKey] = []
-    ) {
-        self.options = options
-        storage = XMLEncodingStorage()
-        self.codingPath = codingPath
-        self.nodeEncodings = nodeEncodings
-    }
-
-    /// Returns whether a new element can be encoded at this coding path.
-    ///
-    /// `true` if an element has not yet been encoded at this coding path; `false` otherwise.
-    var canEncodeNewValue: Bool {
-        // Every time a new value gets encoded, the key it's encoded for is
-        // pushed onto the coding path (even if it's a nil key from an unkeyed container).
-        // At the same time, every time a container is requested, a new value
-        // gets pushed onto the storage stack.
-        // If there are more values on the storage stack than on the coding path,
-        // it means the value is requesting more than one container, which
-        // violates the precondition.
-        //
-        // This means that anytime something that can request a new container
-        // goes onto the stack, we MUST push a key onto the coding path.
-        // Things which will not request containers do not need to have the
-        // coding path extended for them (but it doesn't matter if it is,
-        // because they will not reach here).
-        return storage.count == codingPath.count
-    }
-
-    // MARK: - Encoder Methods
-
-    public func container<Key>(keyedBy _: Key.Type) -> KeyedEncodingContainer<Key> {
-        // If an existing keyed container was already requested, return that one.
-        let topContainer: SharedBox<KeyedBox>
-        if canEncodeNewValue {
-            // We haven't yet pushed a container at this level; do so here.
-            topContainer = storage.pushKeyedContainer()
-        } else {
-            guard let container = storage.lastContainer as? SharedBox<KeyedBox> else {
-                preconditionFailure("Attempt to push new keyed encoding container when already previously encoded at this path.")
-            }
-
-            topContainer = container
-        }
-
-        let container = XMLKeyedEncodingContainer<Key>(referencing: self, codingPath: codingPath, wrapping: topContainer)
-        return KeyedEncodingContainer(container)
-    }
-
-    public func unkeyedContainer() -> UnkeyedEncodingContainer {
-        // If an existing unkeyed container was already requested, return that one.
-        let topContainer: SharedBox<UnkeyedBox>
-        if canEncodeNewValue {
-            // We haven't yet pushed a container at this level; do so here.
-            topContainer = storage.pushUnkeyedContainer()
-        } else {
-            guard let container = storage.lastContainer as? SharedBox<UnkeyedBox> else {
-                preconditionFailure("Attempt to push new unkeyed encoding container when already previously encoded at this path.")
-            }
-
-            topContainer = container
-        }
-
-        return XMLUnkeyedEncodingContainer(referencing: self, codingPath: codingPath, wrapping: topContainer)
-    }
-
-    public func singleValueContainer() -> SingleValueEncodingContainer {
-        return self
-    }
-}
-
-extension XMLEncoderImplementation: SingleValueEncodingContainer {
-    // MARK: - SingleValueEncodingContainer Methods
-
-    func assertCanEncodeNewValue() {
-        precondition(canEncodeNewValue, "Attempt to encode value through single value container when previously value already encoded.")
-    }
-
-    public func encodeNil() throws {
-        assertCanEncodeNewValue()
-        storage.push(container: box())
-    }
-
-    public func encode(_ value: Bool) throws {
-        assertCanEncodeNewValue()
-        storage.push(container: box(value))
-    }
-
-    public func encode(_ value: Int) throws {
-        assertCanEncodeNewValue()
-        storage.push(container: box(value))
-    }
-
-    public func encode(_ value: Int8) throws {
-        assertCanEncodeNewValue()
-        storage.push(container: box(value))
-    }
-
-    public func encode(_ value: Int16) throws {
-        assertCanEncodeNewValue()
-        storage.push(container: box(value))
-    }
-
-    public func encode(_ value: Int32) throws {
-        assertCanEncodeNewValue()
-        storage.push(container: box(value))
-    }
-
-    public func encode(_ value: Int64) throws {
-        assertCanEncodeNewValue()
-        storage.push(container: box(value))
-    }
-
-    public func encode(_ value: UInt) throws {
-        assertCanEncodeNewValue()
-        storage.push(container: box(value))
-    }
-
-    public func encode(_ value: UInt8) throws {
-        assertCanEncodeNewValue()
-        storage.push(container: box(value))
-    }
-
-    public func encode(_ value: UInt16) throws {
-        assertCanEncodeNewValue()
-        storage.push(container: box(value))
-    }
-
-    public func encode(_ value: UInt32) throws {
-        assertCanEncodeNewValue()
-        storage.push(container: box(value))
-    }
-
-    public func encode(_ value: UInt64) throws {
-        assertCanEncodeNewValue()
-        storage.push(container: box(value))
-    }
-
-    public func encode(_ value: String) throws {
-        assertCanEncodeNewValue()
-        storage.push(container: box(value))
-    }
-
-    public func encode(_ value: Float) throws {
-        assertCanEncodeNewValue()
-        try storage.push(container: box(value))
-    }
-
-    public func encode(_ value: Double) throws {
-        assertCanEncodeNewValue()
-        try storage.push(container: box(value))
-    }
-
-    public func encode<T: Encodable>(_ value: T) throws {
-        assertCanEncodeNewValue()
-        try storage.push(container: box(value))
-    }
-}
-
-extension XMLEncoderImplementation {
-    /// Returns the given value boxed in a container appropriate for pushing onto the container stack.
-    func box() -> SimpleBox {
-        return NullBox()
-    }
-
-    func box(_ value: Bool) -> SimpleBox {
-        return BoolBox(value)
-    }
-
-    func box(_ value: Decimal) -> SimpleBox {
-        return DecimalBox(value)
-    }
-
-    func box<T: BinaryInteger & SignedInteger & Encodable>(_ value: T) -> SimpleBox {
-        return IntBox(value)
-    }
-
-    func box<T: BinaryInteger & UnsignedInteger & Encodable>(_ value: T) -> SimpleBox {
-        return UIntBox(value)
-    }
-
-    func box<T: BinaryFloatingPoint & Encodable>(_ value: T) throws -> SimpleBox {
-        guard value.isInfinite || value.isNaN else {
-            return FloatBox(value)
-        }
-        guard case let .convertToString(positiveInfinity: posInfString,
-                                        negativeInfinity: negInfString,
-                                        nan: nanString) = options.nonConformingFloatEncodingStrategy else {
-            throw EncodingError._invalidFloatingPointValue(value, at: codingPath)
-        }
-        if value == T.infinity {
-            return StringBox(posInfString)
-        } else if value == -T.infinity {
-            return StringBox(negInfString)
-        } else {
-            return StringBox(nanString)
-        }
-    }
-
-    func box(_ value: String) -> SimpleBox {
-        return StringBox(value)
-    }
-
-    func box(_ value: Date) throws -> Box {
-        switch options.dateEncodingStrategy {
-        case .deferredToDate:
-            try value.encode(to: self)
-            return storage.popContainer()
-        case .secondsSince1970:
-            return DateBox(value, format: .secondsSince1970)
-        case .millisecondsSince1970:
-            return DateBox(value, format: .millisecondsSince1970)
-        case .iso8601:
-            return DateBox(value, format: .iso8601)
-        case let .formatted(formatter):
-            return DateBox(value, format: .formatter(formatter))
-        case let .custom(closure):
-            let depth = storage.count
-            try closure(value, self)
-
-            guard storage.count > depth else {
-                return KeyedBox()
-            }
-
-            return storage.popContainer()
-        }
-    }
-
-    func box(_ value: Data) throws -> Box {
-        switch options.dataEncodingStrategy {
-        case .deferredToData:
-            try value.encode(to: self)
-            return storage.popContainer()
-        case .base64:
-            return DataBox(value, format: .base64)
-        case let .custom(closure):
-            let depth = storage.count
-            try closure(value, self)
-
-            guard storage.count > depth else {
-                return KeyedBox()
-            }
-
-            return storage.popContainer()
-        }
-    }
-
-    func box(_ value: URL) -> SimpleBox {
-        return URLBox(value)
-    }
-
-    func box<T: Encodable>(_ value: T) throws -> Box {
-        if T.self == Date.self || T.self == NSDate.self,
-            let value = value as? Date {
-            return try box(value)
-        } else if T.self == Data.self || T.self == NSData.self,
-            let value = value as? Data {
-            return try box(value)
-        } else if T.self == URL.self || T.self == NSURL.self,
-            let value = value as? URL {
-            return box(value)
-        } else if T.self == Decimal.self || T.self == NSDecimalNumber.self,
-            let value = value as? Decimal {
-            return box(value)
-        }
-
-        let depth = storage.count
-        try value.encode(to: self)
-
-        // The top container should be a new container.
-        guard storage.count > depth else {
-            return KeyedBox()
-        }
-
-        let lastContainer = storage.popContainer()
-
-        guard let sharedBox = lastContainer as? SharedBoxProtocol else {
-            return lastContainer
-        }
-
-        return sharedBox.unbox()
     }
 }

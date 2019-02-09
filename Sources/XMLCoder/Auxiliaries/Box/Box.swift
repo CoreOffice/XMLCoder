@@ -17,6 +17,17 @@ protocol SimpleBox: Box {
     // A simple tagging protocol, for now.
 }
 
-protocol SharedBoxProtocol {
-    func unbox() -> Box
+protocol TypeErasedSharedBoxProtocol {
+    func typeErasedUnbox() -> Box
+}
+
+protocol SharedBoxProtocol: TypeErasedSharedBoxProtocol {
+    associatedtype B: Box
+    func unbox() -> B
+}
+
+extension SharedBoxProtocol {
+    func typeErasedUnbox() -> Box {
+        return unbox()
+    }
 }
