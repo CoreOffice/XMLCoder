@@ -12,8 +12,8 @@ class KeyedBoxTests: XCTestCase {
     typealias Boxed = KeyedBox
 
     let box = Boxed(
-        elements: ["foo": StringBox("bar"), "baz": IntBox(42)],
-        attributes: ["baz": StringBox("blee")]
+        elements: [("foo", StringBox("bar")), ("baz", IntBox(42))] as [(String, Box)],
+        attributes: [("baz", StringBox("blee"))]
     )
 
     func testIsNull() {
@@ -37,11 +37,10 @@ class KeyedBoxTests: XCTestCase {
     }
 
     func testDescription() {
-        // FIXME: once we have an order-preserving storage
-        // we can check against the full description:
-        let description = box.description
-        XCTAssertTrue(description.contains("\"foo\": bar"))
-        XCTAssertTrue(description.contains("\"baz\": 42"))
+        XCTAssertEqual(
+            box.description,
+            "{attributes: [\"baz\": blee], elements: [\"foo\": bar, \"baz\": 42]}"
+        )
     }
 
     func testSequence() {
@@ -53,9 +52,10 @@ class KeyedBoxTests: XCTestCase {
     }
 
     func testSubscript() {
+        let elements: [(String, Box)] = [("foo", StringBox("bar")), ("baz", IntBox(42))]
         var box = Boxed(
-            elements: ["foo": StringBox("bar"), "baz": IntBox(42)],
-            attributes: ["baz": StringBox("blee")]
+            elements: elements,
+            attributes: [("baz", StringBox("blee"))]
         )
         box.elements["bar"] = NullBox()
         XCTAssertEqual(box.elements.count, 3)
