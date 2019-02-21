@@ -168,7 +168,7 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
     ) throws -> T {
         let elementOrNil = container.withShared { keyedBox -> KeyedBox.Element? in
             if ["value", ""].contains(key.stringValue) {
-                return keyedBox.value
+                return keyedBox.elements[key.stringValue] ?? keyedBox.value
             } else {
                 return keyedBox.elements[key.stringValue]
             }
