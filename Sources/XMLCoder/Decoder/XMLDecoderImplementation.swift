@@ -308,7 +308,6 @@ extension XMLDecoderImplementation {
 
         if type == Date.self || type == NSDate.self {
             let date: Date = try unbox(box)
-
             decoded = date as? T
         } else if type == Data.self || type == NSData.self {
             let data: Data = try unbox(box)
@@ -321,7 +320,7 @@ extension XMLDecoderImplementation {
             decoded = decimal as? T
         } else if
             type == String.self || type == NSString.self,
-            let str: String = try? unbox(box), let value = str as? T {
+            let value = (try unbox(box) as String) as? T {
             decoded = value
         } else {
             storage.push(container: box)
