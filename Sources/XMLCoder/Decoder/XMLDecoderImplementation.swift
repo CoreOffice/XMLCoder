@@ -320,7 +320,7 @@ extension XMLDecoderImplementation {
             decoded = decimal as? T
         } else if
             type == String.self || type == NSString.self,
-            let str: String = try? unbox(box), let value = str as? T {
+            let value = (try unbox(box) as String) as? T {
             decoded = value
         } else {
             storage.push(container: box)

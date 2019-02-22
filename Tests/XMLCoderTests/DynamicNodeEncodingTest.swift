@@ -125,8 +125,6 @@ final class DynamicNodeEncodingTest: XCTestCase {
         let header = XMLHeader(version: 1.0, encoding: "UTF-8")
         let encoded = try encoder.encode(library, withRootKey: "library", header: header)
         let xmlString = String(data: encoded, encoding: .utf8)
-        print(xmlString!)
-        print(libraryXMLTrueFalse)
         XCTAssertEqual(xmlString, libraryXMLTrueFalse)
     }
 
@@ -197,7 +195,6 @@ final class DynamicNodeEncodingTest: XCTestCase {
         let data = try encoder.encode(library, withRootKey: "library",
                                       header: XMLHeader(version: 1.0,
                                                         encoding: "UTF-8"))
-        print(String(data: data, encoding: .utf8)!)
         let library2 = try decoder.decode(Library.self, from: data)
         XCTAssertEqual(library, library2)
     }
