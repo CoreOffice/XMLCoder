@@ -218,7 +218,7 @@ final class BooksTest: XCTestCase {
 
         XCTAssertEqual(book1, book2)
 
-        // Test string equivlancy
+        // Test string equivalency
         let encodedXML = String(data: data, encoding: .utf8)!.trimmingCharacters(in: .whitespacesAndNewlines)
         let originalXML = String(data: bookXML, encoding: .utf8)!.trimmingCharacters(in: .whitespacesAndNewlines)
         XCTAssertEqual(encodedXML, originalXML)
