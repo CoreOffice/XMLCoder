@@ -66,7 +66,7 @@ final class AttributedIntrinsicTest: XCTestCase {
             XCTAssertNotNil(xmlString)
             print(xmlString!)
 
-            // Test string equivlancy
+            // Test string equivalency
             let encodedXML = xmlString!.trimmingCharacters(in: .whitespacesAndNewlines)
             let originalXML = String(data: fooXML, encoding: .utf8)!.trimmingCharacters(in: .whitespacesAndNewlines)
             XCTAssertEqual(encodedXML, originalXML)
@@ -197,7 +197,7 @@ final class AttributedEnumIntrinsicTest: XCTestCase {
             XCTAssertNotNil(xmlString)
             print(xmlString!)
 
-            // Test string equivlancy
+            // Test string equivalency
             let encodedXML = xmlString!.trimmingCharacters(in: .whitespacesAndNewlines)
             let originalXML = String(data: attributedEnumXML, encoding: .utf8)!.trimmingCharacters(in: .whitespacesAndNewlines)
             XCTAssertEqual(encodedXML, originalXML)
