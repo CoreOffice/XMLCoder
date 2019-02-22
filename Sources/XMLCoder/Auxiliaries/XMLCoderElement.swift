@@ -93,7 +93,7 @@ struct XMLCoderElement: Equatable {
             return result
         }
 
-        // Handle attributed unkeyed valye <foo attr="bar">zap</foo>
+        // Handle attributed unkeyed value <foo attr="bar">zap</foo>
         // Value should be zap. Detect only when no other elements exist
         if keyedElements.isEmpty, let value = value {
             keyedElements["value"] = StringBox(value)

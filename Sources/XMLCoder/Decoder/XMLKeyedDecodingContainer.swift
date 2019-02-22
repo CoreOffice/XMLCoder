@@ -130,7 +130,7 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
             keyedBox.attributes[key.stringValue] != nil
         }
 
-        let elementFound = container.withShared { keyedBox -> Bool in
+        let elementFound = container.withShared { keyedBox in
             keyedBox.elements[key.stringValue] != nil || keyedBox.value != nil
         }
 
