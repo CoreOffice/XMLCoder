@@ -44,6 +44,8 @@ struct XMLCoderElement: Equatable {
         elements.append(element)
     }
 
+    // FIXME: this should be split into separate functions and
+    // thoroughtly tested
     func flatten() -> KeyedBox {
         let attributes = self.attributes.mapValues { StringBox($0) }
 
@@ -73,7 +75,7 @@ struct XMLCoderElement: Equatable {
                     case var unkeyedBox as UnkeyedBox:
                         unkeyedBox.append(content)
                         result[key] = unkeyedBox
-                    case let box?:
+                    case let box? where !hasValue:
                         result[key] = UnkeyedBox([box, content])
                     default:
                         result[key] = content
