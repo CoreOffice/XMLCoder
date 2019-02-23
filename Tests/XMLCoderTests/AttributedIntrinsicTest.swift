@@ -52,6 +52,45 @@ private struct FooEmptyKeyed: Codable, DynamicNodeEncoding {
     }
 }
 
+private let previewXML =
+    """
+    <?xml version="1.0" encoding="UTF-8"?>
+    <app_preview display_target="iOS-6.5-in" position="1">
+    <preview_image_time format="24/999 1000/nonDrop">00:00:17:01</preview_image_time>
+    </app_preview>
+    """.data(using: .utf8)!
+
+private struct AppPreview: Codable {
+    var displayTarget: String
+    var position: Int
+    var previewImageTime: PreviewImageTime
+
+    enum CodingKeys: String, CodingKey {
+        case displayTarget = "display_target"
+        case position
+        case previewImageTime = "preview_image_time"
+    }
+}
+
+private struct PreviewImageTime: Codable, DynamicNodeEncoding {
+    var format: String
+    var value: String
+
+    enum CodingKeys: String, CodingKey {
+        case format
+        case value
+    }
+
+    static func nodeEncoding(forKey key: CodingKey) -> XMLEncoder.NodeEncoding {
+        switch key {
+        case CodingKeys.format:
+            return .attribute
+        default:
+            return .element
+        }
+    }
+}
+
 final class AttributedIntrinsicTest: XCTestCase {
     func testEncode() throws {
         let encoder = XMLEncoder()
@@ -83,9 +122,17 @@ final class AttributedIntrinsicTest: XCTestCase {
         XCTAssertEqual(foo2.unkeyedValue, 456)
     }
 
+    func testDecodePreview() throws {
+        let decoder = XMLDecoder()
+
+        let preview = try decoder.decode(AppPreview.self, from: previewXML)
+        print(preview)
+    }
+
     static var allTests = [
         ("testEncode", testEncode),
         ("testDecode", testDecode),
+        ("testDecodePreview", testDecodePreview),
     ]
 }
 
