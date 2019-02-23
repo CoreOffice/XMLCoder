@@ -60,7 +60,7 @@ private let previewXML =
     </app_preview>
     """.data(using: .utf8)!
 
-private struct AppPreview: Codable {
+private struct AppPreview: Codable, Equatable {
     var displayTarget: String
     var position: Int
     var previewImageTime: PreviewImageTime
@@ -72,7 +72,7 @@ private struct AppPreview: Codable {
     }
 }
 
-private struct PreviewImageTime: Codable, DynamicNodeEncoding {
+private struct PreviewImageTime: Codable, Equatable, DynamicNodeEncoding {
     var format: String
     var value: String
 
@@ -126,7 +126,14 @@ final class AttributedIntrinsicTest: XCTestCase {
         let decoder = XMLDecoder()
 
         let preview = try decoder.decode(AppPreview.self, from: previewXML)
-        print(preview)
+        XCTAssertEqual(AppPreview(
+            displayTarget: "iOS-6.5-in",
+            position: 1,
+            previewImageTime: PreviewImageTime(
+                format: "24/999 1000/nonDrop",
+                value: "00:00:17:01"
+            )
+        ), preview)
     }
 
     static var allTests = [
