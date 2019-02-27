@@ -245,6 +245,11 @@ open class XMLDecoder {
     /// span more than a few lines.
     open var errorContextLength: UInt = 0
 
+    /** A boolean value that determines whether the parser reports the
+     namespaces and qualified names of elements. The default value is `false`.
+     */
+    open var shouldProcessNamespaces: Bool = false
+
     /// Options set on the top-level encoder to pass down the decoding hierarchy.
     struct Options {
         let dateDecodingStrategy: DateDecodingStrategy
@@ -283,7 +288,8 @@ open class XMLDecoder {
     ) throws -> T {
         let topLevel: Box = try XMLStackParser.parse(
             with: data,
-            errorContextLength: errorContextLength
+            errorContextLength: errorContextLength,
+            shouldProcessNamespaces: shouldProcessNamespaces
         )
 
         let decoder = XMLDecoderImplementation(referencing: topLevel, options: options)

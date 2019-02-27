@@ -12,18 +12,29 @@ class XMLStackParser: NSObject {
     var root: XMLCoderElement?
     private var stack: [XMLCoderElement] = []
 
-    static func parse(with data: Data,
-                      errorContextLength length: UInt) throws -> KeyedBox {
+    static func parse(
+        with data: Data,
+        errorContextLength length: UInt,
+        shouldProcessNamespaces: Bool
+    ) throws -> KeyedBox {
         let parser = XMLStackParser()
 
-        let node = try parser.parse(with: data, errorContextLength: length)
+        let node = try parser.parse(
+            with: data,
+            errorContextLength: length,
+            shouldProcessNamespaces: shouldProcessNamespaces
+        )
 
         return node.flatten()
     }
 
-    func parse(with data: Data,
-               errorContextLength: UInt) throws -> XMLCoderElement {
+    func parse(
+        with data: Data,
+        errorContextLength: UInt,
+        shouldProcessNamespaces: Bool
+    ) throws -> XMLCoderElement {
         let xmlParser = XMLParser(data: data)
+        xmlParser.shouldProcessNamespaces = shouldProcessNamespaces
         xmlParser.delegate = self
 
         guard !xmlParser.parse(), root == nil else {
@@ -92,8 +103,8 @@ extension XMLStackParser: XMLParserDelegate {
 
     func parser(_: XMLParser,
                 didStartElement elementName: String,
-                namespaceURI _: String?,
-                qualifiedName _: String?,
+                namespaceURI: String?,
+                qualifiedName: String?,
                 attributes attributeDict: [String: String] = [:]) {
         let element = XMLCoderElement(key: elementName, attributes: attributeDict)
         stack.append(element)
