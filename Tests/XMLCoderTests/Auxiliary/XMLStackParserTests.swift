@@ -21,8 +21,11 @@ class XMLStackParserTests: XCTestCase {
             """
         let xmlData = xmlString.data(using: .utf8)!
 
-        let root: XMLCoderElement? = try parser.parse(with: xmlData,
-                                                      errorContextLength: 0)
+        let root: XMLCoderElement? = try parser.parse(
+            with: xmlData,
+            errorContextLength: 0,
+            shouldProcessNamespaces: false
+        )
 
         let expected = XMLCoderElement(
             key: "container",
@@ -46,7 +49,10 @@ class XMLStackParserTests: XCTestCase {
         let xmlString = "lorem ipsum"
         let xmlData = xmlString.data(using: .utf8)!
 
-        XCTAssertThrowsError(try parser.parse(with: xmlData,
-                                              errorContextLength: 0))
+        XCTAssertThrowsError(try parser.parse(
+            with: xmlData,
+            errorContextLength: 0,
+            shouldProcessNamespaces: false
+        ))
     }
 }
