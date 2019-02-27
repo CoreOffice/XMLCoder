@@ -47,9 +47,12 @@ struct XMLCoderElement: Equatable {
     // FIXME: this should be split into separate functions and
     // thoroughtly tested
     func flatten() -> KeyedBox {
-        let attributes = KeyedStorage(self.attributes.mapValues { StringBox($0) as SimpleBox }.shuffled())
+        let attributes = KeyedStorage(self.attributes.mapValues {
+            StringBox($0) as SimpleBox
+        }.shuffled())
+        let storage = KeyedStorage<String, Box>()
 
-        var elements = self.elements.reduce(KeyedStorage<String, Box>()) { (result, element) -> KeyedStorage<String, Box> in
+        var elements = self.elements.reduce(storage) { result, element in
             var result = result
             let key = element.key
 
