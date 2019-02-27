@@ -120,6 +120,17 @@ extension KeyedBox: Box {
     }
 }
 
+extension KeyedBox {
+    var value: SimpleBox? {
+        guard
+            elements.count == 1,
+            let value = elements["value"] as? SimpleBox
+            ?? elements[""] as? SimpleBox,
+            !value.isNull else { return nil }
+        return value
+    }
+}
+
 extension KeyedBox: CustomStringConvertible {
     var description: String {
         return "{attributes: \(attributes), elements: \(elements)}"

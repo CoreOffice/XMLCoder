@@ -27,5 +27,6 @@ let package = Package(
             name: "XMLCoderTests",
             dependencies: ["XMLCoder"]
         ),
-    ]
+    ],
+    swiftLanguageVersions: [.v4_2, .version("5")]
 )
