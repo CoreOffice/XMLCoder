@@ -23,7 +23,7 @@ private struct Foo: Codable, DynamicNodeEncoding {
         case value
     }
 
-    static func nodeEncoding(forKey key: CodingKey) -> XMLEncoder.NodeEncoding {
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
         switch key {
         case CodingKeys.id:
             return .attribute
@@ -42,7 +42,7 @@ private struct FooEmptyKeyed: Codable, DynamicNodeEncoding {
         case unkeyedValue = ""
     }
 
-    static func nodeEncoding(forKey key: CodingKey) -> XMLEncoder.NodeEncoding {
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
         switch key {
         case CodingKeys.id:
             return .attribute
@@ -81,7 +81,7 @@ private struct PreviewImageTime: Codable, Equatable, DynamicNodeEncoding {
         case value
     }
 
-    static func nodeEncoding(forKey key: CodingKey) -> XMLEncoder.NodeEncoding {
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
         switch key {
         case CodingKeys.format:
             return .attribute
@@ -166,7 +166,7 @@ private struct FooNumber: Codable, DynamicNodeEncoding {
         case typeValue = ""
     }
 
-    public static func nodeEncoding(forKey key: CodingKey) -> XMLEncoder.NodeEncoding {
+    public static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
         switch key {
         case FooNumber.CodingKeys.type: return .attribute
         default: return .element

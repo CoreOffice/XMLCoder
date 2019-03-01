@@ -14,12 +14,12 @@ private let bookXML = """
 <?xml version="1.0" encoding="UTF-8"?>
 <book id="bk101">
     <author>Gambardella, Matthew</author>
-    <description>An in-depth look at creating applications
-        with XML.</description>
+    <title>XML Developer&apos;s Guide</title>
     <genre>Computer</genre>
     <price>44.95</price>
+    <description>An in-depth look at creating applications
+        with XML.</description>
     <publish_date>2000-10-01</publish_date>
-    <title>XML Developer&apos;s Guide</title>
 </book>
 """.data(using: .utf8)!
 
@@ -170,7 +170,7 @@ private struct Book: Codable, Equatable, DynamicNodeEncoding {
         case publishDate = "publish_date"
     }
 
-    static func nodeEncoding(forKey key: CodingKey) -> XMLEncoder.NodeEncoding {
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
         switch key {
         case CodingKeys.id:
             return .attribute
@@ -200,7 +200,7 @@ final class BooksTest: XCTestCase {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
 
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        encoder.outputFormatting = [.prettyPrinted]
 
         decoder.dateDecodingStrategy = .formatted(formatter)
         encoder.dateEncodingStrategy = .formatted(formatter)

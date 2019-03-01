@@ -49,6 +49,9 @@ struct KeyedStorage<Key: Hashable & Comparable, Value> {
             return buffer[key]
         }
         set {
+            if buffer[key] == nil {
+                order.append(key)
+            }
             buffer[key] = newValue
         }
     }

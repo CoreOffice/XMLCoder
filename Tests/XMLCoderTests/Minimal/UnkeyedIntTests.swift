@@ -140,7 +140,7 @@ class UnkeyedIntTests: XCTestCase {
     func testInt<T: Codable & IntegerArrayContainer>(_ type: T.Type) throws {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        encoder.outputFormatting = [.prettyPrinted]
 
         let xmlString =
             """
