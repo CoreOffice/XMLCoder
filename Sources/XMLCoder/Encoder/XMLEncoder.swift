@@ -243,7 +243,7 @@ open class XMLEncoder {
             guard let dynamicType = codableType as? DynamicNodeEncoding.Type else {
                 return { _ in .default }
             }
-            return dynamicType.nodeEncoding(forKey:)
+            return dynamicType.nodeEncoding(for:)
         }
     }
 

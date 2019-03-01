@@ -73,19 +73,19 @@ private let xmlData = """
         <x>\(str)</x>
     </a>
     <b>
+        <y>\(double)</y>
         <super>
             <x>\(str)</x>
         </super>
-        <y>\(double)</y>
     </b>
     <c>
+        <z>\(int)</z>
         <super>
+            <y>\(double)</y>
             <super>
                 <x>\(str)</x>
             </super>
-            <y>\(double)</y>
         </super>
-        <z>\(int)</z>
     </c>
 </s>
 """.data(using: .utf8)!
@@ -94,7 +94,7 @@ class ClassTests: XCTestCase {
     func testEmpty() throws {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        encoder.outputFormatting = [.prettyPrinted]
 
         let decoded = try decoder.decode(S.self, from: xmlData)
         XCTAssertEqual(decoded.a.x, str)

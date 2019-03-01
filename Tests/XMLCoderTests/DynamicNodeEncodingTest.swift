@@ -30,27 +30,27 @@ private let libraryXMLYN = """
 private let libraryXMLTrueFalse = """
 <?xml version="1.0" encoding="UTF-8"?>
 <library>
+    <count>2</count>
     <book id="123">
+        <id>123</id>
+        <title>Cat in the Hat</title>
         <category main="true">
             <value>Kids</value>
         </category>
         <category main="false">
             <value>Wildlife</value>
         </category>
-        <id>123</id>
-        <title>Cat in the Hat</title>
     </book>
     <book id="456">
+        <id>456</id>
+        <title>1984</title>
         <category main="true">
             <value>Classics</value>
         </category>
         <category main="false">
             <value>News</value>
         </category>
-        <id>456</id>
-        <title>1984</title>
     </book>
-    <count>2</count>
 </library>
 """
 
@@ -75,7 +75,7 @@ private struct Book: Codable, Equatable, DynamicNodeEncoding {
         case categories = "category"
     }
 
-    static func nodeEncoding(forKey key: CodingKey) -> XMLEncoder.NodeEncoding {
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
         switch key {
         case Book.CodingKeys.id: return .both
         default: return .element
@@ -92,7 +92,7 @@ private struct Category: Codable, Equatable, DynamicNodeEncoding {
         case value
     }
 
-    static func nodeEncoding(forKey key: CodingKey) -> XMLEncoder.NodeEncoding {
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
         switch key {
         case Category.CodingKeys.main:
             return .attribute
@@ -120,11 +120,11 @@ final class DynamicNodeEncodingTest: XCTestCase {
 
         let library = Library(count: 2, books: [book1, book2])
         let encoder = XMLEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        encoder.outputFormatting = [.prettyPrinted]
 
         let header = XMLHeader(version: 1.0, encoding: "UTF-8")
         let encoded = try encoder.encode(library, withRootKey: "library", header: header)
-        let xmlString = String(data: encoded, encoding: .utf8)
+        let xmlString = String(data: encoded, encoding: .utf8)!
         XCTAssertEqual(xmlString, libraryXMLTrueFalse)
     }
 

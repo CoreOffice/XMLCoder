@@ -8,9 +8,24 @@
 import Foundation
 
 struct KeyedStorage<Key: Hashable & Comparable, Value> {
-    typealias Buffer = [Key: Value]
+    struct Iterator: IteratorProtocol {
+        fileprivate var orderIterator: Order.Iterator
+        fileprivate var buffer: Buffer
+        mutating func next() -> (Key, Value)? {
+            guard
+                let key = orderIterator.next(),
+                let value = buffer[key]
+            else { return nil }
 
-    fileprivate var buffer: Buffer = [:]
+            return (key, value)
+        }
+    }
+
+    typealias Buffer = [Key: Value]
+    typealias Order = [Key]
+
+    fileprivate var order = Order()
+    fileprivate var buffer = Buffer()
 
     var isEmpty: Bool {
         return buffer.isEmpty
@@ -24,8 +39,9 @@ struct KeyedStorage<Key: Hashable & Comparable, Value> {
         return buffer.keys
     }
 
-    init(_ buffer: Buffer) {
-        self.buffer = buffer
+    init<S>(_ sequence: S) where S: Sequence, S.Element == (Key, Value) {
+        order = sequence.map { $0.0 }
+        buffer = Dictionary(uniqueKeysWithValues: sequence)
     }
 
     subscript(key: Key) -> Value? {
@@ -33,6 +49,9 @@ struct KeyedStorage<Key: Hashable & Comparable, Value> {
             return buffer[key]
         }
         set {
+            if buffer[key] == nil {
+                order.append(key)
+            }
             buffer[key] = newValue
         }
     }
@@ -44,23 +63,25 @@ struct KeyedStorage<Key: Hashable & Comparable, Value> {
     func compactMap<T>(_ transform: ((Key, Value)) throws -> T?) rethrows -> [T] {
         return try buffer.compactMap(transform)
     }
+
+    init() {}
 }
 
 extension KeyedStorage: Sequence {
-    func makeIterator() -> Buffer.Iterator {
-        return buffer.makeIterator()
-    }
-}
-
-extension KeyedStorage: ExpressibleByDictionaryLiteral {
-    init(dictionaryLiteral elements: (Key, Value)...) {
-        self.init(Dictionary(uniqueKeysWithValues: elements))
+    func makeIterator() -> Iterator {
+        return Iterator(orderIterator: order.makeIterator(), buffer: buffer)
     }
 }
 
 extension KeyedStorage: CustomStringConvertible {
     var description: String {
-        return "\(buffer)"
+        let result = order.compactMap { (key: Key) -> String? in
+            guard let value = buffer[key] else { return nil }
+
+            return "\"\(key)\": \(value)"
+        }.joined(separator: ", ")
+
+        return "[\(result)]"
     }
 }
 
@@ -72,8 +93,8 @@ struct KeyedBox {
     typealias Attributes = KeyedStorage<Key, Attribute>
     typealias Elements = KeyedStorage<Key, Element>
 
-    var elements: Elements = [:]
-    var attributes: Attributes = [:]
+    var elements = Elements()
+    var attributes = Attributes()
 
     func unbox() -> (elements: Elements, attributes: Attributes) {
         return (
@@ -86,13 +107,9 @@ struct KeyedBox {
 extension KeyedBox {
     init<E, A>(elements: E, attributes: A)
         where E: Sequence, E.Element == (Key, Element), A: Sequence, A.Element == (Key, Attribute) {
-        let elements = Elements(Dictionary(uniqueKeysWithValues: elements))
-        let attributes = Attributes(Dictionary(uniqueKeysWithValues: attributes))
+        let elements = Elements(elements)
+        let attributes = Attributes(attributes)
         self.init(elements: elements, attributes: attributes)
-    }
-
-    init(elements: [Key: Element], attributes: [Key: Attribute]) {
-        self.init(elements: Elements(elements), attributes: Attributes(attributes))
     }
 }
 
