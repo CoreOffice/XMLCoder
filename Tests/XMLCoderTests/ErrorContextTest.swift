@@ -14,7 +14,7 @@ final class ErrorContextTest: XCTestCase {
         let value: [String: Int]
     }
 
-    func testErrorFirstLineContext() {
+    func testErrorContextFirstLine() {
         let decoder = XMLDecoder()
         decoder.errorContextLength = 8
 
