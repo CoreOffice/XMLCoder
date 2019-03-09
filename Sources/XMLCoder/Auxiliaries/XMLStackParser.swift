@@ -48,7 +48,8 @@ class XMLStackParser: NSObject {
             ))
         }
 
-        guard errorContextLength > 0 else {
+        // `lineNumber` isn't 0-indexed, so 0 is an invalid value for context
+        guard errorContextLength > 0 && xmlParser.lineNumber > 0 else {
             throw error
         }
 
