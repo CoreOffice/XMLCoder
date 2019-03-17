@@ -232,6 +232,13 @@ open class XMLDecoder {
     /// The strategy to use for decoding keys. Defaults to `.useDefaultKeys`.
     open var keyDecodingStrategy: KeyDecodingStrategy = .useDefaultKeys
 
+    /// A node's decoding tyoe
+    public enum NodeDecoding {
+        case attribute
+        case element
+        case both
+    }
+
     /// Contextual user-provided information for use during decoding.
     open var userInfo: [CodingUserInfoKey: Any] = [:]
 
