@@ -41,7 +41,7 @@ class UnkeyedBoxTests: XCTestCase {
     }
 
     func testSubscript() {
-        let box = Boxed([StringBox("foo"), IntBox(42)])
+        var box = Boxed([StringBox("foo"), IntBox(42)])
         box[0] = NullBox()
         XCTAssertEqual(box.count, 2)
         XCTAssertEqual(box[0] as? NullBox, NullBox())
@@ -49,7 +49,7 @@ class UnkeyedBoxTests: XCTestCase {
     }
 
     func testInsertAt() {
-        let box = Boxed([StringBox("foo"), IntBox(42)])
+        var box = Boxed([StringBox("foo"), IntBox(42)])
         box.insert(NullBox(), at: 1)
         XCTAssertEqual(box.count, 3)
 

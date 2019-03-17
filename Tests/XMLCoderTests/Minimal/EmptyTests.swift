@@ -22,7 +22,7 @@ class EmptyTests: XCTestCase {
         let encoder = XMLEncoder()
 
         encoder.nodeEncodingStrategy = .custom { _, _ in
-            return { _ in .attribute }
+            { _ in .attribute }
         }
 
         XCTAssertThrowsError(try decoder.decode(Container.self, from: Data()))

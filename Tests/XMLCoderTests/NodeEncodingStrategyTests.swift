@@ -1,7 +1,7 @@
 import XCTest
 @testable import XMLCoder
 
-fileprivate struct SingleContainer: Encodable {
+private struct SingleContainer: Encodable {
     let element: Element
 
     enum CodingKeys: String, CodingKey {
@@ -9,7 +9,7 @@ fileprivate struct SingleContainer: Encodable {
     }
 }
 
-fileprivate struct KeyedContainer: Encodable {
+private struct KeyedContainer: Encodable {
     let elements: [String: Element]
 
     enum CodingKeys: String, CodingKey {
@@ -17,7 +17,7 @@ fileprivate struct KeyedContainer: Encodable {
     }
 }
 
-fileprivate struct UnkeyedContainer: Encodable {
+private struct UnkeyedContainer: Encodable {
     let elements: [Element]
 
     enum CodingKeys: String, CodingKey {
@@ -25,7 +25,7 @@ fileprivate struct UnkeyedContainer: Encodable {
     }
 }
 
-fileprivate struct Element: Encodable {
+private struct Element: Encodable {
     let key: String = "value"
     let intKey: Int = 42
     let int8Key: Int8 = 42
@@ -36,6 +36,22 @@ fileprivate struct Element: Encodable {
         case intKey
         case int8Key
         case doubleKey
+    }
+}
+
+private struct ComplexUnkeyedContainer: Encodable {
+    let elements: [ComplexElement]
+
+    enum CodingKeys: String, CodingKey {
+        case elements = "element"
+    }
+}
+
+private struct ComplexElement: Encodable {
+    struct Key: Encodable {
+        let a: String
+        let b: String
+        let c: String
     }
 }
 
@@ -90,7 +106,7 @@ final class NodeEncodingStrategyTests: XCTestCase {
         }
 
         encoder.nodeEncodingStrategy = .custom { type, _ in
-            return strategyProvider.strategy(for: type)
+            strategyProvider.strategy(for: type)
         }
 
         do {
@@ -144,7 +160,7 @@ final class NodeEncodingStrategyTests: XCTestCase {
         }
 
         encoder.nodeEncodingStrategy = .custom { type, _ in
-            return strategyProvider.strategy(for: type)
+            strategyProvider.strategy(for: type)
         }
 
         do {
@@ -204,7 +220,7 @@ final class NodeEncodingStrategyTests: XCTestCase {
         }
 
         encoder.nodeEncodingStrategy = .custom { type, _ in
-            return strategyProvider.strategy(for: type)
+            strategyProvider.strategy(for: type)
         }
 
         do {

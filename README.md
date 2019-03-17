@@ -1,7 +1,7 @@
 # XMLCoder
 Encoder &amp; Decoder for XML using Swift's `Codable` protocols.
 
-[![CI Status](https://img.shields.io/travis/MaxDesiatov/XMLCoder.svg?style=flat)](https://travis-ci.org/MaxDesiatov/XMLCoder)
+[![CI Status](https://img.shields.io/travis/MaxDesiatov/XMLCoder/master.svg?style=flat)](https://travis-ci.org/MaxDesiatov/XMLCoder)
 [![Version](https://img.shields.io/cocoapods/v/XMLCoder.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
 [![License](https://img.shields.io/cocoapods/l/XMLCoder.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
 [![Platform](https://img.shields.io/cocoapods/p/XMLCoder.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
@@ -41,6 +41,12 @@ let returnData = try? XMLEncoder().encode(note, withRootKey: "note")
 
 ## Installation
 
+## Requirements
+
+- Xcode 10
+- Swift 4.2
+- iOS 9.0 / watchOS 2.0 / tvOS 9.0 / macOS 10.10 or later
+
 ### CocoaPods
 
 [CocoaPods](https://cocoapods.org) is a dependency manager for Swift and Objective-C Cocoa projects. You can install it with the following command:
@@ -66,7 +72,7 @@ target 'YourApp' do
   use_frameworks!
 
   # Pods for Test
-  pod 'XMLCoder', '~> 0.2.1'
+  pod 'XMLCoder', '~> 0.3.1'
 
 end
 ```
@@ -95,7 +101,7 @@ $ brew install carthage
 Inside of your `Cartfile`, add GitHub path to `XMLCoder`:
 
 ```ogdl
-github "MaxDesiatov/XMLCoder" ~> 0.2.1
+github "MaxDesiatov/XMLCoder" ~> 0.3.1
 ```
 
 Then, run the following command to build the framework:
@@ -118,7 +124,7 @@ easy as adding it to the `dependencies` value of your `Package.swift`.
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.2.1")
+    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.3.1")
 ]
 ```
 

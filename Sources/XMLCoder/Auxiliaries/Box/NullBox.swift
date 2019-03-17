@@ -5,11 +5,7 @@
 //  Created by Vincent Esche on 12/17/18.
 //
 
-import Foundation
-
-struct NullBox {
-    init() {}
-}
+struct NullBox {}
 
 extension NullBox: Box {
     var isNull: Bool {
@@ -24,7 +20,7 @@ extension NullBox: Box {
 extension NullBox: SimpleBox {}
 
 extension NullBox: Equatable {
-    static func == (_: NullBox, _: NullBox) -> Bool {
+    static func ==(_: NullBox, _: NullBox) -> Bool {
         return true
     }
 }

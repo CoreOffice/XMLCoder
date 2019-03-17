@@ -5,8 +5,6 @@
 //  Created by Vincent Esche on 12/17/18.
 //
 
-import Foundation
-
 struct IntBox: Equatable {
     typealias Unboxed = Int64
 

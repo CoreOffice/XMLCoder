@@ -8,40 +8,87 @@
 
 import Foundation
 
-struct XMLElementContext {}
+class XMLStackParser: NSObject {
+    var root: XMLCoderElement?
+    private var stack: [XMLCoderElement] = []
 
-class _XMLStackParser: NSObject {
-    var root: _XMLElement?
-    private var stack: [_XMLElement] = []
+    static func parse(
+        with data: Data,
+        errorContextLength length: UInt,
+        shouldProcessNamespaces: Bool
+    ) throws -> KeyedBox {
+        let parser = XMLStackParser()
 
-    static func parse(with data: Data) throws -> KeyedBox {
-        let parser = _XMLStackParser()
+        let node = try parser.parse(
+            with: data,
+            errorContextLength: length,
+            shouldProcessNamespaces: shouldProcessNamespaces
+        )
 
-        guard let node = try parser.parse(with: data) else {
+        return node.flatten()
+    }
+
+    func parse(
+        with data: Data,
+        errorContextLength: UInt,
+        shouldProcessNamespaces: Bool
+    ) throws -> XMLCoderElement {
+        let xmlParser = XMLParser(data: data)
+        xmlParser.shouldProcessNamespaces = shouldProcessNamespaces
+        xmlParser.delegate = self
+
+        guard !xmlParser.parse(), root == nil else {
+            return root!
+        }
+
+        guard let error = xmlParser.parserError else {
             throw DecodingError.dataCorrupted(DecodingError.Context(
                 codingPath: [],
                 debugDescription: "The given data could not be parsed into XML."
             ))
         }
 
-        return node.flatten()
-    }
-
-    func parse(with data: Data) throws -> _XMLElement? {
-        let xmlParser = XMLParser(data: data)
-        xmlParser.delegate = self
-
-        guard xmlParser.parse() else {
-            if let error = xmlParser.parserError {
-                throw error
-            }
-            return nil
+        // `lineNumber` isn't 0-indexed, so 0 is an invalid value for context
+        guard errorContextLength > 0 && xmlParser.lineNumber > 0 else {
+            throw error
         }
 
-        return root
+        let string = String(data: data, encoding: .utf8) ?? ""
+        let lines = string.split(separator: "\n")
+        var errorPosition = 0
+        let offset = Int(errorContextLength / 2)
+        for i in 0..<xmlParser.lineNumber - 1 {
+            errorPosition += lines[i].count
+        }
+        errorPosition += xmlParser.columnNumber
+
+        var lowerBoundIndex = 0
+        if errorPosition - offset > 0 {
+            lowerBoundIndex = errorPosition - offset
+        }
+
+        var upperBoundIndex = string.count
+        if errorPosition + offset < string.count {
+            upperBoundIndex = errorPosition + offset
+        }
+
+        let lowerBound = String.Index(encodedOffset: lowerBoundIndex)
+        let upperBound = String.Index(encodedOffset: upperBoundIndex)
+
+        let context = string[lowerBound..<upperBound]
+
+        throw DecodingError.dataCorrupted(DecodingError.Context(
+            codingPath: [],
+            debugDescription: """
+            \(error.localizedDescription) \
+            at line \(xmlParser.lineNumber), column \(xmlParser.columnNumber):
+            `\(context)`
+            """,
+            underlyingError: error
+        ))
     }
 
-    func withCurrentElement(_ body: (inout _XMLElement) throws -> Void) rethrows {
+    func withCurrentElement(_ body: (inout XMLCoderElement) throws -> ()) rethrows {
         guard !stack.isEmpty else {
             return
         }
@@ -49,18 +96,25 @@ class _XMLStackParser: NSObject {
     }
 }
 
-extension _XMLStackParser: XMLParserDelegate {
+extension XMLStackParser: XMLParserDelegate {
     func parserDidStartDocument(_: XMLParser) {
         root = nil
         stack = []
     }
 
-    func parser(_: XMLParser, didStartElement elementName: String, namespaceURI _: String?, qualifiedName _: String?, attributes attributeDict: [String: String] = [:]) {
-        let element = _XMLElement(key: elementName, attributes: attributeDict)
+    func parser(_: XMLParser,
+                didStartElement elementName: String,
+                namespaceURI: String?,
+                qualifiedName: String?,
+                attributes attributeDict: [String: String] = [:]) {
+        let element = XMLCoderElement(key: elementName, attributes: attributeDict)
         stack.append(element)
     }
 
-    func parser(_: XMLParser, didEndElement _: String, namespaceURI _: String?, qualifiedName _: String?) {
+    func parser(_: XMLParser,
+                didEndElement _: String,
+                namespaceURI _: String?,
+                qualifiedName _: String?) {
         guard var element = stack.popLast() else {
             return
         }
@@ -91,9 +145,5 @@ extension _XMLStackParser: XMLParserDelegate {
         withCurrentElement { currentElement in
             currentElement.append(value: string)
         }
-    }
-
-    func parser(_: XMLParser, parseErrorOccurred parseError: Error) {
-        print(parseError)
     }
 }

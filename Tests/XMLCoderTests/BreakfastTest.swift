@@ -17,7 +17,7 @@ private let xml = """
     <price>$5.95</price>
     <description>Two of our famous Belgian Waffles with plenty of real maple syrup</description>
     <calories></calories>
-  </food>/Users/vincent/Projects/Swift/XMLCoder/Tests/XMLCoderTests/NotesTest.swift
+  </food>
   <food>
     <name>Strawberry Belgian Waffles</name>
     <price>$7.95</price>

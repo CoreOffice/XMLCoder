@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: - Decoding Storage
 
-struct _XMLDecodingStorage {
+struct XMLDecodingStorage {
     // MARK: Properties
 
     /// The container stack.
@@ -33,7 +33,13 @@ struct _XMLDecodingStorage {
     }
 
     mutating func push(container: Box) {
-        containers.append(container)
+        if let keyedBox = container as? KeyedBox {
+            containers.append(SharedBox(keyedBox))
+        } else if let unkeyedBox = container as? UnkeyedBox {
+            containers.append(SharedBox(unkeyedBox))
+        } else {
+            containers.append(container)
+        }
     }
 
     @discardableResult
