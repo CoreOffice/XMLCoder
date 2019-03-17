@@ -33,13 +33,6 @@ open class XMLEncoder {
         public static let sortedKeys = OutputFormatting(rawValue: 1 << 1)
     }
 
-    /// A node's decoding tyoe
-    public enum NodeDecoding {
-        case attribute
-        case element
-        case both
-    }
-
     /// A node's encoding tyoe
     public enum NodeEncoding {
         case attribute
