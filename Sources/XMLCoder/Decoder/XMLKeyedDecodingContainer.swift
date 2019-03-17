@@ -182,12 +182,6 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
             keyedBox.attributes[key.stringValue]
         }
 
-        guard let entry = elementOrNil ?? attributeOrNil else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(
-                codingPath: decoder.codingPath,
-                debugDescription: "No value associated with key \(_errorDescription(of: key))."
-            ))
-        }
         decoder.codingPath.append(key)
         let nodeDecodings = decoder.options.nodeDecodingStrategy.nodeDecodings(
             forType: T.self,
@@ -201,7 +195,7 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
         let box: Box
         switch strategy(key) {
         case .attribute:
-            guard let attributeBox = container.unbox().attributes[key.stringValue] else {
+            guard let attributeBox = attributeOrNil else {
                 throw DecodingError.keyNotFound(key, DecodingError.Context(
                     codingPath: decoder.codingPath,
                     debugDescription: "No attribute found for key \(_errorDescription(of: key))."
@@ -209,7 +203,7 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
             }
             box = attributeBox
         case .element:
-            guard let elementBox = container.unbox().elements[key.stringValue] else {
+            guard let elementBox = elementOrNil else {
                 throw DecodingError.keyNotFound(key, DecodingError.Context(
                     codingPath: decoder.codingPath,
                     debugDescription: "No element found for key \(_errorDescription(of: key))."
@@ -218,8 +212,7 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
             box = elementBox
         case .both:
             guard
-                let anyBox = container.unbox().elements[key.stringValue] ??
-                container.unbox().attributes[key.stringValue]
+                let anyBox = elementOrNil ?? attributeOrNil
             else {
                 throw DecodingError.keyNotFound(key, DecodingError.Context(
                     codingPath: decoder.codingPath,
@@ -229,7 +222,7 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
             box = anyBox
         }
 
-        let value: T? = try decoder.unbox(entry)
+        let value: T? = try decoder.unbox(box)
 
         if value == nil {
             if let type = type as? AnyArray.Type,
@@ -256,9 +249,7 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
         keyedBy _: NestedKey.Type, forKey key: Key
     ) throws -> KeyedDecodingContainer<NestedKey> {
         decoder.codingPath.append(key)
-        defer {
-            _ = decoder.codingPath.removeLast()
-        }
+        defer { decoder.codingPath.removeLast() }
 
         let elementOrNil = self.container.withShared { keyedBox in
             keyedBox.elements[key.stringValue]
@@ -299,9 +290,7 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
 
     public func nestedUnkeyedContainer(forKey key: Key) throws -> UnkeyedDecodingContainer {
         decoder.codingPath.append(key)
-        defer {
-            _ = decoder.codingPath.removeLast()
-        }
+        defer { decoder.codingPath.removeLast() }
 
         let elementOrNil = container.withShared { keyedBox in
             keyedBox.elements[key.stringValue]

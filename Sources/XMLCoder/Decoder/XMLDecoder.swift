@@ -317,7 +317,6 @@ open class XMLDecoder {
     /// - returns: A box of the requested type.
     /// - throws: `DecodingError.dataCorrupted` if values requested from the payload are corrupted, or if the given data is not valid XML.
     /// - throws: An error if any box throws an error during decoding.
-
     open func decode<T: Decodable>(
         _ type: T.Type,
         from data: Data
