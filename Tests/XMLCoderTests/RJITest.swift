@@ -143,20 +143,20 @@ private struct Enclosure: Codable, Equatable {
 class RJITest: XCTestCase {
     func testRSS() throws {
         let decoder = XMLDecoder()
-        //        let encoder = XMLEncoder()
+//        let encoder = XMLEncoder()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
 
-        //        let rss1
+//        let rss1
         _ = try decoder.decode(RSS.self, from: rjiSampleXML)
         // this is a very peculiar case of `XMLCoder` not being able to decode an XML
         // that it itself encoded
-        //        data = try encoder.encode(rss1, withRootKey: "note",
-        //                                  header: XMLHeader(version: 1.0,
-        //                                                    encoding: "UTF-8"))
-        //        let rss2 = try decoder.decode(RSS.self, from: data)
-        //        XCTAssertEqual(rss1, rss2)
+//        data = try encoder.encode(rss1, withRootKey: "note",
+//                                  header: XMLHeader(version: 1.0,
+//                                                    encoding: "UTF-8"))
+//        let rss2 = try decoder.decode(RSS.self, from: data)
+//        XCTAssertEqual(rss1, rss2)
     }
 
     static var allTests = [
