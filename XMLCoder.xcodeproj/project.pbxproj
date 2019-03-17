@@ -84,6 +84,7 @@
 		BF9457F621CBB6BC005ACFDE /* KeyedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457EB21CBB6BC005ACFDE /* KeyedTests.swift */; };
 		BF9457F721CBB6BC005ACFDE /* DataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457EC21CBB6BC005ACFDE /* DataTests.swift */; };
 		D14D8A8621F1D6B300B0D31A /* SingleChildTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14D8A8521F1D6B300B0D31A /* SingleChildTests.swift */; };
+		D158F12F2229892C0032B449 /* DynamicNodeDecoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D158F12E2229892C0032B449 /* DynamicNodeDecoding.swift */; };
 		D162674321F9B2AF0056D1D8 /* OptionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D162674121F9B2850056D1D8 /* OptionalTests.swift */; };
 		D1CB1EF521EA9599009CAF02 /* RJITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_37 /* RJITest.swift */; };
 		D1CFC8242226B13F00B03222 /* NamespaceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CFC8222226AFB400B03222 /* NamespaceTest.swift */; };
@@ -198,6 +199,7 @@
 		D11979B621F5CD2500A9C574 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D11979B721F5EA5400A9C574 /* XMLCoder.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = XMLCoder.podspec; sourceTree = "<group>"; };
 		D14D8A8521F1D6B300B0D31A /* SingleChildTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleChildTests.swift; sourceTree = "<group>"; };
+		D158F12E2229892C0032B449 /* DynamicNodeDecoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicNodeDecoding.swift; sourceTree = "<group>"; };
 		D162674121F9B2850056D1D8 /* OptionalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalTests.swift; sourceTree = "<group>"; };
 		D1CFC8222226AFB400B03222 /* NamespaceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamespaceTest.swift; sourceTree = "<group>"; };
 		D1E0C85121D8E6540042A261 /* ErrorContextTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorContextTest.swift; sourceTree = "<group>"; };
@@ -445,6 +447,7 @@
 				OBJ_12 /* XMLDecodingStorage.swift */,
 				OBJ_13 /* XMLKeyedDecodingContainer.swift */,
 				OBJ_14 /* XMLUnkeyedDecodingContainer.swift */,
+				D158F12E2229892C0032B449 /* DynamicNodeDecoding.swift */,
 			);
 			path = Decoder;
 			sourceTree = "<group>";
@@ -591,6 +594,7 @@
 				BF9457DA21CBB5D2005ACFDE /* DataBox.swift in Sources */,
 				BF9457AB21CBB498005ACFDE /* DecimalBox.swift in Sources */,
 				OBJ_56 /* XMLKeyedEncodingContainer.swift in Sources */,
+				D158F12F2229892C0032B449 /* DynamicNodeDecoding.swift in Sources */,
 				D1E0C85521D91EBF0042A261 /* Metatypes.swift in Sources */,
 				OBJ_57 /* XMLReferencingEncoder.swift in Sources */,
 				BF9457BC21CBB4DB005ACFDE /* XMLCoderElement.swift in Sources */,

@@ -33,6 +33,13 @@ open class XMLEncoder {
         public static let sortedKeys = OutputFormatting(rawValue: 1 << 1)
     }
 
+    /// A node's decoding tyoe
+    public enum NodeDecoding {
+        case attribute
+        case element
+        case both
+    }
+
     /// A node's encoding tyoe
     public enum NodeEncoding {
         case attribute
@@ -194,9 +201,9 @@ open class XMLEncoder {
                 searchRange = lowerCaseRange.upperBound..<searchRange.upperBound
             }
             words.append(wordStart..<searchRange.upperBound)
-            let result = words.map({ range in
+            let result = words.map { range in
                 stringKey[range].lowercased()
-            }).joined(separator: "_")
+            }.joined(separator: "_")
             return result
         }
 
@@ -216,7 +223,7 @@ open class XMLEncoder {
     @available(*, deprecated, renamed: "NodeEncodingStrategy")
     public typealias NodeEncodingStrategies = NodeEncodingStrategy
 
-    public typealias XMLNodeEncoderClosure = ((CodingKey) -> XMLEncoder.NodeEncoding)
+    public typealias XMLNodeEncoderClosure = ((CodingKey) -> NodeEncoding)
     public typealias XMLEncodingClosure = (Encodable.Type, Encoder) -> XMLNodeEncoderClosure
 
     /// Set of strategies to use for encoding of nodes.
@@ -227,8 +234,10 @@ open class XMLEncoder {
         /// Return a closure computing the desired node encoding for the value by its coding key.
         case custom(XMLEncodingClosure)
 
-        func nodeEncodings(forType codableType: Encodable.Type,
-                           with encoder: Encoder) -> ((CodingKey) -> XMLEncoder.NodeEncoding) {
+        func nodeEncodings(
+            forType codableType: Encodable.Type,
+            with encoder: Encoder
+        ) -> ((CodingKey) -> NodeEncoding) {
             return encoderClosure(codableType, encoder)
         }
 

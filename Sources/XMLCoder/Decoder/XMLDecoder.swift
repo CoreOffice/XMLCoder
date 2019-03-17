@@ -41,7 +41,7 @@ open class XMLDecoder {
         static func keyFormatted(
             _ formatterForKey: @escaping (CodingKey) throws -> DateFormatter?
         ) -> XMLDecoder.DateDecodingStrategy {
-            return .custom({ (decoder) -> Date in
+            return .custom { (decoder) -> Date in
                 guard let codingKey = decoder.codingPath.last else {
                     throw DecodingError.dataCorrupted(DecodingError.Context(
                         codingPath: decoder.codingPath,
@@ -72,7 +72,7 @@ open class XMLDecoder {
                         debugDescription: "Cannot decode date string \(text)"
                     )
                 }
-            })
+            }
         }
     }
 
@@ -91,7 +91,7 @@ open class XMLDecoder {
         static func keyFormatted(
             _ formatterForKey: @escaping (CodingKey) throws -> Data?
         ) -> XMLDecoder.DataDecodingStrategy {
-            return .custom({ (decoder) -> Data in
+            return .custom { (decoder) -> Data in
                 guard let codingKey = decoder.codingPath.last else {
                     throw DecodingError.dataCorrupted(DecodingError.Context(
                         codingPath: decoder.codingPath,
@@ -115,7 +115,7 @@ open class XMLDecoder {
                 }
 
                 return data
-            })
+            }
         }
     }
 
