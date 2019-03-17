@@ -190,7 +190,7 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
         decoder.nodeDecodings.append(nodeDecodings)
         defer {
             _ = decoder.nodeDecodings.removeLast()
-            _ = decoder.codingPath.removeLast()
+            decoder.codingPath.removeLast()
         }
         let box: Box
         switch strategy(key) {

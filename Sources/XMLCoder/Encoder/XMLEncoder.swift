@@ -314,16 +314,7 @@ open class XMLEncoder {
             options: options,
             nodeEncodings: []
         )
-        encoder.nodeEncodings = [
-            options.nodeEncodingStrategy.nodeEncodings(
-                forType: T.self,
-                with: encoder
-            ),
-        ]
-
-        defer {
-            _ = encoder.nodeEncodings.removeLast()
-        }
+        encoder.nodeEncodings.append(options.nodeEncodingStrategy.nodeEncodings(forType: T.self, with: encoder))
 
         let topLevel = try encoder.box(value)
 
@@ -345,7 +336,6 @@ open class XMLEncoder {
         }
 
         let withCDATA = stringEncodingStrategy != .deferredToString
-
         return element.toXMLString(with: header,
                                    withCDATA: withCDATA,
                                    formatting: outputFormatting)

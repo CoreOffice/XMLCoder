@@ -83,6 +83,10 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
         forKey key: Key,
         encode: (XMLEncoderImplementation, T) throws -> Box
     ) throws {
+        defer {
+            _ = self.encoder.nodeEncodings.removeLast()
+            self.encoder.codingPath.removeLast()
+        }
         guard let strategy = self.encoder.nodeEncodings.last else {
             preconditionFailure(
                 "Attempt to access node encoding strategy from empty stack."
@@ -94,10 +98,6 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
             with: encoder
         )
         encoder.nodeEncodings.append(nodeEncodings)
-        defer {
-            _ = self.encoder.nodeEncodings.removeLast()
-            _ = self.encoder.codingPath.removeLast()
-        }
         let box = try encode(encoder, value)
 
         let mySelf = self
@@ -145,9 +145,7 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
         }
 
         codingPath.append(key)
-        defer {
-            _ = self.codingPath.removeLast()
-        }
+        defer { self.codingPath.removeLast() }
 
         let container = XMLKeyedEncodingContainer<NestedKey>(
             referencing: encoder,
