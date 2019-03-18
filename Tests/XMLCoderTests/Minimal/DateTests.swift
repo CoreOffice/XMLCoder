@@ -30,8 +30,8 @@ class DateTests: XCTestCase {
 
     func testAttribute() throws {
         let decoder = XMLDecoder()
-
         let encoder = XMLEncoder()
+
         encoder.nodeEncodingStrategy = .custom { _, _ in
             { _ in .attribute }
         }
