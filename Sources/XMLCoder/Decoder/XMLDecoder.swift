@@ -236,7 +236,7 @@ open class XMLDecoder {
     public enum NodeDecoding {
         case attribute
         case element
-        case both
+        case elementOrAttribute
     }
 
     /// The strategy to use in encoding encoding attributes. Defaults to `.deferredToEncoder`.
@@ -256,7 +256,7 @@ open class XMLDecoder {
         ) -> ((CodingKey) -> NodeDecoding) {
             switch self {
             case .deferredToDecoder:
-                return { _ in .both }
+                return { _ in .elementOrAttribute }
             case let .custom(closure):
                 return closure(codableType, decoder)
             }

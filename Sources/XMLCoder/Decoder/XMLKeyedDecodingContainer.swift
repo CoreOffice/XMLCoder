@@ -210,7 +210,7 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
                 ))
             }
             box = elementBox
-        case .both:
+        case .elementOrAttribute:
             guard
                 let anyBox = elementOrNil ?? attributeOrNil
             else {
