@@ -100,10 +100,8 @@ class DecodingContainerTests: XCTestCase {
         encoder.outputFormatting = .prettyPrinted
         let encoded = try encoder.encode(foo, withRootKey: "foo")
         let string = String(data: encoded, encoding: .utf8)
-        print(string!)
 
         let decoder = XMLDecoder()
         let decoded = try decoder.decode(Foo.self, from: encoded)
-        print(decoded)
     }
 }
