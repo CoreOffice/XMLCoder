@@ -5,8 +5,6 @@
 //  Created by Vincent Esche on 12/22/18.
 //
 
-import Foundation
-
 class SharedBox<Unboxed: Box> {
     fileprivate var unboxed: Unboxed
 

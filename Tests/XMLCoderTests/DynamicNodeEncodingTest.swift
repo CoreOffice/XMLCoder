@@ -104,19 +104,23 @@ private struct Category: Codable, Equatable, DynamicNodeEncoding {
 
 final class DynamicNodeEncodingTest: XCTestCase {
     func testEncode() throws {
-        let book1 = Book(id: 123,
-                         title: "Cat in the Hat",
-                         categories: [
-                             Category(main: true, value: "Kids"),
-                             Category(main: false, value: "Wildlife"),
-        ])
+        let book1 = Book(
+            id: 123,
+            title: "Cat in the Hat",
+            categories: [
+                Category(main: true, value: "Kids"),
+                Category(main: false, value: "Wildlife"),
+            ]
+        )
 
-        let book2 = Book(id: 456,
-                         title: "1984",
-                         categories: [
-                             Category(main: true, value: "Classics"),
-                             Category(main: false, value: "News"),
-        ])
+        let book2 = Book(
+            id: 456,
+            title: "1984",
+            categories: [
+                Category(main: true, value: "Classics"),
+                Category(main: false, value: "News"),
+            ]
+        )
 
         let library = Library(count: 2, books: [book1, book2])
         let encoder = XMLEncoder()

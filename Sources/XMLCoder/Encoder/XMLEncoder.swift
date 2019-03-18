@@ -194,9 +194,9 @@ open class XMLEncoder {
                 searchRange = lowerCaseRange.upperBound..<searchRange.upperBound
             }
             words.append(wordStart..<searchRange.upperBound)
-            let result = words.map({ range in
+            let result = words.map { range in
                 stringKey[range].lowercased()
-            }).joined(separator: "_")
+            }.joined(separator: "_")
             return result
         }
 

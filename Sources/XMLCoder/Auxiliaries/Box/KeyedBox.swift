@@ -5,8 +5,6 @@
 //  Created by Vincent Esche on 11/19/18.
 //
 
-import Foundation
-
 struct KeyedStorage<Key: Hashable & Comparable, Value> {
     struct Iterator: IteratorProtocol {
         fileprivate var orderIterator: Order.Iterator

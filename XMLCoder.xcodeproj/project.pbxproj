@@ -42,6 +42,7 @@
 		BF63EF6721D0F874001D38C5 /* XMLKeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EF6621D0F874001D38C5 /* XMLKeyTests.swift */; };
 		BF63EF6921D0FDB5001D38C5 /* XMLHeaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EF6821D0FDB5001D38C5 /* XMLHeaderTests.swift */; };
 		BF63EF6B21D10284001D38C5 /* XMLElementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EF6A21D10284001D38C5 /* XMLElementTests.swift */; };
+		BF8171D021D3B1BD00901EB0 /* DecodingContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8171CF21D3B1BD00901EB0 /* DecodingContainerTests.swift */; };
 		BF8171F221D3D03E00901EB0 /* SharedBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8171F121D3D03E00901EB0 /* SharedBoxTests.swift */; };
 		BF9457A821CBB498005ACFDE /* NullBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF94579E21CBB497005ACFDE /* NullBox.swift */; };
 		BF9457A921CBB498005ACFDE /* KeyedBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF94579F21CBB497005ACFDE /* KeyedBox.swift */; };
@@ -153,6 +154,7 @@
 		BF63EF6621D0F874001D38C5 /* XMLKeyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLKeyTests.swift; sourceTree = "<group>"; };
 		BF63EF6821D0FDB5001D38C5 /* XMLHeaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLHeaderTests.swift; sourceTree = "<group>"; };
 		BF63EF6A21D10284001D38C5 /* XMLElementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLElementTests.swift; sourceTree = "<group>"; };
+		BF8171CF21D3B1BD00901EB0 /* DecodingContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingContainerTests.swift; sourceTree = "<group>"; };
 		BF8171F121D3D03E00901EB0 /* SharedBoxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedBoxTests.swift; sourceTree = "<group>"; };
 		BF94579E21CBB497005ACFDE /* NullBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NullBox.swift; sourceTree = "<group>"; };
 		BF94579F21CBB497005ACFDE /* KeyedBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyedBox.swift; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 				OBJ_31 /* CDTest.swift */,
 				D1E0C85121D8E6540042A261 /* ErrorContextTest.swift */,
 				OBJ_33 /* NodeEncodingStrategyTests.swift */,
+				BF8171CF21D3B1BD00901EB0 /* DecodingContainerTests.swift */,
 				OBJ_34 /* NoteTest.swift */,
 				OBJ_35 /* PlantCatalog.swift */,
 				OBJ_36 /* PlantTest.swift */,
@@ -663,6 +666,7 @@
 				D1CB1EF521EA9599009CAF02 /* RJITest.swift in Sources */,
 				BF9457F421CBB6BC005ACFDE /* UIntTests.swift in Sources */,
 				BF9457F121CBB6BC005ACFDE /* FloatTests.swift in Sources */,
+				BF8171D021D3B1BD00901EB0 /* DecodingContainerTests.swift in Sources */,
 				BF9457EF21CBB6BC005ACFDE /* NullTests.swift in Sources */,
 				OBJ_90 /* RelationshipsTest.swift in Sources */,
 			);

@@ -41,7 +41,7 @@ open class XMLDecoder {
         static func keyFormatted(
             _ formatterForKey: @escaping (CodingKey) throws -> DateFormatter?
         ) -> XMLDecoder.DateDecodingStrategy {
-            return .custom({ (decoder) -> Date in
+            return .custom { (decoder) -> Date in
                 guard let codingKey = decoder.codingPath.last else {
                     throw DecodingError.dataCorrupted(DecodingError.Context(
                         codingPath: decoder.codingPath,
@@ -72,7 +72,7 @@ open class XMLDecoder {
                         debugDescription: "Cannot decode date string \(text)"
                     )
                 }
-            })
+            }
         }
     }
 
@@ -91,7 +91,7 @@ open class XMLDecoder {
         static func keyFormatted(
             _ formatterForKey: @escaping (CodingKey) throws -> Data?
         ) -> XMLDecoder.DataDecodingStrategy {
-            return .custom({ (decoder) -> Data in
+            return .custom { (decoder) -> Data in
                 guard let codingKey = decoder.codingPath.last else {
                     throw DecodingError.dataCorrupted(DecodingError.Context(
                         codingPath: decoder.codingPath,
@@ -115,7 +115,7 @@ open class XMLDecoder {
                 }
 
                 return data
-            })
+            }
         }
     }
 
@@ -232,6 +232,37 @@ open class XMLDecoder {
     /// The strategy to use for decoding keys. Defaults to `.useDefaultKeys`.
     open var keyDecodingStrategy: KeyDecodingStrategy = .useDefaultKeys
 
+    /// A node's decoding tyoe
+    public enum NodeDecoding {
+        case attribute
+        case element
+        case elementOrAttribute
+    }
+
+    /// The strategy to use in encoding encoding attributes. Defaults to `.deferredToEncoder`.
+    open var nodeDecodingStrategy: NodeDecodingStrategy = .deferredToDecoder
+
+    /// Set of strategies to use for encoding of nodes.
+    public enum NodeDecodingStrategy {
+        /// Defer to `Encoder` for choosing an encoding. This is the default strategy.
+        case deferredToDecoder
+
+        /// Return a closure computing the desired node encoding for the value by its coding key.
+        case custom((Decodable.Type, Decoder) -> ((CodingKey) -> NodeDecoding))
+
+        func nodeDecodings(
+            forType codableType: Decodable.Type,
+            with decoder: Decoder
+        ) -> ((CodingKey) -> NodeDecoding) {
+            switch self {
+            case .deferredToDecoder:
+                return { _ in .elementOrAttribute }
+            case let .custom(closure):
+                return closure(codableType, decoder)
+            }
+        }
+    }
+
     /// Contextual user-provided information for use during decoding.
     open var userInfo: [CodingUserInfoKey: Any] = [:]
 
@@ -256,16 +287,20 @@ open class XMLDecoder {
         let dataDecodingStrategy: DataDecodingStrategy
         let nonConformingFloatDecodingStrategy: NonConformingFloatDecodingStrategy
         let keyDecodingStrategy: KeyDecodingStrategy
+        let nodeDecodingStrategy: NodeDecodingStrategy
         let userInfo: [CodingUserInfoKey: Any]
     }
 
     /// The options set on the top-level decoder.
     var options: Options {
-        return Options(dateDecodingStrategy: dateDecodingStrategy,
-                       dataDecodingStrategy: dataDecodingStrategy,
-                       nonConformingFloatDecodingStrategy: nonConformingFloatDecodingStrategy,
-                       keyDecodingStrategy: keyDecodingStrategy,
-                       userInfo: userInfo)
+        return Options(
+            dateDecodingStrategy: dateDecodingStrategy,
+            dataDecodingStrategy: dataDecodingStrategy,
+            nonConformingFloatDecodingStrategy: nonConformingFloatDecodingStrategy,
+            keyDecodingStrategy: keyDecodingStrategy,
+            nodeDecodingStrategy: nodeDecodingStrategy,
+            userInfo: userInfo
+        )
     }
 
     // MARK: - Constructing a XML Decoder
@@ -292,7 +327,21 @@ open class XMLDecoder {
             shouldProcessNamespaces: shouldProcessNamespaces
         )
 
-        let decoder = XMLDecoderImplementation(referencing: topLevel, options: options)
+        let decoder = XMLDecoderImplementation(
+            referencing: topLevel,
+            options: options,
+            nodeDecodings: []
+        )
+        decoder.nodeDecodings = [
+            options.nodeDecodingStrategy.nodeDecodings(
+                forType: T.self,
+                with: decoder
+            ),
+        ]
+
+        defer {
+            _ = decoder.nodeDecodings.removeLast()
+        }
 
         guard let box: T = try decoder.unbox(topLevel) else {
             throw DecodingError.valueNotFound(type, DecodingError.Context(
