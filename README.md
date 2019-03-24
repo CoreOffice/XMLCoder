@@ -74,7 +74,6 @@ public enum NodeDecoding {
     case elementOrAttribute 
 }
 
-/// A node's encoding tyoe
 enum NodeEncoding {
     // encodes a value in an attribute
     case attribute

@@ -232,7 +232,7 @@ open class XMLDecoder {
     /// The strategy to use for decoding keys. Defaults to `.useDefaultKeys`.
     open var keyDecodingStrategy: KeyDecodingStrategy = .useDefaultKeys
 
-    /// A node's decoding tyoe
+    /// A node's decoding type
     public enum NodeDecoding {
         case attribute
         case element
