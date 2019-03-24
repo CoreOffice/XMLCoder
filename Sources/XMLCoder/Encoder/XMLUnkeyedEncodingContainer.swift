@@ -57,6 +57,7 @@ struct XMLUnkeyedEncodingContainer: UnkeyedEncodingContainer {
     ) rethrows {
         encoder.codingPath.append(XMLKey(index: count))
         defer { self.encoder.codingPath.removeLast() }
+
         try container.withShared { container in
             container.append(try encode(encoder, value))
         }

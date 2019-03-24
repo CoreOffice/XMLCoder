@@ -5,8 +5,6 @@
 //  Created by Vincent Esche on 11/20/18.
 //
 
-import Foundation
-
 // Minimalist implementation of an order-preserving unkeyed box:
 struct UnkeyedBox {
     typealias Element = Box
