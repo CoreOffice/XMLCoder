@@ -87,8 +87,8 @@ enum NodeEncoding {
 }
 ```
 
-Add conformance to an appropriate protocol for types you'd like to customize,
-e.g. this example code:
+Add conformance to an appropriate protocol for types you'd like to customize.
+Accordingly, this example code:
 
 ```swift
 private struct Book: Codable, Equatable, DynamicNodeEncoding {
