@@ -12,7 +12,7 @@ struct ProudParent: Codable, Equatable {
     var myChildAge: [Int]
 }
 
-final class Test: XCTestCase {
+final class SingleChildTest: XCTestCase {
     func testEncoder() throws {
         let encoder = XMLEncoder()
 
