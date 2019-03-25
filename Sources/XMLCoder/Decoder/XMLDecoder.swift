@@ -232,7 +232,7 @@ open class XMLDecoder {
     /// The strategy to use for decoding keys. Defaults to `.useDefaultKeys`.
     open var keyDecodingStrategy: KeyDecodingStrategy = .useDefaultKeys
 
-    /// A node's decoding tyoe
+    /// A node's decoding type
     public enum NodeDecoding {
         case attribute
         case element
@@ -256,7 +256,10 @@ open class XMLDecoder {
         ) -> ((CodingKey) -> NodeDecoding) {
             switch self {
             case .deferredToDecoder:
-                return { _ in .elementOrAttribute }
+                guard let dynamicType = codableType as? DynamicNodeDecoding.Type else {
+                    return { _ in .elementOrAttribute }
+                }
+                return dynamicType.nodeDecoding(for:)
             case let .custom(closure):
                 return closure(codableType, decoder)
             }

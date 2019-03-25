@@ -9,7 +9,7 @@ Encoder &amp; Decoder for XML using Swift's `Codable` protocols.
 
 This package is a fork of the original
 [ShawnMoore/XMLParsing](https://github.com/ShawnMoore/XMLParsing)
-with more options and tests added.
+with more features and improved test coverage.
 
 ## Example
 
@@ -39,9 +39,131 @@ let note = try? XMLDecoder().decode(Note.self, from: data)
 let returnData = try? XMLEncoder().encode(note, withRootKey: "note")
 ```
 
+## Advanced features
+
+### Dynamic node coding
+
+XMLCoder provides two helper protocols that allow you to customize whether
+nodes are encoded as attributes or elements: `DynamicNodeEncoding` and
+`DynamicNodeDecoding`.
+
+The declarations of the protocols are very simple:
+
+```swift
+protocol DynamicNodeEncoding: Encodable {
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding
+}
+
+protocol DynamicNodeDecoding: Decodable {
+    static func nodeDecoding(for key: CodingKey) -> XMLDecoder.NodeDecoding
+}
+```
+
+The values returned by corresponding `static` functions look like this:
+
+```swift
+public enum NodeDecoding {
+    // decodes a value from an attribute
+    case attribute
+
+    // decodes a value from an element
+    case element
+
+    // the default, attempts to decode as an element first,
+    // otherwise reads from an attribute
+    case elementOrAttribute 
+}
+
+enum NodeEncoding {
+    // encodes a value in an attribute
+    case attribute
+
+    // the default, encodes a value in an element
+    case element
+
+    // encodes a value in both attribute and element
+    case both
+}
+```
+
+Add conformance to an appropriate protocol for types you'd like to customize.
+Accordingly, this example code:
+
+```swift
+private struct Book: Codable, Equatable, DynamicNodeEncoding {
+    let id: UInt
+    let title: String
+    let categories: [Category]
+
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case title
+        case categories = "category"
+    }
+
+    static func nodeEncoding(forKey key: CodingKey) 
+    -> XMLEncoder.NodeEncoding {
+        switch key {
+        case Book.CodingKeys.id: return .both
+        default: return .element
+        }
+    }
+}
+```
+
+works for this XML:
+
+```xml
+<book id="123">
+    <id>123</id>
+    <title>Cat in the Hat</title>
+    <category>Kids</category>
+    <category>Wildlife</category>
+</book>
+```
+
+### Value coding key intrinsic
+
+Suppose that you need to decode an XML that looks similar to this:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<foo id="123">456</foo>
+```
+
+By default you'd be able to decode `foo` as an element, but then it's not 
+possible to decode the `id` attribute. `XMLCoder` handles certain `CodingKey`
+values in a special way to allow proper coding for this XML. Just add a coding
+key with `stringValue` that equals `"value"` or `""` (empty string). What
+follows is an example type declaration that encodes the XML above, but special
+handling of coding keys with those values works for both encoding and decoding.
+
+```swift
+struct Foo: Codable, DynamicNodeEncoding {
+    let id: String
+    let value: String
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case value
+        // case value = "" would also work
+    }
+
+    static func nodeEncoding(forKey key: CodingKey) 
+    -> XMLEncoder.NodeEncoding {
+        switch key {
+        case CodingKeys.id:
+            return .attribute
+        default:
+            return .element
+        }
+    }
+}
+```
+
 ## Installation
 
-## Requirements
+### Requirements
 
 - Xcode 10
 - Swift 4.2

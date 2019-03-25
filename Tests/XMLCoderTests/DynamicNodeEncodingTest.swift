@@ -19,13 +19,42 @@ private let libraryXMLYN = """
         <category main="N"><value>Wildlife</value></category>
     </book>
     <book id="456">
-        <id>789</id>
+        <id>456</id>
         <title>1984</title>
         <category main="Y"><value>Classics</value></category>
         <category main="N"><value>News</value></category>
     </book>
 </library>
 """.data(using: .utf8)!
+
+private let libraryXMLYNStrategy = """
+<?xml version="1.0" encoding="UTF-8"?>
+<library>
+    <count>2</count>
+    <book title="Cat in the Hat">
+        <id>123</id>
+        <category>
+            <main>true</main>
+            <value>Kids</value>
+        </category>
+        <category>
+            <main>false</main>
+            <value>Wildlife</value>
+        </category>
+    </book>
+    <book title="1984">
+        <id>456</id>
+        <category>
+            <main>true</main>
+            <value>Classics</value>
+        </category>
+        <category>
+            <main>false</main>
+            <value>News</value>
+        </category>
+    </book>
+</library>
+"""
 
 private let libraryXMLTrueFalse = """
 <?xml version="1.0" encoding="UTF-8"?>
@@ -69,7 +98,7 @@ private struct Book: Codable, Equatable, DynamicNodeEncoding {
     let title: String
     let categories: [Category]
 
-    private enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case id
         case title
         case categories = "category"
@@ -152,7 +181,7 @@ final class DynamicNodeEncodingTest: XCTestCase {
         XCTAssertFalse(book1Categories[1].main)
 
         let book2 = library.books[1]
-        //            XCTAssertEqual(book2.id, 456)
+        XCTAssertEqual(book2.id, 456)
         XCTAssertEqual(book2.title, "1984")
 
         let book2Categories = book2.categories
@@ -186,7 +215,7 @@ final class DynamicNodeEncodingTest: XCTestCase {
         XCTAssertFalse(book1Categories[1].main)
 
         let book2 = library.books[1]
-        //            XCTAssertEqual(book2.id, 456)
+        XCTAssertEqual(book2.id, 456)
         XCTAssertEqual(book2.title, "1984")
 
         let book2Categories = book2.categories
@@ -201,6 +230,32 @@ final class DynamicNodeEncodingTest: XCTestCase {
                                                         encoding: "UTF-8"))
         let library2 = try decoder.decode(Library.self, from: data)
         XCTAssertEqual(library, library2)
+    }
+
+    func testStrategyPriority() throws {
+        let decoder = XMLDecoder()
+        decoder.errorContextLength = 10
+
+        let encoder = XMLEncoder()
+        encoder.outputFormatting = [.prettyPrinted]
+        encoder.nodeEncodingStrategy = .custom { type, _ in
+            { key in
+                guard
+                    type == [Book].self &&
+                    key.stringValue == Book.CodingKeys.title.stringValue
+                else {
+                    return .element
+                }
+
+                return .attribute
+            }
+        }
+
+        let library = try decoder.decode(Library.self, from: libraryXMLYN)
+        let data = try encoder.encode(library, withRootKey: "library",
+                                      header: XMLHeader(version: 1.0,
+                                                        encoding: "UTF-8"))
+        XCTAssertEqual(String(data: data, encoding: .utf8)!, libraryXMLYNStrategy)
     }
 
     static var allTests = [

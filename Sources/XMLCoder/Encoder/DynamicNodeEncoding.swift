@@ -5,8 +5,6 @@
 //  Created by Joseph Mattiello on 1/24/19.
 //
 
-import Foundation
-
 public protocol DynamicNodeEncoding: Encodable {
     static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding
 }
