@@ -203,8 +203,8 @@ struct Foo: Codable, DynamicNodeEncoding {
 
 ### Requirements
 
-- Xcode 10
-- Swift 4.2
+- Xcode 10.0 or later
+- Swift 4.2 or later
 - iOS 9.0 / watchOS 2.0 / tvOS 9.0 / macOS 10.10 or later
 
 ### CocoaPods
