@@ -41,6 +41,44 @@ let returnData = try? XMLEncoder().encode(note, withRootKey: "note")
 
 ## Advanced features
 
+All of the features below are only available in `master` and 0.4.0 release or
+later.
+
+### Stripping namespace prefix
+
+Sometimes you need to handle an XML namespace prefix, like in the XML below:
+
+```xml
+<h:table xmlns:h="http://www.w3.org/TR/html4/">
+  <h:tr>
+    <h:td>Apples</h:td>
+    <h:td>Bananas</h:td>
+  </h:tr>
+</h:table>
+```
+
+Stripping the prefix from element names is enabled with 
+`shouldProcessNamespaces` property:
+
+```swift
+private struct Table: Codable, Equatable {
+    struct TR: Codable, Equatable {
+        let td: [String]
+    }
+
+    let tr: [TR]
+}
+
+
+let decoder = XMLDecoder()
+
+// Setting this property to `true` for the namespace prefix to be stripped
+// during decoding so that key names could match.
+decoder.shouldProcessNamespaces = true
+
+let decoded = try decoder.decode(Table.self, from: xmlData)
+```
+
 ### Dynamic node coding
 
 XMLCoder provides two helper protocols that allow you to customize whether

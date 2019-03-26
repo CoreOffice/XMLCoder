@@ -23,7 +23,7 @@ private struct Table: Codable, Equatable {
         let td: [String]
     }
 
-    let tr: TR
+    let tr: [TR]
 }
 
 class NameSpaceTest: XCTestCase {
@@ -33,6 +33,6 @@ class NameSpaceTest: XCTestCase {
 
         let decoded = try decoder.decode(Table.self, from: xmlData)
 
-        XCTAssertEqual(decoded, Table(tr: .init(td: ["Apples", "Bananas"])))
+        XCTAssertEqual(decoded, Table(tr: [.init(td: ["Apples", "Bananas"])]))
     }
 }
