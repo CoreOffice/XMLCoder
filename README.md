@@ -61,7 +61,7 @@ Stripping the prefix from element names is enabled with
 `shouldProcessNamespaces` property:
 
 ```swift
-private struct Table: Codable, Equatable {
+struct Table: Codable, Equatable {
     struct TR: Codable, Equatable {
         let td: [String]
     }
@@ -100,7 +100,7 @@ protocol DynamicNodeDecoding: Decodable {
 The values returned by corresponding `static` functions look like this:
 
 ```swift
-public enum NodeDecoding {
+enum NodeDecoding {
     // decodes a value from an attribute
     case attribute
 
@@ -128,12 +128,12 @@ Add conformance to an appropriate protocol for types you'd like to customize.
 Accordingly, this example code:
 
 ```swift
-private struct Book: Codable, Equatable, DynamicNodeEncoding {
+struct Book: Codable, Equatable, DynamicNodeEncoding {
     let id: UInt
     let title: String
     let categories: [Category]
 
-    private enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case id
         case title
         case categories = "category"
