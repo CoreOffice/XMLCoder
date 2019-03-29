@@ -1,7 +1,7 @@
 
 matrix:
   include:
-  - osx_image: xcode10.0
+  - osx_image: xcode10
     language: swift
     env: TEST_DEVICE='platform=iOS Simulator,OS=12.0,name=iPhone SE'
   - osx_image: xcode10.1
