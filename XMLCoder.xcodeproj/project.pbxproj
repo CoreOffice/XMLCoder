@@ -88,6 +88,7 @@
 		D158F12F2229892C0032B449 /* DynamicNodeDecoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D158F12E2229892C0032B449 /* DynamicNodeDecoding.swift */; };
 		D162674321F9B2AF0056D1D8 /* OptionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D162674121F9B2850056D1D8 /* OptionalTests.swift */; };
 		D1761D1F2247F04500F53CEF /* DynamicNodeDecodingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1761D1E2247F04500F53CEF /* DynamicNodeDecodingTest.swift */; };
+		D1AC9466224E3E63004AB49B /* AttributedEnumIntrinsicTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AC9464224E3E1F004AB49B /* AttributedEnumIntrinsicTest.swift */; };
 		D1CB1EF521EA9599009CAF02 /* RJITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_37 /* RJITest.swift */; };
 		D1CFC8242226B13F00B03222 /* NamespaceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CFC8222226AFB400B03222 /* NamespaceTest.swift */; };
 		D1E0C85321D8E65E0042A261 /* ErrorContextTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E0C85121D8E6540042A261 /* ErrorContextTest.swift */; };
@@ -205,6 +206,7 @@
 		D158F12E2229892C0032B449 /* DynamicNodeDecoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicNodeDecoding.swift; sourceTree = "<group>"; };
 		D162674121F9B2850056D1D8 /* OptionalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalTests.swift; sourceTree = "<group>"; };
 		D1761D1E2247F04500F53CEF /* DynamicNodeDecodingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicNodeDecodingTest.swift; sourceTree = "<group>"; };
+		D1AC9464224E3E1F004AB49B /* AttributedEnumIntrinsicTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedEnumIntrinsicTest.swift; sourceTree = "<group>"; };
 		D1CFC8222226AFB400B03222 /* NamespaceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamespaceTest.swift; sourceTree = "<group>"; };
 		D1E0C85121D8E6540042A261 /* ErrorContextTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorContextTest.swift; sourceTree = "<group>"; };
 		D1E0C85421D91EBF0042A261 /* Metatypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metatypes.swift; sourceTree = "<group>"; };
@@ -372,29 +374,30 @@
 		OBJ_26 /* XMLCoderTests */ = {
 			isa = PBXGroup;
 			children = (
+				BF63EEFE21CCDEC1001D38C5 /* Auxiliary */,
 				BF9457BD21CBB516005ACFDE /* Box */,
 				BF9457E121CBB6BC005ACFDE /* Minimal */,
-				BF63EEFE21CCDEC1001D38C5 /* Auxiliary */,
+				D1AC9464224E3E1F004AB49B /* AttributedEnumIntrinsicTest.swift */,
+				B3B6902D220A71DF0084D407 /* AttributedIntrinsicTest.swift */,
+				BF63EF1D21CEC99A001D38C5 /* BenchmarkTests.swift */,
 				OBJ_28 /* BooksTest.swift */,
 				OBJ_29 /* BreakfastTest.swift */,
 				OBJ_30 /* CDCatalog.swift */,
 				OBJ_31 /* CDTest.swift */,
-				D1E0C85121D8E6540042A261 /* ErrorContextTest.swift */,
-				OBJ_33 /* NodeEncodingStrategyTests.swift */,
+				A61DCCD621DF8DB300C0A19D /* ClassTests.swift */,
 				BF8171CF21D3B1BD00901EB0 /* DecodingContainerTests.swift */,
+				D1761D1E2247F04500F53CEF /* DynamicNodeDecodingTest.swift */,
+				B3BE1D602202C1F600259831 /* DynamicNodeEncodingTest.swift */,
+				D1E0C85121D8E6540042A261 /* ErrorContextTest.swift */,
+				D1CFC8222226AFB400B03222 /* NamespaceTest.swift */,
+				OBJ_33 /* NodeEncodingStrategyTests.swift */,
 				OBJ_34 /* NoteTest.swift */,
 				OBJ_35 /* PlantCatalog.swift */,
 				OBJ_36 /* PlantTest.swift */,
-				OBJ_37 /* RJITest.swift */,
 				OBJ_38 /* RelationshipsTest.swift */,
-				BF63EF1D21CEC99A001D38C5 /* BenchmarkTests.swift */,
 				D1FC040421C7EF8200065B43 /* RJISample.swift */,
-				B3B6902D220A71DF0084D407 /* AttributedIntrinsicTest.swift */,
-				B3BE1D602202C1F600259831 /* DynamicNodeEncodingTest.swift */,
-				D1761D1E2247F04500F53CEF /* DynamicNodeDecodingTest.swift */,
-				A61DCCD621DF8DB300C0A19D /* ClassTests.swift */,
+				OBJ_37 /* RJITest.swift */,
 				D14D8A8521F1D6B300B0D31A /* SingleChildTests.swift */,
-				D1CFC8222226AFB400B03222 /* NamespaceTest.swift */,
 			);
 			name = XMLCoderTests;
 			path = Tests/XMLCoderTests;
@@ -664,6 +667,7 @@
 				OBJ_87 /* PlantCatalog.swift in Sources */,
 				BF9457C921CBB516005ACFDE /* KeyedBoxTests.swift in Sources */,
 				OBJ_88 /* PlantTest.swift in Sources */,
+				D1AC9466224E3E63004AB49B /* AttributedEnumIntrinsicTest.swift in Sources */,
 				BF63EF0821CD7AF8001D38C5 /* URLBoxTests.swift in Sources */,
 				BF9457DD21CBB62C005ACFDE /* DateBoxTests.swift in Sources */,
 				A61DCCD821DF9CA200C0A19D /* ClassTests.swift in Sources */,
