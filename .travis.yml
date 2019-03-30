@@ -1,17 +1,3 @@
-jobs:
-  include:
-  - stage: lint
-    before_install:
-    - brew update
-    - brew install swiftformat
-    - brew outdated swiftlint || brew upgrade swiftlint
-    script:
-    - swiftformat --lint --verbose .
-    - swiftlint
-    - pod lib lint --verbose
-    osx_image: xcode10.2
-    language: swift
-
 matrix:
   include:
   - osx_image: xcode10
@@ -38,6 +24,20 @@ matrix:
       on:
         repo: MaxDesiatov/XMLCoder
         tags: true
+
+jobs:
+  include:
+  - stage: lint
+    before_install:
+    - brew update
+    - brew install swiftformat
+    - brew outdated swiftlint || brew upgrade swiftlint
+    script:
+    - swiftformat --lint --verbose .
+    - swiftlint
+    - pod lib lint --verbose
+    osx_image: xcode10.2
+    language: swift
 
 env:
   global:
