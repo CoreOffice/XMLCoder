@@ -1,3 +1,16 @@
+jobs:
+  include:
+  - stage: lint
+    before_install:
+    - brew update
+    - brew install swiftformat
+    - brew outdated swiftlint || brew upgrade swiftlint
+    script:
+    - swiftformat --lint --verbose .
+    - swiftlint
+    - pod lib lint --verbose
+    osx_image: xcode10.2
+    language: swift
 
 matrix:
   include:
@@ -29,15 +42,8 @@ matrix:
 env:
   global:
   - FRAMEWORK_NAME=XMLCoder
-before_install:
-- gem install cocoapods --pre # Since Travis is not always on latest version
-- brew update
-- brew install swiftformat
-- brew outdated swiftlint || brew upgrade swiftlint
+
 script:
-- swiftformat --lint --verbose .
-- swiftlint
-- pod lib lint --verbose
 - >
   xcodebuild test -enableCodeCoverage YES -scheme XMLCoder
   -sdk iphonesimulator -destination "$TEST_DEVICE" | xcpretty
@@ -51,8 +57,3 @@ script:
 
 # this is commented because installing Jazzy on Travis doesn't work ¯\_(ツ)_/¯ 
 # - ./docs.sh
-
-# jobs:
-#   include:
-#   - stage: deploy
-#     osx_image: xcode10.1
