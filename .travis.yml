@@ -1,36 +1,12 @@
-test: &test
-  script:
-  - >
-    xcodebuild test -enableCodeCoverage YES -scheme XMLCoder
-    -sdk iphonesimulator -destination "$TEST_DEVICE" | xcpretty
-  - >
-    xcodebuild test -enableCodeCoverage YES -scheme XMLCoder 
-    -sdk macosx | xcpretty
-
-jobs:
+matrix:
   include:
-  - stage: lint
-    before_install:
-    - brew update
-    - brew install swiftformat
-    - brew outdated swiftlint || brew upgrade swiftlint
-    script:
-    - swiftformat --lint --verbose .
-    - swiftlint
-    - pod lib lint --verbose
-    osx_image: xcode10.2
-    language: swift
-  - <<: *test
-    stage: test
-    osx_image: xcode10
+  - osx_image: xcode10
     language: swift
     env: TEST_DEVICE='platform=iOS Simulator,OS=12.0,name=iPhone SE'
-  - <<: *test
-    osx_image: xcode10.1
+  - osx_image: xcode10.1
     language: swift
     env: TEST_DEVICE='platform=iOS Simulator,OS=12.1,name=iPhone SE'
-  - <<: *test
-    osx_image: xcode10.2
+  - osx_image: xcode10.2
     language: swift
     env: TEST_DEVICE='platform=iOS Simulator,OS=12.2,name=iPhone SE'
     after_success:
@@ -49,9 +25,29 @@ jobs:
         repo: MaxDesiatov/XMLCoder
         tags: true
 
+jobs:
+  include:
+  - stage: lint
+    before_install:
+    - brew update
+    - brew install swiftformat
+    - brew outdated swiftlint || brew upgrade swiftlint
+    script:
+    - swiftformat --lint --verbose .
+    - swiftlint
+    - pod lib lint --verbose
+    osx_image: xcode10.2
+    language: swift
+
 env:
   global:
   - FRAMEWORK_NAME=XMLCoder
+
+script:
+- >
+  xcodebuild test -enableCodeCoverage YES -scheme XMLCoder
+  -sdk iphonesimulator -destination "$TEST_DEVICE" | xcpretty
+- xcodebuild test -enableCodeCoverage YES -scheme XMLCoder -sdk macosx | xcpretty
 
 # this runs the tests the second time, but it's the only way to make sure
 # that `Package.swift` is in a good state and `swift test` can only generate
