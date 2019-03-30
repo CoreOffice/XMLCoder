@@ -15,8 +15,8 @@ jobs:
       - swiftformat --lint --verbose .
       - swiftlint
       - pod lib lint --verbose
-  - &unit-test
-    stage: unit-test
+  - &test
+    stage: test
     osx_image: xcode10
     language: swift
     install: skip
@@ -33,10 +33,10 @@ jobs:
       # coverage reports in Swift 5.0, see this issue for more details:
       # https://github.com/apple/swift-package-manager/pull/1787
       - swift test
-  - <<: *unit-test
+  - <<: *test
     osx_image: xcode10.1
     env: TEST_DEVICE='platform=iOS Simulator,OS=12.1,name=iPhone SE'
-  - <<: *unit-test
+  - <<: *test
     osx_image: xcode10.2
     env: TEST_DEVICE='platform=iOS Simulator,OS=12.2,name=iPhone SE'
     after_success:
