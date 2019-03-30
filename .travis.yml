@@ -48,6 +48,7 @@ jobs:
     osx_image: xcode10
     language: swift
     install: skip
+    env: TEST_DEVICE='platform=iOS Simulator,OS=12.0,name=iPhone SE'
     script:
       - >
         xcodebuild test -enableCodeCoverage YES -scheme XMLCoder
@@ -60,6 +61,12 @@ jobs:
       # coverage reports in Swift 5.0, see this issue for more details:
       # https://github.com/apple/swift-package-manager/pull/1787
       - swift test
+  - <<: *unit-test
+    osx_image: xcode10.1
+    env: TEST_DEVICE='platform=iOS Simulator,OS=12.1,name=iPhone SE'
+  - <<: *unit-test
+    osx_image: xcode10.2
+    env: TEST_DEVICE='platform=iOS Simulator,OS=12.2,name=iPhone SE'
 
 # this is commented because installing Jazzy on Travis doesn't work ¯\_(ツ)_/¯ 
 # - ./docs.sh
