@@ -1,21 +1,20 @@
-osx_image: xcode10.2
-language: swift
-
 env:
   global:
   - FRAMEWORK_NAME=XMLCoder
 
-before_install:
-  - brew update
-  - brew install swiftformat
-  - brew outdated swiftlint || brew upgrade swiftlint
-script:
-  - swiftformat --lint --verbose .
-  - swiftlint
-  - pod lib lint --verbose
-
 jobs:
   include:
+  - stage: lint
+    osx_image: xcode10.2
+    language: swift
+    before_install:
+      - brew update
+      - brew install swiftformat
+      - brew outdated swiftlint || brew upgrade swiftlint
+    script:
+      - swiftformat --lint --verbose .
+      - swiftlint
+      - pod lib lint --verbose
   - &unit-test
     stage: unit-test
     osx_image: xcode10
