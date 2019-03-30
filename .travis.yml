@@ -34,19 +34,22 @@ env:
 
 jobs:
   include:
-  - stage: unit-test
-  script:
-  - >
-    xcodebuild test -enableCodeCoverage YES -scheme XMLCoder
-    -sdk iphonesimulator -destination "$TEST_DEVICE" | xcpretty
-  - >
-    xcodebuild test -enableCodeCoverage YES -scheme XMLCoder 
-    -sdk macosx | xcpretty
-  # this runs the tests the second time, but it's the only way to make sure
-  # that `Package.swift` is in a good state and `swift test` can only generate
-  # coverage reports in Swift 5.0, see this issue for more details:
-  # https://github.com/apple/swift-package-manager/pull/1787
-  - swift test
+  - &unit-test
+    stage: unit-test
+    osx_image: xcode10
+    language: swift
+    script:
+      - >
+        xcodebuild test -enableCodeCoverage YES -scheme XMLCoder
+        -sdk iphonesimulator -destination "$TEST_DEVICE" | xcpretty
+      - >
+        xcodebuild test -enableCodeCoverage YES -scheme XMLCoder 
+        -sdk macosx | xcpretty
+      # this runs the tests the second time, but it's the only way to make sure
+      # that `Package.swift` is in a good state and `swift test` can only generate
+      # coverage reports in Swift 5.0, see this issue for more details:
+      # https://github.com/apple/swift-package-manager/pull/1787
+      - swift test
 
 before_install:
 - brew update
