@@ -47,6 +47,7 @@ jobs:
     stage: unit-test
     osx_image: xcode10
     language: swift
+    install: skip
     script:
       - >
         xcodebuild test -enableCodeCoverage YES -scheme XMLCoder
