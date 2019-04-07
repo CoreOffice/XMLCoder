@@ -1,37 +1,62 @@
-osx_image: xcode10.1
+osx_image: xcode10.2
 language: swift
+
 env:
   global:
   - FRAMEWORK_NAME=XMLCoder
-before_install:
-- gem install cocoapods --pre # Since Travis is not always on latest version
-- brew update
-- brew install swiftformat
-- brew outdated swiftlint || brew upgrade swiftlint
-script:
-- swiftformat --lint --verbose .
-- swiftlint
-- pod lib lint --verbose
-- xcodebuild test -enableCodeCoverage YES -scheme XMLCoder
-# this runs the tests the second time, but it's the only way to make sure
-# that `Package.swift` is in a good state and `swift test` can only generate
-# coverage reports in Swift 5.0, see this issue for more details:
-# https://github.com/apple/swift-package-manager/pull/1787
-- swift test
+
+jobs:
+  include:
+  - stage: lint
+    osx_image: xcode10.2
+    language: swift
+    before_install:
+      - brew update
+      - brew install swiftformat
+      - brew outdated swiftlint || brew upgrade swiftlint
+    script:
+      - swiftformat --lint --verbose .
+      - swiftlint
+      - pod lib lint --verbose
+  - &test
+    stage: test
+    osx_image: xcode10
+    language: swift
+    install: skip
+    env: TEST_DEVICE='platform=iOS Simulator,OS=12.0,name=iPhone SE'
+    script:
+      - >
+        xcodebuild test -enableCodeCoverage YES -scheme XMLCoder
+        -sdk iphonesimulator -destination "$TEST_DEVICE" | xcpretty
+      - >
+        xcodebuild test -enableCodeCoverage YES -scheme XMLCoder 
+        -sdk macosx | xcpretty
+      # this runs the tests the second time, but it's the only way to make sure
+      # that `Package.swift` is in a good state and `swift test` can only generate
+      # coverage reports in Swift 5.0, see this issue for more details:
+      # https://github.com/apple/swift-package-manager/pull/1787
+      - swift test
+  - <<: *test
+    osx_image: xcode10.1
+    env: TEST_DEVICE='platform=iOS Simulator,OS=12.1,name=iPhone SE'
+  - <<: *test
+    osx_image: xcode10.2
+    env: TEST_DEVICE='platform=iOS Simulator,OS=12.2,name=iPhone SE'
+    after_success:
+    - bash <(curl -s https://codecov.io/bash)
+    before_deploy:
+    - brew outdated carthage || brew upgrade carthage
+    - carthage build --no-skip-current
+    - carthage archive $FRAMEWORK_NAME
+    deploy:
+      provider: releases
+      api_key:
+        secure: yACVlrO+oqAPJ7NS2N2Cut8eCTO0yWWKuV9510tpwmsCKuHUJZ9fT1Z4zhteghGiDZJzZHzMteSK3YPHeCFBbZJAq95HeWV8ki0Cs+7tL8jO0U1zniilb/vk4MvT3z7QdzueXO+DHBw9nbszARwbfgBAWhkPbt9zKwk882Hoke5M9mfbQ9kUHNH+jTV5R7FdtkbkGpo1zzEglYZT0IshLTbBSlBjqEu9kJSJxTQjciKu6f/DvDYgV0AyXqi96hlmaSrTE9vM6bRxbN+t9QNAtlXxlB4mGiprKR8et1MFJHR9ECIpbzfsAWzehPtSksfXLgAfq0z0fIR3RRN4w76oMgAQcBS1xPnDFXjyMDv+QJHfXcGsACubU10FxZDHinF3odRzzAuQI2mxcvFJ7rcPVpe/Y1M1otxyRAlj3AE3yMp3eoTqoByjym/ckBSs9Ui5kgWIaQPtaGx6HkFFGjZlbxkNLcd6cQjrhAOUVF0FjABcdOi0ZM1HpBusdcdEx4aA68XcrZvWi9zWeG9rHb9Z20hJKme/zkuiAbKtwDFJ3y+WiQK27JtKTgz4VtDbtiWpjaj1Uw8FhbE/X+9fuN09HSfN5n/NDuIoDJtyAxBkalxGMggeWWHCb6vjYk9+jubyOYctGBh4jbRuSp2QMdR62GlghVa0ARSGiQOOWGEk6LU=
+      file: "$FRAMEWORK_NAME.framework.zip"
+      skip_cleanup: true
+      on:
+        repo: MaxDesiatov/XMLCoder
+        tags: true
+
 # this is commented because installing Jazzy on Travis doesn't work ¯\_(ツ)_/¯ 
 # - ./docs.sh
-before_deploy:
-- brew outdated carthage || brew upgrade carthage
-- carthage build --no-skip-current
-- carthage archive $FRAMEWORK_NAME
-after_success:
-- bash <(curl -s https://codecov.io/bash)
-deploy:
-  provider: releases
-  api_key:
-    secure: yACVlrO+oqAPJ7NS2N2Cut8eCTO0yWWKuV9510tpwmsCKuHUJZ9fT1Z4zhteghGiDZJzZHzMteSK3YPHeCFBbZJAq95HeWV8ki0Cs+7tL8jO0U1zniilb/vk4MvT3z7QdzueXO+DHBw9nbszARwbfgBAWhkPbt9zKwk882Hoke5M9mfbQ9kUHNH+jTV5R7FdtkbkGpo1zzEglYZT0IshLTbBSlBjqEu9kJSJxTQjciKu6f/DvDYgV0AyXqi96hlmaSrTE9vM6bRxbN+t9QNAtlXxlB4mGiprKR8et1MFJHR9ECIpbzfsAWzehPtSksfXLgAfq0z0fIR3RRN4w76oMgAQcBS1xPnDFXjyMDv+QJHfXcGsACubU10FxZDHinF3odRzzAuQI2mxcvFJ7rcPVpe/Y1M1otxyRAlj3AE3yMp3eoTqoByjym/ckBSs9Ui5kgWIaQPtaGx6HkFFGjZlbxkNLcd6cQjrhAOUVF0FjABcdOi0ZM1HpBusdcdEx4aA68XcrZvWi9zWeG9rHb9Z20hJKme/zkuiAbKtwDFJ3y+WiQK27JtKTgz4VtDbtiWpjaj1Uw8FhbE/X+9fuN09HSfN5n/NDuIoDJtyAxBkalxGMggeWWHCb6vjYk9+jubyOYctGBh4jbRuSp2QMdR62GlghVa0ARSGiQOOWGEk6LU=
-  file: "$FRAMEWORK_NAME.framework.zip"
-  skip_cleanup: true
-  on:
-    repo: MaxDesiatov/XMLCoder
-    tags: true

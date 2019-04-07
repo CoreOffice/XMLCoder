@@ -72,8 +72,13 @@ class XMLStackParser: NSObject {
             upperBoundIndex = errorPosition + offset
         }
 
+        #if compiler(>=5.0)
+        let lowerBound = String.Index(utf16Offset: lowerBoundIndex, in: string)
+        let upperBound = String.Index(utf16Offset: upperBoundIndex, in: string)
+        #else
         let lowerBound = String.Index(encodedOffset: lowerBoundIndex)
         let upperBound = String.Index(encodedOffset: upperBoundIndex)
+        #endif
 
         let context = string[lowerBound..<upperBound]
 
