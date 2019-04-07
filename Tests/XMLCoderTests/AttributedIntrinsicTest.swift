@@ -22,9 +22,50 @@ let fooArrayXML = """
 </container>
 """.data(using: .utf8)!
 
+let fooMixedXML = """
+<?xml version="1.0" encoding="UTF-8"?>
+<container>
+<foo id="123">456</foo>
+<foo id="789">123</foo>
+<foo>789</foo>
+</container>
+""".data(using: .utf8)!
+
+let fooValueXML = """
+<?xml version="1.0" encoding="UTF-8"?>
+<container>
+<foo>456</foo>
+<foo>123</foo>
+<foo>789</foo>
+</container>
+""".data(using: .utf8)!
+
 private struct Foo: Codable, DynamicNodeEncoding, Equatable {
     let id: String
     let value: String
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case value
+    }
+
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+        switch key {
+        case CodingKeys.id:
+            return .attribute
+        default:
+            return .element
+        }
+    }
+}
+
+private struct FooValue: Codable, Equatable {
+    let value: Int
+}
+
+private struct FooOptional: Codable, DynamicNodeEncoding, Equatable {
+    let id: String?
+    let value: Int
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -148,9 +189,8 @@ final class AttributedIntrinsicTest: XCTestCase {
         ), preview)
     }
 
-    func testArray() throws {
+    func testFooArray() throws {
         let decoder = XMLDecoder()
-        decoder.errorContextLength = 10
 
         let foo1 = try decoder.decode(Container<Foo>.self, from: fooArrayXML)
         XCTAssertEqual(foo1, Container(foo: [
@@ -165,6 +205,45 @@ final class AttributedIntrinsicTest: XCTestCase {
         XCTAssertEqual(foo2, Container(foo: [
             FooEmptyKeyed(id: "123", unkeyedValue: 456),
             FooEmptyKeyed(id: "789", unkeyedValue: 123),
+        ]))
+    }
+
+    func testIntArray() throws {
+        let decoder = XMLDecoder()
+
+        let foo = try decoder.decode(Container<Int>.self, from: fooArrayXML)
+        XCTAssertEqual(foo, Container(foo: [456, 123]))
+    }
+
+    func testMixedArray() throws {
+        let decoder = XMLDecoder()
+
+        let foo = try decoder.decode(Container<Int>.self, from: fooMixedXML)
+        XCTAssertEqual(foo, Container(foo: [456, 123, 789]))
+    }
+
+    func testFooValueArray() throws {
+        let decoder = XMLDecoder()
+
+        let foo = try decoder.decode(Container<FooValue>.self, from: fooValueXML)
+        XCTAssertEqual(foo, Container(foo: [
+            FooValue(value: 456),
+            FooValue(value: 123),
+            FooValue(value: 789),
+        ]))
+    }
+
+    func testFooOptionalArray() throws {
+        let decoder = XMLDecoder()
+
+        let foo = try decoder.decode(
+            Container<FooOptional>.self,
+            from: fooValueXML
+        )
+        XCTAssertEqual(foo, Container(foo: [
+            FooOptional(id: nil, value: 456),
+            FooOptional(id: nil, value: 123),
+            FooOptional(id: nil, value: 789),
         ]))
     }
 
