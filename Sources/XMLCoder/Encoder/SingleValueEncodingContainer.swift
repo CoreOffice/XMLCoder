@@ -1,5 +1,5 @@
 //
-//  XMLEncoder.swift
+//  SingleValueEncodingContainer.swift
 //  XMLCoder
 //
 //  Created by Shawn Moore on 11/22/17.
