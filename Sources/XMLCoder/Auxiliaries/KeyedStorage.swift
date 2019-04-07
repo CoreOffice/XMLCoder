@@ -107,6 +107,8 @@ private extension KeyedStorage where Key == String, Value == Box {
         case var unkeyedBox as UnkeyedBox:
             unkeyedBox.append(content)
             self[key] = unkeyedBox
+        case let keyedBox as KeyedBox:
+            self[key] = UnkeyedBox([keyedBox, content])
         case let box? where !hasValue:
             self[key] = UnkeyedBox([box, content])
         default:
