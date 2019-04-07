@@ -11,15 +11,15 @@ import XCTest
 @testable import XMLCoder
 
 private let bookXML = """
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <book id="bk101">
     <author>Gambardella, Matthew</author>
-    <title>XML Developer's Guide</title>
+    <title>XML Developer&apos;s Guide</title>
     <genre>Computer</genre>
     <price>44.95</price>
-    <publish_date>2000-10-01</publish_date>
     <description>An in-depth look at creating applications
         with XML.</description>
+    <publish_date>2000-10-01</publish_date>
 </book>
 """.data(using: .utf8)!
 
@@ -155,7 +155,7 @@ private struct Catalog: Codable, Equatable {
     }
 }
 
-private struct Book: Codable, Equatable {
+private struct Book: Codable, Equatable, DynamicNodeEncoding {
     var id: String
     var author: String
     var title: String
@@ -168,6 +168,15 @@ private struct Book: Codable, Equatable {
         case id, author, title, genre, price, description
 
         case publishDate = "publish_date"
+    }
+
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+        switch key {
+        case CodingKeys.id:
+            return .attribute
+        default:
+            return .element
+        }
     }
 }
 
@@ -191,6 +200,8 @@ final class BooksTest: XCTestCase {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
 
+        encoder.outputFormatting = [.prettyPrinted]
+
         decoder.dateDecodingStrategy = .formatted(formatter)
         encoder.dateEncodingStrategy = .formatted(formatter)
 
@@ -198,11 +209,19 @@ final class BooksTest: XCTestCase {
         XCTAssertEqual(book1.publishDate,
                        Date(timeIntervalSince1970: 970_358_400))
 
+        XCTAssertEqual(book1.title, "XML Developer's Guide")
+
         let data = try encoder.encode(book1, withRootKey: "book",
                                       header: XMLHeader(version: 1.0,
                                                         encoding: "UTF-8"))
         let book2 = try decoder.decode(Book.self, from: data)
+
         XCTAssertEqual(book1, book2)
+
+        // Test string equivalency
+        let encodedXML = String(data: data, encoding: .utf8)!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let originalXML = String(data: bookXML, encoding: .utf8)!.trimmingCharacters(in: .whitespacesAndNewlines)
+        XCTAssertEqual(encodedXML, originalXML)
     }
 
     func testCatalogXML() throws {

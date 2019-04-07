@@ -5,11 +5,7 @@
 //  Created by Vincent Esche on 12/17/18.
 //
 
-import Foundation
-
-struct NullBox {
-    init() {}
-}
+struct NullBox {}
 
 extension NullBox: Box {
     var isNull: Bool {

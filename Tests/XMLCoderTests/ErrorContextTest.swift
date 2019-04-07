@@ -14,6 +14,29 @@ final class ErrorContextTest: XCTestCase {
         let value: [String: Int]
     }
 
+    func testErrorContextFirstLine() {
+        let decoder = XMLDecoder()
+        decoder.errorContextLength = 8
+
+        let xmlString = "<blah //>"
+        let xmlData = xmlString.data(using: .utf8)!
+
+        XCTAssertThrowsError(try decoder.decode(Container.self,
+                                                from: xmlData)) { error in
+            guard case let DecodingError.dataCorrupted(ctx) = error,
+                let underlying = ctx.underlyingError else {
+                XCTAssert(false, "wrong error type thrown")
+                return
+            }
+
+            XCTAssertEqual(ctx.debugDescription, """
+            \(underlying.localizedDescription) \
+            at line 1, column 2:
+            `<blah `
+            """)
+        }
+    }
+
     func testErrorContext() {
         let decoder = XMLDecoder()
         decoder.errorContextLength = 8

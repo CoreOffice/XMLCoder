@@ -9,11 +9,11 @@ import Foundation
 import XCTest
 @testable import XMLCoder
 
-class A: Codable {
+private class A: Codable {
     let x: String
 }
 
-class B: A {
+private class B: A {
     let y: Double
 
     private enum CodingKeys: CodingKey {
@@ -35,7 +35,7 @@ class B: A {
     }
 }
 
-class C: B {
+private class C: B {
     let z: Int
 
     private enum CodingKeys: CodingKey {
@@ -57,35 +57,35 @@ class C: B {
     }
 }
 
-struct S: Codable {
+private struct S: Codable {
     let a: A
     let b: B
     let c: C
 }
 
-let str = "test_string"
-let int = 42
-let double = 4.2
+private let str = "test_string"
+private let int = 42
+private let double = 4.2
 
-let xmlData = """
+private let xmlData = """
 <s>
     <a>
         <x>\(str)</x>
     </a>
     <b>
+        <y>\(double)</y>
         <super>
             <x>\(str)</x>
         </super>
-        <y>\(double)</y>
     </b>
     <c>
+        <z>\(int)</z>
         <super>
+            <y>\(double)</y>
             <super>
                 <x>\(str)</x>
             </super>
-            <y>\(double)</y>
         </super>
-        <z>\(int)</z>
     </c>
 </s>
 """.data(using: .utf8)!
@@ -94,7 +94,7 @@ class ClassTests: XCTestCase {
     func testEmpty() throws {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        encoder.outputFormatting = [.prettyPrinted]
 
         let decoded = try decoder.decode(S.self, from: xmlData)
         XCTAssertEqual(decoded.a.x, str)

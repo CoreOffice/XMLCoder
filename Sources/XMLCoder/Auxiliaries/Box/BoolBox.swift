@@ -5,8 +5,6 @@
 //  Created by Vincent Esche on 12/17/18.
 //
 
-import Foundation
-
 struct BoolBox: Equatable {
     typealias Unboxed = Bool
 
@@ -17,9 +15,9 @@ struct BoolBox: Equatable {
     }
 
     init?(xmlString: String) {
-        switch xmlString {
-        case "false", "0": self.init(false)
-        case "true", "1": self.init(true)
+        switch xmlString.lowercased() {
+        case "false", "0", "n", "no": self.init(false)
+        case "true", "1", "y", "yes": self.init(true)
         case _: return nil
         }
     }

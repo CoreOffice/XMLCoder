@@ -1,7 +1,7 @@
 # XMLCoder
 Encoder &amp; Decoder for XML using Swift's `Codable` protocols.
 
-[![CI Status](https://img.shields.io/travis/MaxDesiatov/XMLCoder.svg?style=flat)](https://travis-ci.org/MaxDesiatov/XMLCoder)
+[![CI Status](https://img.shields.io/travis/MaxDesiatov/XMLCoder/master.svg?style=flat)](https://travis-ci.org/MaxDesiatov/XMLCoder)
 [![Version](https://img.shields.io/cocoapods/v/XMLCoder.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
 [![License](https://img.shields.io/cocoapods/l/XMLCoder.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
 [![Platform](https://img.shields.io/cocoapods/p/XMLCoder.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
@@ -9,7 +9,7 @@ Encoder &amp; Decoder for XML using Swift's `Codable` protocols.
 
 This package is a fork of the original
 [ShawnMoore/XMLParsing](https://github.com/ShawnMoore/XMLParsing)
-with more options and tests added.
+with more features and improved test coverage.
 
 ## Example
 
@@ -39,7 +39,173 @@ let note = try? XMLDecoder().decode(Note.self, from: data)
 let returnData = try? XMLEncoder().encode(note, withRootKey: "note")
 ```
 
+## Advanced features
+
+All of the features below are only available in `master` and 0.4.0 release or
+later.
+
+### Stripping namespace prefix
+
+Sometimes you need to handle an XML namespace prefix, like in the XML below:
+
+```xml
+<h:table xmlns:h="http://www.w3.org/TR/html4/">
+  <h:tr>
+    <h:td>Apples</h:td>
+    <h:td>Bananas</h:td>
+  </h:tr>
+</h:table>
+```
+
+Stripping the prefix from element names is enabled with 
+`shouldProcessNamespaces` property:
+
+```swift
+struct Table: Codable, Equatable {
+    struct TR: Codable, Equatable {
+        let td: [String]
+    }
+
+    let tr: [TR]
+}
+
+
+let decoder = XMLDecoder()
+
+// Setting this property to `true` for the namespace prefix to be stripped
+// during decoding so that key names could match.
+decoder.shouldProcessNamespaces = true
+
+let decoded = try decoder.decode(Table.self, from: xmlData)
+```
+
+### Dynamic node coding
+
+XMLCoder provides two helper protocols that allow you to customize whether
+nodes are encoded as attributes or elements: `DynamicNodeEncoding` and
+`DynamicNodeDecoding`.
+
+The declarations of the protocols are very simple:
+
+```swift
+protocol DynamicNodeEncoding: Encodable {
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding
+}
+
+protocol DynamicNodeDecoding: Decodable {
+    static func nodeDecoding(for key: CodingKey) -> XMLDecoder.NodeDecoding
+}
+```
+
+The values returned by corresponding `static` functions look like this:
+
+```swift
+enum NodeDecoding {
+    // decodes a value from an attribute
+    case attribute
+
+    // decodes a value from an element
+    case element
+
+    // the default, attempts to decode as an element first,
+    // otherwise reads from an attribute
+    case elementOrAttribute 
+}
+
+enum NodeEncoding {
+    // encodes a value in an attribute
+    case attribute
+
+    // the default, encodes a value in an element
+    case element
+
+    // encodes a value in both attribute and element
+    case both
+}
+```
+
+Add conformance to an appropriate protocol for types you'd like to customize.
+Accordingly, this example code:
+
+```swift
+struct Book: Codable, Equatable, DynamicNodeEncoding {
+    let id: UInt
+    let title: String
+    let categories: [Category]
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case title
+        case categories = "category"
+    }
+
+    static func nodeEncoding(forKey key: CodingKey) 
+    -> XMLEncoder.NodeEncoding {
+        switch key {
+        case Book.CodingKeys.id: return .both
+        default: return .element
+        }
+    }
+}
+```
+
+works for this XML:
+
+```xml
+<book id="123">
+    <id>123</id>
+    <title>Cat in the Hat</title>
+    <category>Kids</category>
+    <category>Wildlife</category>
+</book>
+```
+
+### Value coding key intrinsic
+
+Suppose that you need to decode an XML that looks similar to this:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<foo id="123">456</foo>
+```
+
+By default you'd be able to decode `foo` as an element, but then it's not 
+possible to decode the `id` attribute. `XMLCoder` handles certain `CodingKey`
+values in a special way to allow proper coding for this XML. Just add a coding
+key with `stringValue` that equals `"value"` or `""` (empty string). What
+follows is an example type declaration that encodes the XML above, but special
+handling of coding keys with those values works for both encoding and decoding.
+
+```swift
+struct Foo: Codable, DynamicNodeEncoding {
+    let id: String
+    let value: String
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case value
+        // case value = "" would also work
+    }
+
+    static func nodeEncoding(forKey key: CodingKey) 
+    -> XMLEncoder.NodeEncoding {
+        switch key {
+        case CodingKeys.id:
+            return .attribute
+        default:
+            return .element
+        }
+    }
+}
+```
+
 ## Installation
+
+### Requirements
+
+- Xcode 10.0 or later
+- Swift 4.2 or later
+- iOS 9.0 / watchOS 2.0 / tvOS 9.0 / macOS 10.10 or later
 
 ### CocoaPods
 
@@ -66,7 +232,7 @@ target 'YourApp' do
   use_frameworks!
 
   # Pods for Test
-  pod 'XMLCoder', '~> 0.2.1'
+  pod 'XMLCoder', '~> 0.3.1'
 
 end
 ```
@@ -95,7 +261,7 @@ $ brew install carthage
 Inside of your `Cartfile`, add GitHub path to `XMLCoder`:
 
 ```ogdl
-github "MaxDesiatov/XMLCoder" ~> 0.2.1
+github "MaxDesiatov/XMLCoder" ~> 0.3.1
 ```
 
 Then, run the following command to build the framework:
@@ -118,7 +284,7 @@ easy as adding it to the `dependencies` value of your `Package.swift`.
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.2.1")
+    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.3.1")
 ]
 ```
 

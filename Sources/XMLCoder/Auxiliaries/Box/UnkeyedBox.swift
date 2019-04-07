@@ -5,10 +5,8 @@
 //  Created by Vincent Esche on 11/20/18.
 //
 
-import Foundation
-
 // Minimalist implementation of an order-preserving unkeyed box:
-class UnkeyedBox {
+struct UnkeyedBox {
     typealias Element = Box
     typealias Unboxed = [Element]
 
@@ -35,11 +33,11 @@ class UnkeyedBox {
         return unboxed
     }
 
-    func append(_ newElement: Element) {
+    mutating func append(_ newElement: Element) {
         unboxed.append(newElement)
     }
 
-    func insert(_ newElement: Element, at index: Int) {
+    mutating func insert(_ newElement: Element, at index: Int) {
         unboxed.insert(newElement, at: index)
     }
 }

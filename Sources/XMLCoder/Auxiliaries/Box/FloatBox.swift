@@ -5,8 +5,6 @@
 //  Created by Vincent Esche on 12/17/18.
 //
 
-import Foundation
-
 struct FloatBox: Equatable {
     typealias Unboxed = Float64
 

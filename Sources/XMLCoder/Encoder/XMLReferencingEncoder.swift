@@ -8,26 +8,28 @@
 
 import Foundation
 
-// MARK: - _XMLReferencingEncoder
-
-/// _XMLReferencingEncoder is a special subclass of _XMLEncoder which has its own storage, but references the contents of a different encoder.
-/// It's used in superEncoder(), which returns a new encoder for encoding a superclass -- the lifetime of the encoder should not escape the scope it's created in, but it doesn't necessarily know when it's done being used (to write to the original container).
-class _XMLReferencingEncoder: _XMLEncoder {
+/// XMLReferencingEncoder is a special subclass of _XMLEncoder which has its
+/// own storage, but references the contents of a different encoder.
+/// It's used in superEncoder(), which returns a new encoder for encoding a
+// superclass -- the lifetime of the encoder should not escape the scope it's
+/// created in, but it doesn't necessarily know when it's done being used
+/// (to write to the original container).
+class XMLReferencingEncoder: XMLEncoderImplementation {
     // MARK: Reference types.
 
     /// The type of container we're referencing.
     private enum Reference {
         /// Referencing a specific index in an unkeyed container.
-        case unkeyed(UnkeyedBox, Int)
+        case unkeyed(SharedBox<UnkeyedBox>, Int)
 
         /// Referencing a specific key in a keyed container.
-        case keyed(KeyedBox, String)
+        case keyed(SharedBox<KeyedBox>, String)
     }
 
     // MARK: - Properties
 
     /// The encoder we're referencing.
-    let encoder: _XMLEncoder
+    let encoder: XMLEncoderImplementation
 
     /// The container reference itself.
     private let reference: Reference
@@ -36,30 +38,30 @@ class _XMLReferencingEncoder: _XMLEncoder {
 
     /// Initializes `self` by referencing the given array container in the given encoder.
     init(
-        referencing encoder: _XMLEncoder,
+        referencing encoder: XMLEncoderImplementation,
         at index: Int,
-        wrapping unkeyed: UnkeyedBox
+        wrapping sharedUnkeyed: SharedBox<UnkeyedBox>
     ) {
         self.encoder = encoder
-        reference = .unkeyed(unkeyed, index)
+        reference = .unkeyed(sharedUnkeyed, index)
         super.init(
             options: encoder.options,
             nodeEncodings: encoder.nodeEncodings,
             codingPath: encoder.codingPath
         )
 
-        codingPath.append(_XMLKey(index: index))
+        codingPath.append(XMLKey(index: index))
     }
 
     /// Initializes `self` by referencing the given dictionary container in the given encoder.
     init(
-        referencing encoder: _XMLEncoder,
+        referencing encoder: XMLEncoderImplementation,
         key: CodingKey,
         convertedKey: CodingKey,
-        wrapping keyed: KeyedBox
+        wrapping sharedKeyed: SharedBox<KeyedBox>
     ) {
         self.encoder = encoder
-        reference = .keyed(keyed, convertedKey.stringValue)
+        reference = .keyed(sharedKeyed, convertedKey.stringValue)
         super.init(
             options: encoder.options,
             nodeEncodings: encoder.nodeEncodings,
@@ -90,10 +92,14 @@ class _XMLReferencingEncoder: _XMLEncoder {
         }
 
         switch self.reference {
-        case let .unkeyed(unkeyed, index):
-            unkeyed.insert(box, at: index)
-        case let .keyed(keyed, key):
-            keyed.elements[key] = box
+        case let .unkeyed(sharedUnkeyedBox, index):
+            sharedUnkeyedBox.withShared { unkeyedBox in
+                unkeyedBox.insert(box, at: index)
+            }
+        case let .keyed(sharedKeyedBox, key):
+            sharedKeyedBox.withShared { keyedBox in
+                keyedBox.elements[key] = box
+            }
         }
     }
 }

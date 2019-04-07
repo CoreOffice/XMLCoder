@@ -34,7 +34,7 @@ class IntTests: XCTestCase {
         let encoder = XMLEncoder()
 
         encoder.nodeEncodingStrategy = .custom { _, _ in
-            return { _ in .attribute }
+            { _ in .attribute }
         }
 
         for (value, xmlString) in values {
@@ -76,6 +76,7 @@ class IntTests: XCTestCase {
     }
 
     static var allTests = [
+        ("testMissing", testMissing),
         ("testAttribute", testAttribute),
         ("testElement", testElement),
     ]

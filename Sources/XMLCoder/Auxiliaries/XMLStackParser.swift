@@ -8,24 +8,33 @@
 
 import Foundation
 
-struct XMLElementContext {}
+class XMLStackParser: NSObject {
+    var root: XMLCoderElement?
+    private var stack: [XMLCoderElement] = []
 
-class _XMLStackParser: NSObject {
-    var root: _XMLElement?
-    private var stack: [_XMLElement] = []
+    static func parse(
+        with data: Data,
+        errorContextLength length: UInt,
+        shouldProcessNamespaces: Bool
+    ) throws -> KeyedBox {
+        let parser = XMLStackParser()
 
-    static func parse(with data: Data,
-                      errorContextLength length: UInt) throws -> KeyedBox {
-        let parser = _XMLStackParser()
-
-        let node = try parser.parse(with: data, errorContextLength: length)
+        let node = try parser.parse(
+            with: data,
+            errorContextLength: length,
+            shouldProcessNamespaces: shouldProcessNamespaces
+        )
 
         return node.flatten()
     }
 
-    func parse(with data: Data,
-               errorContextLength: UInt) throws -> _XMLElement {
+    func parse(
+        with data: Data,
+        errorContextLength: UInt,
+        shouldProcessNamespaces: Bool
+    ) throws -> XMLCoderElement {
         let xmlParser = XMLParser(data: data)
+        xmlParser.shouldProcessNamespaces = shouldProcessNamespaces
         xmlParser.delegate = self
 
         guard !xmlParser.parse(), root == nil else {
@@ -39,7 +48,8 @@ class _XMLStackParser: NSObject {
             ))
         }
 
-        guard errorContextLength > 0 else {
+        // `lineNumber` isn't 0-indexed, so 0 is an invalid value for context
+        guard errorContextLength > 0 && xmlParser.lineNumber > 0 else {
             throw error
         }
 
@@ -62,8 +72,13 @@ class _XMLStackParser: NSObject {
             upperBoundIndex = errorPosition + offset
         }
 
+        #if compiler(>=5.0)
+        let lowerBound = String.Index(utf16Offset: lowerBoundIndex, in: string)
+        let upperBound = String.Index(utf16Offset: upperBoundIndex, in: string)
+        #else
         let lowerBound = String.Index(encodedOffset: lowerBoundIndex)
         let upperBound = String.Index(encodedOffset: upperBoundIndex)
+        #endif
 
         let context = string[lowerBound..<upperBound]
 
@@ -78,7 +93,7 @@ class _XMLStackParser: NSObject {
         ))
     }
 
-    func withCurrentElement(_ body: (inout _XMLElement) throws -> ()) rethrows {
+    func withCurrentElement(_ body: (inout XMLCoderElement) throws -> ()) rethrows {
         guard !stack.isEmpty else {
             return
         }
@@ -86,7 +101,7 @@ class _XMLStackParser: NSObject {
     }
 }
 
-extension _XMLStackParser: XMLParserDelegate {
+extension XMLStackParser: XMLParserDelegate {
     func parserDidStartDocument(_: XMLParser) {
         root = nil
         stack = []
@@ -94,10 +109,10 @@ extension _XMLStackParser: XMLParserDelegate {
 
     func parser(_: XMLParser,
                 didStartElement elementName: String,
-                namespaceURI _: String?,
-                qualifiedName _: String?,
+                namespaceURI: String?,
+                qualifiedName: String?,
                 attributes attributeDict: [String: String] = [:]) {
-        let element = _XMLElement(key: elementName, attributes: attributeDict)
+        let element = XMLCoderElement(key: elementName, attributes: attributeDict)
         stack.append(element)
     }
 
