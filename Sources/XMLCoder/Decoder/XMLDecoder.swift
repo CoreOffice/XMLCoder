@@ -408,6 +408,7 @@ extension _XMLDecoder: SingleValueDecodingContainer {
 
 extension _XMLDecoder {
     /// Returns the given box unboxed from a container.
+
     private func typedBox<T, B: Box>(_ box: Box, for valueType: T.Type) throws -> B {
         guard let typedBox = box as? B else {
             if box is NullBox {
