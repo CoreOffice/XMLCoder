@@ -31,7 +31,15 @@ class FlattenTests: XCTestCase {
 
         let flattened = root.flatten()
 
-        guard let foo = flattened.elements["foo"] as? UnkeyedBox else { return }
+        guard let foo = flattened.elements["foo"] as? UnkeyedBox else {
+            XCTAssert(
+                false,
+                """
+                flattened.elements["foo"] is not an UnkeyedBox
+                """
+            )
+            return
+        }
 
         XCTAssertEqual(foo.count, 2)
     }
