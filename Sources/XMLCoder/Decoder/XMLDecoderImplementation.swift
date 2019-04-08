@@ -61,45 +61,72 @@ class XMLDecoderImplementation: Decoder {
         guard let topContainer = storage.popContainer() else {
             throw DecodingError.valueNotFound(Box.self, DecodingError.Context(
                 codingPath: codingPath,
-                debugDescription: "Cannot get decoding container -- empty container stack."
+                debugDescription:
+                """
+                Cannot get decoding container -- empty container stack.
+                """
             ))
         }
         return topContainer
     }
 
-    public func container<Key>(keyedBy _: Key.Type) throws -> KeyedDecodingContainer<Key> {
+    public func container<Key>(
+        keyedBy _: Key.Type
+    ) throws -> KeyedDecodingContainer<Key> {
         let topContainer = try self.topContainer()
 
-        guard !topContainer.isNull else {
-            throw DecodingError.valueNotFound(KeyedDecodingContainer<Key>.self, DecodingError.Context(
-                codingPath: codingPath,
-                debugDescription: "Cannot get keyed decoding container -- found null box instead."
+        switch topContainer {
+        case _ where topContainer.isNull:
+            throw DecodingError.valueNotFound(
+                KeyedDecodingContainer<Key>.self,
+                DecodingError.Context(
+                    codingPath: codingPath,
+                    debugDescription:
+                    """
+                    Cannot get keyed decoding container -- found null box instead.
+                    """
+                )
+            )
+        case let string as StringBox:
+            return KeyedDecodingContainer(XMLKeyedDecodingContainer<Key>(
+                referencing: self,
+                wrapping: SharedBox(KeyedBox(
+                    elements: KeyedStorage([("value", string)]),
+                    attributes: KeyedStorage()
+                ))
             ))
-        }
-
-        guard let keyed = topContainer as? SharedBox<KeyedBox> else {
+        case let keyed as SharedBox<KeyedBox>:
+            return KeyedDecodingContainer(XMLKeyedDecodingContainer<Key>(
+                referencing: self,
+                wrapping: keyed
+            ))
+        default:
             throw DecodingError._typeMismatch(
                 at: codingPath,
                 expectation: [String: Any].self,
                 reality: topContainer
             )
         }
-
-        let container = XMLKeyedDecodingContainer<Key>(referencing: self, wrapping: keyed)
-        return KeyedDecodingContainer(container)
     }
 
     public func unkeyedContainer() throws -> UnkeyedDecodingContainer {
         let topContainer = try self.topContainer()
 
         guard !topContainer.isNull else {
-            throw DecodingError.valueNotFound(UnkeyedDecodingContainer.self, DecodingError.Context(
-                codingPath: codingPath,
-                debugDescription: "Cannot get unkeyed decoding container -- found null box instead."
-            ))
+            throw DecodingError.valueNotFound(
+                UnkeyedDecodingContainer.self,
+                DecodingError.Context(
+                    codingPath: codingPath,
+                    debugDescription:
+                    """
+                    Cannot get unkeyed decoding container -- found null box instead.
+                    """
+                )
+            )
         }
 
-        let unkeyed = (topContainer as? SharedBox<UnkeyedBox>) ?? SharedBox(UnkeyedBox([topContainer]))
+        let unkeyed = (topContainer as? SharedBox<UnkeyedBox>) ??
+            SharedBox(UnkeyedBox([topContainer]))
 
         return XMLUnkeyedDecodingContainer(referencing: self, wrapping: unkeyed)
     }
@@ -115,18 +142,28 @@ extension XMLDecoderImplementation {
     /// Returns the given box unboxed from a container.
 
     private func typedBox<T, B: Box>(_ box: Box, for valueType: T.Type) throws -> B {
-        guard let typedBox = box as? B else {
-            if box is NullBox {
-                throw DecodingError.valueNotFound(valueType, DecodingError.Context(
-                    codingPath: codingPath,
-                    debugDescription: "Expected \(valueType) but found null instead."
-                ))
-            } else {
-                throw DecodingError._typeMismatch(at: codingPath, expectation: valueType, reality: box)
+        switch box {
+        case let typedBox as B:
+            return typedBox
+        case let keyedBox as SharedBox<KeyedBox>:
+            guard
+                let value = keyedBox.withShared({ $0.elements["value"] as? B })
+            else {
+                fallthrough
             }
+            return value
+        case is NullBox:
+            throw DecodingError.valueNotFound(valueType, DecodingError.Context(
+                codingPath: codingPath,
+                debugDescription: "Expected \(valueType) but found null instead."
+            ))
+        default:
+            throw DecodingError._typeMismatch(
+                at: codingPath,
+                expectation: valueType,
+                reality: box
+            )
         }
-
-        return typedBox
     }
 
     func unbox(_ box: Box) throws -> Bool {
