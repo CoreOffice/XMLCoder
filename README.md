@@ -160,7 +160,7 @@ works for this XML:
 </book>
 ```
 
-### Value coding key intrinsic
+### Coding key value intrinsic
 
 Suppose that you need to decode an XML that looks similar to this:
 
