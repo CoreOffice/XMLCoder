@@ -44,59 +44,13 @@ struct XMLCoderElement: Equatable {
         elements.append(element)
     }
 
-    // FIXME: this should be split into separate functions and
-    // thoroughtly tested
     func flatten() -> KeyedBox {
         let attributes = KeyedStorage(self.attributes.mapValues {
             StringBox($0) as SimpleBox
         }.shuffled())
         let storage = KeyedStorage<String, Box>()
 
-        var elements = self.elements.reduce(storage) { result, element in
-            var result = result
-            let key = element.key
-
-            let hasValue = element.value != nil
-            let hasElements = !element.elements.isEmpty
-            let hasAttributes = !element.attributes.isEmpty
-
-            if hasValue || hasElements || hasAttributes {
-                if let content = element.value {
-                    switch result[key] {
-                    case var unkeyedBox as UnkeyedBox:
-                        unkeyedBox.append(StringBox(content))
-                        result[key] = unkeyedBox
-                    case let stringBox as StringBox:
-                        result[key] = UnkeyedBox([stringBox, StringBox(content)])
-                    default:
-                        result[key] = StringBox(content)
-                    }
-                }
-                if hasElements || hasAttributes {
-                    let content = element.flatten()
-                    switch result[key] {
-                    case var unkeyedBox as UnkeyedBox:
-                        unkeyedBox.append(content)
-                        result[key] = unkeyedBox
-                    case let box? where !hasValue:
-                        result[key] = UnkeyedBox([box, content])
-                    default:
-                        result[key] = content
-                    }
-                }
-            } else {
-                switch result[key] {
-                case var unkeyedBox as UnkeyedBox:
-                    unkeyedBox.append(NullBox())
-                    result[key] = unkeyedBox
-                case let box?:
-                    result[key] = UnkeyedBox([box, NullBox()])
-                default:
-                    result[key] = NullBox()
-                }
-            }
-            return result
-        }
+        var elements = self.elements.reduce(storage) { $0.merge(element: $1) }
 
         // Handle attributed unkeyed value <foo attr="bar">zap</foo>
         // Value should be zap. Detect only when no other elements exist
@@ -287,11 +241,9 @@ struct XMLCoderElement: Equatable {
 
 extension XMLCoderElement {
     init(key: String, box: UnkeyedBox) {
-        let elements = box.map { box in
-            XMLCoderElement(key: key, box: box)
-        }
-
-        self.init(key: key, elements: elements)
+        self.init(key: key, elements: box.map {
+            XMLCoderElement(key: key, box: $0)
+        })
     }
 
     init(key: String, box: KeyedBox) {
