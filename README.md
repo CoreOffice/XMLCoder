@@ -81,8 +81,8 @@ let decoded = try decoder.decode(Table.self, from: xmlData)
 
 ### Dynamic node coding
 
-XMLCoder provides two helper protocols that allow you to customize whether
-nodes are encoded as attributes or elements: `DynamicNodeEncoding` and
+XMLCoder provides two helper protocols that allow you to customize whether nodes
+are encoded and decoded as attributes or elements: `DynamicNodeEncoding` and
 `DynamicNodeDecoding`.
 
 The declarations of the protocols are very simple:
