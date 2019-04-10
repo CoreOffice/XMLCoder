@@ -41,8 +41,8 @@ let returnData = try? XMLEncoder().encode(note, withRootKey: "note")
 
 ## Advanced features
 
-All of the features below are only available in `master` and 0.4.0 release or
-later.
+These features are available in [0.4.0
+release](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.4.0) or later:
 
 ### Stripping namespace prefix
 
