@@ -1,3 +1,13 @@
+#  0.4.1 (April 12, 2019)
+
+
+A bugfix release removing unused Xcode project scheme to improve build time
+for Carthage users.
+
+## Notable changes
+
+* Remove unused scheme in Xcode project, [@MaxDesiatov](https://github.com/MaxDesiatov))
+
 #  0.4.0 (April 8, 2019)
 
 This is a release with plenty of new features that allow you to parse many more
