@@ -49,7 +49,6 @@ struct XMLCoderElement: Equatable {
             (key: key, value: StringBox(value) as SimpleBox)
         })
         let storage = KeyedStorage<String, Box>()
-
         var elements = self.elements.reduce(storage) { $0.merge(element: $1) }
 
         // Handle attributed unkeyed value <foo attr="bar">zap</foo>
