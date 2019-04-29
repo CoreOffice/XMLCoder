@@ -168,29 +168,29 @@ extension XMLDecoderImplementation {
 
     func unbox(_ box: Box) throws -> Bool {
         let stringBox: StringBox = try typedBox(box, for: Bool.self)
-        let string = stringBox.unbox()
+        let string = stringBox.unboxed
 
         guard let boolBox = BoolBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: Bool.self, reality: box)
         }
 
-        return boolBox.unbox()
+        return boolBox.unboxed
     }
 
     func unbox(_ box: Box) throws -> Decimal {
         let stringBox: StringBox = try typedBox(box, for: Decimal.self)
-        let string = stringBox.unbox()
+        let string = stringBox.unboxed
 
         guard let decimalBox = DecimalBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: Decimal.self, reality: box)
         }
 
-        return decimalBox.unbox()
+        return decimalBox.unboxed
     }
 
     func unbox<T: BinaryInteger & SignedInteger & Decodable>(_ box: Box) throws -> T {
         let stringBox: StringBox = try typedBox(box, for: T.self)
-        let string = stringBox.unbox()
+        let string = stringBox.unboxed
 
         guard let intBox = IntBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: T.self, reality: box)
@@ -208,7 +208,7 @@ extension XMLDecoderImplementation {
 
     func unbox<T: BinaryInteger & UnsignedInteger & Decodable>(_ box: Box) throws -> T {
         let stringBox: StringBox = try typedBox(box, for: T.self)
-        let string = stringBox.unbox()
+        let string = stringBox.unboxed
 
         guard let uintBox = UIntBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: T.self, reality: box)
@@ -226,7 +226,7 @@ extension XMLDecoderImplementation {
 
     func unbox<T: BinaryFloatingPoint & Decodable>(_ box: Box) throws -> T {
         let stringBox: StringBox = try typedBox(box, for: T.self)
-        let string = stringBox.unbox()
+        let string = stringBox.unboxed
 
         guard let floatBox = FloatBox(xmlString: string) else {
             throw DecodingError._typeMismatch(at: codingPath, expectation: T.self, reality: box)
@@ -244,7 +244,7 @@ extension XMLDecoderImplementation {
 
     func unbox(_ box: Box) throws -> String {
         let stringBox: StringBox = try typedBox(box, for: String.self)
-        let string = stringBox.unbox()
+        let string = stringBox.unboxed
 
         return string
     }
@@ -258,7 +258,7 @@ extension XMLDecoderImplementation {
 
         case .secondsSince1970:
             let stringBox: StringBox = try typedBox(box, for: Date.self)
-            let string = stringBox.unbox()
+            let string = stringBox.unboxed
 
             guard let dateBox = DateBox(secondsSince1970: string) else {
                 throw DecodingError.dataCorrupted(DecodingError.Context(
@@ -266,10 +266,10 @@ extension XMLDecoderImplementation {
                     debugDescription: "Expected date string to be formatted in seconds since 1970."
                 ))
             }
-            return dateBox.unbox()
+            return dateBox.unboxed
         case .millisecondsSince1970:
             let stringBox: StringBox = try typedBox(box, for: Date.self)
-            let string = stringBox.unbox()
+            let string = stringBox.unboxed
 
             guard let dateBox = DateBox(millisecondsSince1970: string) else {
                 throw DecodingError.dataCorrupted(DecodingError.Context(
@@ -277,10 +277,10 @@ extension XMLDecoderImplementation {
                     debugDescription: "Expected date string to be formatted in milliseconds since 1970."
                 ))
             }
-            return dateBox.unbox()
+            return dateBox.unboxed
         case .iso8601:
             let stringBox: StringBox = try typedBox(box, for: Date.self)
-            let string = stringBox.unbox()
+            let string = stringBox.unboxed
 
             guard let dateBox = DateBox(iso8601: string) else {
                 throw DecodingError.dataCorrupted(DecodingError.Context(
@@ -288,10 +288,10 @@ extension XMLDecoderImplementation {
                     debugDescription: "Expected date string to be ISO8601-formatted."
                 ))
             }
-            return dateBox.unbox()
+            return dateBox.unboxed
         case let .formatted(formatter):
             let stringBox: StringBox = try typedBox(box, for: Date.self)
-            let string = stringBox.unbox()
+            let string = stringBox.unboxed
 
             guard let dateBox = DateBox(xmlString: string, formatter: formatter) else {
                 throw DecodingError.dataCorrupted(DecodingError.Context(
@@ -299,7 +299,7 @@ extension XMLDecoderImplementation {
                     debugDescription: "Date string does not match format expected by formatter."
                 ))
             }
-            return dateBox.unbox()
+            return dateBox.unboxed
         case let .custom(closure):
             storage.push(container: box)
             defer { storage.popContainer() }
@@ -315,7 +315,7 @@ extension XMLDecoderImplementation {
             return try Data(from: self)
         case .base64:
             let stringBox: StringBox = try typedBox(box, for: Data.self)
-            let string = stringBox.unbox()
+            let string = stringBox.unboxed
 
             guard let dataBox = DataBox(base64: string) else {
                 throw DecodingError.dataCorrupted(DecodingError.Context(
@@ -323,7 +323,7 @@ extension XMLDecoderImplementation {
                     debugDescription: "Encountered Data is not valid Base64"
                 ))
             }
-            return dataBox.unbox()
+            return dataBox.unboxed
         case let .custom(closure):
             storage.push(container: box)
             defer { storage.popContainer() }
@@ -333,7 +333,7 @@ extension XMLDecoderImplementation {
 
     func unbox(_ box: Box) throws -> URL {
         let stringBox: StringBox = try typedBox(box, for: URL.self)
-        let string = stringBox.unbox()
+        let string = stringBox.unboxed
 
         guard let urlBox = URLBox(xmlString: string) else {
             throw DecodingError.dataCorrupted(DecodingError.Context(
@@ -342,7 +342,7 @@ extension XMLDecoderImplementation {
             ))
         }
 
-        return urlBox.unbox()
+        return urlBox.unboxed
     }
 
     private struct TypeMismatch: Error {}
@@ -369,8 +369,19 @@ extension XMLDecoderImplementation {
             decoded = value
         } else {
             storage.push(container: box)
-            decoded = try type.init(from: self)
-            storage.popContainer()
+            defer { storage.popContainer() }
+
+            do {
+                decoded = try type.init(from: self)
+            } catch {
+                guard case DecodingError.valueNotFound = error,
+                    let type = type as? AnyOptional.Type,
+                    let result = type.init() as? T else {
+                    throw error
+                }
+
+                return result
+            }
         }
 
         guard let result = decoded else {

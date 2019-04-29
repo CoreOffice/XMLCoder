@@ -22,7 +22,7 @@ class KeyedBoxTests: XCTestCase {
     }
 
     func testUnbox() {
-        let (elements, attributes) = box.unbox()
+        let (elements, attributes) = box.unboxed
 
         XCTAssertEqual(elements.count, 2)
         XCTAssertEqual(elements["foo"] as? StringBox, StringBox("bar"))

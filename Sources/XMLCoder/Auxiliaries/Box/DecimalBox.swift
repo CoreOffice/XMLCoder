@@ -22,10 +22,6 @@ struct DecimalBox: Equatable {
         }
         self.init(unboxed)
     }
-
-    func unbox() -> Unboxed {
-        return unboxed
-    }
 }
 
 extension DecimalBox: Box {

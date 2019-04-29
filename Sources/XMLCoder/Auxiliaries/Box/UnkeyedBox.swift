@@ -29,10 +29,6 @@ struct UnkeyedBox {
         self.unboxed = unboxed
     }
 
-    func unbox() -> Unboxed {
-        return unboxed
-    }
-
     mutating func append(_ newElement: Element) {
         unboxed.append(newElement)
     }
