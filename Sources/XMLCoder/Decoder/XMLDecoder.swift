@@ -346,13 +346,6 @@ open class XMLDecoder {
             _ = decoder.nodeDecodings.removeLast()
         }
 
-        guard let box: T = try decoder.unbox(topLevel) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(
-                codingPath: [],
-                debugDescription: "The given data did not contain a top-level box."
-            ))
-        }
-
-        return box
+        return try decoder.unbox(topLevel)
     }
 }

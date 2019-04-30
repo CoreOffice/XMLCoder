@@ -29,6 +29,7 @@ class XMLStackParserTests: XCTestCase {
 
         let expected = XMLCoderElement(
             key: "container",
+            value: "",
             elements: [
                 XMLCoderElement(
                     key: "value",

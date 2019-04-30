@@ -120,12 +120,8 @@ extension XMLStackParser: XMLParserDelegate {
                 didEndElement _: String,
                 namespaceURI _: String?,
                 qualifiedName _: String?) {
-        guard var element = stack.popLast() else {
+        guard let element = stack.popLast() else {
             return
-        }
-
-        if let value = element.value {
-            element.value = value.isEmpty ? nil : value
         }
 
         withCurrentElement { currentElement in

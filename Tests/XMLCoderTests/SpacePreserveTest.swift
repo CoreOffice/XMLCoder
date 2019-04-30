@@ -13,33 +13,25 @@ private let simpleXML = """
 """.data(using: .utf8)!
 
 private let nestedXML = """
-<sst><si><t xml:space="preserve"> </t></si></sst>
+<si><t xml:space="preserve"> </t></si>
 """.data(using: .utf8)!
 
-public struct SharedStrings: Codable, Equatable {
-    public struct Item: Codable, Equatable {
-        public let text: String?
-
-        enum CodingKeys: String, CodingKey {
-            case text = "t"
-        }
-    }
-
-    public let items: [Item]
+private struct Item: Codable, Equatable {
+    public let text: String?
 
     enum CodingKeys: String, CodingKey {
-        case items = "si"
+        case text = "t"
     }
 }
 
 final class SpacePreserveTest: XCTestCase {
     func testSimple() throws {
         let result = try XMLDecoder().decode(String?.self, from: simpleXML)
-        XCTAssertNil(result)
+        XCTAssertTrue(result?.isEmpty ?? false)
     }
 
     func testNested() throws {
-        let result = try XMLDecoder().decode(SharedStrings.self, from: nestedXML)
-        XCTAssertNil(result)
+        let result = try XMLDecoder().decode(Item.self, from: nestedXML)
+        XCTAssertTrue(result.text?.isEmpty ?? false)
     }
 }
