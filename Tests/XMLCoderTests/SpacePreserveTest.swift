@@ -26,12 +26,29 @@ private struct Item: Codable, Equatable {
 
 final class SpacePreserveTest: XCTestCase {
     func testSimple() throws {
+        let result = try XMLDecoder().decode(String.self, from: simpleXML)
+        XCTAssertTrue(result.isEmpty)
+    }
+
+    func testSimpleOptional() throws {
         let result = try XMLDecoder().decode(String?.self, from: simpleXML)
         XCTAssertTrue(result?.isEmpty ?? false)
     }
 
-    func testNested() throws {
+    func testNestedOptional() throws {
         let result = try XMLDecoder().decode(Item.self, from: nestedXML)
         XCTAssertTrue(result.text?.isEmpty ?? false)
+    }
+
+    func testUntrimmed() throws {
+        let result = try XMLDecoder(
+            trimValueWhitespaces: false
+        ).decode(String.self, from: simpleXML)
+        XCTAssertFalse(result.isEmpty)
+
+        let item = try XMLDecoder(
+            trimValueWhitespaces: false
+        ).decode(Item.self, from: nestedXML)
+        XCTAssertFalse(item.text?.isEmpty ?? true)
     }
 }

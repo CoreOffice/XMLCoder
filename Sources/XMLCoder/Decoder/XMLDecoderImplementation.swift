@@ -157,6 +157,13 @@ extension XMLDecoderImplementation {
                 codingPath: codingPath,
                 debugDescription: "Expected \(valueType) but found null instead."
             ))
+        case let keyedBox as KeyedBox:
+            guard
+                let value = keyedBox.elements["value"] as? B
+            else {
+                fallthrough
+            }
+            return value
         default:
             throw DecodingError._typeMismatch(
                 at: codingPath,

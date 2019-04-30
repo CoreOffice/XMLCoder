@@ -35,9 +35,11 @@ struct XMLCoderElement: Equatable {
     }
 
     mutating func append(value string: String) {
-        var value = self.value ?? ""
-        value += string.trimmingCharacters(in: .whitespacesAndNewlines)
-        self.value = value
+        guard value != nil else {
+            value = string
+            return
+        }
+        value?.append(string)
     }
 
     mutating func append(element: XMLCoderElement, forKey key: String) {

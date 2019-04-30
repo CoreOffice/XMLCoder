@@ -11,13 +11,20 @@ import Foundation
 class XMLStackParser: NSObject {
     var root: XMLCoderElement?
     private var stack: [XMLCoderElement] = []
+    private let trimValueWhitespaces: Bool
+
+    init(trimValueWhitespaces: Bool = true) {
+        self.trimValueWhitespaces = trimValueWhitespaces
+        super.init()
+    }
 
     static func parse(
         with data: Data,
         errorContextLength length: UInt,
-        shouldProcessNamespaces: Bool
+        shouldProcessNamespaces: Bool,
+        trimValueWhitespaces: Bool
     ) throws -> KeyedBox {
-        let parser = XMLStackParser()
+        let parser = XMLStackParser(trimValueWhitespaces: trimValueWhitespaces)
 
         let node = try parser.parse(
             with: data,
@@ -99,6 +106,13 @@ class XMLStackParser: NSObject {
         }
         try body(&stack[stack.count - 1])
     }
+
+    /// Trim whitespaces for a given string if needed.
+    func process(string: String) -> String {
+        return trimValueWhitespaces
+            ? string.trimmingCharacters(in: .whitespacesAndNewlines)
+            : string
+    }
 }
 
 extension XMLStackParser: XMLParserDelegate {
@@ -135,7 +149,7 @@ extension XMLStackParser: XMLParserDelegate {
 
     func parser(_: XMLParser, foundCharacters string: String) {
         withCurrentElement { currentElement in
-            currentElement.append(value: string)
+            currentElement.append(value: process(string: string))
         }
     }
 
@@ -143,8 +157,9 @@ extension XMLStackParser: XMLParserDelegate {
         guard let string = String(data: CDATABlock, encoding: .utf8) else {
             return
         }
+
         withCurrentElement { currentElement in
-            currentElement.append(value: string)
+            currentElement.append(value: process(string: string))
         }
     }
 }
