@@ -17,7 +17,7 @@ private let nestedXML = """
 """.data(using: .utf8)!
 
 private struct Item: Codable, Equatable {
-    public let text: String?
+    let text: String?
 
     enum CodingKeys: String, CodingKey {
         case text = "t"
