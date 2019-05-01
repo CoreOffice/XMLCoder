@@ -29,10 +29,6 @@ struct DataBox: Equatable {
         self.init(data, format: .base64)
     }
 
-    func unbox() -> Unboxed {
-        return unboxed
-    }
-
     func xmlString(format: Format) -> String {
         switch format {
         case .base64:

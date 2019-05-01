@@ -19,7 +19,7 @@ class UnkeyedBoxTests: XCTestCase {
     }
 
     func testUnbox() {
-        let unboxed = box.unbox()
+        let unboxed = box.unboxed
         XCTAssertEqual(unboxed.count, 2)
         XCTAssertEqual(unboxed[0] as? StringBox, StringBox("foo"))
         XCTAssertEqual(unboxed[1] as? IntBox, IntBox(42))

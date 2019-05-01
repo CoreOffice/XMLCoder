@@ -16,7 +16,7 @@ struct KeyedBox {
     var elements = Elements()
     var attributes = Attributes()
 
-    func unbox() -> (elements: Elements, attributes: Attributes) {
+    var unboxed: (elements: Elements, attributes: Attributes) {
         return (
             elements: elements,
             attributes: attributes

@@ -24,7 +24,7 @@ class URLBoxTests: XCTestCase {
 
         for unboxed in values {
             let box = Boxed(unboxed)
-            XCTAssertEqual(box.unbox(), unboxed)
+            XCTAssertEqual(box.unboxed, unboxed)
         }
     }
 

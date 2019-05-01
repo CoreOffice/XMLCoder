@@ -24,7 +24,7 @@ class DataBoxTests: XCTestCase {
 
         for unboxed in values {
             let box = Boxed(unboxed, format: .base64)
-            XCTAssertEqual(box.unbox(), unboxed)
+            XCTAssertEqual(box.unboxed, unboxed)
         }
     }
 
