@@ -71,8 +71,10 @@ private enum FooEnum: Equatable, Codable {
             self = .int(value)
             return
         } else {
-            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath,
-                                                                    debugDescription: "No coded value for string or int"))
+            throw DecodingError.dataCorrupted(DecodingError.Context(
+                codingPath: decoder.codingPath,
+                debugDescription: "No coded value for string or int"
+            ))
         }
     }
 
