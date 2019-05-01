@@ -26,10 +26,10 @@ let xmlStr = """
 """
 
 struct Note: Codable {
-    var to: String
-    var from: String
-    var heading: String
-    var body: String
+    let to: String
+    let from: String
+    let heading: String
+    let body: String
 }
 
 guard let data = xmlStr.data(using: .utf8) else { return }
