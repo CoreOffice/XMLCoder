@@ -40,6 +40,42 @@ let fooValueXML = """
 </container>
 """.data(using: .utf8)!
 
+let fooValueAttributeXML = """
+<foo value="blah">456</foo>
+""".data(using: .utf8)!
+
+let fooValueElementXML = """
+<foo><value>blah</value></foo>
+""".data(using: .utf8)!
+
+private struct FooValueAttribute: Codable, DynamicNodeDecoding {
+    let valueAttribute: String
+    let value: Int
+
+    enum CodingKeys: String, CodingKey {
+        case valueAttribute = "value"
+        case value = ""
+    }
+
+    static func nodeDecoding(for key: CodingKey) -> XMLDecoder.NodeDecoding {
+        guard key.stringValue == CodingKeys.valueAttribute.stringValue else {
+            return .element
+        }
+
+        return .attribute
+    }
+}
+
+private struct FooValueElement: Codable {
+    let valueElement: String
+    let value: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case valueElement = "value"
+        case value = ""
+    }
+}
+
 private struct Foo: Codable, DynamicNodeEncoding, Equatable {
     let id: String
     let value: String
@@ -245,6 +281,24 @@ final class AttributedIntrinsicTest: XCTestCase {
             FooOptional(id: nil, value: 123),
             FooOptional(id: nil, value: 789),
         ]))
+    }
+
+    func testFooValueAttribute() throws {
+        let foo = try XMLDecoder().decode(
+            FooValueAttribute.self,
+            from: fooValueAttributeXML
+        )
+        XCTAssertEqual(foo.valueAttribute, "blah")
+        XCTAssertEqual(foo.value, 456)
+    }
+
+    func testFooValueElement() throws {
+        let foo = try XMLDecoder().decode(
+            FooValueElement.self,
+            from: fooValueElementXML
+        )
+        XCTAssertEqual(foo.valueElement, "blah")
+        XCTAssertNil(foo.value)
     }
 
     static var allTests = [
