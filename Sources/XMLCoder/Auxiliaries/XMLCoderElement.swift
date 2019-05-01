@@ -47,7 +47,7 @@ struct XMLCoderElement: Equatable {
     }
 
     func flatten() -> KeyedBox {
-        let attributes = KeyedStorage(self.attributes.map { (key, value) in
+        let attributes = KeyedStorage(self.attributes.map { key, value in
             (key: key, value: StringBox(value) as SimpleBox)
         })
         let storage = KeyedStorage<String, Box>()

@@ -199,6 +199,13 @@ struct Foo: Codable, DynamicNodeEncoding {
 }
 ```
 
+### Preserving whitespaces in element content
+
+By default whitespaces are trimmed in element content during decoding. This
+includes string values decoded with [value intrinsic keys](#coding-key-value-intrinsic). Starting with version 0.5 you can now set a
+property `trimValueWhitespaces` to `false` (the default value is `true`) on
+`XMLDecoder` instance to preserve all whitespaces in decoded strings.
+
 ## Installation
 
 ### Requirements
