@@ -35,9 +35,11 @@ struct XMLCoderElement: Equatable {
     }
 
     mutating func append(value string: String) {
-        var value = self.value ?? ""
-        value += string.trimmingCharacters(in: .whitespacesAndNewlines)
-        self.value = value
+        guard value != nil else {
+            value = string
+            return
+        }
+        value?.append(string)
     }
 
     mutating func append(element: XMLCoderElement, forKey key: String) {
@@ -255,7 +257,7 @@ extension XMLCoderElement {
 
             switch box {
             case let sharedUnkeyedBox as SharedBox<UnkeyedBox>:
-                let box = sharedUnkeyedBox.unbox()
+                let box = sharedUnkeyedBox.unboxed
                 elements.append(contentsOf: box.map {
                     XMLCoderElement(key: key, box: $0)
                 })
@@ -265,7 +267,7 @@ extension XMLCoderElement {
                     XMLCoderElement(key: key, box: $0)
                 })
             case let sharedKeyedBox as SharedBox<KeyedBox>:
-                let box = sharedKeyedBox.unbox()
+                let box = sharedKeyedBox.unboxed
                 elements.append(XMLCoderElement(key: key, box: box))
             case let keyedBox as KeyedBox:
                 elements.append(XMLCoderElement(key: key, box: keyedBox))
@@ -296,9 +298,9 @@ extension XMLCoderElement {
     init(key: String, box: Box) {
         switch box {
         case let sharedUnkeyedBox as SharedBox<UnkeyedBox>:
-            self.init(key: key, box: sharedUnkeyedBox.unbox())
+            self.init(key: key, box: sharedUnkeyedBox.unboxed)
         case let sharedKeyedBox as SharedBox<KeyedBox>:
-            self.init(key: key, box: sharedKeyedBox.unbox())
+            self.init(key: key, box: sharedKeyedBox.unboxed)
         case let unkeyedBox as UnkeyedBox:
             self.init(key: key, box: unkeyedBox)
         case let keyedBox as KeyedBox:

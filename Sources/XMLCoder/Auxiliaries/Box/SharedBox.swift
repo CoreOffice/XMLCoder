@@ -6,7 +6,7 @@
 //
 
 class SharedBox<Unboxed: Box> {
-    fileprivate var unboxed: Unboxed
+    private(set) var unboxed: Unboxed
 
     init(_ wrapped: Unboxed) {
         unboxed = wrapped

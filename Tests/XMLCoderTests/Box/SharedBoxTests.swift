@@ -12,7 +12,7 @@ class SharedBoxTests: XCTestCase {
     func testInit() {
         let box = SharedBox(BoolBox(false))
         box.withShared { shared in
-            XCTAssertFalse(shared.unbox())
+            XCTAssertFalse(shared.unboxed)
         }
     }
 
