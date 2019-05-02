@@ -13,7 +13,7 @@ A small improvement release tagged early to resolve blocking issues in
 
 ## Closed issues
 
-- Trimmed whitespace on decoding String
+- Trimmed whitespace on decoding `String`
   [\#94](https://github.com/MaxDesiatov/XMLCoder/issues/94)
 
 ## Merged pull requests
@@ -21,10 +21,10 @@ A small improvement release tagged early to resolve blocking issues in
 - Fixed a bug when decoding a key with one character only
   [\#96](https://github.com/MaxDesiatov/XMLCoder/pull/96)
   ([TheFlow95](https://github.com/TheFlow95))
-- Add more cases to AttributedIntrinsicTest
+- Add more cases to `AttributedIntrinsicTest`
   [\#95](https://github.com/MaxDesiatov/XMLCoder/pull/95)
   ([MaxDesiatov](https://github.com/MaxDesiatov))
-- Use map instead of mapValues/shuffle in XMLCoderElement.flatten
+- Use `map` instead of `mapValues`/`shuffle` in `XMLCoderElement.flatten`
   [\#93](https://github.com/MaxDesiatov/XMLCoder/pull/93)
   ([jsbean](https://github.com/jsbean))
 - Fix decoding empty element as optional
