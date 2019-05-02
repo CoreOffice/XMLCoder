@@ -33,8 +33,8 @@ struct KeyedStorage<Key: Hashable & Comparable, Value> {
         return buffer.count
     }
 
-    var keys: Buffer.Keys {
-        return buffer.keys
+    var keys: [Key] {
+        return order
     }
 
     init<S>(_ sequence: S) where S: Sequence, S.Element == (Key, Value) {
@@ -102,7 +102,7 @@ private extension KeyedStorage where Key == String, Value == Box {
         let hasValue = element.value != nil
 
         let key = element.key
-        let content = element.flatten()
+        let content = element.transformToBoxTree()
         switch self[key] {
         case var unkeyedBox as UnkeyedBox:
             unkeyedBox.append(content)
