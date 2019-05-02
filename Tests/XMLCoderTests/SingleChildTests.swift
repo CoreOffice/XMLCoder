@@ -8,7 +8,7 @@
 import XCTest
 @testable import XMLCoder
 
-struct ProudParent: Codable, Equatable {
+private struct ProudParent: Codable, Equatable {
     var myChildAge: [Int]
 }
 
@@ -42,6 +42,7 @@ final class SingleChildTest: XCTestCase {
     }
 
     static var allTests = [
+        ("testEncoder", testEncoder),
         ("testDecoder", testDecoder),
     ]
 }
