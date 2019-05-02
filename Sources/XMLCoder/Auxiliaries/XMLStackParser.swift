@@ -32,7 +32,7 @@ class XMLStackParser: NSObject {
             shouldProcessNamespaces: shouldProcessNamespaces
         )
 
-        return node.flatten()
+        return node.transformToBoxTree()
     }
 
     func parse(

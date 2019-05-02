@@ -8,7 +8,7 @@
 import XCTest
 @testable import XMLCoder
 
-class FlattenTests: XCTestCase {
+class BoxTreeTests: XCTestCase {
     func testNestedValues() {
         let e1 = XMLCoderElement(
             key: "foo",
@@ -29,9 +29,9 @@ class FlattenTests: XCTestCase {
             attributes: [:]
         )
 
-        let flattened = root.flatten()
+        let boxTree = root.transformToBoxTree()
 
-        guard let foo = flattened.elements["foo"] as? UnkeyedBox else {
+        guard let foo = boxTree.elements["foo"] as? UnkeyedBox else {
             XCTAssert(
                 false,
                 """
