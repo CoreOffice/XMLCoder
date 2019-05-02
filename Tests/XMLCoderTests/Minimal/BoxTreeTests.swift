@@ -1,5 +1,5 @@
 //
-//  FlattenTests.swift
+//  BoxTreeTests.swift
 //  XMLCoderTests
 //
 //  Created by Max Desiatov on 07/04/2019.
