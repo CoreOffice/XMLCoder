@@ -1,5 +1,37 @@
-#  0.4.1 (April 12, 2019)
+#  0.5.0 (May 2, 2019)
 
+A small improvement release tagged early to resolve blocking issues in
+[CoreXLSX](https://github.com/MaxDesiatov/CoreXLSX). 
+
+## Notable changes
+
+* Empty value strings are no longer decoded as `nil` when a `String` is
+  expected, but are decoded as empty strings, which represents the actual value.
+* `trimValueWhitespaces` property was added on `XMLDecoder`, which allows
+  overriding the default behaviour, where starting and trailing whitespaces are
+  trimmed from string values.
+
+## Closed issues
+
+- Trimmed whitespace on decoding String
+  [\#94](https://github.com/MaxDesiatov/XMLCoder/issues/94)
+
+## Merged pull requests
+
+- Fixed a bug when decoding a key with one character only
+  [\#96](https://github.com/MaxDesiatov/XMLCoder/pull/96)
+  ([TheFlow95](https://github.com/TheFlow95))
+- Add more cases to AttributedIntrinsicTest
+  [\#95](https://github.com/MaxDesiatov/XMLCoder/pull/95)
+  ([MaxDesiatov](https://github.com/MaxDesiatov))
+- Use map instead of mapValues/shuffle in XMLCoderElement.flatten
+  [\#93](https://github.com/MaxDesiatov/XMLCoder/pull/93)
+  ([jsbean](https://github.com/jsbean))
+- Fix decoding empty element as optional
+  [\#92](https://github.com/MaxDesiatov/XMLCoder/pull/92)
+  ([MaxDesiatov](https://github.com/MaxDesiatov))
+
+#  0.4.1 (April 12, 2019)
 
 A bugfix release removing unused Xcode project scheme to improve build time
 for Carthage users.
