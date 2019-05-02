@@ -37,10 +37,6 @@ struct KeyedStorage<Key: Hashable & Comparable, Value> {
         return order
     }
 
-    var values: [Value] {
-        return order.compactMap { buffer[$0] }
-    }
-
     init<S>(_ sequence: S) where S: Sequence, S.Element == (Key, Value) {
         order = sequence.map { $0.0 }
         buffer = Dictionary(uniqueKeysWithValues: sequence)
