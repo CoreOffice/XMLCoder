@@ -1,3 +1,17 @@
+#  0.5.1 (May 2, 2019)
+
+Bugfix release that restores decoding of empty sequences, which became broken in
+0.5.0.
+
+## Merged pull requests
+
+- Fix decoding of empty sequences
+  [\#98](https://github.com/MaxDesiatov/XMLCoder/pull/98)
+  ([MaxDesiatov](https://github.com/MaxDesiatov))
+- Rename flatten to transformToBoxTree, rename tests
+  [\#97](https://github.com/MaxDesiatov/XMLCoder/pull/97)
+  ([MaxDesiatov](https://github.com/MaxDesiatov))
+
 #  0.5.0 (May 2, 2019)
 
 A small improvement release tagged early to resolve blocking issues in
