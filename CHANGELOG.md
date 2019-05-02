@@ -8,7 +8,7 @@ Bugfix release that restores decoding of empty sequences, which became broken in
 - Fix decoding of empty sequences
   [\#98](https://github.com/MaxDesiatov/XMLCoder/pull/98)
   ([MaxDesiatov](https://github.com/MaxDesiatov))
-- Rename flatten to transformToBoxTree, rename tests
+- Rename `flatten` to `transformToBoxTree`, rename tests
   [\#97](https://github.com/MaxDesiatov/XMLCoder/pull/97)
   ([MaxDesiatov](https://github.com/MaxDesiatov))
 
