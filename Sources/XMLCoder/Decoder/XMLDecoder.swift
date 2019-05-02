@@ -166,9 +166,8 @@ open class XMLDecoder {
             guard !stringKey.isEmpty else {
                 return stringKey
             }
-            var result = stringKey
-            let range = result.startIndex...result.index(after: result.startIndex)
-            result.replaceSubrange(range, with: result[range].lowercased())
+            let firstLetter = stringKey.prefix(1).lowercased()
+            let result = firstLetter + stringKey.dropFirst()
             return result
         }
 
