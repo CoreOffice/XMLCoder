@@ -310,6 +310,14 @@ extension XMLKeyedDecodingContainer {
             decoder.codingPath.removeLast()
         }
         let box: Box
+
+        // You can't decode sequences from attributes, but other strategies
+        // need special handling for empty sequences.
+        if strategy(key) != .attribute && elementOrNil == nil,
+            let empty = (type as? AnyEmptySequence.Type)?.init() as? T {
+            return empty
+        }
+
         switch strategy(key) {
         case .attribute:
             guard
