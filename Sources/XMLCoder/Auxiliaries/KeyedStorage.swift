@@ -115,18 +115,6 @@ private extension KeyedStorage where Key == String, Value == Box {
             self[key] = content
         }
     }
-
-    mutating func mergeNull(at key: String) {
-        switch self[key] {
-        case var unkeyedBox as UnkeyedBox:
-            unkeyedBox.append(NullBox())
-            self[key] = unkeyedBox
-        case let box?:
-            self[key] = UnkeyedBox([box, NullBox()])
-        default:
-            self[key] = NullBox()
-        }
-    }
 }
 
 extension KeyedStorage where Key == String, Value == Box {
@@ -141,7 +129,7 @@ extension KeyedStorage where Key == String, Value == Box {
         } else if let value = element.value {
             result.merge(value: value, at: element.key)
         } else {
-            result.mergeNull(at: element.key)
+            result.mergeElementsAttributes(from: element)
         }
 
         return result

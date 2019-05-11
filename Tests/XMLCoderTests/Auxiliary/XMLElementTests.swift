@@ -30,7 +30,7 @@ class XMLElementTests: XCTestCase {
     func testInitKeyed() {
         let keyed = XMLCoderElement(key: "foo", box: KeyedBox(
             elements: [] as [(String, Box)],
-            attributes: [("baz", NullBox()), ("blee", IntBox(42))] as [(String, SimpleBox)]
+            attributes: [("baz", KeyedBox()), ("blee", IntBox(42))] as [(String, Box)]
         ))
 
         XCTAssertEqual(keyed.key, "foo")

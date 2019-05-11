@@ -31,8 +31,6 @@ extension DecodingError {
     /// - precondition: `value` is one of the types below.
     static func _typeDescription(of box: Box) -> String {
         switch box {
-        case is NullBox:
-            return "a null value"
         case is BoolBox:
             return "a boolean value"
         case is DecimalBox:

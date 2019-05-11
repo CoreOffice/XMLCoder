@@ -57,8 +57,10 @@ class KeyedBoxTests: XCTestCase {
             elements: elements,
             attributes: [("baz", StringBox("blee"))]
         )
-        box.elements["bar"] = NullBox()
+        box.elements["bar"] = KeyedBox()
         XCTAssertEqual(box.elements.count, 3)
-        XCTAssertEqual(box.elements["bar"] as? NullBox, NullBox())
+        let barBox = box.elements["bar"] as? KeyedBox
+        XCTAssertEqual(barBox?.elements.isEmpty, true)
+        XCTAssertEqual(barBox?.attributes.isEmpty, true)
     }
 }

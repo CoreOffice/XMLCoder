@@ -22,10 +22,6 @@ class SharedBoxTests: XCTestCase {
     }
 
     func testXMLString() {
-        let nullBox = NullBox()
-        let sharedNullBox = SharedBox(nullBox)
-        XCTAssertEqual(sharedNullBox.xmlString(), nullBox.xmlString())
-
         let boolBox = BoolBox(false)
         let sharedBoolBox = SharedBox(boolBox)
         XCTAssertEqual(sharedBoolBox.xmlString(), boolBox.xmlString())
@@ -47,14 +43,14 @@ class SharedBoxTests: XCTestCase {
         XCTAssertEqual(sharedBoxAlias.withShared { $0.count }, 0)
 
         sharedBox.withShared { unkeyedBox in
-            unkeyedBox.append(NullBox())
+            unkeyedBox.append(KeyedBox())
         }
 
         XCTAssertEqual(sharedBox.withShared { $0.count }, 1)
         XCTAssertEqual(sharedBoxAlias.withShared { $0.count }, 1)
 
         sharedBoxAlias.withShared { unkeyedBox in
-            unkeyedBox.append(NullBox())
+            unkeyedBox.append(KeyedBox())
         }
 
         XCTAssertEqual(sharedBox.withShared { $0.count }, 2)

@@ -397,7 +397,7 @@ extension XMLKeyedDecodingContainer {
             keyedBox.attributes[key.stringValue]
         }
 
-        let box: Box = elementOrNil ?? attributeOrNil ?? NullBox()
+        let box: Box = elementOrNil ?? attributeOrNil ?? KeyedBox()
         return XMLDecoderImplementation(
             referencing: box,
             options: decoder.options,

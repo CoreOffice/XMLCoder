@@ -42,19 +42,23 @@ class UnkeyedBoxTests: XCTestCase {
 
     func testSubscript() {
         var box = Boxed([StringBox("foo"), IntBox(42)])
-        box[0] = NullBox()
+        box[0] = KeyedBox()
         XCTAssertEqual(box.count, 2)
-        XCTAssertEqual(box[0] as? NullBox, NullBox())
+        let box0 = box[0] as? KeyedBox
+        XCTAssertEqual(box0?.elements.isEmpty, true)
+        XCTAssertEqual(box0?.attributes.isEmpty, true)
         XCTAssertEqual(box[1] as? IntBox, IntBox(42))
     }
 
     func testInsertAt() {
         var box = Boxed([StringBox("foo"), IntBox(42)])
-        box.insert(NullBox(), at: 1)
+        box.insert(KeyedBox(), at: 1)
         XCTAssertEqual(box.count, 3)
 
+        let box1 = box[1] as? KeyedBox
         XCTAssertEqual(box[0] as? StringBox, StringBox("foo"))
-        XCTAssertEqual(box[1] as? NullBox, NullBox())
+        XCTAssertEqual(box1?.elements.isEmpty, true)
+        XCTAssertEqual(box1?.attributes.isEmpty, true)
         XCTAssertEqual(box[2] as? IntBox, IntBox(42))
     }
 }

@@ -44,7 +44,6 @@
 		BF63EF6B21D10284001D38C5 /* XMLElementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF63EF6A21D10284001D38C5 /* XMLElementTests.swift */; };
 		BF8171D021D3B1BD00901EB0 /* DecodingContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8171CF21D3B1BD00901EB0 /* DecodingContainerTests.swift */; };
 		BF8171F221D3D03E00901EB0 /* SharedBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8171F121D3D03E00901EB0 /* SharedBoxTests.swift */; };
-		BF9457A821CBB498005ACFDE /* NullBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF94579E21CBB497005ACFDE /* NullBox.swift */; };
 		BF9457A921CBB498005ACFDE /* KeyedBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF94579F21CBB497005ACFDE /* KeyedBox.swift */; };
 		BF9457AA21CBB498005ACFDE /* UnkeyedBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457A021CBB497005ACFDE /* UnkeyedBox.swift */; };
 		BF9457AB21CBB498005ACFDE /* DecimalBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457A121CBB497005ACFDE /* DecimalBox.swift */; };
@@ -60,7 +59,6 @@
 		BF9457C821CBB516005ACFDE /* BoolBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457BE21CBB516005ACFDE /* BoolBoxTests.swift */; };
 		BF9457C921CBB516005ACFDE /* KeyedBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457BF21CBB516005ACFDE /* KeyedBoxTests.swift */; };
 		BF9457CB21CBB516005ACFDE /* DecimalBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457C121CBB516005ACFDE /* DecimalBoxTests.swift */; };
-		BF9457CC21CBB516005ACFDE /* NullBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457C221CBB516005ACFDE /* NullBoxTests.swift */; };
 		BF9457CD21CBB516005ACFDE /* FloatBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457C321CBB516005ACFDE /* FloatBoxTests.swift */; };
 		BF9457CE21CBB516005ACFDE /* StringBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457C421CBB516005ACFDE /* StringBoxTests.swift */; };
 		BF9457CF21CBB516005ACFDE /* IntBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9457C521CBB516005ACFDE /* IntBoxTests.swift */; };
@@ -163,7 +161,6 @@
 		BF63EF6A21D10284001D38C5 /* XMLElementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLElementTests.swift; sourceTree = "<group>"; };
 		BF8171CF21D3B1BD00901EB0 /* DecodingContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingContainerTests.swift; sourceTree = "<group>"; };
 		BF8171F121D3D03E00901EB0 /* SharedBoxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedBoxTests.swift; sourceTree = "<group>"; };
-		BF94579E21CBB497005ACFDE /* NullBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NullBox.swift; sourceTree = "<group>"; };
 		BF94579F21CBB497005ACFDE /* KeyedBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyedBox.swift; sourceTree = "<group>"; };
 		BF9457A021CBB497005ACFDE /* UnkeyedBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnkeyedBox.swift; sourceTree = "<group>"; };
 		BF9457A121CBB497005ACFDE /* DecimalBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecimalBox.swift; sourceTree = "<group>"; };
@@ -179,7 +176,6 @@
 		BF9457BE21CBB516005ACFDE /* BoolBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoolBoxTests.swift; sourceTree = "<group>"; };
 		BF9457BF21CBB516005ACFDE /* KeyedBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyedBoxTests.swift; sourceTree = "<group>"; };
 		BF9457C121CBB516005ACFDE /* DecimalBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecimalBoxTests.swift; sourceTree = "<group>"; };
-		BF9457C221CBB516005ACFDE /* NullBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NullBoxTests.swift; sourceTree = "<group>"; };
 		BF9457C321CBB516005ACFDE /* FloatBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatBoxTests.swift; sourceTree = "<group>"; };
 		BF9457C421CBB516005ACFDE /* StringBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringBoxTests.swift; sourceTree = "<group>"; };
 		BF9457C521CBB516005ACFDE /* IntBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntBoxTests.swift; sourceTree = "<group>"; };
@@ -281,7 +277,6 @@
 			isa = PBXGroup;
 			children = (
 				BF9457A421CBB497005ACFDE /* Box.swift */,
-				BF94579E21CBB497005ACFDE /* NullBox.swift */,
 				BF9457A321CBB497005ACFDE /* BoolBox.swift */,
 				BF9457D421CBB59D005ACFDE /* IntBox.swift */,
 				BF9457D221CBB59D005ACFDE /* UIntBox.swift */,
@@ -317,7 +312,6 @@
 		BF9457BD21CBB516005ACFDE /* Box */ = {
 			isa = PBXGroup;
 			children = (
-				BF9457C221CBB516005ACFDE /* NullBoxTests.swift */,
 				BF9457BE21CBB516005ACFDE /* BoolBoxTests.swift */,
 				BF9457C521CBB516005ACFDE /* IntBoxTests.swift */,
 				BF9457C621CBB516005ACFDE /* UIntBoxTests.swift */,
@@ -579,7 +573,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "#if which swiftlint >/dev/null; then\n# swiftlint\n#else\n#  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n#fi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -626,7 +620,6 @@
 				BF9457AA21CBB498005ACFDE /* UnkeyedBox.swift in Sources */,
 				BF9457AF21CBB498005ACFDE /* StringBox.swift in Sources */,
 				OBJ_58 /* XMLUnkeyedEncodingContainer.swift in Sources */,
-				BF9457A821CBB498005ACFDE /* NullBox.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -666,7 +659,6 @@
 				OBJ_81 /* BreakfastTest.swift in Sources */,
 				OBJ_82 /* CDCatalog.swift in Sources */,
 				BF63EF0021CCDED2001D38C5 /* XMLStackParserTests.swift in Sources */,
-				BF9457CC21CBB516005ACFDE /* NullBoxTests.swift in Sources */,
 				BF63EF1E21CEC99B001D38C5 /* BenchmarkTests.swift in Sources */,
 				BF9457CF21CBB516005ACFDE /* IntBoxTests.swift in Sources */,
 				BF9457E021CBB68A005ACFDE /* DataBoxTests.swift in Sources */,

@@ -13,6 +13,15 @@ class KeyedTests: XCTestCase {
         let value: [String: Int]
     }
 
+    struct OptionalProperties: Codable, Equatable {
+        struct Item: Codable, Equatable {
+            let optionalInt: Int?
+            let optionalString: String?
+        }
+
+        let item: [Item]
+    }
+
     struct ContainerCamelCase: Codable, Equatable {
         let valUe: [String: Int]
         let testAttribute: String
@@ -30,6 +39,30 @@ class KeyedTests: XCTestCase {
         init?(intValue: Int) {
             stringValue = String(intValue)
             self.intValue = intValue
+        }
+    }
+
+    func testEmptyOptionalProperties() throws {
+        do {
+            let decoder = XMLDecoder()
+
+            let xmlString = "<container><item/><item/></container>"
+            let xmlData = xmlString.data(using: .utf8)!
+
+            let decoded = try decoder.decode(
+                OptionalProperties.self,
+                from: xmlData
+            )
+
+            XCTAssertEqual(decoded.item.count, 2)
+            XCTAssertNotNil(decoded.item.first)
+            XCTAssertNil(decoded.item.first?.optionalString)
+            XCTAssertNil(decoded.item.first?.optionalInt)
+            XCTAssertNotNil(decoded.item.last)
+            XCTAssertNil(decoded.item.last?.optionalString)
+            XCTAssertNil(decoded.item.last?.optionalInt)
+        } catch {
+            print(error)
         }
     }
 

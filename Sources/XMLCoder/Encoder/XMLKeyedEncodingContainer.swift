@@ -65,7 +65,7 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
 
     public mutating func encodeNil(forKey key: Key) throws {
         container.withShared { container in
-            container.elements[_converted(key).stringValue] = NullBox()
+            container.elements[_converted(key).stringValue] = KeyedBox()
         }
     }
 

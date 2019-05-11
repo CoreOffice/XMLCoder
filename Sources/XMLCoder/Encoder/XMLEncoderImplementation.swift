@@ -105,8 +105,8 @@ class XMLEncoderImplementation: Encoder {
 
 extension XMLEncoderImplementation {
     /// Returns the given value boxed in a container appropriate for pushing onto the container stack.
-    func box() -> SimpleBox {
-        return NullBox()
+    func box() -> Box {
+        return KeyedBox()
     }
 
     func box(_ value: Bool) -> SimpleBox {

@@ -149,14 +149,12 @@ extension XMLDecoderImplementation {
             guard
                 let value = keyedBox.withShared({ $0.elements["value"] as? B })
             else {
-                fallthrough
+                throw DecodingError.valueNotFound(valueType, DecodingError.Context(
+                    codingPath: codingPath,
+                    debugDescription: "Expected \(valueType) but found empty element instead."
+                ))
             }
             return value
-        case is NullBox:
-            throw DecodingError.valueNotFound(valueType, DecodingError.Context(
-                codingPath: codingPath,
-                debugDescription: "Expected \(valueType) but found null instead."
-            ))
         case let keyedBox as KeyedBox:
             guard
                 let value = keyedBox.elements["value"] as? B

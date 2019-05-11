@@ -7,7 +7,7 @@
 
 struct KeyedBox {
     typealias Key = String
-    typealias Attribute = SimpleBox
+    typealias Attribute = Box
     typealias Element = Box
 
     typealias Attributes = KeyedStorage<Key, Attribute>
