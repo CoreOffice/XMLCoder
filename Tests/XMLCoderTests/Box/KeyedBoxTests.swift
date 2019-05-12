@@ -18,7 +18,7 @@ class KeyedBoxTests: XCTestCase {
 
     func testIsNull() {
         let box = Boxed()
-        XCTAssertEqual(box.isNull, false)
+        XCTAssertEqual(box.isNull, true)
     }
 
     func testUnbox() {

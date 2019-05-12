@@ -36,7 +36,7 @@ extension KeyedBox {
 
 extension KeyedBox: Box {
     var isNull: Bool {
-        return false
+        return elements.isEmpty && attributes.isEmpty
     }
 
     func xmlString() -> String? {

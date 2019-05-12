@@ -76,17 +76,6 @@ class XMLDecoderImplementation: Decoder {
         let topContainer = try self.topContainer()
 
         switch topContainer {
-        case _ where topContainer.isNull:
-            throw DecodingError.valueNotFound(
-                KeyedDecodingContainer<Key>.self,
-                DecodingError.Context(
-                    codingPath: codingPath,
-                    debugDescription:
-                    """
-                    Cannot get keyed decoding container -- found null box instead.
-                    """
-                )
-            )
         case let string as StringBox:
             return KeyedDecodingContainer(XMLKeyedDecodingContainer<Key>(
                 referencing: self,
