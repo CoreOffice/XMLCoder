@@ -125,7 +125,7 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
             !keyedBox.elements[key.stringValue].isEmpty || keyedBox.value != nil
         }
 
-        if let type = type as? AnyEmptySequence.Type,
+        if let type = type as? AnySequence.Type,
             !attributeFound,
             !elementFound,
             let result = type.init() as? T {
@@ -172,7 +172,7 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
                 wrapping: SharedBox(keyedContainer)
             )
         } else {
-            throw DecodingError._typeMismatch(
+            throw DecodingError.typeMismatch(
                 at: codingPath,
                 expectation: [String: Any].self,
                 reality: value
@@ -261,7 +261,8 @@ extension XMLKeyedDecodingContainer {
         let elements = container
             .withShared { keyedBox -> [KeyedBox.Element] in
                 if ["value", ""].contains(key.stringValue) {
-                    let value = keyedBox.elements[key.stringValue]
+                    let keyString = key.stringValue.isEmpty ? "value" : key.stringValue
+                    let value = keyedBox.elements[keyString]
                     if !value.isEmpty {
                         return value
                     } else if let value = keyedBox.value {
@@ -293,7 +294,7 @@ extension XMLKeyedDecodingContainer {
         // You can't decode sequences from attributes, but other strategies
         // need special handling for empty sequences.
         if strategy(key) != .attribute && elements.isEmpty,
-            let empty = (type as? AnyEmptySequence.Type)?.init() as? T {
+            let empty = (type as? AnySequence.Type)?.init() as? T {
             return empty
         }
 
@@ -329,7 +330,13 @@ extension XMLKeyedDecodingContainer {
             box = anyBox
         }
 
-        let value: T? = try decoder.unbox(box)
+        let value: T?
+        if !(type is AnySequence.Type), let keyedBox = box as? UnkeyedBox,
+            let first = keyedBox.first {
+            value = try decoder.unbox(first)
+        } else {
+            value = try decoder.unbox(box)
+        }
 
         if value == nil {
             if let type = type as? AnyArray.Type,

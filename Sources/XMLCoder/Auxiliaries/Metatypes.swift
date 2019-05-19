@@ -7,7 +7,7 @@
 
 /// Type-erased protocol helper for a metatype check in generic `decode`
 /// overload.
-protocol AnyEmptySequence {
+protocol AnySequence {
     init()
 }
 
@@ -15,13 +15,13 @@ protocol AnyArray {
     static var elementType: Any.Type { get }
 }
 
-extension Array: AnyEmptySequence, AnyArray {
+extension Array: AnySequence, AnyArray {
     static var elementType: Any.Type {
         return Element.self
     }
 }
 
-extension Dictionary: AnyEmptySequence {}
+extension Dictionary: AnySequence {}
 
 /// Type-erased protocol helper for a metatype check in generic `decode`
 /// overload.

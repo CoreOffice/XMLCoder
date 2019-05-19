@@ -150,9 +150,9 @@ struct XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         }
 
         guard let keyedContainer = value as? KeyedContainer else {
-            throw DecodingError._typeMismatch(at: codingPath,
-                                              expectation: [String: Any].self,
-                                              reality: value)
+            throw DecodingError.typeMismatch(at: codingPath,
+                                             expectation: [String: Any].self,
+                                             reality: value)
         }
 
         currentIndex += 1
@@ -187,9 +187,9 @@ struct XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         }
 
         guard let unkeyedContainer = value as? UnkeyedContainer else {
-            throw DecodingError._typeMismatch(at: codingPath,
-                                              expectation: UnkeyedBox.self,
-                                              reality: value)
+            throw DecodingError.typeMismatch(at: codingPath,
+                                             expectation: UnkeyedBox.self,
+                                             reality: value)
         }
 
         currentIndex += 1
