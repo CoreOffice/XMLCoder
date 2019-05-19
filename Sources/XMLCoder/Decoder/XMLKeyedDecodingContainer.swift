@@ -192,38 +192,10 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
             keyedBox.elements[key.stringValue]
         }
 
-        let attributes = container.withShared { keyedBox in
-            keyedBox.attributes[key.stringValue]
-        }
-
-        guard let value = elements.first ?? attributes.first else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(
-                codingPath: codingPath,
-                debugDescription:
-                """
-                Cannot get UnkeyedDecodingContainer -- \
-                no value found for key \"\(key.stringValue)\"
-                """
-            ))
-        }
-
-        if let unkeyedContainer = value as? UnkeyedContainer {
-            return XMLUnkeyedDecodingContainer(
-                referencing: decoder,
-                wrapping: unkeyedContainer
-            )
-        } else if let unkeyedContainer = value as? UnkeyedBox {
-            return XMLUnkeyedDecodingContainer(
-                referencing: decoder,
-                wrapping: SharedBox(unkeyedContainer)
-            )
-        } else {
-            throw DecodingError._typeMismatch(
-                at: codingPath,
-                expectation: [Any].self,
-                reality: value
-            )
-        }
+        return XMLUnkeyedDecodingContainer(
+            referencing: decoder,
+            wrapping: SharedBox(elements)
+        )
     }
 
     public func superDecoder() throws -> Decoder {
@@ -289,8 +261,9 @@ extension XMLKeyedDecodingContainer {
         let elements = container
             .withShared { keyedBox -> [KeyedBox.Element] in
                 if ["value", ""].contains(key.stringValue) {
-                    if let value = keyedBox.elements[key.stringValue].first {
-                        return [value]
+                    let value = keyedBox.elements[key.stringValue]
+                    if !value.isEmpty {
+                        return value
                     } else if let value = keyedBox.value {
                         return [value]
                     } else {
@@ -339,21 +312,10 @@ extension XMLKeyedDecodingContainer {
             }
             box = attributeBox
         case .element:
-            guard
-                let elementBox = elements.first
-            else {
-                throw DecodingError.keyNotFound(key, DecodingError.Context(
-                    codingPath: decoder.codingPath,
-                    debugDescription:
-                    """
-                    No element found for key \(_errorDescription(of: key)).
-                    """
-                ))
-            }
-            box = elementBox
+            box = elements
         case .elementOrAttribute:
             guard
-                let anyBox = elements.first ?? attributes.first
+                let anyBox = elements.isEmpty ? attributes.first : elements as Box
             else {
                 throw DecodingError.keyNotFound(key, DecodingError.Context(
                     codingPath: decoder.codingPath,

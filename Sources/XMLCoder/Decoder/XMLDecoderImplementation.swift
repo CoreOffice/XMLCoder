@@ -142,9 +142,20 @@ extension XMLDecoderImplementation {
     /// Returns the given box unboxed from a container.
 
     private func typedBox<T, B: Box>(_ box: Box, for valueType: T.Type) throws -> B {
+        let error = DecodingError.valueNotFound(valueType, DecodingError.Context(
+            codingPath: codingPath,
+            debugDescription: "Expected \(valueType) but found null instead."
+        ))
         switch box {
         case let typedBox as B:
             return typedBox
+        case let unkeyedBox as SharedBox<UnkeyedBox>:
+            guard let value = unkeyedBox.withShared({
+                $0.first as? B
+            }) else {
+                throw error
+            }
+            return value
         case let keyedBox as SharedBox<KeyedBox>:
             guard
                 let value = keyedBox.withShared({ $0.elements["value"] as? B })
@@ -153,13 +164,10 @@ extension XMLDecoderImplementation {
             }
             return value
         case is NullBox:
-            throw DecodingError.valueNotFound(valueType, DecodingError.Context(
-                codingPath: codingPath,
-                debugDescription: "Expected \(valueType) but found null instead."
-            ))
+            throw error
         case let keyedBox as KeyedBox:
             guard
-                let value = keyedBox.elements["value"] as? B
+                let value = keyedBox.elements["value"].first as? B
             else {
                 fallthrough
             }
@@ -351,8 +359,6 @@ extension XMLDecoderImplementation {
 
         return urlBox.unboxed
     }
-
-    private struct TypeMismatch: Error {}
 
     func unbox<T: Decodable>(_ box: Box) throws -> T {
         let decoded: T?
