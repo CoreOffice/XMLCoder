@@ -316,7 +316,7 @@ extension XMLKeyedDecodingContainer {
             box = elements
         case .elementOrAttribute:
             guard
-                let anyBox = elements.isEmpty ? attributes.first : elements as Box
+                let anyBox = elements.isEmpty ? attributes.first : elements as Box?
             else {
                 throw DecodingError.keyNotFound(key, DecodingError.Context(
                     codingPath: decoder.codingPath,
