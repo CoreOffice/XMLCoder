@@ -31,7 +31,7 @@ class DateBoxTests: XCTestCase {
 
         for unboxed in values {
             let box = Boxed(unboxed, format: .iso8601)
-            XCTAssertEqual(box.unbox(), unboxed)
+            XCTAssertEqual(box.unboxed, unboxed)
         }
     }
 

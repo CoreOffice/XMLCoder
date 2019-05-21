@@ -21,10 +21,6 @@ struct BoolBox: Equatable {
         case _: return nil
         }
     }
-
-    func unbox() -> Unboxed {
-        return unboxed
-    }
 }
 
 extension BoolBox: Box {

@@ -166,9 +166,8 @@ open class XMLDecoder {
             guard !stringKey.isEmpty else {
                 return stringKey
             }
-            var result = stringKey
-            let range = result.startIndex...result.index(after: result.startIndex)
-            result.replaceSubrange(range, with: result[range].lowercased())
+            let firstLetter = stringKey.prefix(1).lowercased()
+            let result = firstLetter + stringKey.dropFirst()
             return result
         }
 
@@ -284,6 +283,11 @@ open class XMLDecoder {
      */
     open var shouldProcessNamespaces: Bool = false
 
+    /** A boolean value that determines whether the parser trims whitespaces
+     and newlines from the end and the beginning of string values.
+     */
+    open var trimValueWhitespaces: Bool
+
     /// Options set on the top-level encoder to pass down the decoding hierarchy.
     struct Options {
         let dateDecodingStrategy: DateDecodingStrategy
@@ -309,7 +313,9 @@ open class XMLDecoder {
     // MARK: - Constructing a XML Decoder
 
     /// Initializes `self` with default strategies.
-    public init() {}
+    public init(trimValueWhitespaces: Bool = true) {
+        self.trimValueWhitespaces = trimValueWhitespaces
+    }
 
     // MARK: - Decoding Values
 
@@ -327,7 +333,8 @@ open class XMLDecoder {
         let topLevel: Box = try XMLStackParser.parse(
             with: data,
             errorContextLength: errorContextLength,
-            shouldProcessNamespaces: shouldProcessNamespaces
+            shouldProcessNamespaces: shouldProcessNamespaces,
+            trimValueWhitespaces: trimValueWhitespaces
         )
 
         let decoder = XMLDecoderImplementation(
@@ -346,13 +353,6 @@ open class XMLDecoder {
             _ = decoder.nodeDecodings.removeLast()
         }
 
-        guard let box: T = try decoder.unbox(topLevel) else {
-            throw DecodingError.valueNotFound(type, DecodingError.Context(
-                codingPath: [],
-                debugDescription: "The given data did not contain a top-level box."
-            ))
-        }
-
-        return box
+        return try decoder.unbox(topLevel)
     }
 }

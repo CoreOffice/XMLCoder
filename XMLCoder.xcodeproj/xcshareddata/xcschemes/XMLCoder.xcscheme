@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "XMLParsing::XMLParsing"
+               BlueprintIdentifier = "XMLCoder::XMLCoder"
                BuildableName = "XMLCoder.framework"
                BlueprintName = "XMLCoder"
                ReferencedContainer = "container:XMLCoder.xcodeproj">
@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "XMLParsing::XMLParsingTests"
+               BlueprintIdentifier = "XMLCoder::XMLCoderTests"
                BuildableName = "XMLCoderTests.xctest"
                BlueprintName = "XMLCoderTests"
                ReferencedContainer = "container:XMLCoder.xcodeproj">
@@ -55,7 +55,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "XMLParsing::XMLParsing"
+            BlueprintIdentifier = "XMLCoder::XMLCoder"
             BuildableName = "XMLCoder.framework"
             BlueprintName = "XMLCoder"
             ReferencedContainer = "container:XMLCoder.xcodeproj">

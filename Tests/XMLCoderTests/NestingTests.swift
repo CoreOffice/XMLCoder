@@ -8,7 +8,7 @@
 import XCTest
 @testable import XMLCoder
 
-class NestingTests: XCTestCase {
+final class NestingTests: XCTestCase {
     var encoder: XMLEncoder {
         let encoder = XMLEncoder()
         encoder.outputFormatting = [.prettyPrinted]

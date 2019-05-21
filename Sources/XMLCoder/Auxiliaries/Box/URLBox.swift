@@ -22,10 +22,6 @@ struct URLBox: Equatable {
         }
         self.init(unboxed)
     }
-
-    func unbox() -> Unboxed {
-        return unboxed
-    }
 }
 
 extension URLBox: Box {

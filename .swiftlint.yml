@@ -5,6 +5,7 @@ disabled_rules:
 - operator_whitespace
 - function_parameter_count
 - opening_brace
+- nesting
 
 line_length:
 - 150

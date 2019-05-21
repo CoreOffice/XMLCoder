@@ -59,10 +59,6 @@ struct DateBox: Equatable {
         self.init(date, format: .formatter(formatter))
     }
 
-    func unbox() -> Unboxed {
-        return unboxed
-    }
-
     func xmlString(format: Format) -> String {
         switch format {
         case .secondsSince1970:
