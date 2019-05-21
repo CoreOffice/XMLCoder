@@ -134,7 +134,6 @@ class XMLDecoderImplementation: Decoder {
             )
         }
 
-        let unkeyed: SharedBox<UnkeyedBox>
         switch topContainer {
         case let unkeyed as SharedBox<UnkeyedBox>:
             return XMLUnkeyedDecodingContainer(referencing: self, wrapping: unkeyed)
