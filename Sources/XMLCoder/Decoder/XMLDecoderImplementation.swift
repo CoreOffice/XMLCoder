@@ -134,10 +134,21 @@ class XMLDecoderImplementation: Decoder {
             )
         }
 
-        let unkeyed = (topContainer as? SharedBox<UnkeyedBox>) ??
-            SharedBox(UnkeyedBox([topContainer]))
+        let unkeyed: SharedBox<UnkeyedBox>
+        switch topContainer {
+        case let unkeyed as SharedBox<UnkeyedBox>:
+            return XMLUnkeyedDecodingContainer(referencing: self, wrapping: unkeyed)
+        case let keyed as SharedBox<KeyedBox>:
+            guard let firstKey = keyed.withShared({ $0.elements.keys.first }) else { fallthrough }
 
-        return XMLUnkeyedDecodingContainer(referencing: self, wrapping: unkeyed)
+            return XMLUnkeyedDecodingContainer(referencing: self, wrapping: SharedBox(keyed.withShared { $0.elements[firstKey] }))
+        default:
+            throw DecodingError.typeMismatch(
+                at: codingPath,
+                expectation: [Any].self,
+                reality: topContainer
+            )
+        }
     }
 
     public func singleValueContainer() throws -> SingleValueDecodingContainer {
@@ -149,7 +160,6 @@ class XMLDecoderImplementation: Decoder {
 
 extension XMLDecoderImplementation {
     /// Returns the given box unboxed from a container.
-
     private func typedBox<T, B: Box>(_ box: Box, for valueType: T.Type) throws -> B {
         let error = DecodingError.valueNotFound(valueType, DecodingError.Context(
             codingPath: codingPath,
@@ -385,7 +395,9 @@ extension XMLDecoderImplementation {
             decoded = value
         } else {
             storage.push(container: box)
-            defer { storage.popContainer() }
+            defer {
+                storage.popContainer()
+            }
 
             do {
                 decoded = try type.init(from: self)

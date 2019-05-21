@@ -9,16 +9,13 @@
 import Foundation
 
 struct XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
-    typealias KeyedContainer = SharedBox<KeyedBox>
-    typealias UnkeyedContainer = SharedBox<UnkeyedBox>
-
     // MARK: Properties
 
     /// A reference to the decoder we're reading from.
     private let decoder: XMLDecoderImplementation
 
     /// A reference to the container we're reading from.
-    private let container: UnkeyedContainer
+    private let container: SharedBox<UnkeyedBox>
 
     /// The path of coding keys taken to get to this point in decoding.
     public private(set) var codingPath: [CodingKey]
@@ -29,7 +26,7 @@ struct XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
     // MARK: - Initialization
 
     /// Initializes `self` by referencing the given decoder and container.
-    init(referencing decoder: XMLDecoderImplementation, wrapping container: UnkeyedContainer) {
+    init(referencing decoder: XMLDecoderImplementation, wrapping container: SharedBox<UnkeyedBox>) {
         self.decoder = decoder
         self.container = container
         codingPath = decoder.codingPath
@@ -149,7 +146,7 @@ struct XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
             ))
         }
 
-        guard let keyedContainer = value as? KeyedContainer else {
+        guard let keyedContainer = value as? SharedBox<KeyedBox> else {
             throw DecodingError.typeMismatch(at: codingPath,
                                              expectation: [String: Any].self,
                                              reality: value)
@@ -186,7 +183,7 @@ struct XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
             ))
         }
 
-        guard let unkeyedContainer = value as? UnkeyedContainer else {
+        guard let unkeyedContainer = value as? SharedBox<UnkeyedBox> else {
             throw DecodingError.typeMismatch(at: codingPath,
                                              expectation: UnkeyedBox.self,
                                              reality: value)

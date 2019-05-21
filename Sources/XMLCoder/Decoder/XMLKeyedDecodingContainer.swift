@@ -331,8 +331,8 @@ extension XMLKeyedDecodingContainer {
         }
 
         let value: T?
-        if !(type is AnySequence.Type), let keyedBox = box as? UnkeyedBox,
-            let first = keyedBox.first {
+        if !(type is AnySequence.Type), let unkeyedBox = box as? UnkeyedBox,
+            let first = unkeyedBox.first {
             value = try decoder.unbox(first)
         } else {
             value = try decoder.unbox(box)
