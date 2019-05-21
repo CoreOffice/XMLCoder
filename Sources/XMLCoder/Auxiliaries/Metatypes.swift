@@ -11,11 +11,7 @@ protocol AnySequence {
     init()
 }
 
-extension Array: AnySequence {
-    static var elementType: Any.Type {
-        return Element.self
-    }
-}
+extension Array: AnySequence {}
 
 extension Dictionary: AnySequence {}
 
