@@ -22,6 +22,10 @@ struct KeyedBox {
             attributes: attributes
         )
     }
+
+    var value: SimpleBox? {
+        return elements["value"].first as? SimpleBox
+    }
 }
 
 extension KeyedBox {
@@ -41,17 +45,6 @@ extension KeyedBox: Box {
 
     func xmlString() -> String? {
         return nil
-    }
-}
-
-extension KeyedBox {
-    var value: SimpleBox? {
-        guard
-            elements.count == 1,
-            let value = elements["value"] as? SimpleBox
-            ?? elements[""] as? SimpleBox,
-            !value.isNull else { return nil }
-        return value
     }
 }
 
