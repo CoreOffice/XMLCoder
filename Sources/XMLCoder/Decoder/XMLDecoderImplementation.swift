@@ -174,14 +174,14 @@ extension XMLDecoderImplementation {
             return value
         case let keyedBox as SharedBox<KeyedBox>:
             guard
-                let value = keyedBox.withShared({ $0.elements["value"].first as? B })
+                let value = keyedBox.withShared({ $0.value as? B })
             else { throw error }
             return value
         case is NullBox:
             throw error
         case let keyedBox as KeyedBox:
             guard
-                let value = keyedBox.elements["value"].first as? B
+                let value = keyedBox.value as? B
             else { fallthrough }
             return value
         default:

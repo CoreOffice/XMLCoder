@@ -65,9 +65,7 @@ extension KeyedStorage: Sequence {
 
 extension KeyedStorage: CustomStringConvertible {
     var description: String {
-        let result = buffer.map { key, value in
-            "\"\(key)\": \(value)"
-        }.joined(separator: ", ")
+        let result = buffer.map { "\"\($0)\": \($1)" }.joined(separator: ", ")
 
         return "[\(result)]"
     }
