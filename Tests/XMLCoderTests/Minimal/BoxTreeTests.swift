@@ -31,16 +31,6 @@ class BoxTreeTests: XCTestCase {
 
         let boxTree = root.transformToBoxTree()
 
-        guard let foo = boxTree.elements["foo"] as? UnkeyedBox else {
-            XCTAssert(
-                false,
-                """
-                flattened.elements["foo"] is not an UnkeyedBox
-                """
-            )
-            return
-        }
-
-        XCTAssertEqual(foo.count, 2)
+        XCTAssertEqual(boxTree.elements["foo"].count, 2)
     }
 }
