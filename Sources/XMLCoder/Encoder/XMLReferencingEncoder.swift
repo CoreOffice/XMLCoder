@@ -98,7 +98,7 @@ class XMLReferencingEncoder: XMLEncoderImplementation {
             }
         case let .keyed(sharedKeyedBox, key):
             sharedKeyedBox.withShared { keyedBox in
-                keyedBox.elements[key] = box
+                keyedBox.elements.append(box, at: key)
             }
         }
     }
