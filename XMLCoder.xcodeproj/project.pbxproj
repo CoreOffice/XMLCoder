@@ -94,6 +94,7 @@
 		D1CAD3622293FAB80077901D /* MixedContainerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CAD3612293FAB80077901D /* MixedContainerTest.swift */; };
 		D1CB1EF521EA9599009CAF02 /* RJITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_37 /* RJITest.swift */; };
 		D1CFC8242226B13F00B03222 /* NamespaceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CFC8222226AFB400B03222 /* NamespaceTest.swift */; };
+		D1D50D3122942EAE007098FC /* NestingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D50D3022942EAE007098FC /* NestingTests.swift */; };
 		D1E0C85321D8E65E0042A261 /* ErrorContextTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E0C85121D8E6540042A261 /* ErrorContextTest.swift */; };
 		D1E0C85521D91EBF0042A261 /* Metatypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E0C85421D91EBF0042A261 /* Metatypes.swift */; };
 		D1EC3E62225A32F500C610E3 /* BoxTreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EC3E61225A32F500C610E3 /* BoxTreeTests.swift */; };
@@ -216,6 +217,7 @@
 		D1AC9464224E3E1F004AB49B /* AttributedEnumIntrinsicTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedEnumIntrinsicTest.swift; sourceTree = "<group>"; };
 		D1CAD3612293FAB80077901D /* MixedContainerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedContainerTest.swift; sourceTree = "<group>"; };
 		D1CFC8222226AFB400B03222 /* NamespaceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamespaceTest.swift; sourceTree = "<group>"; };
+		D1D50D3022942EAE007098FC /* NestingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NestingTests.swift; sourceTree = "<group>"; };
 		D1E0C85121D8E6540042A261 /* ErrorContextTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorContextTest.swift; sourceTree = "<group>"; };
 		D1E0C85421D91EBF0042A261 /* Metatypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metatypes.swift; sourceTree = "<group>"; };
 		D1EC3E61225A32F500C610E3 /* BoxTreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxTreeTests.swift; sourceTree = "<group>"; };
@@ -403,6 +405,7 @@
 				B3BE1D602202C1F600259831 /* DynamicNodeEncodingTest.swift */,
 				D1E0C85121D8E6540042A261 /* ErrorContextTest.swift */,
 				D1CFC8222226AFB400B03222 /* NamespaceTest.swift */,
+				D1D50D3022942EAE007098FC /* NestingTests.swift */,
 				OBJ_33 /* NodeEncodingStrategyTests.swift */,
 				OBJ_34 /* NoteTest.swift */,
 				OBJ_35 /* PlantCatalog.swift */,
@@ -649,6 +652,7 @@
 				BF9457F221CBB6BC005ACFDE /* UnkeyedTests.swift in Sources */,
 				A61FE03C21E4EAB10015D993 /* KeyedIntTests.swift in Sources */,
 				BF9457F321CBB6BC005ACFDE /* DateTests.swift in Sources */,
+				D1D50D3122942EAE007098FC /* NestingTests.swift in Sources */,
 				BF9457D121CBB516005ACFDE /* UnkeyedBoxTests.swift in Sources */,
 				BF63EF6921D0FDB5001D38C5 /* XMLHeaderTests.swift in Sources */,
 				BF9457F021CBB6BC005ACFDE /* StringTests.swift in Sources */,
