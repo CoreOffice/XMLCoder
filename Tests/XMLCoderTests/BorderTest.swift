@@ -24,7 +24,7 @@ struct Borders: Codable, Equatable {
     }
 }
 
-public struct Border: Codable, Equatable {
+struct Border: Codable, Equatable, AnyOptional {
     struct Value: Codable, Equatable {
         let style: String?
     }

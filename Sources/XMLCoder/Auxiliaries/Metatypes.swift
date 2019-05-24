@@ -17,12 +17,12 @@ extension Dictionary: AnySequence {}
 
 /// Type-erased protocol helper for a metatype check in generic `decode`
 /// overload.
-protocol AnyOptional {
+public protocol AnyOptional {
     init()
 }
 
 extension Optional: AnyOptional {
-    init() {
+    public init() {
         self = nil
     }
 }
