@@ -59,6 +59,10 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
             self.container = mapKeys(container) { key in
                 XMLDecoder.KeyDecodingStrategy._convertFromSnakeCase(key)
             }
+        case .convertFromKebabCase:
+            self.container = mapKeys(container) { key in
+                XMLDecoder.KeyDecodingStrategy._convertFromKebabCase(key)
+            }
         case .convertFromCapitalized:
             self.container = mapKeys(container) { key in
                 XMLDecoder.KeyDecodingStrategy._convertFromCapitalized(key)
