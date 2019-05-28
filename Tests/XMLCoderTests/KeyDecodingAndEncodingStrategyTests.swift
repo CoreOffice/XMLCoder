@@ -32,7 +32,7 @@ private struct KebabCaseItem: Codable, Equatable {
     }
 }
 
-final class KeyDecodingStrategyTest: XCTestCase {
+final class KeyDecodingAndEncodingStrategyTests: XCTestCase {
     func testCapitalized() throws {
         let decoder = XMLDecoder()
         decoder.keyDecodingStrategy = .convertFromCapitalized
