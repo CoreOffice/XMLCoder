@@ -123,6 +123,10 @@ open class XMLEncoder {
         /// - Note: Using a key encoding strategy has a nominal performance cost, as each string key has to be converted.
         case convertToSnakeCase
 
+        /// Same as convertToSnakeCase, but using `-` instead of `_`
+        /// For example, `oneTwoThree` becomes `one-two-three`.
+        case convertToKebabCase
+
         /// Capitalize the first letter only
         /// `oneTwoThree` becomes  `OneTwoThree`
         case capitalized
@@ -146,6 +150,14 @@ open class XMLEncoder {
         case custom((_ codingPath: [CodingKey]) -> CodingKey)
 
         static func _convertToSnakeCase(_ stringKey: String) -> String {
+            return _convert(stringKey, usingSeparator: "_")
+        }
+
+        static func _convertToKebabCase(_ stringKey: String) -> String {
+            return _convert(stringKey, usingSeparator: "-")
+        }
+
+        static func _convert(_ stringKey: String, usingSeparator separator: String) -> String {
             guard !stringKey.isEmpty else {
                 return stringKey
             }
@@ -196,7 +208,7 @@ open class XMLEncoder {
             words.append(wordStart..<searchRange.upperBound)
             let result = words.map { range in
                 stringKey[range].lowercased()
-            }.joined(separator: "_")
+            }.joined(separator: separator)
             return result
         }
 

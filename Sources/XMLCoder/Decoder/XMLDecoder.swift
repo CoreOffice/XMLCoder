@@ -149,6 +149,10 @@ open class XMLDecoder {
         /// - Note: Using a key decoding strategy has a nominal performance cost, as each string key has to be inspected for the `_` character.
         case convertFromSnakeCase
 
+        /// Convert from "kebab-case" to "kebabCase" before attempting
+        /// to match a key with the one specified by each type.
+        case convertFromKebabCase
+
         /// Convert from "CodingKey" to "codingKey"
         case convertFromCapitalized
 
@@ -172,30 +176,38 @@ open class XMLDecoder {
         }
 
         static func _convertFromSnakeCase(_ stringKey: String) -> String {
+            return _convert(stringKey, usingSeparator: "_")
+        }
+
+        static func _convertFromKebabCase(_ stringKey: String) -> String {
+            return _convert(stringKey, usingSeparator: "-")
+        }
+
+        static func _convert(_ stringKey: String, usingSeparator separator: Character) -> String {
             guard !stringKey.isEmpty else {
                 return stringKey
             }
 
-            // Find the first non-underscore character
-            guard let firstNonUnderscore = stringKey.firstIndex(where: { $0 != "_" }) else {
-                // Reached the end without finding an _
+            // Find the first non-separator character
+            guard let firstNonSeparator = stringKey.firstIndex(where: { $0 != separator }) else {
+                // Reached the end without finding a separator character
                 return stringKey
             }
 
-            // Find the last non-underscore character
-            var lastNonUnderscore = stringKey.index(before: stringKey.endIndex)
-            while lastNonUnderscore > firstNonUnderscore, stringKey[lastNonUnderscore] == "_" {
-                stringKey.formIndex(before: &lastNonUnderscore)
+            // Find the last non-separator character
+            var lastNonSeparator = stringKey.index(before: stringKey.endIndex)
+            while lastNonSeparator > firstNonSeparator, stringKey[lastNonSeparator] == separator {
+                stringKey.formIndex(before: &lastNonSeparator)
             }
 
-            let keyRange = firstNonUnderscore...lastNonUnderscore
-            let leadingUnderscoreRange = stringKey.startIndex..<firstNonUnderscore
-            let trailingUnderscoreRange = stringKey.index(after: lastNonUnderscore)..<stringKey.endIndex
+            let keyRange = firstNonSeparator...lastNonSeparator
+            let leadingSeparatorRange = stringKey.startIndex..<firstNonSeparator
+            let trailingSeparatorRange = stringKey.index(after: lastNonSeparator)..<stringKey.endIndex
 
-            var components = stringKey[keyRange].split(separator: "_")
+            var components = stringKey[keyRange].split(separator: separator)
             let joinedString: String
             if components.count == 1 {
-                // No underscores in key, leave the word as is - maybe already camel cased
+                // No separators in key, leave the word as is - maybe it is already good
                 joinedString = String(stringKey[keyRange])
             } else {
                 joinedString = ([components[0].lowercased()] + components[1...].map { $0.capitalized }).joined()
@@ -203,17 +215,17 @@ open class XMLDecoder {
 
             // Do a cheap isEmpty check before creating and appending potentially empty strings
             let result: String
-            if leadingUnderscoreRange.isEmpty, trailingUnderscoreRange.isEmpty {
+            if leadingSeparatorRange.isEmpty, trailingSeparatorRange.isEmpty {
                 result = joinedString
-            } else if !leadingUnderscoreRange.isEmpty, !trailingUnderscoreRange.isEmpty {
+            } else if !leadingSeparatorRange.isEmpty, !trailingSeparatorRange.isEmpty {
                 // Both leading and trailing underscores
-                result = String(stringKey[leadingUnderscoreRange]) + joinedString + String(stringKey[trailingUnderscoreRange])
-            } else if !leadingUnderscoreRange.isEmpty {
+                result = String(stringKey[leadingSeparatorRange]) + joinedString + String(stringKey[trailingSeparatorRange])
+            } else if !leadingSeparatorRange.isEmpty {
                 // Just leading
-                result = String(stringKey[leadingUnderscoreRange]) + joinedString
+                result = String(stringKey[leadingSeparatorRange]) + joinedString
             } else {
                 // Just trailing
-                result = joinedString + String(stringKey[trailingUnderscoreRange])
+                result = joinedString + String(stringKey[trailingSeparatorRange])
             }
             return result
         }
