@@ -90,10 +90,13 @@
 		D15904CC2279D266006C9BBF /* ElementNameTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15904CB2279D266006C9BBF /* ElementNameTest.swift */; };
 		D162674321F9B2AF0056D1D8 /* OptionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D162674121F9B2850056D1D8 /* OptionalTests.swift */; };
 		D1761D1F2247F04500F53CEF /* DynamicNodeDecodingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1761D1E2247F04500F53CEF /* DynamicNodeDecodingTest.swift */; };
-		D1A3D4AD227AD9BF00F28969 /* KeyDecodingStrategyTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A3D4AB227AD9BC00F28969 /* KeyDecodingStrategyTest.swift */; };
+		D1A3D4AD227AD9BF00F28969 /* KeyDecodingAndEncodingStrategyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A3D4AB227AD9BC00F28969 /* KeyDecodingAndEncodingStrategyTests.swift */; };
 		D1AC9466224E3E63004AB49B /* AttributedEnumIntrinsicTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AC9464224E3E1F004AB49B /* AttributedEnumIntrinsicTest.swift */; };
+		D1B6A2C22297EF6F005B8A6E /* BorderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B6A2C02297EF5A005B8A6E /* BorderTest.swift */; };
+		D1CAD3622293FAB80077901D /* MixedContainerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CAD3612293FAB80077901D /* MixedContainerTest.swift */; };
 		D1CB1EF521EA9599009CAF02 /* RJITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_37 /* RJITest.swift */; };
 		D1CFC8242226B13F00B03222 /* NamespaceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CFC8222226AFB400B03222 /* NamespaceTest.swift */; };
+		D1D50D3122942EAE007098FC /* NestingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D50D3022942EAE007098FC /* NestingTests.swift */; };
 		D1E0C85321D8E65E0042A261 /* ErrorContextTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E0C85121D8E6540042A261 /* ErrorContextTest.swift */; };
 		D1E0C85521D91EBF0042A261 /* Metatypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E0C85421D91EBF0042A261 /* Metatypes.swift */; };
 		D1EC3E62225A32F500C610E3 /* BoxTreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EC3E61225A32F500C610E3 /* BoxTreeTests.swift */; };
@@ -213,9 +216,12 @@
 		D15904CB2279D266006C9BBF /* ElementNameTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementNameTest.swift; sourceTree = "<group>"; };
 		D162674121F9B2850056D1D8 /* OptionalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalTests.swift; sourceTree = "<group>"; };
 		D1761D1E2247F04500F53CEF /* DynamicNodeDecodingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicNodeDecodingTest.swift; sourceTree = "<group>"; };
-		D1A3D4AB227AD9BC00F28969 /* KeyDecodingStrategyTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyDecodingStrategyTest.swift; sourceTree = "<group>"; };
+		D1A3D4AB227AD9BC00F28969 /* KeyDecodingAndEncodingStrategyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyDecodingAndEncodingStrategyTests.swift; sourceTree = "<group>"; };
 		D1AC9464224E3E1F004AB49B /* AttributedEnumIntrinsicTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedEnumIntrinsicTest.swift; sourceTree = "<group>"; };
+		D1B6A2C02297EF5A005B8A6E /* BorderTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderTest.swift; sourceTree = "<group>"; };
+		D1CAD3612293FAB80077901D /* MixedContainerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedContainerTest.swift; sourceTree = "<group>"; };
 		D1CFC8222226AFB400B03222 /* NamespaceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamespaceTest.swift; sourceTree = "<group>"; };
+		D1D50D3022942EAE007098FC /* NestingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NestingTests.swift; sourceTree = "<group>"; };
 		D1E0C85121D8E6540042A261 /* ErrorContextTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorContextTest.swift; sourceTree = "<group>"; };
 		D1E0C85421D91EBF0042A261 /* Metatypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metatypes.swift; sourceTree = "<group>"; };
 		D1EC3E61225A32F500C610E3 /* BoxTreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxTreeTests.swift; sourceTree = "<group>"; };
@@ -394,6 +400,7 @@
 				B3B6902D220A71DF0084D407 /* AttributedIntrinsicTest.swift */,
 				BF63EF1D21CEC99A001D38C5 /* BenchmarkTests.swift */,
 				OBJ_28 /* BooksTest.swift */,
+				D1B6A2C02297EF5A005B8A6E /* BorderTest.swift */,
 				OBJ_29 /* BreakfastTest.swift */,
 				OBJ_30 /* CDCatalog.swift */,
 				OBJ_31 /* CDTest.swift */,
@@ -403,6 +410,7 @@
 				B3BE1D602202C1F600259831 /* DynamicNodeEncodingTest.swift */,
 				D1E0C85121D8E6540042A261 /* ErrorContextTest.swift */,
 				D1CFC8222226AFB400B03222 /* NamespaceTest.swift */,
+				D1D50D3022942EAE007098FC /* NestingTests.swift */,
 				OBJ_33 /* NodeEncodingStrategyTests.swift */,
 				OBJ_34 /* NoteTest.swift */,
 				OBJ_35 /* PlantCatalog.swift */,
@@ -412,6 +420,8 @@
 				OBJ_37 /* RJITest.swift */,
 				D14D8A8521F1D6B300B0D31A /* SingleChildTests.swift */,
 				D11815BF227788BA008836E4 /* SpacePreserveTest.swift */,
+				D1A3D4AB227AD9BC00F28969 /* KeyDecodingAndEncodingStrategyTests.swift */,
+				D1CAD3612293FAB80077901D /* MixedContainerTest.swift */,
 				D15904CB2279D266006C9BBF /* ElementNameTest.swift */,
 				D1A3D4AB227AD9BC00F28969 /* KeyDecodingStrategyTest.swift */,
 			);
@@ -649,6 +659,7 @@
 				BF9457F221CBB6BC005ACFDE /* UnkeyedTests.swift in Sources */,
 				A61FE03C21E4EAB10015D993 /* KeyedIntTests.swift in Sources */,
 				BF9457F321CBB6BC005ACFDE /* DateTests.swift in Sources */,
+				D1D50D3122942EAE007098FC /* NestingTests.swift in Sources */,
 				BF9457D121CBB516005ACFDE /* UnkeyedBoxTests.swift in Sources */,
 				BF63EF6921D0FDB5001D38C5 /* XMLHeaderTests.swift in Sources */,
 				BF9457F021CBB6BC005ACFDE /* StringTests.swift in Sources */,
@@ -675,11 +686,12 @@
 				BF9457CF21CBB516005ACFDE /* IntBoxTests.swift in Sources */,
 				BF9457E021CBB68A005ACFDE /* DataBoxTests.swift in Sources */,
 				D162674321F9B2AF0056D1D8 /* OptionalTests.swift in Sources */,
-				D1A3D4AD227AD9BF00F28969 /* KeyDecodingStrategyTest.swift in Sources */,
+				D1A3D4AD227AD9BF00F28969 /* KeyDecodingAndEncodingStrategyTests.swift in Sources */,
 				BF9457F521CBB6BC005ACFDE /* DecimalTests.swift in Sources */,
 				OBJ_83 /* CDTest.swift in Sources */,
 				BF63EF6721D0F874001D38C5 /* XMLKeyTests.swift in Sources */,
 				OBJ_85 /* NodeEncodingStrategyTests.swift in Sources */,
+				D1B6A2C22297EF6F005B8A6E /* BorderTest.swift in Sources */,
 				OBJ_86 /* NoteTest.swift in Sources */,
 				BF63EF0C21CD7F28001D38C5 /* EmptyTests.swift in Sources */,
 				B34B3C08220381AC00BCBA30 /* String+ExtensionsTests.swift in Sources */,
@@ -700,6 +712,7 @@
 				D1E0C85321D8E65E0042A261 /* ErrorContextTest.swift in Sources */,
 				D1CB1EF521EA9599009CAF02 /* RJITest.swift in Sources */,
 				BF9457F421CBB6BC005ACFDE /* UIntTests.swift in Sources */,
+				D1CAD3622293FAB80077901D /* MixedContainerTest.swift in Sources */,
 				BF9457F121CBB6BC005ACFDE /* FloatTests.swift in Sources */,
 				BF8171D021D3B1BD00901EB0 /* DecodingContainerTests.swift in Sources */,
 				BF9457EF21CBB6BC005ACFDE /* NullTests.swift in Sources */,
@@ -729,7 +742,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 0.4.1;
+				CURRENT_PROJECT_VERSION = 0.5.1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = YES;
@@ -759,7 +772,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 0.4.1;
+				CURRENT_PROJECT_VERSION = 0.5.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_OPTIMIZATION_LEVEL = s;

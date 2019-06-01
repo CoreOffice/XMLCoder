@@ -21,7 +21,7 @@ extension StringProtocol where Self.Index == String.Index {
 
 extension StringProtocol {
     func capitalizingFirstLetter() -> Self {
-        guard count > 1 else {
+        guard !isEmpty else {
             return self
         }
         return Self(prefix(1).uppercased() + dropFirst())!

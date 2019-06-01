@@ -12,7 +12,7 @@ class SharedBox<Unboxed: Box> {
         unboxed = wrapped
     }
 
-    func withShared<Result>(_ body: (inout Unboxed) throws -> Result) rethrows -> Result {
+    func withShared<T>(_ body: (inout Unboxed) throws -> T) rethrows -> T {
         return try body(&unboxed)
     }
 }

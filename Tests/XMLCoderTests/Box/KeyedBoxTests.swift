@@ -25,11 +25,11 @@ class KeyedBoxTests: XCTestCase {
         let (elements, attributes) = box.unboxed
 
         XCTAssertEqual(elements.count, 2)
-        XCTAssertEqual(elements["foo"] as? StringBox, StringBox("bar"))
-        XCTAssertEqual(elements["baz"] as? IntBox, IntBox(42))
+        XCTAssertEqual(elements["foo"].first as? StringBox, StringBox("bar"))
+        XCTAssertEqual(elements["baz"].first as? IntBox, IntBox(42))
 
         XCTAssertEqual(attributes.count, 1)
-        XCTAssertEqual(attributes["baz"] as? StringBox, StringBox("blee"))
+        XCTAssertEqual(attributes["baz"].first as? StringBox, StringBox("blee"))
     }
 
     func testXMLString() {
@@ -57,8 +57,8 @@ class KeyedBoxTests: XCTestCase {
             elements: elements,
             attributes: [("baz", StringBox("blee"))]
         )
-        box.elements["bar"] = NullBox()
+        box.elements.append(NullBox(), at: "bar")
         XCTAssertEqual(box.elements.count, 3)
-        XCTAssertEqual(box.elements["bar"] as? NullBox, NullBox())
+        XCTAssertEqual(box.elements["bar"].first as? NullBox, NullBox())
     }
 }

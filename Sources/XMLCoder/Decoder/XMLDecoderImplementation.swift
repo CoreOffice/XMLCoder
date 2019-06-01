@@ -71,7 +71,7 @@ class XMLDecoderImplementation: Decoder {
     }
 
     public func container<Key>(
-        keyedBy _: Key.Type
+        keyedBy keyType: Key.Type
     ) throws -> KeyedDecodingContainer<Key> {
         let topContainer = try self.topContainer()
 
@@ -100,8 +100,17 @@ class XMLDecoderImplementation: Decoder {
                 referencing: self,
                 wrapping: keyed
             ))
+        case let unkeyed as SharedBox<UnkeyedBox>:
+            guard let keyed = unkeyed.withShared({ $0.first }) as? KeyedBox else {
+                fallthrough
+            }
+
+            return KeyedDecodingContainer(XMLKeyedDecodingContainer<Key>(
+                referencing: self,
+                wrapping: SharedBox(keyed)
+            ))
         default:
-            throw DecodingError._typeMismatch(
+            throw DecodingError.typeMismatch(
                 at: codingPath,
                 expectation: [String: Any].self,
                 reality: topContainer
@@ -125,10 +134,20 @@ class XMLDecoderImplementation: Decoder {
             )
         }
 
-        let unkeyed = (topContainer as? SharedBox<UnkeyedBox>) ??
-            SharedBox(UnkeyedBox([topContainer]))
+        switch topContainer {
+        case let unkeyed as SharedBox<UnkeyedBox>:
+            return XMLUnkeyedDecodingContainer(referencing: self, wrapping: unkeyed)
+        case let keyed as SharedBox<KeyedBox>:
+            guard let firstKey = keyed.withShared({ $0.elements.keys.first }) else { fallthrough }
 
-        return XMLUnkeyedDecodingContainer(referencing: self, wrapping: unkeyed)
+            return XMLUnkeyedDecodingContainer(referencing: self, wrapping: SharedBox(keyed.withShared { $0.elements[firstKey] }))
+        default:
+            throw DecodingError.typeMismatch(
+                at: codingPath,
+                expectation: [Any].self,
+                reality: topContainer
+            )
+        }
     }
 
     public func singleValueContainer() throws -> SingleValueDecodingContainer {
@@ -140,32 +159,33 @@ class XMLDecoderImplementation: Decoder {
 
 extension XMLDecoderImplementation {
     /// Returns the given box unboxed from a container.
-
     private func typedBox<T, B: Box>(_ box: Box, for valueType: T.Type) throws -> B {
+        let error = DecodingError.valueNotFound(valueType, DecodingError.Context(
+            codingPath: codingPath,
+            debugDescription: "Expected \(valueType) but found null instead."
+        ))
         switch box {
         case let typedBox as B:
             return typedBox
+        case let unkeyedBox as SharedBox<UnkeyedBox>:
+            guard let value = unkeyedBox.withShared({
+                $0.first as? B
+            }) else { throw error }
+            return value
         case let keyedBox as SharedBox<KeyedBox>:
             guard
-                let value = keyedBox.withShared({ $0.elements["value"] as? B })
-            else {
-                fallthrough
-            }
+                let value = keyedBox.withShared({ $0.value as? B })
+            else { throw error }
             return value
         case is NullBox:
-            throw DecodingError.valueNotFound(valueType, DecodingError.Context(
-                codingPath: codingPath,
-                debugDescription: "Expected \(valueType) but found null instead."
-            ))
+            throw error
         case let keyedBox as KeyedBox:
             guard
-                let value = keyedBox.elements["value"] as? B
-            else {
-                fallthrough
-            }
+                let value = keyedBox.value as? B
+            else { fallthrough }
             return value
         default:
-            throw DecodingError._typeMismatch(
+            throw DecodingError.typeMismatch(
                 at: codingPath,
                 expectation: valueType,
                 reality: box
@@ -178,7 +198,7 @@ extension XMLDecoderImplementation {
         let string = stringBox.unboxed
 
         guard let boolBox = BoolBox(xmlString: string) else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: Bool.self, reality: box)
+            throw DecodingError.typeMismatch(at: codingPath, expectation: Bool.self, reality: box)
         }
 
         return boolBox.unboxed
@@ -189,7 +209,7 @@ extension XMLDecoderImplementation {
         let string = stringBox.unboxed
 
         guard let decimalBox = DecimalBox(xmlString: string) else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: Decimal.self, reality: box)
+            throw DecodingError.typeMismatch(at: codingPath, expectation: Decimal.self, reality: box)
         }
 
         return decimalBox.unboxed
@@ -200,7 +220,7 @@ extension XMLDecoderImplementation {
         let string = stringBox.unboxed
 
         guard let intBox = IntBox(xmlString: string) else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: T.self, reality: box)
+            throw DecodingError.typeMismatch(at: codingPath, expectation: T.self, reality: box)
         }
 
         guard let int: T = intBox.unbox() else {
@@ -218,7 +238,7 @@ extension XMLDecoderImplementation {
         let string = stringBox.unboxed
 
         guard let uintBox = UIntBox(xmlString: string) else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: T.self, reality: box)
+            throw DecodingError.typeMismatch(at: codingPath, expectation: T.self, reality: box)
         }
 
         guard let uint: T = uintBox.unbox() else {
@@ -236,7 +256,7 @@ extension XMLDecoderImplementation {
         let string = stringBox.unboxed
 
         guard let floatBox = FloatBox(xmlString: string) else {
-            throw DecodingError._typeMismatch(at: codingPath, expectation: T.self, reality: box)
+            throw DecodingError.typeMismatch(at: codingPath, expectation: T.self, reality: box)
         }
 
         guard let float: T = floatBox.unbox() else {
@@ -352,8 +372,6 @@ extension XMLDecoderImplementation {
         return urlBox.unboxed
     }
 
-    private struct TypeMismatch: Error {}
-
     func unbox<T: Decodable>(_ box: Box) throws -> T {
         let decoded: T?
         let type = T.self
@@ -376,7 +394,9 @@ extension XMLDecoderImplementation {
             decoded = value
         } else {
             storage.push(container: box)
-            defer { storage.popContainer() }
+            defer {
+                storage.popContainer()
+            }
 
             do {
                 decoded = try type.init(from: self)
@@ -392,7 +412,7 @@ extension XMLDecoderImplementation {
         }
 
         guard let result = decoded else {
-            throw DecodingError._typeMismatch(
+            throw DecodingError.typeMismatch(
                 at: codingPath, expectation: type, reality: box
             )
         }
