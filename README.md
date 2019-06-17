@@ -240,8 +240,7 @@ target 'YourApp' do
   use_frameworks!
 
   # Pods for Test
-  pod 'XMLCoder', '~> 0.5.1'
-
+  pod 'XMLCoder', '~> 0.6.0'
 end
 ```
 
@@ -269,7 +268,7 @@ $ brew install carthage
 Inside of your `Cartfile`, add GitHub path to `XMLCoder`:
 
 ```ogdl
-github "MaxDesiatov/XMLCoder" ~> 0.5.1
+github "MaxDesiatov/XMLCoder" ~> 0.6.0
 ```
 
 Then, run the following command to build the framework:
@@ -292,7 +291,7 @@ easy as adding it to the `dependencies` value of your `Package.swift`.
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.5.1")
+    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.6.0")
 ]
 ```
 

@@ -1,3 +1,15 @@
+#  0.6.0 (June 17, 2019)
+
+An improvement release that introduces `convertFromKebabCase` and
+`convertToKebabCase` key decoding strategies. Thanks to [Andrés Cecilia
+Luque](https://github.com/acecilia) for the contribution!
+
+## Merged pull requests
+
+- Add support for kebab-case KeyDecodingStrategy
+  [\#105](https://github.com/MaxDesiatov/XMLCoder/pull/105)
+  ([acecilia](https://github.com/acecilia))
+
 #  0.5.1 (May 2, 2019)
 
 Bugfix release that restores decoding of empty sequences, which became broken in
