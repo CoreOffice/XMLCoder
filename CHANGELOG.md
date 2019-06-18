@@ -1,14 +1,24 @@
 #  0.6.0 (June 17, 2019)
 
 An improvement release that introduces `convertFromKebabCase` and
-`convertToKebabCase` key decoding strategies. Thanks to [Andrés Cecilia
-Luque](https://github.com/acecilia) for the contribution!
+`convertToKebabCase` key decoding strategies. There were a few changes that
+aren't visible to end-users: the way that keys and values are stored internally
+has changed and a few more tests added. Thanks to [Andrés Cecilia
+Luque](https://github.com/acecilia) and [Vincent
+Esche](https://github.com/regexident) for the contributions!
 
 ## Merged pull requests
 
 - Add support for kebab-case KeyDecodingStrategy
   [\#105](https://github.com/MaxDesiatov/XMLCoder/pull/105)
   ([acecilia](https://github.com/acecilia))
+- Add support for kebab-case KeyDecodingStrategy
+  [\#102](https://github.com/MaxDesiatov/XMLCoder/pull/102)
+  ([MaxDesiatov](https://github.com/MaxDesiatov))
+- Add tests for nested keyed/unkeyed collections
+  [\#38](https://github.com/MaxDesiatov/XMLCoder/pull/38)
+  ([regexident](https://github.com/regexident))
+  
 
 #  0.5.1 (May 2, 2019)
 
