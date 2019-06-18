@@ -12,7 +12,7 @@ Esche](https://github.com/regexident) for the contributions!
 - Add support for kebab-case KeyDecodingStrategy
   [\#105](https://github.com/MaxDesiatov/XMLCoder/pull/105)
   ([acecilia](https://github.com/acecilia))
-- Add support for kebab-case KeyDecodingStrategy
+- Replace UnkeyedBox with Array, refine KeyedStorage
   [\#102](https://github.com/MaxDesiatov/XMLCoder/pull/102)
   ([MaxDesiatov](https://github.com/MaxDesiatov))
 - Add tests for nested keyed/unkeyed collections
