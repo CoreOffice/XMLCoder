@@ -204,7 +204,7 @@ open class XMLDecoder {
             let leadingSeparatorRange = stringKey.startIndex..<firstNonSeparator
             let trailingSeparatorRange = stringKey.index(after: lastNonSeparator)..<stringKey.endIndex
 
-            var components = stringKey[keyRange].split(separator: separator)
+            let components = stringKey[keyRange].split(separator: separator)
             let joinedString: String
             if components.count == 1 {
                 // No separators in key, leave the word as is - maybe it is already good
