@@ -12,14 +12,18 @@ import XCTest
 private let libraryXMLYN = """
 <?xml version="1.0" encoding="UTF-8"?>
 <library count="2">
-    <book id="123">
+    <book id="123" author="Jack" gender="novel">
         <id>123</id>
+        <author>Jack</author>
+        <gender>novel</gender>
         <title>Cat in the Hat</title>
         <category main="Y"><value>Kids</value></category>
         <category main="N"><value>Wildlife</value></category>
     </book>
-    <book id="456">
+    <book id="456" author="Susan" gender="fantastic">
         <id>456</id>
+        <author>Susan</author>
+        <gender>fantastic</gender>
         <title>1984</title>
         <category main="Y"><value>Classics</value></category>
         <category main="N"><value>News</value></category>
@@ -33,6 +37,8 @@ private let libraryXMLYNStrategy = """
     <count>2</count>
     <book title="Cat in the Hat">
         <id>123</id>
+        <author>Jack</author>
+        <gender>novel</gender>
         <category>
             <main>true</main>
             <value>Kids</value>
@@ -44,6 +50,8 @@ private let libraryXMLYNStrategy = """
     </book>
     <book title="1984">
         <id>456</id>
+        <author>Susan</author>
+        <gender>fantastic</gender>
         <category>
             <main>true</main>
             <value>Classics</value>
@@ -60,8 +68,10 @@ private let libraryXMLTrueFalse = """
 <?xml version="1.0" encoding="UTF-8"?>
 <library>
     <count>2</count>
-    <book id="123">
+    <book id="123" author="Jack" gender="novel">
         <id>123</id>
+        <author>Jack</author>
+        <gender>novel</gender>
         <title>Cat in the Hat</title>
         <category main="true">
             <value>Kids</value>
@@ -70,8 +80,10 @@ private let libraryXMLTrueFalse = """
             <value>Wildlife</value>
         </category>
     </book>
-    <book id="456">
+    <book id="456" author="Susan" gender="fantastic">
         <id>456</id>
+        <author>Susan</author>
+        <gender>fantastic</gender>
         <title>1984</title>
         <category main="true">
             <value>Classics</value>
@@ -95,18 +107,22 @@ private struct Library: Codable, Equatable {
 
 private struct Book: Codable, Equatable, DynamicNodeEncoding {
     let id: UInt
+    let author: String
+    let gender: String
     let title: String
     let categories: [Category]
 
     enum CodingKeys: String, CodingKey {
         case id
+        case author
+        case gender
         case title
         case categories = "category"
     }
 
     static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
         switch key {
-        case Book.CodingKeys.id: return .both
+        case Book.CodingKeys.id, Book.CodingKeys.author, Book.CodingKeys.gender: return .both
         default: return .element
         }
     }
@@ -135,6 +151,8 @@ final class DynamicNodeEncodingTest: XCTestCase {
     func testEncode() throws {
         let book1 = Book(
             id: 123,
+            author: "Jack",
+            gender: "novel",
             title: "Cat in the Hat",
             categories: [
                 Category(main: true, value: "Kids"),
@@ -144,6 +162,8 @@ final class DynamicNodeEncodingTest: XCTestCase {
 
         let book2 = Book(
             id: 456,
+            author: "Susan",
+            gender: "fantastic",
             title: "1984",
             categories: [
                 Category(main: true, value: "Classics"),
