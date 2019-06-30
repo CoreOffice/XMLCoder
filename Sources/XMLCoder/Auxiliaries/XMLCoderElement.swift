@@ -7,6 +7,11 @@
 
 import Foundation
 
+struct Attribute: Equatable {
+    let key: String
+    let value: String
+}
+
 struct XMLCoderElement: Equatable {
     static let attributesKey = "___ATTRIBUTES"
     static let escapedCharacterSet = [
@@ -20,13 +25,13 @@ struct XMLCoderElement: Equatable {
     var key: String
     var value: String?
     var elements: [XMLCoderElement] = []
-    var attributes: [String: String] = [:]
+    var attributes: [Attribute] = []
 
     init(
         key: String,
         value: String? = nil,
         elements: [XMLCoderElement] = [],
-        attributes: [String: String] = [:]
+        attributes: [Attribute] = []
     ) {
         self.key = key
         self.value = value
@@ -47,8 +52,8 @@ struct XMLCoderElement: Equatable {
     }
 
     func transformToBoxTree() -> KeyedBox {
-        let attributes = KeyedStorage(self.attributes.map { key, value in
-            (key: key, value: StringBox(value) as SimpleBox)
+        let attributes = KeyedStorage(self.attributes.map { attribute in
+            (key: attribute.key, value: StringBox(attribute.value) as SimpleBox)
         })
         let storage = KeyedStorage<String, Box>()
         var elements = self.elements.reduce(storage) { $0.merge(element: $1) }
@@ -125,11 +130,11 @@ struct XMLCoderElement: Equatable {
     }
 
     fileprivate func formatXMLAttributes(
-        from keyValuePairs: [(key: String, value: String)],
+        from attributes: [Attribute],
         into string: inout String
     ) {
-        for (key, value) in keyValuePairs {
-            string += attributeString(key: key, value: value)
+        for attribute in attributes {
+            string += attributeString(key: attribute.key, value: attribute.value)
         }
     }
 
@@ -157,9 +162,7 @@ struct XMLCoderElement: Equatable {
     }
 
     fileprivate func formatUnsortedXMLAttributes(_ string: inout String) {
-        formatXMLAttributes(
-            from: attributes.map { (key: $0, value: $1) }, into: &string
-        )
+        formatXMLAttributes(from: attributes, into: &string)
     }
 
     private func formatXMLAttributes(
@@ -278,14 +281,12 @@ extension XMLCoderElement {
             }
         }
 
-        let attributes: [String: String] = Dictionary(
-            uniqueKeysWithValues: box.attributes.compactMap { key, box in
-                guard let value = box.xmlString() else {
-                    return nil
-                }
-                return (key, value)
+        let attributes: [Attribute] = box.attributes.compactMap { key, box in
+            guard let value = box.xmlString() else {
+                return nil
             }
-        )
+            return Attribute(key: key, value: value)
+        }
 
         self.init(key: key, elements: elements, attributes: attributes)
     }

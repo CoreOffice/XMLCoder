@@ -15,7 +15,7 @@ class XMLElementTests: XCTestCase {
         XCTAssertEqual(null.key, "foo")
         XCTAssertNil(null.value)
         XCTAssertEqual(null.elements, [])
-        XCTAssertEqual(null.attributes, [:])
+        XCTAssertEqual(null.attributes, [])
     }
 
     func testInitUnkeyed() {
@@ -24,7 +24,7 @@ class XMLElementTests: XCTestCase {
         XCTAssertEqual(keyed.key, "foo")
         XCTAssertNil(keyed.value)
         XCTAssertEqual(keyed.elements, [])
-        XCTAssertEqual(keyed.attributes, [:])
+        XCTAssertEqual(keyed.attributes, [])
     }
 
     func testInitKeyed() {
@@ -36,7 +36,7 @@ class XMLElementTests: XCTestCase {
         XCTAssertEqual(keyed.key, "foo")
         XCTAssertNil(keyed.value)
         XCTAssertEqual(keyed.elements, [])
-        XCTAssertEqual(keyed.attributes, ["blee": "42"])
+        XCTAssertEqual(keyed.attributes, [Attribute(key: "blee", value: "42")])
     }
 
     func testInitSimple() {
@@ -45,6 +45,6 @@ class XMLElementTests: XCTestCase {
         XCTAssertEqual(keyed.key, "foo")
         XCTAssertEqual(keyed.value, "bar")
         XCTAssertEqual(keyed.elements, [])
-        XCTAssertEqual(keyed.attributes, [:])
+        XCTAssertEqual(keyed.attributes, [])
     }
 }
