@@ -126,7 +126,10 @@ extension XMLStackParser: XMLParserDelegate {
                 namespaceURI: String?,
                 qualifiedName: String?,
                 attributes attributeDict: [String: String] = [:]) {
-        let element = XMLCoderElement(key: elementName, attributes: attributeDict)
+        let attributes = attributeDict.map { key, value in
+            Attribute(key: key, value: value)
+        }
+        let element = XMLCoderElement(key: elementName, attributes: attributes)
         stack.append(element)
     }
 

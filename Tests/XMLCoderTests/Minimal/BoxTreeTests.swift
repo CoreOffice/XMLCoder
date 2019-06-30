@@ -14,19 +14,19 @@ class BoxTreeTests: XCTestCase {
             key: "foo",
             value: "456",
             elements: [],
-            attributes: ["id": "123"]
+            attributes: [Attribute(key: "id", value: "123")]
         )
         let e2 = XMLCoderElement(
             key: "foo",
             value: "123",
             elements: [],
-            attributes: ["id": "789"]
+            attributes: [Attribute(key: "id", value: "789")]
         )
         let root = XMLCoderElement(
             key: "container",
             value: nil,
             elements: [e1, e2],
-            attributes: [:]
+            attributes: []
         )
 
         let boxTree = root.transformToBoxTree()
