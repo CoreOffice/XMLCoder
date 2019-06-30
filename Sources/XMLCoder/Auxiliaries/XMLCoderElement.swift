@@ -13,8 +13,8 @@ struct Attribute: Equatable {
 }
 
 struct XMLCoderElement: Equatable {
-    static let attributesKey = "___ATTRIBUTES"
-    static let escapedCharacterSet = [
+    private static let attributesKey = "___ATTRIBUTES"
+    private static let escapedCharacterSet = [
         ("&", "&amp;"),
         ("<", "&lt;"),
         (">", "&gt;"),
@@ -22,10 +22,10 @@ struct XMLCoderElement: Equatable {
         ("\"", "&quot;"),
     ]
 
-    var key: String
-    var value: String?
-    var elements: [XMLCoderElement] = []
-    var attributes: [Attribute] = []
+    let key: String
+    private(set) var value: String?
+    private(set) var elements: [XMLCoderElement] = []
+    private(set) var attributes: [Attribute] = []
 
     init(
         key: String,
