@@ -6,7 +6,6 @@ set -o pipefail
 sudo xcode-select --switch /Applications/$1.app/Contents/Developer
 
 xcodebuild -version
-carthage bootstrap
 xcodebuild build -scheme XMLCoder \
   -sdk iphonesimulator -destination "$IOS_DEVICE" | xcpretty
 xcodebuild build -scheme XMLCoder \
