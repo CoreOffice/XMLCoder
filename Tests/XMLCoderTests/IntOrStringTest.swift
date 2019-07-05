@@ -71,13 +71,13 @@ private enum IntOrString: Equatable, Codable {
 }
 
 final class IntOrStringTest: XCTestCase {
+
+    private let string = IntOrStringContaining(element: IntOrString.string("forty-two"))
+    private let int = IntOrStringContaining(element: IntOrString.int(42))
+    
     func testEncode() throws {
         let encoder = XMLEncoder()
         encoder.outputFormatting = []
-        
-        let string = IntOrStringContaining(element: IntOrString.string("forty-two"))
-        let int = IntOrStringContaining(element: IntOrString.int(42))
-
         
         let header = XMLHeader(version: 1.0, encoding: "UTF-8")
         let encodedString = try encoder.encode(string, withRootKey: "container", header: header)
@@ -92,6 +92,14 @@ final class IntOrStringTest: XCTestCase {
         let originalIntXML = String(data: intXML, encoding: .utf8)!.trimmingCharacters(in: .whitespacesAndNewlines)
         XCTAssertEqual(encodedStringXML, originalStringXML)
         XCTAssertEqual(encodedIntXML, originalIntXML)
+    }
+    
+    func testDecode() throws {
+        let decoder = XMLDecoder()
+        let decodedString = try decoder.decode(IntOrStringContaining.self, from: stringXML)
+        let decodedInt = try decoder.decode(IntOrStringContaining.self, from: intXML)
+        XCTAssertEqual(string, decodedString)
+        XCTAssertEqual(int, decodedInt)
     }
     
     static var allTests = [
