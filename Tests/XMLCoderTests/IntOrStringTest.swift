@@ -17,6 +17,13 @@ let intXML = """
 <container><int>42</int></container>
 """.data(using: .utf8)!
 
+private struct IntOrStringArray: Equatable, Codable {
+    let element: [IntOrString]
+    
+    public func encode(to encoder: Encoder) throws {
+        try element.forEach { try $0.encode(to: encoder) }
+    }
+}
 
 private struct IntOrStringContaining: Equatable, Codable {
     let element: IntOrString
@@ -74,6 +81,7 @@ final class IntOrStringTest: XCTestCase {
 
     private let string = IntOrStringContaining(element: IntOrString.string("forty-two"))
     private let int = IntOrStringContaining(element: IntOrString.int(42))
+    private let array = IntOrStringArray(element: [.string("forty-two"), .int(42)])
     
     func testEncode() throws {
         let encoder = XMLEncoder()
@@ -100,6 +108,17 @@ final class IntOrStringTest: XCTestCase {
         let decodedInt = try decoder.decode(IntOrStringContaining.self, from: intXML)
         XCTAssertEqual(string, decodedString)
         XCTAssertEqual(int, decodedInt)
+    }
+    
+    func testArray() throws {
+        let encoder = XMLEncoder()
+        
+        let header = XMLHeader(version: 1.0, encoding: "UTF-8")
+        let encodedArray = try encoder.encode(array, withRootKey: "container", header: header)
+        
+        let arrayXMLString = String(data: encodedArray, encoding: .utf8)
+        
+        print(arrayXMLString)
     }
     
     static var allTests = [
