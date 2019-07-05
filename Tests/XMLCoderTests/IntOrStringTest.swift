@@ -104,5 +104,6 @@ final class IntOrStringTest: XCTestCase {
     
     static var allTests = [
         ("testEncode", testEncode),
+        ("testDecode", testDecode),
     ]
 }
