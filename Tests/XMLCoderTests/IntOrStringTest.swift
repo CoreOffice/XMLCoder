@@ -12,6 +12,11 @@ let stringXML = """
 <?xml version="1.0" encoding="UTF-8"?>
 <container><string>forty-two</string></container>
 """.data(using: .utf8)!
+let intXML = """
+<?xml version="1.0" encoding="UTF-8"?>
+<container><int>42</int></container>
+""".data(using: .utf8)!
+
 
 private struct IntOrStringContaining: Equatable, Codable {
     let element: IntOrString
@@ -70,16 +75,23 @@ final class IntOrStringTest: XCTestCase {
         let encoder = XMLEncoder()
         encoder.outputFormatting = []
         
-        let foo1 = IntOrStringContaining(element: IntOrString.string("forty-two"))
+        let string = IntOrStringContaining(element: IntOrString.string("forty-two"))
+        let int = IntOrStringContaining(element: IntOrString.int(42))
+
         
         let header = XMLHeader(version: 1.0, encoding: "UTF-8")
-        let encoded = try encoder.encode(foo1, withRootKey: "container", header: header)
-        let xmlString = String(data: encoded, encoding: .utf8)
-        XCTAssertNotNil(xmlString)
+        let encodedString = try encoder.encode(string, withRootKey: "container", header: header)
+        let encodedInt = try encoder.encode(int, withRootKey: "container", header: header)
+        let stringXMLString = String(data: encodedString, encoding: .utf8)
+        let intXMLString = String(data: encodedInt, encoding: .utf8)
+
         // Test string equivalency
-        let encodedXML = xmlString!.trimmingCharacters(in: .whitespacesAndNewlines)
-        let originalXML = String(data: stringXML, encoding: .utf8)!.trimmingCharacters(in: .whitespacesAndNewlines)
-        XCTAssertEqual(encodedXML, originalXML)
+        let encodedStringXML = stringXMLString!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let encodedIntXML = intXMLString!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let originalStringXML = String(data: stringXML, encoding: .utf8)!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let originalIntXML = String(data: intXML, encoding: .utf8)!.trimmingCharacters(in: .whitespacesAndNewlines)
+        XCTAssertEqual(encodedStringXML, originalStringXML)
+        XCTAssertEqual(encodedIntXML, originalIntXML)
     }
     
     static var allTests = [
