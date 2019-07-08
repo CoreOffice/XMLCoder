@@ -1,7 +1,7 @@
 # XMLCoder
 Encoder &amp; Decoder for XML using Swift's `Codable` protocols.
 
-[![CI Status](https://img.shields.io/travis/MaxDesiatov/XMLCoder/master.svg?style=flat)](https://travis-ci.org/MaxDesiatov/XMLCoder)
+[![Build Status](https://dev.azure.com/max0484/max/_apis/build/status/MaxDesiatov.XMLCoder?branchName=master)](https://dev.azure.com/max0484/max/_build/latest?definitionId=4&branchName=master)
 [![Version](https://img.shields.io/cocoapods/v/XMLCoder.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
 [![License](https://img.shields.io/cocoapods/l/XMLCoder.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
 [![Platform](https://img.shields.io/cocoapods/p/XMLCoder.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
@@ -215,6 +215,22 @@ you can now set a property `trimValueWhitespaces` to `false` (the default value 
 - Swift 4.2 or later
 - iOS 9.0 / watchOS 2.0 / tvOS 9.0 / macOS 10.10 or later deployment targets
 
+### Swift Package Manager
+
+[Swift Package Manager](https://swift.org/package-manager/) is a tool for
+managing the distribution of Swift code. It’s integrated with the Swift build
+system to automate the process of downloading, compiling, and linking
+dependencies.
+
+Once you have your Swift package set up, adding `XMLCoder` as a dependency is as
+easy as adding it to the `dependencies` value of your `Package.swift`.
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.7.0")
+]
+```
+
 ### CocoaPods
 
 [CocoaPods](https://cocoapods.org) is a dependency manager for Swift and Objective-C Cocoa projects. You can install it with the following command:
@@ -240,7 +256,7 @@ target 'YourApp' do
   use_frameworks!
 
   # Pods for Test
-  pod 'XMLCoder', '~> 0.6.0'
+  pod 'XMLCoder', '~> 0.7.0'
 end
 ```
 
@@ -268,7 +284,7 @@ $ brew install carthage
 Inside of your `Cartfile`, add GitHub path to `XMLCoder`:
 
 ```ogdl
-github "MaxDesiatov/XMLCoder" ~> 0.6.0
+github "MaxDesiatov/XMLCoder" ~> 0.7.0
 ```
 
 Then, run the following command to build the framework:
@@ -278,22 +294,6 @@ $ carthage update
 ```
 
 Drag the built framework into your Xcode project.
-
-### Swift Package Manager
-
-[Swift Package Manager](https://swift.org/package-manager/) is a tool for
-managing the distribution of Swift code. It’s integrated with the Swift build
-system to automate the process of downloading, compiling, and linking
-dependencies.
-
-Once you have your Swift package set up, adding `XMLCoder` as a dependency is as
-easy as adding it to the `dependencies` value of your `Package.swift`.
-
-```swift
-dependencies: [
-    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.6.0")
-]
-```
 
 ## Contributing
 
