@@ -226,7 +226,9 @@ struct XMLCoderElement: Equatable {
                 string += "</\(key)>"
             }
         } else if !elements.isEmpty {
-            string += prettyPrinted ? ">\n" : ">"
+            if !key.isEmpty {
+                string += prettyPrinted ? ">\n" : ">"
+            }
             formatXMLElements(formatting, &string, level, cdata, prettyPrinted)
 
             string += indentation
