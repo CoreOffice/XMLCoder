@@ -1,3 +1,26 @@
+#  0.7.0 (July 2, 2019)
+
+This release changes the behavior of attributes coding: now order of XML
+attributes is fully preserved. One of the benefits is that it improves unit
+testing for users of XMLCoder, which allows testing against specific encoded
+attributes without accounting for their randomized order. Also a small coding
+style fix is included. In addition, XMLCoder now uses Azure Pipelines instead of
+Travis for CI with great improvements to overall CI stability, speed, and
+parallel builds. Thanks to [Andrés Cecilia Luque](https://github.com/acecilia)
+and [Jay Hickey](https://github.com/jayhickey) for the contributions!
+
+## Merged pull requests
+
+- Change components variable from var to let
+  [\#107](https://github.com/MaxDesiatov/XMLCoder/pull/107)
+  ([jayhickey](https://github.com/jayhickey))
+- Keep the order of the attributes during encoding operations
+  [\#110](https://github.com/MaxDesiatov/XMLCoder/pull/110)
+  ([acecilia](https://github.com/acecilia))
+- Migrate from Travis to Azure Pipelines
+  [\#111](https://github.com/MaxDesiatov/XMLCoder/pull/111)
+  ([MaxDesiatov](https://github.com/MaxDesiatov))
+
 #  0.6.0 (June 17, 2019)
 
 An improvement release that introduces `convertFromKebabCase` and
