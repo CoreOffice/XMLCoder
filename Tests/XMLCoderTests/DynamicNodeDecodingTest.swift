@@ -193,17 +193,16 @@ final class DynamicNodeDecodingTest: XCTestCase {
         let decoder = XMLDecoder()
         decoder.errorContextLength = 10
 
-        decoder.nodeDecodingStrategy = .custom { type, _ in
-            { key in
-                guard
-                    type == Book.self &&
-                    key.stringValue == Book.CodingKeys.title.stringValue
-                else {
-                    return .element
-                }
-
-                return .attribute
+        decoder.nodeDecodingStrategy = .custom { type, _ in { key in
+            guard
+                type == Book.self &&
+                key.stringValue == Book.CodingKeys.title.stringValue
+            else {
+                return .element
             }
+
+            return .attribute
+        }
         }
 
         let library = try decoder.decode(Library.self, from: libraryXMLYNStrategy)

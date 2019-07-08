@@ -258,17 +258,16 @@ final class DynamicNodeEncodingTest: XCTestCase {
 
         let encoder = XMLEncoder()
         encoder.outputFormatting = [.prettyPrinted]
-        encoder.nodeEncodingStrategy = .custom { type, _ in
-            { key in
-                guard
-                    type == [Book].self &&
-                    key.stringValue == Book.CodingKeys.title.stringValue
-                else {
-                    return .element
-                }
-
-                return .attribute
+        encoder.nodeEncodingStrategy = .custom { type, _ in { key in
+            guard
+                type == [Book].self &&
+                key.stringValue == Book.CodingKeys.title.stringValue
+            else {
+                return .element
             }
+
+            return .attribute
+        }
         }
 
         let library = try decoder.decode(Library.self, from: libraryXMLYN)

@@ -24,7 +24,7 @@ let explicitXML = """
 
 private struct IntOrStringArray: Equatable, Codable {
     let element: [IntOrString]
-    
+
     enum CodingKeys: String, CodingKey {
         case element = ""
     }
@@ -36,15 +36,15 @@ private struct IntOrStringExplicitArray: Equatable, Codable {
 
 private struct IntOrStringContaining: Equatable, Codable {
     let element: IntOrString
-    
+
     public func encode(to encoder: Encoder) throws {
         try element.encode(to: encoder)
     }
-    
+
     public init(from decoder: Decoder) throws {
         element = try IntOrString(from: decoder)
     }
-    
+
     public init(element: IntOrString) {
         self.element = element
     }
@@ -55,7 +55,7 @@ private enum IntOrString: Equatable, Codable {
         case string
         case int
     }
-    
+
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         if let value = try values.decodeIfPresent(String.self, forKey: .string) {
@@ -71,7 +71,7 @@ private enum IntOrString: Equatable, Codable {
             ))
         }
     }
-    
+
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
@@ -81,21 +81,20 @@ private enum IntOrString: Equatable, Codable {
             try container.encode(value, forKey: .int)
         }
     }
-    
+
     case string(String)
     case int(Int)
 }
 
 final class IntOrStringTest: XCTestCase {
-
     private let string = IntOrStringContaining(element: IntOrString.string("forty-two"))
     private let int = IntOrStringContaining(element: IntOrString.int(42))
     private let array = IntOrStringArray(element: [.string("forty-two"), .int(42)])
-    
+
     func testEncode() throws {
         let encoder = XMLEncoder()
         encoder.outputFormatting = []
-        
+
         let header = XMLHeader(version: 1.0, encoding: "UTF-8")
         let encodedString = try encoder.encode(string, withRootKey: "container", header: header)
         let encodedInt = try encoder.encode(int, withRootKey: "container", header: header)
@@ -110,7 +109,7 @@ final class IntOrStringTest: XCTestCase {
         XCTAssertEqual(encodedStringXML, originalStringXML)
         XCTAssertEqual(encodedIntXML, originalIntXML)
     }
-    
+
     func testDecode() throws {
         let decoder = XMLDecoder()
         let decodedString = try decoder.decode(IntOrStringContaining.self, from: stringXML)
@@ -118,56 +117,56 @@ final class IntOrStringTest: XCTestCase {
         XCTAssertEqual(string, decodedString)
         XCTAssertEqual(int, decodedInt)
     }
-    
+
     func testEncodeExplicitArray() throws {
         let encoder = XMLEncoder()
-        
+
         let explicitArray = IntOrStringExplicitArray(intOrString: [
             IntOrString.int(42),
-            IntOrString.string("forty-two")
-            ])
-        
+            IntOrString.string("forty-two"),
+        ])
+
         let header = XMLHeader(version: 1.0, encoding: "UTF-8")
         let encodedArray = try encoder.encode(explicitArray, withRootKey: "container", header: header)
 
         let arrayXMLString = String(data: encodedArray, encoding: .utf8)!.trimmingCharacters(in: .whitespacesAndNewlines)
-        
+
         XCTAssertEqual(arrayXMLString, String(data: explicitXML, encoding: .utf8)!.trimmingCharacters(in: .whitespacesAndNewlines))
     }
-    
+
     func testDecodeExplicitArray() throws {
         let decoder = XMLDecoder()
         let decodedExplicit = try decoder.decode(IntOrStringExplicitArray.self, from: explicitXML)
         print(decodedExplicit)
-        
+
         let correct = IntOrStringExplicitArray(intOrString: [
             IntOrString.int(42),
-            IntOrString.string("forty-two")
-            ])
-        
+            IntOrString.string("forty-two"),
+        ])
+
         XCTAssertEqual(correct, decodedExplicit)
     }
-    
+
     func testNonExplicitArray() throws {
         let encoder = XMLEncoder()
-        
+
         let header = XMLHeader(version: 1.0, encoding: "UTF-8")
         let encodedArray = try encoder.encode(array, withRootKey: "container", header: header)
-        
+
         let arrayXMLString = String(data: encodedArray, encoding: .utf8)
-        
+
         print(arrayXMLString)
-        
+
         let decoder = XMLDecoder()
         let decodedStringArray = try decoder.decode(IntOrStringArray.self, from: stringXML)
         print(decodedStringArray)
     }
-    
+
     static var allTests = [
         ("testEncode", testEncode),
         ("testDecode", testDecode),
         ("testEncodeExplicitArray", testEncodeExplicitArray),
         ("testDecodeExplicitArray", testDecodeExplicitArray),
-        ("testNonExplicitArray", testNonExplicitArray)
+        ("testNonExplicitArray", testNonExplicitArray),
     ]
 }

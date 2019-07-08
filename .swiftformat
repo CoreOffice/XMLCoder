@@ -6,4 +6,3 @@
 --operatorfunc nospace
 --ifdef noindent
 --stripunusedargs closure-only
---disable andOperator
