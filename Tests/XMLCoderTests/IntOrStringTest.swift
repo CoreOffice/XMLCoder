@@ -35,20 +35,20 @@ private struct IntOrStringArray: Equatable, Codable {
         case int
         case string
     }
-    
+
     public init(element: [IntOrString]) {
         self.element = element
     }
-    
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let ints = try container.decode([Int].self, forKey: .int)
         let strings = try container.decode([String].self, forKey: .string)
         element = ints.map { IntOrString.int($0) } + strings.map { IntOrString.string($0) }
-        
+
         // does not work for <int></int><string></string><int></int> sequence etc
     }
-    
+
     public func encode(to encoder: Encoder) throws {
         try element.encode(to: encoder)
     }
@@ -113,7 +113,7 @@ private enum IntOrString: Equatable, Codable {
 final class IntOrStringTest: XCTestCase {
     private let string = IntOrStringContaining(element: IntOrString.string("forty-two"))
     private let int = IntOrStringContaining(element: IntOrString.int(42))
-    private let array = IntOrStringArray(element: [ .int(42), .string("forty-two"),])
+    private let array = IntOrStringArray(element: [.int(42), .string("forty-two")])
 
     func testEncode() throws {
         let encoder = XMLEncoder()
