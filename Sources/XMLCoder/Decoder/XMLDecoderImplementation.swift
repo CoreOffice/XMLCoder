@@ -138,9 +138,17 @@ class XMLDecoderImplementation: Decoder {
         case let unkeyed as SharedBox<UnkeyedBox>:
             return XMLUnkeyedDecodingContainer(referencing: self, wrapping: unkeyed)
         case let keyed as SharedBox<KeyedBox>:
-            guard let firstKey = keyed.withShared({ $0.elements.keys.first }) else { fallthrough }
-
-            return XMLUnkeyedDecodingContainer(referencing: self, wrapping: SharedBox(keyed.withShared { $0.elements[firstKey] }))
+            // In order to support decoding enums with associated values, transform the `keyed` box
+            // into an unkeyed box composed of a single key-valued `KeyedBox` element for each
+            // key-value pair found in the original.
+            //
+            // NB: This currently breaks `testDecodeUnkeyedWithinUnkeyed()`.
+            return XMLUnkeyedDecodingContainer(
+                referencing: self,
+                wrapping: keyed.withShared {
+                    SharedBox($0.elements.map { KeyedBox(elements: KeyedStorage([$0])) })
+                }
+            )
         default:
             throw DecodingError.typeMismatch(
                 at: codingPath,

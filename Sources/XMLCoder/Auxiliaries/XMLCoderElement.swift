@@ -58,6 +58,11 @@ struct XMLCoderElement: Equatable {
         let storage = KeyedStorage<String, Box>()
         var elements = self.elements.reduce(storage) { $0.merge(element: $1) }
 
+        // Handle enum with associated value case, in which there are no attributes _or_ elements.
+        if let value = value, elements.isEmpty, attributes.isEmpty {
+            elements.append(StringBox(value), at: key)
+        }
+        
         // Handle attributed unkeyed value <foo attr="bar">zap</foo>
         // Value should be zap. Detect only when no other elements exist
         if elements.isEmpty, let value = value {

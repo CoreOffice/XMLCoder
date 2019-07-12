@@ -21,6 +21,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		14344A3522D540F400427D35 /* EnumAssociatedValueTestSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14344A3422D540F400427D35 /* EnumAssociatedValueTestSimple.swift */; };
+		14A8A49322D801A0006AFC91 /* NestedEnumAssociatedValueTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A8A49222D801A0006AFC91 /* NestedEnumAssociatedValueTest.swift */; };
+		14A8A49522D8FF49006AFC91 /* EnumAssociatedValueTestComposite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A8A49422D8FF49006AFC91 /* EnumAssociatedValueTestComposite.swift */; };
 		A61DCCD821DF9CA200C0A19D /* ClassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61DCCD621DF8DB300C0A19D /* ClassTests.swift */; };
 		A61FE03921E4D60B0015D993 /* UnkeyedIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61FE03721E4D4F10015D993 /* UnkeyedIntTests.swift */; };
 		A61FE03C21E4EAB10015D993 /* KeyedIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61FE03A21E4EA8B0015D993 /* KeyedIntTests.swift */; };
@@ -143,6 +146,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		14344A3422D540F400427D35 /* EnumAssociatedValueTestSimple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumAssociatedValueTestSimple.swift; sourceTree = "<group>"; };
+		14A8A49222D801A0006AFC91 /* NestedEnumAssociatedValueTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedEnumAssociatedValueTest.swift; sourceTree = "<group>"; };
+		14A8A49422D8FF49006AFC91 /* EnumAssociatedValueTestComposite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumAssociatedValueTestComposite.swift; sourceTree = "<group>"; };
 		A61DCCD621DF8DB300C0A19D /* ClassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassTests.swift; sourceTree = "<group>"; };
 		A61FE03721E4D4F10015D993 /* UnkeyedIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnkeyedIntTests.swift; sourceTree = "<group>"; };
 		A61FE03A21E4EA8B0015D993 /* KeyedIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedIntTests.swift; sourceTree = "<group>"; };
@@ -395,6 +401,9 @@
 				BF9457BD21CBB516005ACFDE /* Box */,
 				BF9457E121CBB6BC005ACFDE /* Minimal */,
 				D1AC9464224E3E1F004AB49B /* AttributedEnumIntrinsicTest.swift */,
+				14344A3422D540F400427D35 /* EnumAssociatedValueTestSimple.swift */,
+				14A8A49422D8FF49006AFC91 /* EnumAssociatedValueTestComposite.swift */,
+				14A8A49222D801A0006AFC91 /* NestedEnumAssociatedValueTest.swift */,
 				B3B6902D220A71DF0084D407 /* AttributedIntrinsicTest.swift */,
 				BF63EF1D21CEC99A001D38C5 /* BenchmarkTests.swift */,
 				OBJ_28 /* BooksTest.swift */,
@@ -655,6 +664,7 @@
 				BF9457F221CBB6BC005ACFDE /* UnkeyedTests.swift in Sources */,
 				A61FE03C21E4EAB10015D993 /* KeyedIntTests.swift in Sources */,
 				BF9457F321CBB6BC005ACFDE /* DateTests.swift in Sources */,
+				14A8A49322D801A0006AFC91 /* NestedEnumAssociatedValueTest.swift in Sources */,
 				D1D50D3122942EAE007098FC /* NestingTests.swift in Sources */,
 				BF9457D121CBB516005ACFDE /* UnkeyedBoxTests.swift in Sources */,
 				BF63EF6921D0FDB5001D38C5 /* XMLHeaderTests.swift in Sources */,
@@ -688,6 +698,7 @@
 				OBJ_85 /* NodeEncodingStrategyTests.swift in Sources */,
 				D1B6A2C22297EF6F005B8A6E /* BorderTest.swift in Sources */,
 				OBJ_86 /* NoteTest.swift in Sources */,
+				14A8A49522D8FF49006AFC91 /* EnumAssociatedValueTestComposite.swift in Sources */,
 				BF63EF0C21CD7F28001D38C5 /* EmptyTests.swift in Sources */,
 				B34B3C08220381AC00BCBA30 /* String+ExtensionsTests.swift in Sources */,
 				B3BE1D612202C1F600259831 /* DynamicNodeEncodingTest.swift in Sources */,
@@ -699,6 +710,7 @@
 				OBJ_88 /* PlantTest.swift in Sources */,
 				D1AC9466224E3E63004AB49B /* AttributedEnumIntrinsicTest.swift in Sources */,
 				BF63EF0821CD7AF8001D38C5 /* URLBoxTests.swift in Sources */,
+				14344A3522D540F400427D35 /* EnumAssociatedValueTestSimple.swift in Sources */,
 				BF9457DD21CBB62C005ACFDE /* DateBoxTests.swift in Sources */,
 				A61DCCD821DF9CA200C0A19D /* ClassTests.swift in Sources */,
 				BF9457CD21CBB516005ACFDE /* FloatBoxTests.swift in Sources */,
