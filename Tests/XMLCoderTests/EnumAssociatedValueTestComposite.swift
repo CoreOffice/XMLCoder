@@ -38,7 +38,6 @@ extension IntOrStringWrapper: Decodable {
     }
 }
 
-
 class EnumAssociatedValueTestComposite: XCTestCase {
 
     func testIntOrStringWrapper() throws {
