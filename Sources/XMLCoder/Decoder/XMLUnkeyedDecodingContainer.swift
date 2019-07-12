@@ -112,7 +112,6 @@ struct XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
                 value = try decode(decoder, keyed.elements[keyed.elements.keys[0]])
             }
         }
-        
         defer { currentIndex += 1 }
 
         if value == nil, let type = type as? AnyOptional.Type,
