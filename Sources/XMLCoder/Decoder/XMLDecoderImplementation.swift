@@ -141,8 +141,6 @@ class XMLDecoderImplementation: Decoder {
             // In order to support decoding enums with associated values, transform the `keyed` box
             // into an unkeyed box composed of a single key-valued `KeyedBox` element for each
             // key-value pair found in the original.
-            //
-            // NB: This currently breaks `testDecodeUnkeyedWithinUnkeyed()`.
             return XMLUnkeyedDecodingContainer(
                 referencing: self,
                 wrapping: keyed.withShared {

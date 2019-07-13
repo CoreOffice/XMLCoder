@@ -107,10 +107,11 @@ struct XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         // performed an injection of single key-valued `KeyedBox` elements in
         // XMLDecoderImplementation.unkeyedContainer(), and attempt to decode the single element
         // contained therein.
-        if value == nil {
-            if let keyed = box as? KeyedBox, !keyed.elements.isEmpty {
-                value = try decode(decoder, keyed.elements[keyed.elements.keys[0]])
-            }
+        if value == nil, let keyed = box as? KeyedBox, keyed.elements.count == 1 {
+            let firstKey = keyed.elements.keys[0]
+            let firstElement = keyed.elements[firstKey]
+            let values = firstElement[0]
+            value = try decode(decoder, values)
         }
         defer { currentIndex += 1 }
 
