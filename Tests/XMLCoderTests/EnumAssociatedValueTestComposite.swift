@@ -22,7 +22,6 @@ private enum IntOrStringWrapper: Equatable {
 }
 
 extension IntOrStringWrapper: Decodable {
-
     enum CodingKeys: String, CodingKey {
         case int
         case string
@@ -39,7 +38,6 @@ extension IntOrStringWrapper: Decodable {
 }
 
 class EnumAssociatedValueTestComposite: XCTestCase {
-
     func testIntOrStringWrapper() throws {
         let xml = """
         <container>

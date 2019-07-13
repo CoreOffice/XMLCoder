@@ -146,8 +146,9 @@ class XMLDecoderImplementation: Decoder {
             return XMLUnkeyedDecodingContainer(
                 referencing: self,
                 wrapping: keyed.withShared {
-                    SharedBox($0.elements.map { (key, element) in
-                        KeyedBox(elements: KeyedStorage([(key, element)]), attributes: .init()) }
+                    SharedBox($0.elements.map { key, element in
+                        KeyedBox(elements: KeyedStorage([(key, element)]), attributes: .init())
+                    }
                     )
                 }
             )
