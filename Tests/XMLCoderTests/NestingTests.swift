@@ -91,7 +91,6 @@ final class NestingTests: XCTestCase {
             """
         let encoded = xml.data(using: .utf8)!
 
-        print(try decoder.decode(type(of: unkeyedWithinKeyed), from: encoded))
         XCTAssertNoThrow(try decoder.decode(type(of: unkeyedWithinKeyed), from: encoded))
     }
 
@@ -128,7 +127,6 @@ final class NestingTests: XCTestCase {
             """
         let encoded = xml.data(using: .utf8)!
 
-        print(try decoder.decode(type(of: keyedWithinKeyed), from: encoded))
         XCTAssertNoThrow(try decoder.decode(type(of: keyedWithinKeyed), from: encoded))
     }
 
