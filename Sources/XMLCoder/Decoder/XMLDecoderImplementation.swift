@@ -147,7 +147,7 @@ class XMLDecoderImplementation: Decoder {
                 referencing: self,
                 wrapping: keyed.withShared {
                     SharedBox($0.elements.map { (key, element) in
-                        KeyedBox(elements: KeyedStorage([(key, element)])) }
+                        KeyedBox(elements: KeyedStorage([(key, element)]), attributes: .init()) }
                     )
                 }
             )
