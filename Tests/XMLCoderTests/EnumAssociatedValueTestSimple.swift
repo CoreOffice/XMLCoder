@@ -78,10 +78,23 @@ class EnumAssociatedValuesTest: XCTestCase {
         XCTAssertEqual(result, expected)
     }
 
-    func testIntOrStringEncoding() throws {
+    func testIntOrStringRoundTrip() throws {
         let original = IntOrString.int(5)
-        let encoded = try XMLEncoder().encode(original, withRootKey: "root")
+        let encoded = try XMLEncoder().encode(original, withRootKey: "container")
         let decoded = try XMLDecoder().decode(IntOrString.self, from: encoded)
+        XCTAssertEqual(original, decoded)
+    }
+
+    func testIntOrStringArrayRoundTrip() throws {
+        let original: [IntOrString] = [
+            .int(1),
+            .string("two"),
+            .string("three"),
+            .int(4),
+            .int(5),
+        ]
+        let encoded = try XMLEncoder().encode(original, withRootKey: "container")
+        let decoded = try XMLDecoder().decode([IntOrString].self, from: encoded)
         XCTAssertEqual(original, decoded)
     }
 }
