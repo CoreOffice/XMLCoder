@@ -384,7 +384,6 @@ extension XMLDecoderImplementation {
     }
 
     func unbox<T: Decodable>(_ box: Box) throws -> T {
-
         let decoded: T?
         let type = T.self
 
