@@ -27,8 +27,8 @@ class XMLDecoderImplementation: Decoder {
         return options.userInfo
     }
 
-    // The error context lenght
-    open var errorContextLenght: UInt = 0
+    // The error context length
+    open var errorContextLength: UInt = 0
 
     // MARK: - Initialization
 
