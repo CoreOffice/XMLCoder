@@ -18,6 +18,7 @@ extension IntOrString: Decodable {
         case int
         case string
     }
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         do {
@@ -28,10 +29,9 @@ extension IntOrString: Decodable {
     }
 }
 
-extension IntOrString: Equatable { }
+extension IntOrString: Equatable {}
 
 class EnumAssociatedValuesTest: XCTestCase {
-
     func testIntOrStringIntDecoding() throws {
         let xml = "<int>42</int>"
         let result = try XMLDecoder().decode(IntOrString.self, from: xml.data(using: .utf8)!)

@@ -32,7 +32,7 @@ private struct Properties: Decodable, Equatable {
     let title: String
 }
 
-private struct Break: Decodable, Equatable { }
+private struct Break: Decodable, Equatable {}
 
 extension Container: Decodable {
     private enum CodingKeys: String, CodingKey {
@@ -43,7 +43,7 @@ extension Container: Decodable {
 extension Paragraph: Decodable {
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.entries = try container.decode([Entry].self)
+        entries = try container.decode([Entry].self)
     }
 }
 
@@ -51,6 +51,7 @@ extension Entry: Decodable {
     private enum CodingKeys: String, CodingKey {
         case run, properties, br
     }
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         do {
@@ -66,7 +67,6 @@ extension Entry: Decodable {
 }
 
 class NestedEnumAssociatedValueTest: XCTestCase {
-
     func testBreakDecoding() throws {
         let xml = "<br></br>"
         let result = try XMLDecoder().decode(Break.self, from: xml.data(using: .utf8)!)
@@ -142,7 +142,7 @@ class NestedEnumAssociatedValueTest: XCTestCase {
         let result = try XMLDecoder().decode([Entry].self, from: xml.data(using: .utf8)!)
         let expected: [Entry] = [
             .run(Run(id: 1518, text: "I am answering it again.")),
-            .properties(Properties(id: 431, title: "A Word About Wake Times"))
+            .properties(Properties(id: 431, title: "A Word About Wake Times")),
         ]
         XCTAssertEqual(result, expected)
     }
@@ -164,7 +164,7 @@ class NestedEnumAssociatedValueTest: XCTestCase {
         let expected = Paragraph(
             entries: [
                 .run(Run(id: 1518, text: "I am answering it again.")),
-                .properties(Properties(id: 431, title: "A Word About Wake Times"))
+                .properties(Properties(id: 431, title: "A Word About Wake Times")),
             ]
         )
         XCTAssertEqual(result, expected)
@@ -204,7 +204,7 @@ class NestedEnumAssociatedValueTest: XCTestCase {
                     entries: [
                         .run(Run(id: 1519, text: "I am answering it again.")),
                     ]
-                )
+                ),
             ]
         )
         XCTAssertEqual(result, expected)
