@@ -73,9 +73,9 @@ final class NestingTests: XCTestCase {
             </element>
             """
         let encoded = xml.data(using: .utf8)!
-        let expected = [[1,2,3], [1,2,3]]
+        let expected = [[1, 2, 3], [1, 2, 3]]
         let decoded = try decoder.decode(type(of: unkeyedWithinUnkeyed), from: encoded)
-        
+
         XCTAssertEqual(expected, decoded)
     }
 
@@ -92,9 +92,9 @@ final class NestingTests: XCTestCase {
             </element>
             """
         let encoded = xml.data(using: .utf8)!
-        let expected = ["first":[1,2,3], "second":[1,2,3]]
+        let expected = ["first": [1, 2, 3], "second": [1, 2, 3]]
         let decoded = try decoder.decode(type(of: unkeyedWithinKeyed), from: encoded)
-        
+
         XCTAssertEqual(expected, decoded)
     }
 
