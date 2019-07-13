@@ -107,14 +107,8 @@ struct XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         // performed an injection of single key-valued `KeyedBox` elements in
         // XMLDecoderImplementation.unkeyedContainer(), and attempt to decode the single element
         // contained therein.
-        if value == nil, let keyed = box as? KeyedBox, !keyed.elements.isEmpty {
-            if keyed.elements.count == 1 {
-                // First, check to see if we need to decode single enum with associated value
-                value = try decode(decoder, keyed.elements[keyed.elements.keys[0]])
-            } else {
-                // Otherwise, we are looking at a nested array I think!
-                value = try decode(decoder, keyed.elements[keyed.elements.keys[0]])
-            }
+        if value == nil, let keyed = box as? KeyedBox, keyed.elements.count == 1 {
+            value = try decode(decoder, keyed.elements[keyed.elements.keys[0]][0])
         }
         defer { currentIndex += 1 }
 
