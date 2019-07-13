@@ -108,7 +108,7 @@ struct XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         // XMLDecoderImplementation.unkeyedContainer(), and attempt to decode the single element
         // contained therein.
         if value == nil {
-            if let keyed = box as? KeyedBox, keyed.elements.count == 1 {
+            if let keyed = box as? KeyedBox, !keyed.elements.isEmpty {
                 value = try decode(decoder, keyed.elements[keyed.elements.keys[0]])
             }
         }
