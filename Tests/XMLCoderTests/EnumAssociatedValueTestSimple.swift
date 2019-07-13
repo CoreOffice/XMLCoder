@@ -13,10 +13,21 @@ private enum IntOrString {
     case string(String)
 }
 
-extension IntOrString: Decodable {
+extension IntOrString: Codable {
+
     enum CodingKeys: String, CodingKey {
         case int
         case string
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+        case .int(let value):
+            try container.encode(value, forKey: .int)
+        case .string(let value):
+            try container.encode(value, forKey: .string)
+        }
     }
 
     init(from decoder: Decoder) throws {
@@ -65,5 +76,12 @@ class EnumAssociatedValuesTest: XCTestCase {
             .int(5),
         ]
         XCTAssertEqual(result, expected)
+    }
+
+    func testIntOrStringEncoding() throws {
+        let original = IntOrString.int(5)
+        let encoded = try XMLEncoder().encode(original, withRootKey: "root")
+        let decoded = try XMLDecoder().decode(IntOrString.self, from: encoded)
+        XCTAssertEqual(original, decoded)
     }
 }
