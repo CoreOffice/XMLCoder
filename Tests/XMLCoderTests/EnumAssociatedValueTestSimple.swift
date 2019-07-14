@@ -14,7 +14,6 @@ private enum IntOrString {
 }
 
 extension IntOrString: Codable {
-
     enum CodingKeys: String, CodingKey {
         case int
         case string
@@ -23,9 +22,9 @@ extension IntOrString: Codable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
-        case .int(let value):
+        case let .int(value):
             try container.encode(value, forKey: .int)
-        case .string(let value):
+        case let .string(value):
             try container.encode(value, forKey: .string)
         }
     }
