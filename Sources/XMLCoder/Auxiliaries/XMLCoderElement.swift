@@ -252,7 +252,12 @@ struct XMLCoderElement: Equatable {
 extension XMLCoderElement {
     init(key: String, box: UnkeyedBox) {
         self.init(key: key, elements: box.map {
-            XMLCoderElement(key: "", box: $0)
+            switch $0 {
+            case _ as KeyedBox:
+                return XMLCoderElement(key: "", box: $0)
+            default:
+                return XMLCoderElement(key: key, box: $0)
+            }
         })
     }
 
