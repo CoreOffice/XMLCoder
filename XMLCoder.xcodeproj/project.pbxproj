@@ -24,6 +24,8 @@
 		1482D59A22DD2A1700AE2D6E /* XMLChoiceCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1482D59922DD2A1700AE2D6E /* XMLChoiceCodable.swift */; };
 		1482D59C22DD2A4400AE2D6E /* XMLChoiceDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1482D59B22DD2A4400AE2D6E /* XMLChoiceDecodable.swift */; };
 		1482D59E22DD2A6B00AE2D6E /* XMLChoiceEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1482D59D22DD2A6B00AE2D6E /* XMLChoiceEncodable.swift */; };
+		1482D5A222DD2D9400AE2D6E /* SimpleChoiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1482D5A122DD2D9400AE2D6E /* SimpleChoiceTests.swift */; };
+		1482D5A422DD2F4D00AE2D6E /* CompositeChoiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1482D5A322DD2F4D00AE2D6E /* CompositeChoiceTests.swift */; };
 		A61DCCD821DF9CA200C0A19D /* ClassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61DCCD621DF8DB300C0A19D /* ClassTests.swift */; };
 		A61FE03921E4D60B0015D993 /* UnkeyedIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61FE03721E4D4F10015D993 /* UnkeyedIntTests.swift */; };
 		A61FE03C21E4EAB10015D993 /* KeyedIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61FE03A21E4EA8B0015D993 /* KeyedIntTests.swift */; };
@@ -149,6 +151,8 @@
 		1482D59922DD2A1700AE2D6E /* XMLChoiceCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLChoiceCodable.swift; sourceTree = "<group>"; };
 		1482D59B22DD2A4400AE2D6E /* XMLChoiceDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLChoiceDecodable.swift; sourceTree = "<group>"; };
 		1482D59D22DD2A6B00AE2D6E /* XMLChoiceEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLChoiceEncodable.swift; sourceTree = "<group>"; };
+		1482D5A122DD2D9400AE2D6E /* SimpleChoiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleChoiceTests.swift; sourceTree = "<group>"; };
+		1482D5A322DD2F4D00AE2D6E /* CompositeChoiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositeChoiceTests.swift; sourceTree = "<group>"; };
 		A61DCCD621DF8DB300C0A19D /* ClassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassTests.swift; sourceTree = "<group>"; };
 		A61FE03721E4D4F10015D993 /* UnkeyedIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnkeyedIntTests.swift; sourceTree = "<group>"; };
 		A61FE03A21E4EA8B0015D993 /* KeyedIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedIntTests.swift; sourceTree = "<group>"; };
@@ -405,6 +409,8 @@
 				D1AC9464224E3E1F004AB49B /* AttributedEnumIntrinsicTest.swift */,
 				B3B6902D220A71DF0084D407 /* AttributedIntrinsicTest.swift */,
 				BF63EF1D21CEC99A001D38C5 /* BenchmarkTests.swift */,
+				1482D5A122DD2D9400AE2D6E /* SimpleChoiceTests.swift */,
+				1482D5A322DD2F4D00AE2D6E /* CompositeChoiceTests.swift */,
 				OBJ_28 /* BooksTest.swift */,
 				D1B6A2C02297EF5A005B8A6E /* BorderTest.swift */,
 				OBJ_29 /* BreakfastTest.swift */,
@@ -681,6 +687,7 @@
 				D1EC3E62225A32F500C610E3 /* BoxTreeTests.swift in Sources */,
 				BF63EF0A21CD7C1A001D38C5 /* URLTests.swift in Sources */,
 				BF9457CE21CBB516005ACFDE /* StringBoxTests.swift in Sources */,
+				1482D5A222DD2D9400AE2D6E /* SimpleChoiceTests.swift in Sources */,
 				D1CFC8242226B13F00B03222 /* NamespaceTest.swift in Sources */,
 				BF9457D021CBB516005ACFDE /* UIntBoxTests.swift in Sources */,
 				OBJ_80 /* BooksTest.swift in Sources */,
@@ -723,6 +730,7 @@
 				BF9457F121CBB6BC005ACFDE /* FloatTests.swift in Sources */,
 				BF8171D021D3B1BD00901EB0 /* DecodingContainerTests.swift in Sources */,
 				BF9457EF21CBB6BC005ACFDE /* NullTests.swift in Sources */,
+				1482D5A422DD2F4D00AE2D6E /* CompositeChoiceTests.swift in Sources */,
 				OBJ_90 /* RelationshipsTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
