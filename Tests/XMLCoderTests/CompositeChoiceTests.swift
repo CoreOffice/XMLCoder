@@ -21,7 +21,7 @@ private enum IntOrStringWrapper: Equatable {
     case string(StringWrapper)
 }
 
-extension IntOrStringWrapper: Codable {
+extension IntOrStringWrapper: XMLChoiceCodable {
 
     enum CodingKeys: String, CodingKey {
         case int
