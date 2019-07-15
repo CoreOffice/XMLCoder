@@ -5,4 +5,4 @@
 //  Created by James Bean on 7/15/19.
 //
 
-public protocol XMLChoiceEncodable {}
+public protocol XMLChoiceEncodable: Encodable {}
