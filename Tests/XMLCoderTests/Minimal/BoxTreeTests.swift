@@ -9,7 +9,7 @@ import XCTest
 @testable import XMLCoder
 
 class BoxTreeTests: XCTestCase {
-    func testNestedValues() {
+    func testNestedValues() throws {
         let e1 = XMLCoderElement(
             key: "foo",
             value: "456",
@@ -29,18 +29,11 @@ class BoxTreeTests: XCTestCase {
             attributes: []
         )
 
-        let boxTree = root.transformToBoxTree()
-
-        guard let foo = boxTree.elements["foo"] as? UnkeyedBox else {
-            XCTAssert(
-                false,
-                """
-                flattened.elements["foo"] is not an UnkeyedBox
-                """
-            )
+        guard let boxTree = root.transformToBoxTree() as? KeyedBox else {
+            XCTFail("boxtTree is not a KeyedBox")
             return
         }
-
+        let foo = boxTree.elements["foo"]
         XCTAssertEqual(foo.count, 2)
     }
 }
