@@ -51,7 +51,10 @@ struct XMLCoderElement: Equatable {
         elements.append(element)
     }
 
-    func transformToBoxTree() -> KeyedBox {
+    func transformToBoxTree() -> Box {
+        if let value = value, self.attributes.isEmpty, self.elements.isEmpty {
+            return SingleElementBox(key: key, element: StringBox(value))
+        }
         let attributes = KeyedStorage(self.attributes.map { attribute in
             (key: attribute.key, value: StringBox(attribute.value) as SimpleBox)
         })
@@ -63,9 +66,7 @@ struct XMLCoderElement: Equatable {
         if elements.isEmpty, let value = value {
             elements.append(StringBox(value), at: "value")
         }
-        let keyedBox = KeyedBox(elements: elements, attributes: attributes)
-
-        return keyedBox
+        return KeyedBox(elements: elements, attributes: attributes)
     }
 
     func toXMLString(with header: XMLHeader? = nil,

@@ -138,9 +138,10 @@ class XMLDecoderImplementation: Decoder {
         case let unkeyed as SharedBox<UnkeyedBox>:
             return XMLUnkeyedDecodingContainer(referencing: self, wrapping: unkeyed)
         case let keyed as SharedBox<KeyedBox>:
-            guard let firstKey = keyed.withShared({ $0.elements.keys.first }) else { fallthrough }
-
-            return XMLUnkeyedDecodingContainer(referencing: self, wrapping: SharedBox(keyed.withShared { $0.elements[firstKey] }))
+            return XMLUnkeyedDecodingContainer(
+                referencing: self,
+                wrapping: SharedBox(keyed.withShared { $0.elements.map(SingleElementBox.init) })
+            )
         default:
             throw DecodingError.typeMismatch(
                 at: codingPath,
@@ -372,6 +373,20 @@ extension XMLDecoderImplementation {
         return urlBox.unboxed
     }
 
+    func unbox<T: Decodable>(_ box: SingleElementBox) throws -> T {
+        do {
+            return try unbox(box.element)
+        } catch {
+            // FIXME: Find a more economical way to unbox a `SingleElementBox` !
+            return try unbox(
+                KeyedBox(
+                    elements: KeyedStorage([(box.key, box.element)]),
+                    attributes: []
+                )
+            )
+        }
+    }
+
     func unbox<T: Decodable>(_ box: Box) throws -> T {
         let decoded: T?
         let type = T.self
@@ -392,6 +407,8 @@ extension XMLDecoderImplementation {
             type == String.self || type == NSString.self,
             let value = (try unbox(box) as String) as? T {
             decoded = value
+        } else if let singleElementBox = box as? SingleElementBox {
+            decoded = try unbox(singleElementBox)
         } else {
             storage.push(container: box)
             defer {

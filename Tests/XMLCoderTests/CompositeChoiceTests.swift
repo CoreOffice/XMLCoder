@@ -85,6 +85,4 @@ class CompositeChoiceTests: XCTestCase {
         ]
         XCTAssertEqual(result, expected)
     }
-
-    #warning("TODO: Add encoding and round-trip tests")
 }
