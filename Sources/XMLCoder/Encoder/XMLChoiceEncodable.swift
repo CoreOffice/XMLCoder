@@ -6,3 +6,7 @@
 //
 
 public protocol XMLChoiceEncodable: Encodable {}
+
+public protocol ArrayOfXMLChoiceEncodable {}
+
+extension Array: ArrayOfXMLChoiceEncodable where Element: XMLChoiceEncodable {}

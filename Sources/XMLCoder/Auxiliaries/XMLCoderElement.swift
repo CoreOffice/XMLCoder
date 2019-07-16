@@ -104,10 +104,13 @@ struct XMLCoderElement: Equatable {
         prettyPrinted: Bool
     ) -> String {
         var string = ""
+        // Fix added for empty key adjustment in `UnkeyedBox` taking static func builder
+        let nonEmptyKey = element.key != ""
+        let level = nonEmptyKey ? level + 1 : level
         string += element._toXMLString(
             indented: level + 1, withCDATA: cdata, formatting: formatting
         )
-        string += prettyPrinted ? "\n" : ""
+        string += (prettyPrinted && nonEmptyKey) ? "\n" : ""
         return string
     }
 
@@ -227,7 +230,9 @@ struct XMLCoderElement: Equatable {
                 string += "</\(key)>"
             }
         } else if !elements.isEmpty {
-            string += prettyPrinted ? ">\n" : ">"
+            if !key.isEmpty {
+                string += prettyPrinted ? ">\n" : ">"
+            }
             formatXMLElements(formatting, &string, level, cdata, prettyPrinted)
 
             string += indentation
@@ -245,6 +250,12 @@ struct XMLCoderElement: Equatable {
 // MARK: - Convenience Initializers
 
 extension XMLCoderElement {
+    static func containsChoice(key: String, box: UnkeyedBox) -> XMLCoderElement {
+        return XMLCoderElement(key: key, elements: box.map {
+            XMLCoderElement(key: "", box: $0)
+        })
+    }
+
     init(key: String, box: UnkeyedBox) {
         self.init(key: key, elements: box.map {
             XMLCoderElement(key: key, box: $0)

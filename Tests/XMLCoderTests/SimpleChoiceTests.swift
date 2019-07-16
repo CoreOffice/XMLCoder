@@ -14,7 +14,6 @@ private enum IntOrString: Equatable {
 }
 
 extension IntOrString: XMLChoiceCodable {
-
     enum CodingKeys: String, CodingKey {
         case int
         case string
@@ -41,7 +40,6 @@ extension IntOrString: XMLChoiceCodable {
 }
 
 class SimpleChoiceTests: XCTestCase {
-
     func testIntOrStringIntDecoding() throws {
         let xml = "<int>42</int>"
         let result = try XMLDecoder().decode(IntOrString.self, from: xml.data(using: .utf8)!)

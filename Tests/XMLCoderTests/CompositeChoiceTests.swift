@@ -22,7 +22,6 @@ private enum IntOrStringWrapper: Equatable {
 }
 
 extension IntOrStringWrapper: XMLChoiceCodable {
-
     enum CodingKeys: String, CodingKey {
         case int
         case string
@@ -38,7 +37,7 @@ extension IntOrStringWrapper: XMLChoiceCodable {
     }
 
     func encode(to encoder: Encoder) throws {
-        var container  = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
         case let .int(value):
             try container.encode(value, forKey: .int)
@@ -49,7 +48,6 @@ extension IntOrStringWrapper: XMLChoiceCodable {
 }
 
 class CompositeChoiceTests: XCTestCase {
-
     func testIntOrStringWrapper() throws {
         let xml = """
         <container>
