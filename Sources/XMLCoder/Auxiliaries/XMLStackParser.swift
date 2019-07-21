@@ -44,7 +44,7 @@ class XMLStackParser: NSObject {
         xmlParser.shouldProcessNamespaces = shouldProcessNamespaces
         xmlParser.delegate = self
 
-        guard !xmlParser.parse(), root == nil else {
+        guard !xmlParser.parse() || root == nil else {
             return root!
         }
 
@@ -126,6 +126,10 @@ extension XMLStackParser: XMLParserDelegate {
                 namespaceURI: String?,
                 qualifiedName: String?,
                 attributes attributeDict: [String: String] = [:]) {
+        #if os(Linux)
+            // For some reason, element names on linux are coming out with the namespace after the name
+            let elementName = elementName.components(separatedBy: ":").reversed().joined(separator: ":")
+        #endif
         let attributes = attributeDict.map { key, value in
             Attribute(key: key, value: value)
         }

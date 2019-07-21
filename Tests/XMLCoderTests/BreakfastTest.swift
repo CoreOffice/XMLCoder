@@ -70,8 +70,4 @@ final class BreakfastTest: XCTestCase {
         let menu2 = try decoder.decode(Menu.self, from: data)
         XCTAssertEqual(menu1, menu2)
     }
-
-    static var allTests = [
-        ("testXML", testXML),
-    ]
 }

@@ -159,8 +159,4 @@ class RJITest: XCTestCase {
 //        let rss2 = try decoder.decode(RSS.self, from: data)
 //        XCTAssertEqual(rss1, rss2)
     }
-
-    static var allTests = [
-        ("testRSS", testRSS),
-    ]
 }

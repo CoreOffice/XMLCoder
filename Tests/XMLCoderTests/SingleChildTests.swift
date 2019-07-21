@@ -40,9 +40,4 @@ final class SingleChildTest: XCTestCase {
 
         XCTAssertEqual(decoded, parent)
     }
-
-    static var allTests = [
-        ("testEncoder", testEncoder),
-        ("testDecoder", testDecoder),
-    ]
 }

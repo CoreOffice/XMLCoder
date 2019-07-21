@@ -60,8 +60,4 @@ final class CDTest: XCTestCase {
 
         XCTAssertEqual(cdCatalog1, cdCatalog2)
     }
-
-    static var allTests = [
-        ("testXML", testXML),
-    ]
 }

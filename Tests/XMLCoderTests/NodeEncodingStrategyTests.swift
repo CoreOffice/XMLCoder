@@ -241,12 +241,6 @@ final class NodeEncodingStrategyTests: XCTestCase {
         }
     }
 
-    static var allTests = [
-        ("testSingleContainer", testSingleContainer),
-        ("testKeyedContainer", testKeyedContainer),
-        ("testUnkeyedContainer", testUnkeyedContainer),
-    ]
-
     func testItSortsKeysWhenEncodingAsElements() {
         guard #available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *) else {
             return

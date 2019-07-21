@@ -242,8 +242,4 @@ final class BooksTest: XCTestCase {
         let catalog2 = try decoder.decode(Catalog.self, from: data)
         XCTAssertEqual(catalog1, catalog2)
     }
-
-    static var allTests = [
-        ("testBookXML", testBookXML),
-    ]
 }

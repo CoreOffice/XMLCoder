@@ -178,8 +178,4 @@ class UnkeyedIntTests: XCTestCase {
         try testInt(UnkeyedContainerUInt32.self)
         try testInt(UnkeyedContainerUInt64.self)
     }
-
-    static var allTests = [
-        ("testInts", testInts),
-    ]
 }
