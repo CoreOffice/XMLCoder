@@ -26,6 +26,22 @@ private struct Table: Codable, Equatable {
     let tr: [TR]
 }
 
+private struct NamespacedTable: Codable, Equatable {
+    struct TR: Codable, Equatable {
+        enum CodingKeys: String, CodingKey {
+            case td = "h:td"
+        }
+
+        let td: [String]
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case tr = "h:tr"
+    }
+
+    let tr: [TR]
+}
+
 private let worksheetXML = """
 <?xml version="1.0" encoding="utf-8"?>
 <x:worksheet \
@@ -191,21 +207,96 @@ private struct Row: Codable {
     }
 }
 
+private struct NamespacedCell: Codable, Equatable {
+    let type: String?
+    let s: String?
+    let formula: String?
+    let value: String?
+
+    enum CodingKeys: String, CodingKey {
+        case formula = "f"
+        case value = "v"
+        case type = "t"
+        case s
+    }
+}
+
+private struct NamespacedWorksheet: Codable {
+    struct Data: Codable {
+        public let rows: [NamespacedRow]
+
+        enum CodingKeys: String, CodingKey {
+            case rows = "x:row"
+        }
+    }
+
+    let data: Data?
+
+    enum CodingKeys: String, CodingKey {
+        case data = "x:sheetData"
+    }
+}
+
+private struct NamespacedRow: Codable {
+    let reference: UInt
+    let height: Double?
+    let customHeight: String?
+    let cells: [NamespacedCell]
+
+    enum CodingKeys: String, CodingKey {
+        case cells = "x:c"
+        case reference = "r"
+        case height = "ht"
+        case customHeight
+    }
+}
+
 class NameSpaceTest: XCTestCase {
     func testTable() throws {
         let decoder = XMLDecoder()
         decoder.shouldProcessNamespaces = true
 
-        let decoded = try decoder.decode(Table.self, from: tableXML)
-
+        var decoded = try decoder.decode(Table.self, from: tableXML)
         XCTAssertEqual(decoded, Table(tr: [.init(td: ["Apples", "Bananas"])]))
+
+        decoder.shouldProcessNamespaces = false
+        decoded = try decoder.decode(Table.self, from: tableXML)
+        XCTAssertEqual(decoded, Table(tr: []))
     }
 
     func testWorksheet() throws {
         let decoder = XMLDecoder()
         decoder.shouldProcessNamespaces = true
 
-        let worksheet = try decoder.decode(Worksheet.self, from: worksheetXML)
+        var worksheet = try decoder.decode(Worksheet.self, from: worksheetXML)
         XCTAssertEqual(worksheet.data?.rows[0].cells.count, 36)
+
+        decoder.shouldProcessNamespaces = false
+        worksheet = try decoder.decode(Worksheet.self, from: worksheetXML)
+        XCTAssertNil(worksheet.data)
+    }
+
+    func testTableWithoutNamespaces() throws {
+        let decoder = XMLDecoder()
+        decoder.shouldProcessNamespaces = false
+
+        var decoded = try decoder.decode(NamespacedTable.self, from: tableXML)
+        XCTAssertEqual(decoded, NamespacedTable(tr: [.init(td: ["Apples", "Bananas"])]))
+
+        decoder.shouldProcessNamespaces = true
+        decoded = try decoder.decode(NamespacedTable.self, from: tableXML)
+        XCTAssertEqual(decoded, NamespacedTable(tr: []))
+    }
+
+    func testWorksheetWithoutNamespaces() throws {
+        let decoder = XMLDecoder()
+        decoder.shouldProcessNamespaces = false
+
+        var worksheet = try decoder.decode(NamespacedWorksheet.self, from: worksheetXML)
+        XCTAssertEqual(worksheet.data?.rows[0].cells.count, 36)
+
+        decoder.shouldProcessNamespaces = true
+        worksheet = try decoder.decode(NamespacedWorksheet.self, from: worksheetXML)
+        XCTAssertNil(worksheet.data)
     }
 }

@@ -75,10 +75,4 @@ class DecimalTests: XCTestCase {
             XCTAssertEqual(String(data: encoded, encoding: .utf8)!, xmlString)
         }
     }
-
-    static var allTests = [
-        ("testMissing", testMissing),
-        ("testAttribute", testAttribute),
-        ("testElement", testElement),
-    ]
 }

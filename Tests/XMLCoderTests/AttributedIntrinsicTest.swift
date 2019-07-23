@@ -300,10 +300,4 @@ final class AttributedIntrinsicTest: XCTestCase {
         XCTAssertEqual(foo.valueElement, "blah")
         XCTAssertNil(foo.value)
     }
-
-    static var allTests = [
-        ("testEncode", testEncode),
-        ("testDecode", testDecode),
-        ("testDecodePreview", testDecodePreview),
-    ]
 }

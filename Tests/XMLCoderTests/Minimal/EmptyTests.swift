@@ -42,9 +42,4 @@ class EmptyTests: XCTestCase {
         let encoded = try encoder.encode(Container(), withRootKey: "container")
         XCTAssertEqual(String(data: encoded, encoding: .utf8)!, "<container />")
     }
-
-    static var allTests = [
-        ("testAttribute", testAttribute),
-        ("testElement", testElement),
-    ]
 }

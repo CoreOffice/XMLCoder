@@ -21,7 +21,7 @@ private struct PlantCatalog: Codable, Equatable {
 private struct CurrencyCodingError: Error {}
 
 private struct Currency: Codable, Equatable {
-    let value: Decimal
+    let value: Double
 
     private static let formatter: NumberFormatter = {
         let formatter = NumberFormatter()
@@ -30,7 +30,7 @@ private struct Currency: Codable, Equatable {
         return formatter
     }()
 
-    init(_ value: Decimal) {
+    init(_ value: Double) {
         self.value = value
     }
 
@@ -38,7 +38,7 @@ private struct Currency: Codable, Equatable {
         let container = try decoder.singleValueContainer()
         let string = try container.decode(String.self)
         guard let value = Currency.formatter
-            .number(from: string)?.decimalValue else {
+            .number(from: string)?.doubleValue else {
             throw CurrencyCodingError()
         }
 
@@ -125,8 +125,4 @@ final class PlantTest: XCTestCase {
 
         XCTAssertEqual(plantCatalog1, plantCatalog2)
     }
-
-    static var allTests = [
-        ("testXML", testXML),
-    ]
 }

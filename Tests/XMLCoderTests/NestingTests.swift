@@ -129,15 +129,4 @@ final class NestingTests: XCTestCase {
 
         XCTAssertNoThrow(try decoder.decode(type(of: keyedWithinKeyed), from: encoded))
     }
-
-    static var allTests = [
-        ("testEncodeUnkeyedWithinUnkeyed", testEncodeUnkeyedWithinUnkeyed),
-        ("testEncodeUnkeyedWithinKeyed", testEncodeUnkeyedWithinKeyed),
-        ("testEncodeKeyedWithinUnkeyed", testEncodeKeyedWithinUnkeyed),
-        ("testEncodeKeyedWithinKeyed", testEncodeKeyedWithinKeyed),
-        ("testDecodeUnkeyedWithinUnkeyed", testDecodeUnkeyedWithinUnkeyed),
-        ("testDecodeUnkeyedWithinKeyed", testDecodeUnkeyedWithinKeyed),
-        ("testDecodeKeyedWithinUnkeyed", testDecodeKeyedWithinUnkeyed),
-        ("testDecodeKeyedWithinKeyed", testDecodeKeyedWithinKeyed),
-    ]
 }

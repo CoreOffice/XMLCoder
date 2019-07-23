@@ -153,13 +153,4 @@ class DateTests: XCTestCase {
             XCTAssertThrowsError(try decoder.decode(Container.self, from: xmlData))
         }
     }
-
-    static var allTests = [
-        ("testMissing", testMissing),
-        ("testAttribute", testAttribute),
-        ("testElement", testElement),
-        ("testKeyFormatedError", testKeyFormatedError),
-        ("testKeyFormatedCouldNotDecodeError", testKeyFormatedCouldNotDecodeError),
-        ("testKeyFormatedNoPathError", testKeyFormatedNoPathError),
-    ]
 }

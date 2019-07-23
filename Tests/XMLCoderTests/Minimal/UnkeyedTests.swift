@@ -128,11 +128,4 @@ class UnkeyedTests: XCTestCase {
             try encoder.encode(container, withRootKey: "container")
         )
     }
-
-    static var allTests = [
-        ("testEmpty", testEmpty),
-        ("testSingleElement", testSingleElement),
-        ("testMultiElement", testMultiElement),
-        ("testAttribute", testAttribute),
-    ]
 }

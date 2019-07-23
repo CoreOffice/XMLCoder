@@ -73,8 +73,4 @@ class OptionalTests: XCTestCase {
         let decoded2 = try decoder.decode(DecodeIfPresent.self, from: xml)
         XCTAssertEqual(decoded2, DecodeIfPresent())
     }
-
-    static var allTests = [
-        ("testMissing", testMissing),
-    ]
 }

@@ -221,23 +221,4 @@ class BenchmarkTests: XCTestCase {
             self.measure { closure() }
         }
     }
-
-    static var allTests = [
-        ("testEncodeNulls", testEncodeNulls),
-        ("testDecodeNulls", testDecodeNulls),
-        ("testEncodeBools", testEncodeBools),
-        ("testDecodeBools", testDecodeBools),
-        ("testEncodeInts", testEncodeInts),
-        ("testDecodeInts", testDecodeInts),
-        ("testEncodeUInts", testEncodeUInts),
-        ("testDecodeUInts", testDecodeUInts),
-        ("testEncodeFloats", testEncodeFloats),
-        ("testDecodeFloats", testDecodeFloats),
-        ("testEncodeDecimals", testEncodeDecimals),
-        ("testDecodeDecimals", testDecodeDecimals),
-        ("testEncodeArrays", testEncodeArrays),
-        ("testDecodeArrays", testDecodeArrays),
-        ("testEncodeDictionaries", testEncodeDictionaries),
-        ("testDecodeDictionaries", testDecodeDictionaries),
-    ]
 }
