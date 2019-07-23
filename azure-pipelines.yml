@@ -46,6 +46,6 @@ jobs:
 - job: test_linux
   pool:
     vmImage: 'Ubuntu 16.04'
-  containerImage: norionomura/swift:50
+  container: norionomura/swift:50
   steps:
   - script: ./test_linux.sh
