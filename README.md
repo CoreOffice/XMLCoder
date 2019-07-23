@@ -218,7 +218,7 @@ you can now set a property `trimValueWhitespaces` to `false` (the default value 
 
 **Linux**
 - Ubuntu 14.04 or Later
-- Swift 5.0 or later
+- Swift 5.0.1 or later
 
 ### Swift Package Manager
 
