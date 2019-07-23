@@ -127,9 +127,9 @@ extension XMLStackParser: XMLParserDelegate {
                 qualifiedName: String?,
                 attributes attributeDict: [String: String] = [:]) {
         #if os(Linux)
-            // For some reason, element names on linux are coming out with the namespace after the name
-            // https://bugs.swift.org/browse/SR-11191
-            let elementName = elementName.components(separatedBy: ":").reversed().joined(separator: ":")
+        // For some reason, element names on linux are coming out with the namespace after the name
+        // https://bugs.swift.org/browse/SR-11191
+        let elementName = elementName.components(separatedBy: ":").reversed().joined(separator: ":")
         #endif
         let attributes = attributeDict.map { key, value in
             Attribute(key: key, value: value)

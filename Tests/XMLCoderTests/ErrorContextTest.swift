@@ -30,19 +30,19 @@ final class ErrorContextTest: XCTestCase {
             }
 
             #if os(Linux)
-                // XML Parser returns a different column on Linux
-                // https://bugs.swift.org/browse/SR-11192
-                XCTAssertEqual(ctx.debugDescription, """
-                \(underlying.localizedDescription) \
-                at line 1, column 7:
-                `ah //>`
-                """)
+            // XML Parser returns a different column on Linux
+            // https://bugs.swift.org/browse/SR-11192
+            XCTAssertEqual(ctx.debugDescription, """
+            \(underlying.localizedDescription) \
+            at line 1, column 7:
+            `ah //>`
+            """)
             #else
-                XCTAssertEqual(ctx.debugDescription, """
-                \(underlying.localizedDescription) \
-                at line 1, column 2:
-                `<blah `
-                """)
+            XCTAssertEqual(ctx.debugDescription, """
+            \(underlying.localizedDescription) \
+            at line 1, column 2:
+            `<blah `
+            """)
             #endif
         }
     }
@@ -71,21 +71,21 @@ final class ErrorContextTest: XCTestCase {
             }
 
             #if os(Linux)
-                // XML Parser returns a different column on Linux
-                // https://bugs.swift.org/browse/SR-11192
-                XCTAssertEqual(ctx.debugDescription, """
-                \(underlying.localizedDescription) \
-                at line 4, column 1:
-                `blah>
-                <c`
-                """)
+            // XML Parser returns a different column on Linux
+            // https://bugs.swift.org/browse/SR-11192
+            XCTAssertEqual(ctx.debugDescription, """
+            \(underlying.localizedDescription) \
+            at line 4, column 1:
+            `blah>
+            <c`
+            """)
             #else
-                XCTAssertEqual(ctx.debugDescription, """
-                \(underlying.localizedDescription) \
-                at line 3, column 8:
-                `blah>
-                <c`
-                """)
+            XCTAssertEqual(ctx.debugDescription, """
+            \(underlying.localizedDescription) \
+            at line 3, column 8:
+            `blah>
+            <c`
+            """)
             #endif
         }
     }

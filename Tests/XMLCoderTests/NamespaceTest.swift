@@ -274,7 +274,6 @@ class NameSpaceTest: XCTestCase {
         decoder.shouldProcessNamespaces = false
         worksheet = try decoder.decode(Worksheet.self, from: worksheetXML)
         XCTAssertNil(worksheet.data)
-
     }
 
     func testTableWithoutNamespaces() throws {
