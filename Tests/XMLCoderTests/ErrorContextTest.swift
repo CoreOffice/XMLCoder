@@ -30,6 +30,8 @@ final class ErrorContextTest: XCTestCase {
             }
 
             #if os(Linux)
+                // XML Parser returns a different column on Linux
+                // https://bugs.swift.org/browse/SR-11192
                 XCTAssertEqual(ctx.debugDescription, """
                 \(underlying.localizedDescription) \
                 at line 1, column 7:
