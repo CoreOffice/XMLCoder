@@ -387,7 +387,9 @@ extension NameSpaceTest {
     // to regenerate.
     static let __allTests__NameSpaceTest = [
         ("testTable", testTable),
+        ("testTableWithoutNamespaces", testTableWithoutNamespaces),
         ("testWorksheet", testWorksheet),
+        ("testWorksheetWithoutNamespaces", testWorksheetWithoutNamespaces),
     ]
 }
 
