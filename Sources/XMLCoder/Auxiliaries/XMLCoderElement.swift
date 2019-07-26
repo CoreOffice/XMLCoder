@@ -53,7 +53,7 @@ struct XMLCoderElement: Equatable {
 
     func transformToBoxTree() -> Box {
         if let value = value, self.attributes.isEmpty, self.elements.isEmpty {
-            return SingleElementBox(key: key, element: StringBox(value))
+            return SingleElementBox(attributes: SingleElementBox.Attributes(), key: key, element: StringBox(value))
         }
         let attributes = KeyedStorage(self.attributes.map { attribute in
             (key: attribute.key, value: StringBox(attribute.value) as SimpleBox)
@@ -246,9 +246,15 @@ struct XMLCoderElement: Equatable {
 
 extension XMLCoderElement {
     init(key: String, box: UnkeyedBox) {
-        self.init(key: key, elements: box.map {
-            XMLCoderElement(key: key, box: $0)
-        })
+        if box is [SingleElementBox] {
+            self.init(key: key, elements: box.map { XMLCoderElement(key: "", box: $0) })
+        } else {
+            self.init(key: key, elements: box.map { XMLCoderElement(key: key, box: $0) })
+        }
+    }
+
+    init(key: String, box: SingleElementBox) {
+        self.init(key: key, elements: [XMLCoderElement(key: box.key, box: box.element)])
     }
 
     init(key: String, box: KeyedBox) {
@@ -303,10 +309,14 @@ extension XMLCoderElement {
             self.init(key: key, box: sharedUnkeyedBox.unboxed)
         case let sharedKeyedBox as SharedBox<KeyedBox>:
             self.init(key: key, box: sharedKeyedBox.unboxed)
+        case let sharedSingleElementBox as SharedBox<SingleElementBox>:
+            self.init(key: key, box: sharedSingleElementBox.unboxed)
         case let unkeyedBox as UnkeyedBox:
             self.init(key: key, box: unkeyedBox)
         case let keyedBox as KeyedBox:
             self.init(key: key, box: keyedBox)
+        case let singleElementBox as SingleElementBox:
+            self.init(key: key, box: singleElementBox)
         case let simpleBox as SimpleBox:
             self.init(key: key, box: simpleBox)
         case let box:

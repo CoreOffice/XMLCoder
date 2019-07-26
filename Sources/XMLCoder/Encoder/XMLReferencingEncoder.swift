@@ -24,6 +24,9 @@ class XMLReferencingEncoder: XMLEncoderImplementation {
 
         /// Referencing a specific key in a keyed container.
         case keyed(SharedBox<KeyedBox>, String)
+
+        /// Referencing a specific key in a keyed container.
+        case singleElement(SharedBox<SingleElementBox>, String)
     }
 
     // MARK: - Properties
@@ -71,6 +74,23 @@ class XMLReferencingEncoder: XMLEncoderImplementation {
         codingPath.append(key)
     }
 
+    init(
+        referencing encoder: XMLEncoderImplementation,
+        key: CodingKey,
+        convertedKey: CodingKey,
+        wrapping sharedKeyed: SharedBox<SingleElementBox>
+    ) {
+        self.encoder = encoder
+        reference = .singleElement(sharedKeyed, convertedKey.stringValue)
+        super.init(
+            options: encoder.options,
+            nodeEncodings: encoder.nodeEncodings,
+            codingPath: encoder.codingPath
+        )
+
+        codingPath.append(key)
+    }
+
     // MARK: - Coding Path Operations
 
     override var canEncodeNewValue: Bool {
@@ -99,6 +119,11 @@ class XMLReferencingEncoder: XMLEncoderImplementation {
         case let .keyed(sharedKeyedBox, key):
             sharedKeyedBox.withShared { keyedBox in
                 keyedBox.elements.append(box, at: key)
+            }
+        case let .singleElement(sharedSingleElementBox, key):
+            sharedSingleElementBox.withShared { singleElementBox in
+                singleElementBox.element = box
+                singleElementBox.key = key
             }
         }
     }

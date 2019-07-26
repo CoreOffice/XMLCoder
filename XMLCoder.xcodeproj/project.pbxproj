@@ -200,8 +200,8 @@
       "OBJ_125" = {
          isa = "PBXGroup";
          children = (
-            "XMLCoder::XMLCoderTests::Product",
-            "XMLCoder::XMLCoder::Product"
+            "XMLCoder::XMLCoder::Product",
+            "XMLCoder::XMLCoderTests::Product"
          );
          name = "Products";
          path = "";
@@ -1377,7 +1377,7 @@
       };
       "OBJ_49" = {
          isa = "PBXFileReference";
-         path = "XMLChoiceEncodable.swift";
+         path = "XMLEncoder.swift";
          sourceTree = "<group>";
       };
       "OBJ_5" = {
@@ -1405,27 +1405,27 @@
       };
       "OBJ_50" = {
          isa = "PBXFileReference";
-         path = "XMLEncoder.swift";
+         path = "XMLEncoderImplementation.swift";
          sourceTree = "<group>";
       };
       "OBJ_51" = {
          isa = "PBXFileReference";
-         path = "XMLEncoderImplementation.swift";
+         path = "XMLEncodingStorage.swift";
          sourceTree = "<group>";
       };
       "OBJ_52" = {
          isa = "PBXFileReference";
-         path = "XMLEncodingStorage.swift";
+         path = "XMLKeyedEncodingContainer.swift";
          sourceTree = "<group>";
       };
       "OBJ_53" = {
          isa = "PBXFileReference";
-         path = "XMLKeyedEncodingContainer.swift";
+         path = "XMLReferencingEncoder.swift";
          sourceTree = "<group>";
       };
       "OBJ_54" = {
          isa = "PBXFileReference";
-         path = "XMLReferencingEncoder.swift";
+         path = "XMLSingleElementEncodingContainer.swift";
          sourceTree = "<group>";
       };
       "OBJ_55" = {

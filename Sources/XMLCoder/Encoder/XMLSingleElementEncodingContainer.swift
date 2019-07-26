@@ -1,13 +1,13 @@
 //
-//  XMLKeyedEncodingContainer.swift
+//  XMLSingleElementEncodingContainer.swift
 //  XMLCoder
 //
-//  Created by Vincent Esche on 11/20/18.
+//  Created by Benjamin Wetherfield on 7/17/19.
 //
 
 import Foundation
 
-struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
+struct XMLSingleElementEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
     typealias Key = K
 
     // MARK: Properties
@@ -16,7 +16,7 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
     private let encoder: XMLEncoderImplementation
 
     /// A reference to the container we're writing to.
-    private var container: SharedBox<KeyedBox>
+    private var container: SharedBox<SingleElementBox>
 
     /// The path of coding keys taken to get to this point in encoding.
     public private(set) var codingPath: [CodingKey]
@@ -27,7 +27,7 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
     init(
         referencing encoder: XMLEncoderImplementation,
         codingPath: [CodingKey],
-        wrapping container: SharedBox<KeyedBox>
+        wrapping container: SharedBox<SingleElementBox>
     ) {
         self.encoder = encoder
         self.codingPath = codingPath
@@ -69,7 +69,8 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
 
     public mutating func encodeNil(forKey key: Key) throws {
         container.withShared {
-            $0.elements.append(NullBox(), at: _converted(key).stringValue)
+            $0.key = _converted(key).stringValue
+            $0.element = NullBox()
         }
     }
 
@@ -119,7 +120,8 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
 
         let elementEncoder: (T, Key, Box) throws -> () = { _, key, box in
             mySelf.container.withShared { container in
-                container.elements.append(box, at: mySelf._converted(key).stringValue)
+                container.element = box
+                container.key = mySelf._converted(key).stringValue
             }
         }
 
@@ -156,7 +158,8 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
         let sharedKeyed = SharedBox(KeyedBox())
 
         self.container.withShared { container in
-            container.elements.append(sharedKeyed, at: _converted(key).stringValue)
+            container.element = sharedKeyed
+            container.key = _converted(key).stringValue
         }
 
         codingPath.append(key)
@@ -177,7 +180,8 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
         let sharedSingleElement = SharedBox(SingleElementBox())
 
         self.container.withShared { container in
-            container.elements.append(sharedSingleElement, at: _converted(key).stringValue)
+            container.element = sharedSingleElement
+            container.key = _converted(key).stringValue
         }
 
         codingPath.append(key)
@@ -197,7 +201,8 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
         let sharedUnkeyed = SharedBox(UnkeyedBox())
 
         container.withShared { container in
-            container.elements.append(sharedUnkeyed, at: _converted(key).stringValue)
+            container.element = sharedUnkeyed
+            container.key = _converted(key).stringValue
         }
 
         codingPath.append(key)
