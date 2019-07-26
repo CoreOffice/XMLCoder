@@ -69,7 +69,7 @@ struct XMLChoiceDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
     // MARK: - KeyedDecodingContainerProtocol Methods
 
     public var allKeys: [Key] {
-        return container.withShared { Key(stringValue: $0.key) }.map { [$0] } ?? []
+        return container.withShared { [Key(stringValue: $0.key)!] }
     }
 
     public func contains(_ key: Key) -> Bool {

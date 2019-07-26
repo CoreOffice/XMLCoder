@@ -216,8 +216,8 @@
       "OBJ_128" = {
          isa = "PBXGroup";
          children = (
-            "XMLCoder::XMLCoder::Product",
-            "XMLCoder::XMLCoderTests::Product"
+            "XMLCoder::XMLCoderTests::Product",
+            "XMLCoder::XMLCoder::Product"
          );
          name = "Products";
          path = "";
