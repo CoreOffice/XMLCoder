@@ -30,7 +30,7 @@ extension ChoiceBox {
         self.init(key: firstKey, element: firstElement)
     }
 
-    init(_ singleElementBox: SingleElementBox) {
-        self.init(key: singleElementBox.key, element: singleElementBox.element)
+    init(_ singleKeyedBox: SingleKeyedBox) {
+        self.init(key: singleKeyedBox.key, element: singleKeyedBox.element)
     }
 }
