@@ -460,3 +460,22 @@ extension XMLDecoderImplementation {
         return result
     }
 }
+
+extension XMLDecoderImplementation {
+    var keyTransform: (String) -> String {
+        switch options.keyDecodingStrategy {
+        case .convertFromSnakeCase:
+            return XMLDecoder.KeyDecodingStrategy._convertFromSnakeCase
+        case .convertFromCapitalized:
+            return XMLDecoder.KeyDecodingStrategy._convertFromCapitalized
+        case .convertFromKebabCase:
+            return XMLDecoder.KeyDecodingStrategy._convertFromKebabCase
+        case .useDefaultKeys:
+            return { key in key }
+        case let .custom(converter):
+            return { key in
+                converter(self.codingPath + [XMLKey(stringValue: key, intValue: nil)]).stringValue
+            }
+        }
+    }
+}

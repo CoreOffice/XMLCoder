@@ -34,47 +34,11 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
         wrapping container: KeyedContainer
     ) {
         self.decoder = decoder
-
-        func mapKeys(
-            _ container: KeyedContainer,
-            closure: (String) -> String
-        ) -> KeyedContainer {
-            let attributes = container.withShared { keyedBox in
-                keyedBox.attributes.map { (closure($0), $1) }
-            }
-            let elements = container.withShared { keyedBox in
-                keyedBox.elements.map { (closure($0), $1) }
-            }
-            let keyedBox = KeyedBox(elements: elements, attributes: attributes)
-            return SharedBox(keyedBox)
+        container.withShared {
+            $0.elements = .init($0.elements.map { (decoder.keyTransform($0), $1) })
+            $0.attributes = .init($0.attributes.map { (decoder.keyTransform($0), $1) })
         }
-
-        switch decoder.options.keyDecodingStrategy {
-        case .useDefaultKeys:
-            self.container = container
-        case .convertFromSnakeCase:
-            // Convert the snake case keys in the container to camel case.
-            // If we hit a duplicate key after conversion, then we'll use the
-            // first one we saw. Effectively an undefined behavior with dictionaries.
-            self.container = mapKeys(container) { key in
-                XMLDecoder.KeyDecodingStrategy._convertFromSnakeCase(key)
-            }
-        case .convertFromKebabCase:
-            self.container = mapKeys(container) { key in
-                XMLDecoder.KeyDecodingStrategy._convertFromKebabCase(key)
-            }
-        case .convertFromCapitalized:
-            self.container = mapKeys(container) { key in
-                XMLDecoder.KeyDecodingStrategy._convertFromCapitalized(key)
-            }
-        case let .custom(converter):
-            self.container = mapKeys(container) { key in
-                let codingPath = decoder.codingPath + [
-                    XMLKey(stringValue: key, intValue: nil),
-                ]
-                return converter(codingPath).stringValue
-            }
-        }
+        self.container = container
         codingPath = decoder.codingPath
     }
 
