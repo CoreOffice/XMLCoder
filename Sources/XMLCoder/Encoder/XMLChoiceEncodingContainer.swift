@@ -17,7 +17,7 @@ struct XMLChoiceEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
 
     /// A reference to the container we're writing to.
     private var container: SharedBox<ChoiceBox>
-    
+
     /// The path of coding keys taken to get to this point in encoding.
     public private(set) var codingPath: [CodingKey]
 
@@ -28,7 +28,7 @@ struct XMLChoiceEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
         referencing encoder: XMLEncoderImplementation,
         codingPath: [CodingKey],
         wrapping container: SharedBox<ChoiceBox>
-        ) {
+    ) {
         self.encoder = encoder
         self.codingPath = codingPath
         self.container = container
@@ -111,7 +111,7 @@ struct XMLChoiceEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
         defer {
             self = mySelf
         }
-        
+
         try elementEncoder(value, key, box)
     }
 
@@ -119,7 +119,7 @@ struct XMLChoiceEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
         keyedBy _: NestedKey.Type,
         forKey key: Key
     ) -> KeyedEncodingContainer<NestedKey> {
-        if NestedKey.self is XMLChoiceKey.Type {
+        if NestedKey.self is XMLChoiceCodingKey.Type {
             return nestedChoiceContainer(keyedBy: NestedKey.self, forKey: key)
         } else {
             return nestedKeyedContainer(keyedBy: NestedKey.self, forKey: key)
@@ -147,13 +147,13 @@ struct XMLChoiceEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
         )
         return KeyedEncodingContainer(container)
     }
-    
+
     mutating func nestedChoiceContainer<NestedKey>(
         keyedBy _: NestedKey.Type,
         forKey key: Key
-        ) -> KeyedEncodingContainer<NestedKey> {
+    ) -> KeyedEncodingContainer<NestedKey> {
         let sharedChoice = SharedBox(ChoiceBox())
-        
+
         self.container.withShared { container in
             container.element = sharedChoice
             container.key = _converted(key).stringValue
@@ -161,7 +161,7 @@ struct XMLChoiceEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
 
         codingPath.append(key)
         defer { self.codingPath.removeLast() }
-        
+
         let container = XMLChoiceEncodingContainer<NestedKey>(
             referencing: encoder,
             codingPath: codingPath,

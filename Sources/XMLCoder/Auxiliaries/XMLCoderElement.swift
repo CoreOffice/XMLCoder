@@ -245,13 +245,13 @@ extension XMLCoderElement {
     init(key: String, box: UnkeyedBox) {
         if let containsChoice = box as? [ChoiceBox] {
             self.init(key: key, elements: containsChoice.map {
-                return XMLCoderElement(key: $0.key, box: $0.element)
+                XMLCoderElement(key: $0.key, box: $0.element)
             })
         } else {
             self.init(key: key, elements: box.map { XMLCoderElement(key: key, box: $0) })
         }
     }
-    
+
     init(key: String, box: ChoiceBox) {
         self.init(key: key, elements: [XMLCoderElement(key: box.key, box: box.element)])
     }

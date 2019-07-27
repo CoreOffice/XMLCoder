@@ -114,7 +114,6 @@ struct XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         } else {
             value = try decode(decoder, box)
         }
-        
 
         defer { currentIndex += 1 }
 

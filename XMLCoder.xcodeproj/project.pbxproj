@@ -1262,7 +1262,7 @@
       };
       "OBJ_32" = {
          isa = "PBXFileReference";
-         path = "XMLChoiceKey.swift";
+         path = "XMLChoiceCodingKey.swift";
          sourceTree = "<group>";
       };
       "OBJ_33" = {

@@ -79,7 +79,7 @@ class XMLReferencingEncoder: XMLEncoderImplementation {
         key: CodingKey,
         convertedKey: CodingKey,
         wrapping sharedKeyed: SharedBox<ChoiceBox>
-        ) {
+    ) {
         self.encoder = encoder
         reference = .choice(sharedKeyed, convertedKey.stringValue)
         super.init(

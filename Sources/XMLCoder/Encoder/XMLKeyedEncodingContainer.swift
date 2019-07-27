@@ -142,7 +142,7 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
         keyedBy _: NestedKey.Type,
         forKey key: Key
     ) -> KeyedEncodingContainer<NestedKey> {
-        if NestedKey.self is XMLChoiceKey.Type {
+        if NestedKey.self is XMLChoiceCodingKey.Type {
             return nestedSingleElementContainer(keyedBy: NestedKey.self, forKey: key)
         } else {
             return nestedKeyedContainer(keyedBy: NestedKey.self, forKey: key)
@@ -173,16 +173,16 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
     mutating func nestedSingleElementContainer<NestedKey>(
         keyedBy _: NestedKey.Type,
         forKey key: Key
-        ) -> KeyedEncodingContainer<NestedKey> {
+    ) -> KeyedEncodingContainer<NestedKey> {
         let sharedChoice = SharedBox(ChoiceBox())
-        
+
         self.container.withShared { container in
             container.elements.append(sharedChoice, at: _converted(key).stringValue)
         }
 
         codingPath.append(key)
         defer { self.codingPath.removeLast() }
-        
+
         let container = XMLChoiceEncodingContainer<NestedKey>(
             referencing: encoder,
             codingPath: codingPath,

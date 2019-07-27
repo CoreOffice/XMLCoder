@@ -25,7 +25,7 @@ private enum Entry: Equatable {
 private struct Run: Codable, Equatable, DynamicNodeEncoding {
     let id: Int
     let text: String
-    
+
     static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
         switch key {
         case CodingKeys.id:
@@ -39,13 +39,13 @@ private struct Run: Codable, Equatable, DynamicNodeEncoding {
 private struct Properties: Codable, Equatable, DynamicNodeEncoding {
     let id: Int
     let title: String
-    
+
     static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
         return .attribute
     }
 }
 
-private struct Break: Codable, Equatable { }
+private struct Break: Codable, Equatable {}
 
 extension Container: Codable {
     enum CodingKeys: String, CodingKey {
@@ -56,9 +56,9 @@ extension Container: Codable {
 extension Paragraph: Codable {
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.entries = try container.decode([Entry].self)
+        entries = try container.decode([Entry].self)
     }
-    
+
     func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encode(entries)
@@ -66,9 +66,10 @@ extension Paragraph: Codable {
 }
 
 extension Entry: Codable {
-    private enum CodingKeys: String, XMLChoiceKey {
+    private enum CodingKeys: String, XMLChoiceCodingKey {
         case run, properties, br
     }
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         do {
@@ -81,7 +82,7 @@ extension Entry: Codable {
             }
         }
     }
-    
+
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
@@ -96,7 +97,6 @@ extension Entry: Codable {
 }
 
 class NestedAttributeChoiceTests: XCTestCase {
-    
     private var encoder: XMLEncoder {
         let encoder = XMLEncoder()
         encoder.outputFormatting = [.prettyPrinted]
@@ -105,22 +105,22 @@ class NestedAttributeChoiceTests: XCTestCase {
 
     func testNestedEnumsEncoding() throws {
         let xml = """
-         <container>
-             <p>
-                 <br />
-                 <run id="1518">
-                     <text>I am answering it again.</text>
-                 </run>
-                 <properties id="431" title="A Word About Wake Times" />
-             </p>
-             <p>
-                 <run id="1519">
-                     <text>I am answering it again.</text>
-                 </run>
-                 <br />
-             </p>
-         </container>
-         """
+        <container>
+            <p>
+                <br />
+                <run id="1518">
+                    <text>I am answering it again.</text>
+                </run>
+                <properties id="431" title="A Word About Wake Times" />
+            </p>
+            <p>
+                <run id="1519">
+                    <text>I am answering it again.</text>
+                </run>
+                <br />
+            </p>
+        </container>
+        """
         let value = Container(
             paragraphs: [
                 Paragraph(
@@ -135,7 +135,7 @@ class NestedAttributeChoiceTests: XCTestCase {
                         .run(Run(id: 1519, text: "I am answering it again.")),
                         .br(Break()),
                     ]
-                )
+                ),
             ]
         )
         let encoded = try encoder.encode(value, withRootKey: "container")

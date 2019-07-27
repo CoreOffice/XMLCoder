@@ -83,21 +83,12 @@ struct XMLChoiceDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
     }
 
     public func decode<T: Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
-        guard container.withShared({ $0.key == key.stringValue }), key is XMLChoiceKey else {
-            throw DecodingError.typeMismatch(at: codingPath, expectation: type, reality: container)
-        }
-        guard let strategy = self.decoder.nodeDecodings.last else {
-            preconditionFailure("Attempt to access node decoding strategy from empty stack.")
-        }
-        decoder.codingPath.append(key)
-        let nodeDecodings = decoder.options.nodeDecodingStrategy.nodeDecodings(
-            forType: T.self,
-            with: decoder
-        )
-        decoder.nodeDecodings.append(nodeDecodings)
-        defer {
-            _ = decoder.nodeDecodings.removeLast()
-            decoder.codingPath.removeLast()
+        guard container.withShared({ $0.key == key.stringValue }), key is XMLChoiceCodingKey else {
+            throw DecodingError.typeMismatch(
+                at: codingPath,
+                expectation: type,
+                reality: container
+            )
         }
         return try decoder.unbox(container.withShared { $0.element })
     }
