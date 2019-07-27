@@ -23,7 +23,7 @@ class XMLStackParser: NSObject {
         errorContextLength length: UInt,
         shouldProcessNamespaces: Bool,
         trimValueWhitespaces: Bool
-    ) throws -> Box {
+    ) throws -> KeyedBox {
         let parser = XMLStackParser(trimValueWhitespaces: trimValueWhitespaces)
 
         let node = try parser.parse(
