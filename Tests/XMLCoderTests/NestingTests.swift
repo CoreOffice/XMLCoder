@@ -143,15 +143,4 @@ final class NestingTests: XCTestCase {
         let decoded = try decoder.decode([String: [String: Int]].self, from: encoded)
         XCTAssertEqual(decoded, expected)
     }
-
-    static var allTests = [
-        ("testEncodeUnkeyedWithinUnkeyed", testEncodeUnkeyedWithinUnkeyed),
-        ("testEncodeUnkeyedWithinKeyed", testEncodeUnkeyedWithinKeyed),
-        ("testEncodeKeyedWithinUnkeyed", testEncodeKeyedWithinUnkeyed),
-        ("testEncodeKeyedWithinKeyed", testEncodeKeyedWithinKeyed),
-        ("testDecodeUnkeyedWithinUnkeyed", testDecodeUnkeyedWithinUnkeyed),
-        ("testDecodeUnkeyedWithinKeyed", testDecodeUnkeyedWithinKeyed),
-        ("testDecodeKeyedWithinUnkeyed", testDecodeKeyedWithinUnkeyed),
-        ("testDecodeKeyedWithinKeyed", testDecodeKeyedWithinKeyed),
-    ]
 }

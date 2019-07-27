@@ -52,9 +52,4 @@ class NullTests: XCTestCase {
         let encoded = try encoder.encode(decoded, withRootKey: "container")
         XCTAssertEqual(String(data: encoded, encoding: .utf8)!, xmlString)
     }
-
-    static var allTests = [
-        ("testAttribute", testAttribute),
-        ("testElement", testElement),
-    ]
 }

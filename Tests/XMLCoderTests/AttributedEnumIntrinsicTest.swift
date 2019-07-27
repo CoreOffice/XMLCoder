@@ -118,9 +118,4 @@ final class AttributedEnumIntrinsicTest: XCTestCase {
     //        XCTAssertEqual(foo.number[0].type, FooEnum.string("ABC"))
     //        XCTAssertEqual(foo.number[1].type, FooEnum.int(123))
     //    }
-
-    static var allTests = [
-        ("testEncode", testEncode),
-        //        ("testDecode", testDecode),
-    ]
 }

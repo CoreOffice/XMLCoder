@@ -149,12 +149,4 @@ class KeyedTests: XCTestCase {
 
         XCTAssertEqual(decoded.valUe, ["foo": 12])
     }
-
-    static var allTests = [
-        ("testEmpty", testEmpty),
-        ("testSingleElement", testSingleElement),
-        ("testMultiElement", testMultiElement),
-        ("testAttribute", testAttribute),
-        ("testConvertFromSnakeCase", testConvertFromSnakeCase),
-    ]
 }

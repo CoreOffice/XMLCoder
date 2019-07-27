@@ -59,8 +59,4 @@ final class RelationshipsTest: XCTestCase {
 
         XCTAssertEqual(relationship.id, "rId1")
     }
-
-    static var allTests = [
-        ("testDecoder", testDecoder),
-    ]
 }

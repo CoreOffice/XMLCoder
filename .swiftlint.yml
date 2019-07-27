@@ -16,3 +16,6 @@ function_body_length:
 
 type_name:
   min_length: 1
+
+excluded:
+- Tests/XMLCoderTests/XCTestManifests.swift

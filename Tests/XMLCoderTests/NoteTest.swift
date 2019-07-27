@@ -59,9 +59,4 @@ final class NoteTest: XCTestCase {
 
         XCTAssertThrowsError(try decoder.decode(Note.self, from: invalidXml))
     }
-
-    static var allTests = [
-        ("testValidXML", testValidXML),
-        ("testInvalidXML", testInvalidXML),
-    ]
 }

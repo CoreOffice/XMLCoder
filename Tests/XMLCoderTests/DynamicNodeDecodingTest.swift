@@ -217,10 +217,4 @@ final class DynamicNodeDecodingTest: XCTestCase {
         let test = try decoder.decode(TestStruct.self, from: overlappingKeys)
         XCTAssertEqual(test, TestStruct(attribute: 123, element: "StringValue"))
     }
-
-    static var allTests = [
-        ("testDecode", testDecode),
-        ("testStrategyPriority", testStrategyPriority),
-        ("testOverlappingKeys", testOverlappingKeys),
-    ]
 }

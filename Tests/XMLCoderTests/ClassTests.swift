@@ -108,8 +108,4 @@ class ClassTests: XCTestCase {
 
         XCTAssertEqual(encoded, xmlData)
     }
-
-    static var allTests = [
-        ("testEmpty", testEmpty),
-    ]
 }

@@ -193,10 +193,4 @@ class KeyedIntTests: XCTestCase {
         try testElement(ContainerUInt32.self)
         try testElement(ContainerUInt64.self)
     }
-
-    static var allTests = [
-        ("testIntegerTypeMissing", testIntegerTypeMissing),
-        ("testIntegerTypeAttribute", testIntegerTypeAttribute),
-        ("testIntegerTypeElement", testIntegerTypeElement),
-    ]
 }

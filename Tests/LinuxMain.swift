@@ -1,11 +1,8 @@
 import XCTest
-@testable import XMLCoderTests
 
-XCTMain([
-    testCase(RelationshipsTest.allTests),
-    testCase(BreakfastTest.allTests),
-    testCase(NodeEncodingStrategyTests.allTests),
-    testCase(BooksTest.allTests),
-    testCase(NoteTest.allTests),
-    testCase(PlantTest.allTests),
-])
+import XMLCoderTests
+
+var tests = [XCTestCaseEntry]()
+tests += XMLCoderTests.__allTests()
+
+XCTMain(tests)

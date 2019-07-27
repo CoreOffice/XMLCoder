@@ -277,10 +277,4 @@ final class DynamicNodeEncodingTest: XCTestCase {
                                                         encoding: "UTF-8"))
         XCTAssertEqual(String(data: data, encoding: .utf8)!, libraryXMLYNStrategy)
     }
-
-    static var allTests = [
-        ("testEncode", testEncode),
-        ("testDecode", testDecode),
-        ("testEncodeDecode", testEncodeDecode),
-    ]
 }
