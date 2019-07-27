@@ -70,9 +70,15 @@ class XMLDecoderImplementation: Decoder {
         return topContainer
     }
 
-    public func container<Key>(
-        keyedBy keyType: Key.Type
-    ) throws -> KeyedDecodingContainer<Key> {
+    public func container<Key>(keyedBy keyType: Key.Type) throws -> KeyedDecodingContainer<Key> {
+        if Key.self is XMLChoiceKey.Type {
+            return try choiceContainer(keyedBy: keyType)
+        } else {
+            return try keyedContainer(keyedBy: keyType)
+        }
+    }
+
+    public func keyedContainer<Key>(keyedBy _: Key.Type) throws -> KeyedDecodingContainer<Key> {
         let topContainer = try self.topContainer()
 
         switch topContainer {
@@ -118,6 +124,26 @@ class XMLDecoderImplementation: Decoder {
         }
     }
 
+    /// - Returns: A `KeyedDecodingContainer` for an XML choice element.
+    public func choiceContainer<Key>(keyedBy _: Key.Type) throws -> KeyedDecodingContainer<Key> {
+        let topContainer = try self.topContainer()
+        guard
+            let keyed = topContainer as? SharedBox<KeyedBox>,
+            let choiceBox = ChoiceBox(keyed.withShared { $0 })
+        else {
+            throw DecodingError.typeMismatch(
+                at: codingPath,
+                expectation: [String: Any].self,
+                reality: topContainer
+            )
+        }
+        let container = XMLChoiceDecodingContainer<Key>(
+            referencing: self,
+            wrapping: SharedBox(choiceBox)
+        )
+        return KeyedDecodingContainer(container)
+    }
+
     public func unkeyedContainer() throws -> UnkeyedDecodingContainer {
         let topContainer = try self.topContainer()
 
@@ -140,10 +166,12 @@ class XMLDecoderImplementation: Decoder {
         case let keyed as SharedBox<KeyedBox>:
             return XMLUnkeyedDecodingContainer(
                 referencing: self,
-                wrapping: SharedBox(keyed.withShared { $0.elements.map { key, box in
-                    SingleElementBox(attributes: SingleElementBox.Attributes(), key: key, element: box)
+                wrapping: SharedBox(
+                    keyed.withShared { $0.elements.map { key, box in
+                        SingleElementBox(attributes: .init(), key: key, element: box)
                     }
-                })
+                    }
+                )
             )
         default:
             throw DecodingError.typeMismatch(

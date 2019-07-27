@@ -52,8 +52,8 @@ extension Paragraph: Codable {
     }
 }
 
-extension Entry: XMLChoiceCodable {
-    private enum CodingKeys: String, CodingKey {
+extension Entry: Codable {
+    private enum CodingKeys: String, XMLChoiceKey {
         case run, properties, br
     }
 
@@ -61,10 +61,10 @@ extension Entry: XMLChoiceCodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         do {
             self = .run(try container.decode(Run.self, forKey: .run))
-        } catch DecodingError.keyNotFound {
+        } catch {
             do {
                 self = .properties(try container.decode(Properties.self, forKey: .properties))
-            } catch DecodingError.keyNotFound {
+            } catch {
                 self = .br(try container.decode(Break.self, forKey: .br))
             }
         }
