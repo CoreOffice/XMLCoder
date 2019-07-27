@@ -26,7 +26,7 @@ class XMLReferencingEncoder: XMLEncoderImplementation {
         case keyed(SharedBox<KeyedBox>, String)
 
         /// Referencing a specific key in a keyed container.
-        case singleElement(SharedBox<SingleElementBox>, String)
+        case choice(SharedBox<ChoiceBox>, String)
     }
 
     // MARK: - Properties
@@ -78,10 +78,10 @@ class XMLReferencingEncoder: XMLEncoderImplementation {
         referencing encoder: XMLEncoderImplementation,
         key: CodingKey,
         convertedKey: CodingKey,
-        wrapping sharedKeyed: SharedBox<SingleElementBox>
-    ) {
+        wrapping sharedKeyed: SharedBox<ChoiceBox>
+        ) {
         self.encoder = encoder
-        reference = .singleElement(sharedKeyed, convertedKey.stringValue)
+        reference = .choice(sharedKeyed, convertedKey.stringValue)
         super.init(
             options: encoder.options,
             nodeEncodings: encoder.nodeEncodings,
@@ -120,10 +120,10 @@ class XMLReferencingEncoder: XMLEncoderImplementation {
             sharedKeyedBox.withShared { keyedBox in
                 keyedBox.elements.append(box, at: key)
             }
-        case let .singleElement(sharedSingleElementBox, key):
-            sharedSingleElementBox.withShared { singleElementBox in
-                singleElementBox.element = box
-                singleElementBox.key = key
+        case let .choice(sharedChoiceBox, key):
+            sharedChoiceBox.withShared { choiceBox in
+                choiceBox.element = box
+                choiceBox.key = key
             }
         }
     }

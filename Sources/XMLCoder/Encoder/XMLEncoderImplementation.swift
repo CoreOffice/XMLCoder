@@ -65,7 +65,7 @@ class XMLEncoderImplementation: Encoder {
 
     public func container<Key>(keyedBy _: Key.Type) -> KeyedEncodingContainer<Key> {
         if Key.self is XMLChoiceKey.Type {
-            return singleElementContainer(keyedBy: Key.self)
+            return choiceContainer(keyedBy: Key.self)
         } else {
             return keyedContainer(keyedBy: Key.self)
         }
@@ -88,21 +88,21 @@ class XMLEncoderImplementation: Encoder {
         let container = XMLKeyedEncodingContainer<Key>(referencing: self, codingPath: codingPath, wrapping: topContainer)
         return KeyedEncodingContainer(container)
     }
-
-    public func singleElementContainer<Key>(keyedBy _: Key.Type) -> KeyedEncodingContainer<Key> {
-        let topContainer: SharedBox<SingleElementBox>
+    
+    public func choiceContainer<Key>(keyedBy _: Key.Type) -> KeyedEncodingContainer<Key> {
+        let topContainer: SharedBox<ChoiceBox>
         if canEncodeNewValue {
             // We haven't yet pushed a container at this level; do so here.
-            topContainer = storage.pushSingleElementContainer()
+            topContainer = storage.pushChoiceContainer()
         } else {
-            guard let container = storage.lastContainer as? SharedBox<SingleElementBox> else {
+            guard let container = storage.lastContainer as? SharedBox<ChoiceBox> else {
                 preconditionFailure("Attempt to push new (single element) keyed encoding container when already previously encoded at this path.")
             }
 
             topContainer = container
         }
-
-        let container = XMLSingleElementEncodingContainer<Key>(referencing: self, codingPath: codingPath, wrapping: topContainer)
+        
+        let container = XMLChoiceEncodingContainer<Key>(referencing: self, codingPath: codingPath, wrapping: topContainer)
         return KeyedEncodingContainer(container)
     }
 

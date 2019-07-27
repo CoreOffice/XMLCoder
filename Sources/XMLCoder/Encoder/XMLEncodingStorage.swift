@@ -36,9 +36,9 @@ struct XMLEncodingStorage {
         containers.append(container)
         return container
     }
-
-    mutating func pushSingleElementContainer() -> SharedBox<SingleElementBox> {
-        let container = SharedBox(SingleElementBox())
+    
+    mutating func pushChoiceContainer() -> SharedBox<ChoiceBox> {
+        let container = SharedBox(ChoiceBox())
         containers.append(container)
         return container
     }
