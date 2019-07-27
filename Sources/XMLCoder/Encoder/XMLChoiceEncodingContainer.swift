@@ -5,8 +5,6 @@
 //  Created by Benjamin Wetherfield on 7/17/19.
 //
 
-import Foundation
-
 struct XMLChoiceEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
     typealias Key = K
 

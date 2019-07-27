@@ -5,8 +5,6 @@
 //  Created by James Bean on 7/18/19.
 //
 
-import Foundation
-
 /// Container specialized for decoding XML choice elements.
 struct XMLChoiceDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
     typealias Key = K
