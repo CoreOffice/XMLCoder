@@ -31,7 +31,6 @@ extension IntOrString: Codable {
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        print(type(of: container))
         do {
             self = .int(try container.decode(Int.self, forKey: .int))
         } catch {
