@@ -39,7 +39,7 @@
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <AdditionalOptions>     
+      <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
@@ -61,7 +61,7 @@
             ReferencedContainer = "container:XMLCoder.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <AdditionalOptions>     
+      <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
