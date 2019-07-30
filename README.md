@@ -199,14 +199,6 @@ struct Foo: Codable, DynamicNodeEncoding {
 }
 ```
 
-### Choice element coding
-
-Starting with [version 0.8](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.8.0), you
-now encode and decode union-type–like enums with associated values by conforming your
-`CodingKey` type additionally to `XMLChoiceCodingKey`.
-
-For more information, see the [pull request](https://github.com/MaxDesiatov/XMLCoder/pull/119).
-
 ### Preserving whitespaces in element content
 
 By default whitespaces are trimmed in element content during decoding. This
@@ -214,6 +206,14 @@ includes string values decoded with [value intrinsic keys](#coding-key-value-int
 Starting with [version 0.5](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.5.0) 
 you can now set a property `trimValueWhitespaces` to `false` (the default value is `true`) on
 `XMLDecoder` instance to preserve all whitespaces in decoded strings.
+
+### Choice element coding
+
+Starting with [version 0.8](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.8.0), you
+now encode and decode union-type–like enums with associated values by conforming your
+`CodingKey` type additionally to `XMLChoiceCodingKey`.
+
+For more information, see the [pull request](https://github.com/MaxDesiatov/XMLCoder/pull/119).
 
 ## Installation
 
