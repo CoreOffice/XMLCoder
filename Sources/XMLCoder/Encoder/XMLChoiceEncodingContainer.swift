@@ -98,16 +98,16 @@ struct XMLChoiceEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
         encoder.nodeEncodings.append(nodeEncodings)
         let box = try encode(encoder, value)
 
-        let mySelf = self
+        let oldSelf = self
         let elementEncoder: (T, Key, Box) throws -> () = { _, key, box in
-            mySelf.container.withShared { container in
+            oldSelf.container.withShared { container in
                 container.element = box
-                container.key = mySelf.converted(key).stringValue
+                container.key = oldSelf.converted(key).stringValue
             }
         }
 
         defer {
-            self = mySelf
+            self = oldSelf
         }
 
         try elementEncoder(value, key, box)

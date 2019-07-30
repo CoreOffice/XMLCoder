@@ -104,7 +104,7 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
         encoder.nodeEncodings.append(nodeEncodings)
         let box = try encode(encoder, value)
 
-        let mySelf = self
+        let oldSelf = self
         let attributeEncoder: (T, Key, Box) throws -> () = { value, key, box in
             guard let attribute = box as? SimpleBox else {
                 throw EncodingError.invalidValue(value, EncodingError.Context(
@@ -112,19 +112,19 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
                     debugDescription: "Complex values cannot be encoded as attributes."
                 ))
             }
-            mySelf.container.withShared { container in
-                container.attributes.append(attribute, at: mySelf.converted(key).stringValue)
+            oldSelf.container.withShared { container in
+                container.attributes.append(attribute, at: oldSelf.converted(key).stringValue)
             }
         }
 
         let elementEncoder: (T, Key, Box) throws -> () = { _, key, box in
-            mySelf.container.withShared { container in
-                container.elements.append(box, at: mySelf.converted(key).stringValue)
+            oldSelf.container.withShared { container in
+                container.elements.append(box, at: oldSelf.converted(key).stringValue)
             }
         }
 
         defer {
-            self = mySelf
+            self = oldSelf
         }
 
         switch strategy(key) {
