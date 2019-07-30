@@ -25,8 +25,12 @@ extension ChoiceBox: SimpleBox {}
 
 extension ChoiceBox {
     init?(_ keyedBox: KeyedBox) {
-        guard let firstKey = keyedBox.elements.keys.first else { return nil }
-        guard let firstElement = keyedBox.elements[firstKey].first else { return nil }
+        guard
+            let firstKey = keyedBox.elements.keys.first,
+            let firstElement = keyedBox.elements[firstKey].first
+        else {
+            return nil
+        }
         self.init(key: firstKey, element: firstElement)
     }
 
