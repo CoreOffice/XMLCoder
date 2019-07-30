@@ -58,18 +58,34 @@ struct XMLChoiceDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
     public func nestedContainer<NestedKey>(
         keyedBy _: NestedKey.Type, forKey key: Key
     ) throws -> KeyedDecodingContainer<NestedKey> {
-        fatalError("Choice elements cannot produce a nested container.")
+        throw DecodingError.typeMismatch(
+            at: codingPath,
+            expectation: NestedKey.self,
+            reality: container
+        )
     }
 
     public func nestedUnkeyedContainer(forKey key: Key) throws -> UnkeyedDecodingContainer {
-        fatalError("Choice elements cannot produce a unkeyed nested container.")
+        throw DecodingError.typeMismatch(
+            at: codingPath,
+            expectation: Key.self,
+            reality: container
+        )
     }
 
     public func superDecoder() throws -> Decoder {
-        fatalError("XMLChoiceDecodingContainer cannot produce a super decoder.")
+        throw DecodingError.typeMismatch(
+            at: codingPath,
+            expectation: Key.self,
+            reality: container
+        )
     }
 
     public func superDecoder(forKey key: Key) throws -> Decoder {
-        fatalError("XMLChoiceDecodingContainer cannot produce a super decoder.")
+        throw DecodingError.typeMismatch(
+            at: codingPath,
+            expectation: Key.self,
+            reality: container
+        )
     }
 }
