@@ -79,7 +79,12 @@ class XMLEncoderImplementation: Encoder {
             topContainer = storage.pushKeyedContainer()
         } else {
             guard let container = storage.lastContainer as? SharedBox<KeyedBox> else {
-                preconditionFailure("Attempt to push new keyed encoding container when already previously encoded at this path.")
+                preconditionFailure(
+                    """
+                    Attempt to push new keyed encoding container when already previously encoded \
+                    at this path.
+                    """
+                )
             }
 
             topContainer = container
@@ -96,7 +101,12 @@ class XMLEncoderImplementation: Encoder {
             topContainer = storage.pushChoiceContainer()
         } else {
             guard let container = storage.lastContainer as? SharedBox<ChoiceBox> else {
-                preconditionFailure("Attempt to push new (single element) keyed encoding container when already previously encoded at this path.")
+                preconditionFailure(
+                    """
+                    Attempt to push new (single element) keyed encoding container when already \
+                    previously encoded at this path.
+                    """
+                )
             }
 
             topContainer = container
@@ -114,7 +124,12 @@ class XMLEncoderImplementation: Encoder {
             topContainer = storage.pushUnkeyedContainer()
         } else {
             guard let container = storage.lastContainer as? SharedBox<UnkeyedBox> else {
-                preconditionFailure("Attempt to push new unkeyed encoding container when already previously encoded at this path.")
+                preconditionFailure(
+                    """
+                    Attempt to push new unkeyed encoding container when already previously encoded \
+                    at this path.
+                    """
+                )
             }
 
             topContainer = container
