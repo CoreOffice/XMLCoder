@@ -9,7 +9,7 @@ import XCTest
 @testable import XMLCoder
 
 class BoxTreeTests: XCTestCase {
-    func testNestedValues() {
+    func testNestedValues() throws {
         let e1 = XMLCoderElement(
             key: "foo",
             value: "456",
@@ -31,7 +31,6 @@ class BoxTreeTests: XCTestCase {
 
         let boxTree = root.transformToBoxTree()
         let foo = boxTree.elements["foo"]
-
         XCTAssertEqual(foo.count, 2)
     }
 }

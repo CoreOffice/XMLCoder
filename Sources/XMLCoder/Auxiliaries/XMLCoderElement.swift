@@ -63,9 +63,7 @@ struct XMLCoderElement: Equatable {
         if elements.isEmpty, let value = value {
             elements.append(StringBox(value), at: "value")
         }
-        let keyedBox = KeyedBox(elements: elements, attributes: attributes)
-
-        return keyedBox
+        return KeyedBox(elements: elements, attributes: attributes)
     }
 
     func toXMLString(with header: XMLHeader? = nil,
@@ -245,9 +243,17 @@ struct XMLCoderElement: Equatable {
 
 extension XMLCoderElement {
     init(key: String, box: UnkeyedBox) {
-        self.init(key: key, elements: box.map {
-            XMLCoderElement(key: key, box: $0)
-        })
+        if let containsChoice = box as? [ChoiceBox] {
+            self.init(key: key, elements: containsChoice.map {
+                XMLCoderElement(key: $0.key, box: $0.element)
+            })
+        } else {
+            self.init(key: key, elements: box.map { XMLCoderElement(key: key, box: $0) })
+        }
+    }
+
+    init(key: String, box: ChoiceBox) {
+        self.init(key: key, elements: [XMLCoderElement(key: box.key, box: box.element)])
     }
 
     init(key: String, box: KeyedBox) {
@@ -302,10 +308,14 @@ extension XMLCoderElement {
             self.init(key: key, box: sharedUnkeyedBox.unboxed)
         case let sharedKeyedBox as SharedBox<KeyedBox>:
             self.init(key: key, box: sharedKeyedBox.unboxed)
+        case let sharedChoiceBox as SharedBox<ChoiceBox>:
+            self.init(key: key, box: sharedChoiceBox.unboxed)
         case let unkeyedBox as UnkeyedBox:
             self.init(key: key, box: unkeyedBox)
         case let keyedBox as KeyedBox:
             self.init(key: key, box: keyedBox)
+        case let choiceBox as ChoiceBox:
+            self.init(key: key, box: choiceBox)
         case let simpleBox as SimpleBox:
             self.init(key: key, box: simpleBox)
         case let box:

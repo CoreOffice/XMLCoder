@@ -66,6 +66,14 @@ struct XMLUnkeyedEncodingContainer: UnkeyedEncodingContainer {
     public mutating func nestedContainer<NestedKey>(
         keyedBy _: NestedKey.Type
     ) -> KeyedEncodingContainer<NestedKey> {
+        if NestedKey.self is XMLChoiceCodingKey.Type {
+            return nestedChoiceContainer(keyedBy: NestedKey.self)
+        } else {
+            return nestedKeyedContainer(keyedBy: NestedKey.self)
+        }
+    }
+
+    public mutating func nestedKeyedContainer<NestedKey>(keyedBy _: NestedKey.Type) -> KeyedEncodingContainer<NestedKey> {
         codingPath.append(XMLKey(index: count))
         defer { self.codingPath.removeLast() }
 
@@ -78,6 +86,23 @@ struct XMLUnkeyedEncodingContainer: UnkeyedEncodingContainer {
             referencing: encoder,
             codingPath: codingPath,
             wrapping: sharedKeyed
+        )
+        return KeyedEncodingContainer(container)
+    }
+
+    public mutating func nestedChoiceContainer<NestedKey>(keyedBy _: NestedKey.Type) -> KeyedEncodingContainer<NestedKey> {
+        codingPath.append(XMLKey(index: count))
+        defer { self.codingPath.removeLast() }
+
+        let sharedChoice = SharedBox(ChoiceBox())
+        self.container.withShared { container in
+            container.append(sharedChoice)
+        }
+
+        let container = XMLChoiceEncodingContainer<NestedKey>(
+            referencing: encoder,
+            codingPath: codingPath,
+            wrapping: sharedChoice
         )
         return KeyedEncodingContainer(container)
     }

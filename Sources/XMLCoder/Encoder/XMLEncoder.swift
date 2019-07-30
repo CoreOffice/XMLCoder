@@ -338,6 +338,8 @@ open class XMLEncoder {
             elementOrNone = XMLCoderElement(key: rootKey, box: keyedBox)
         } else if let unkeyedBox = topLevel as? UnkeyedBox {
             elementOrNone = XMLCoderElement(key: rootKey, box: unkeyedBox)
+        } else if let choiceBox = topLevel as? ChoiceBox {
+            elementOrNone = XMLCoderElement(key: rootKey, box: choiceBox)
         } else {
             fatalError("Unrecognized top-level element of type: \(type(of: topLevel))")
         }

@@ -70,9 +70,15 @@ class XMLDecoderImplementation: Decoder {
         return topContainer
     }
 
-    public func container<Key>(
-        keyedBy keyType: Key.Type
-    ) throws -> KeyedDecodingContainer<Key> {
+    public func container<Key>(keyedBy keyType: Key.Type) throws -> KeyedDecodingContainer<Key> {
+        if Key.self is XMLChoiceCodingKey.Type {
+            return try choiceContainer(keyedBy: keyType)
+        } else {
+            return try keyedContainer(keyedBy: keyType)
+        }
+    }
+
+    public func keyedContainer<Key>(keyedBy _: Key.Type) throws -> KeyedDecodingContainer<Key> {
         let topContainer = try self.topContainer()
 
         switch topContainer {
@@ -118,6 +124,34 @@ class XMLDecoderImplementation: Decoder {
         }
     }
 
+    /// - Returns: A `KeyedDecodingContainer` for an XML choice element.
+    public func choiceContainer<Key>(keyedBy _: Key.Type) throws -> KeyedDecodingContainer<Key> {
+        let topContainer = try self.topContainer()
+        let choiceBox: ChoiceBox?
+        switch topContainer {
+        case let choice as ChoiceBox:
+            choiceBox = choice
+        case let singleKeyed as SingleKeyedBox:
+            choiceBox = ChoiceBox(singleKeyed)
+        case let keyed as SharedBox<KeyedBox>:
+            choiceBox = ChoiceBox(keyed.withShared { $0 })
+        default:
+            choiceBox = nil
+        }
+        guard let box = choiceBox else {
+            throw DecodingError.typeMismatch(
+                at: codingPath,
+                expectation: [String: Any].self,
+                reality: topContainer
+            )
+        }
+        let container = XMLChoiceDecodingContainer<Key>(
+            referencing: self,
+            wrapping: SharedBox(box)
+        )
+        return KeyedDecodingContainer(container)
+    }
+
     public func unkeyedContainer() throws -> UnkeyedDecodingContainer {
         let topContainer = try self.topContainer()
 
@@ -138,9 +172,10 @@ class XMLDecoderImplementation: Decoder {
         case let unkeyed as SharedBox<UnkeyedBox>:
             return XMLUnkeyedDecodingContainer(referencing: self, wrapping: unkeyed)
         case let keyed as SharedBox<KeyedBox>:
-            guard let firstKey = keyed.withShared({ $0.elements.keys.first }) else { fallthrough }
-
-            return XMLUnkeyedDecodingContainer(referencing: self, wrapping: SharedBox(keyed.withShared { $0.elements[firstKey] }))
+            return XMLUnkeyedDecodingContainer(
+                referencing: self,
+                wrapping: SharedBox(keyed.withShared { $0.elements.map(SingleKeyedBox.init) })
+            )
         default:
             throw DecodingError.typeMismatch(
                 at: codingPath,
@@ -418,5 +453,24 @@ extension XMLDecoderImplementation {
         }
 
         return result
+    }
+}
+
+extension XMLDecoderImplementation {
+    var keyTransform: (String) -> String {
+        switch options.keyDecodingStrategy {
+        case .convertFromSnakeCase:
+            return XMLDecoder.KeyDecodingStrategy._convertFromSnakeCase
+        case .convertFromCapitalized:
+            return XMLDecoder.KeyDecodingStrategy._convertFromCapitalized
+        case .convertFromKebabCase:
+            return XMLDecoder.KeyDecodingStrategy._convertFromKebabCase
+        case .useDefaultKeys:
+            return { key in key }
+        case let .custom(converter):
+            return { key in
+                converter(self.codingPath + [XMLKey(stringValue: key, intValue: nil)]).stringValue
+            }
+        }
     }
 }
