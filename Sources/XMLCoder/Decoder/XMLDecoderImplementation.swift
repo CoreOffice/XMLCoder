@@ -174,12 +174,7 @@ class XMLDecoderImplementation: Decoder {
         case let keyed as SharedBox<KeyedBox>:
             return XMLUnkeyedDecodingContainer(
                 referencing: self,
-                wrapping: SharedBox(
-                    keyed.withShared { $0.elements.map { key, box in
-                        SingleKeyedBox(key: key, element: box)
-                    }
-                    }
-                )
+                wrapping: SharedBox(keyed.withShared { $0.elements.map(SingleKeyedBox.init) })
             )
         default:
             throw DecodingError.typeMismatch(
