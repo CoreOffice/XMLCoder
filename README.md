@@ -199,6 +199,14 @@ struct Foo: Codable, DynamicNodeEncoding {
 }
 ```
 
+### Choice element coding
+
+Starting with [version 0.8](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.8.0), you
+now encode and decode union-type–like enums with associated values by conforming your
+`CodingKey` type additionally to `XMLChoiceCodingKey`.
+
+For more information, see the [pull request](https://github.com/MaxDesiatov/XMLCoder/pull/119).
+
 ### Preserving whitespaces in element content
 
 By default whitespaces are trimmed in element content during decoding. This
