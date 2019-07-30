@@ -34,7 +34,7 @@ struct XMLChoiceEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
 
     // MARK: - Coding Path Operations
 
-    private func _converted(_ key: CodingKey) -> CodingKey {
+    private func converted(_ key: CodingKey) -> CodingKey {
         switch encoder.options.keyEncodingStrategy {
         case .useDefaultKeys:
             return key
@@ -67,7 +67,7 @@ struct XMLChoiceEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
 
     public mutating func encodeNil(forKey key: Key) throws {
         container.withShared {
-            $0.key = _converted(key).stringValue
+            $0.key = converted(key).stringValue
             $0.element = NullBox()
         }
     }
@@ -102,7 +102,7 @@ struct XMLChoiceEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
         let elementEncoder: (T, Key, Box) throws -> () = { _, key, box in
             mySelf.container.withShared { container in
                 container.element = box
-                container.key = mySelf._converted(key).stringValue
+                container.key = mySelf.converted(key).stringValue
             }
         }
 
@@ -132,7 +132,7 @@ struct XMLChoiceEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
 
         self.container.withShared { container in
             container.element = sharedKeyed
-            container.key = _converted(key).stringValue
+            container.key = converted(key).stringValue
         }
 
         codingPath.append(key)
@@ -154,7 +154,7 @@ struct XMLChoiceEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
 
         self.container.withShared { container in
             container.element = sharedChoice
-            container.key = _converted(key).stringValue
+            container.key = converted(key).stringValue
         }
 
         codingPath.append(key)
@@ -175,7 +175,7 @@ struct XMLChoiceEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
 
         container.withShared { container in
             container.element = sharedUnkeyed
-            container.key = _converted(key).stringValue
+            container.key = converted(key).stringValue
         }
 
         codingPath.append(key)
@@ -191,7 +191,7 @@ struct XMLChoiceEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
         return XMLReferencingEncoder(
             referencing: encoder,
             key: XMLKey.super,
-            convertedKey: _converted(XMLKey.super),
+            convertedKey: converted(XMLKey.super),
             wrapping: container
         )
     }
@@ -200,7 +200,7 @@ struct XMLChoiceEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol 
         return XMLReferencingEncoder(
             referencing: encoder,
             key: key,
-            convertedKey: _converted(key),
+            convertedKey: converted(key),
             wrapping: container
         )
     }

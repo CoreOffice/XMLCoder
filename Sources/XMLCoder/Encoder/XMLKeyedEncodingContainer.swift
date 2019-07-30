@@ -36,7 +36,7 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
 
     // MARK: - Coding Path Operations
 
-    private func _converted(_ key: CodingKey) -> CodingKey {
+    private func converted(_ key: CodingKey) -> CodingKey {
         switch encoder.options.keyEncodingStrategy {
         case .useDefaultKeys:
             return key
@@ -69,7 +69,7 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
 
     public mutating func encodeNil(forKey key: Key) throws {
         container.withShared {
-            $0.elements.append(NullBox(), at: _converted(key).stringValue)
+            $0.elements.append(NullBox(), at: converted(key).stringValue)
         }
     }
 
@@ -113,13 +113,13 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
                 ))
             }
             mySelf.container.withShared { container in
-                container.attributes.append(attribute, at: mySelf._converted(key).stringValue)
+                container.attributes.append(attribute, at: mySelf.converted(key).stringValue)
             }
         }
 
         let elementEncoder: (T, Key, Box) throws -> () = { _, key, box in
             mySelf.container.withShared { container in
-                container.elements.append(box, at: mySelf._converted(key).stringValue)
+                container.elements.append(box, at: mySelf.converted(key).stringValue)
             }
         }
 
@@ -156,7 +156,7 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
         let sharedKeyed = SharedBox(KeyedBox())
 
         self.container.withShared { container in
-            container.elements.append(sharedKeyed, at: _converted(key).stringValue)
+            container.elements.append(sharedKeyed, at: converted(key).stringValue)
         }
 
         codingPath.append(key)
@@ -177,7 +177,7 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
         let sharedChoice = SharedBox(ChoiceBox())
 
         self.container.withShared { container in
-            container.elements.append(sharedChoice, at: _converted(key).stringValue)
+            container.elements.append(sharedChoice, at: converted(key).stringValue)
         }
 
         codingPath.append(key)
@@ -197,7 +197,7 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
         let sharedUnkeyed = SharedBox(UnkeyedBox())
 
         container.withShared { container in
-            container.elements.append(sharedUnkeyed, at: _converted(key).stringValue)
+            container.elements.append(sharedUnkeyed, at: converted(key).stringValue)
         }
 
         codingPath.append(key)
@@ -213,7 +213,7 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
         return XMLReferencingEncoder(
             referencing: encoder,
             key: XMLKey.super,
-            convertedKey: _converted(XMLKey.super),
+            convertedKey: converted(XMLKey.super),
             wrapping: container
         )
     }
@@ -222,7 +222,7 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
         return XMLReferencingEncoder(
             referencing: encoder,
             key: key,
-            convertedKey: _converted(key),
+            convertedKey: converted(key),
             wrapping: container
         )
     }
