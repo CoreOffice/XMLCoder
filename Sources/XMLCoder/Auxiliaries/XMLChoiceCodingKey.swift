@@ -19,7 +19,7 @@
 ///         case string(String)
 ///     }
 ///
-/// Implement the requirements for the `Codable` protocol like this:
+/// Implementing the requirements for the `Codable` protocol like this:
 ///
 ///     extension IntOrString: Codable {
 ///         enum CodingKeys: String, XMLChoiceCodingKey {
