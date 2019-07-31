@@ -79,6 +79,10 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
 
         let box = elements.first ?? attributes.first
 
+        if let singleKeyed = box as? SingleKeyedBox {
+            return singleKeyed.element.isNull
+        }
+
         return box?.isNull ?? true
     }
 
@@ -232,14 +236,26 @@ extension XMLKeyedDecodingContainer {
                     let keyString = key.stringValue.isEmpty ? "value" : key.stringValue
                     let value = keyedBox.elements[keyString]
                     if !value.isEmpty {
-                        return value
+                        return value.map {
+                            if let singleKeyed = $0 as? SingleKeyedBox {
+                                return singleKeyed.element
+                            } else {
+                                return $0
+                            }
+                        }
                     } else if let value = keyedBox.value {
                         return [value]
                     } else {
                         return []
                     }
                 } else {
-                    return keyedBox.elements[key.stringValue]
+                    return keyedBox.elements[key.stringValue].map {
+                        if let singleKeyed = $0 as? SingleKeyedBox {
+                            return singleKeyed.element
+                        } else {
+                            return $0
+                        }
+                    }
                 }
             }
 
