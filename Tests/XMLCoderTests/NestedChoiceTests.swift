@@ -227,6 +227,50 @@ class NestedChoiceTests: XCTestCase {
         XCTAssertEqual(result, expected)
     }
 
+    func testNestedEnumsWithEmptyStruct() throws {
+        let xml = """
+        <container>
+            <p>
+                <br></br>
+                <run>
+                    <id>1518</id>
+                    <text>I am answering it again.</text>
+                </run>
+                <properties>
+                    <id>431</id>
+                    <title>A Word About Wake Times</title>
+                </properties>
+            </p>
+            <p>
+                <run>
+                    <id>1519</id>
+                    <text>I am answering it again.</text>
+                </run>
+                <br />
+            </p>
+        </container>
+        """
+        let result = try XMLDecoder().decode(Container.self, from: xml.data(using: .utf8)!)
+        let expected = Container(
+            paragraphs: [
+                Paragraph(
+                    entries: [
+                        .br(Break()),
+                        .run(Run(id: 1518, text: "I am answering it again.")),
+                        .properties(Properties(id: 431, title: "A Word About Wake Times")),
+                    ]
+                ),
+                Paragraph(
+                    entries: [
+                        .run(Run(id: 1519, text: "I am answering it again.")),
+                        .br(Break()),
+                    ]
+                ),
+            ]
+        )
+        XCTAssertEqual(result, expected)
+    }
+
     func testNestedEnumsRoundTrip() throws {
         let original = Container(
             paragraphs: [
