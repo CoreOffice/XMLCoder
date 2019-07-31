@@ -69,14 +69,8 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
     }
 
     public func decodeNil(forKey key: Key) throws -> Bool {
-        let elements = container.withShared { keyedBox -> [Box] in
-            keyedBox.elements[key.stringValue].map {
-                if let singleKeyed = $0 as? SingleKeyedBox {
-                    return singleKeyed.element
-                } else {
-                    return $0
-                }
-            }
+        let elements = container.withShared { keyedBox in
+            keyedBox.elements[key.stringValue]
         }
 
         let attributes = container.withShared { keyedBox in
@@ -84,6 +78,10 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
         }
 
         let box = elements.first ?? attributes.first
+
+        if let singleKeyed = box as? SingleKeyedBox {
+            return singleKeyed.element.isNull
+        }
 
         return box?.isNull ?? true
     }
