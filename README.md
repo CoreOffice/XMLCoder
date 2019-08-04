@@ -278,7 +278,7 @@ by [@jsbean](https://github.com/jsbean) and [@bwetherfield](https://github.com/b
 - iOS 9.0 / watchOS 2.0 / tvOS 9.0 / macOS 10.10 or later deployment targets
 
 **Linux**
-- Ubuntu 14.04 or Later
+- Ubuntu 14.04 or later
 - Swift 5.0.1 or later
 
 ### Swift Package Manager
