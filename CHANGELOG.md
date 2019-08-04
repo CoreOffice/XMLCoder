@@ -1,10 +1,14 @@
 # 0.8.0 (August 4, 2019)
 
-This release adds support for decoding and decoding ordered sequences of
+This release adds support for decoding and encoding ordered sequences of
 different elements as enums with associated values. In addition, XMLCoder now
 supports Linux. Many thanks to [@jsbean](https://github.com/jsbean),
 [@bwetherfield](https://github.com/bwetherfield) and
 [@drewag](https://github.com/drewag) for implementing this!
+
+**Breaking changes:**
+
+- Fixed typo in `XMLDecoder` property: `errorContextLenght` has been renamed to `errorContextLength` in [\#114](https://github.com/MaxDesiatov/XMLCoder/pull/114).
 
 **Closed issues:**
 
