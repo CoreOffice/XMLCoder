@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name          = "XMLCoder"
-  s.version       = "0.7.0"
+  s.version       = "0.8.0"
   s.summary       = "XMLEncoder & XMLDecoder using the Codable protocol in Swift"
   s.description   = "XMLCoder allows Swift Codable-conforming objects to be translated to and from XML"
   s.homepage      = "https://github.com/MaxDesiatov/XMLCoder"

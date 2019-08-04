@@ -160,6 +160,9 @@ works for this XML:
 </book>
 ```
 
+Please refer to PR [\#70](https://github.com/MaxDesiatov/XMLCoder/pull/70) by 
+[@JoeMatt](https://github.com/JoeMatt) for more details.
+
 ### Coding key value intrinsic
 
 Suppose that you need to decode an XML that looks similar to this:
@@ -199,6 +202,9 @@ struct Foo: Codable, DynamicNodeEncoding {
 }
 ```
 
+Thanks to [@JoeMatt](https://github.com/JoeMatt) for implementing this in
+in PR [\#73](https://github.com/MaxDesiatov/XMLCoder/pull/73).
+
 ### Preserving whitespaces in element content
 
 By default whitespaces are trimmed in element content during decoding. This
@@ -209,11 +215,58 @@ you can now set a property `trimValueWhitespaces` to `false` (the default value 
 
 ### Choice element coding
 
-Starting with [version 0.8](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.8.0), you
-can encode and decode union-type–like enums with associated values by conforming your
-`CodingKey` type additionally to `XMLChoiceCodingKey`.
+Starting with [version 0.8](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.8.0), 
+you can encode and decode `enum`s with associated values by conforming your
+`CodingKey` type additionally to `XMLChoiceCodingKey`. This allows decoding
+XML elements similar in structure to this example:
 
-For more information, see the [pull request](https://github.com/MaxDesiatov/XMLCoder/pull/119).
+```xml
+<container>
+    <int>1</int>
+    <string>two</string>
+    <string>three</string>
+    <int>4</int>
+    <int>5</int>
+</container>
+```
+
+To decode these elements you can use this type:
+
+```swift
+enum IntOrString: Equatable {
+    case int(Int)
+    case string(String)
+}
+
+extension IntOrString: Codable {
+    enum CodingKeys: String, XMLChoiceCodingKey {
+        case int
+        case string
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+        case let .int(value):
+            try container.encode(value, forKey: .int)
+        case let .string(value):
+            try container.encode(value, forKey: .string)
+        }
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        do {
+            self = .int(try container.decode(Int.self, forKey: .int))
+        } catch {
+            self = .string(try container.decode(String.self, forKey: .string))
+        }
+    }
+}
+```
+
+This is described in more details in PR [\#119](https://github.com/MaxDesiatov/XMLCoder/pull/119) 
+by [@jsbean](https://github.com/jsbean) and [@bwetherfield](https://github.com/bwetherfield).
 
 ## Installation
 
@@ -240,7 +293,7 @@ easy as adding it to the `dependencies` value of your `Package.swift`.
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.7.0")
+    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.8.0")
 ]
 ```
 
@@ -269,7 +322,7 @@ target 'YourApp' do
   use_frameworks!
 
   # Pods for Test
-  pod 'XMLCoder', '~> 0.7.0'
+  pod 'XMLCoder', '~> 0.8.0'
 end
 ```
 
@@ -297,7 +350,7 @@ $ brew install carthage
 Inside of your `Cartfile`, add GitHub path to `XMLCoder`:
 
 ```ogdl
-github "MaxDesiatov/XMLCoder" ~> 0.7.0
+github "MaxDesiatov/XMLCoder" ~> 0.8.0
 ```
 
 Then, run the following command to build the framework:
