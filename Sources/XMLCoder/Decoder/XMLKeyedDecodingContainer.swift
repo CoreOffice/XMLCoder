@@ -162,10 +162,10 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
 
         let elements = container.unboxed.elements[key.stringValue]
 
-        if let containsKeyed = elements as? [KeyedBox], !containsKeyed.isEmpty {
+        if let containsKeyed = elements as? [KeyedBox], let keyed = containsKeyed.first {
             return XMLUnkeyedDecodingContainer(
                 referencing: decoder,
-                wrapping: SharedBox(containsKeyed.first!.elements.map(SingleKeyedBox.init))
+                wrapping: SharedBox(keyed.elements.map(SingleKeyedBox.init))
             )
         } else {
             return XMLUnkeyedDecodingContainer(
