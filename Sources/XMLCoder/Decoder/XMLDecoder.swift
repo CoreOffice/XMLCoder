@@ -368,3 +368,11 @@ open class XMLDecoder {
         return try decoder.unbox(topLevel)
     }
 }
+
+// MARK: TopLevelDecoder
+
+#if canImport(Combine)
+import protocol Combine.TopLevelDecoder
+
+extension XMLDecoder: TopLevelDecoder {}
+#endif
