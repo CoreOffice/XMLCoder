@@ -7,6 +7,9 @@
 //
 
 import Foundation
+#if canImport(FoundationXML)
+import FoundationXML
+#endif
 
 class XMLStackParser: NSObject {
     var root: XMLCoderElement?
@@ -126,7 +129,7 @@ extension XMLStackParser: XMLParserDelegate {
                 namespaceURI: String?,
                 qualifiedName: String?,
                 attributes attributeDict: [String: String] = [:]) {
-        #if os(Linux)
+        #if os(Linux) && !compiler(>=5.1)
         // For some reason, element names on linux are coming out with the namespace after the name
         // https://bugs.swift.org/browse/SR-11191
         let elementName = elementName.components(separatedBy: ":").reversed().joined(separator: ":")
