@@ -3,6 +3,8 @@
 set -e 
 set -o pipefail
 
+ls /Applications/Xcode*
+
 sudo xcode-select --switch /Applications/$1.app/Contents/Developer
 
 xcodebuild -version
