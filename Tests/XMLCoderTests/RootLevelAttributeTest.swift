@@ -33,11 +33,11 @@ let expected = """
 """
 
 class RootLevelAttributeTest: XCTestCase {
-    func testPolicyEncodingAtRoot() {
+    func testPolicyEncodingAtRoot() throws {
         let encoder = XMLEncoder()
         encoder.outputFormatting = [.prettyPrinted]
         let policy = Policy(name: "generic", initial: "more xml here")
-        let data = try! encoder.encode(policy,
+        let data = try encoder.encode(policy,
                                        withRootKey: "policy",
                                        header: XMLHeader(version: 1.0, encoding: "UTF-8"))
         XCTAssertEqual(String(data: data, encoding: .utf8)!, expected)
