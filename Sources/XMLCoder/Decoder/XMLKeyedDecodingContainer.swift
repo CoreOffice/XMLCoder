@@ -282,6 +282,13 @@ extension XMLKeyedDecodingContainer {
             return empty
         }
 
+        // If we are looking at a coding key value intrinsic where the expected type is `String` and
+        // the value is empty, return `""`.
+        if strategy(key) != .attribute, elements.isEmpty, attributes.isEmpty, type == String.self,
+            (key.stringValue == "value" || key.stringValue == "") {
+            return "" as! T
+        }
+
         switch strategy(key) {
         case .attribute:
             guard
