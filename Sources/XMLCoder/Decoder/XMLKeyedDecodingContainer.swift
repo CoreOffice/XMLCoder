@@ -249,9 +249,12 @@ extension XMLKeyedDecodingContainer {
                         return []
                     }
                 } else {
+                    #warning("TODO: just return keyedBox.elements[key.stringValue]")
                     return keyedBox.elements[key.stringValue].map {
                         if let singleKeyed = $0 as? SingleKeyedBox {
-                            return singleKeyed.element
+                            #warning("Don't get rid of key info just yet!")
+                            // return singleKeyed.element
+                            return singleKeyed
                         } else {
                             return $0
                         }
@@ -321,10 +324,22 @@ extension XMLKeyedDecodingContainer {
             box = anyBox
         }
 
+        print(box)
+
         let value: T?
         if !(type is AnySequence.Type), let unkeyedBox = box as? UnkeyedBox,
             let first = unkeyedBox.first {
-            value = try decoder.unbox(first)
+            // Handle case where we have held onto a `SingleKeyedBox`
+            if let singleKeyed = first as? SingleKeyedBox {
+                print("single keyed here?: \(singleKeyed.element)")
+                if singleKeyed.element.isNull {
+                    value = try decoder.unbox(singleKeyed)
+                } else {
+                    value = try decoder.unbox(singleKeyed.element)
+                }
+            } else {
+                value = try decoder.unbox(first)
+            }
         } else {
             value = try decoder.unbox(box)
         }
@@ -341,7 +356,6 @@ extension XMLKeyedDecodingContainer {
                 "Expected \(type) value but found null instead."
             ))
         }
-
         return unwrapped
     }
 
