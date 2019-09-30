@@ -22,7 +22,7 @@ private struct Foo: Decodable {
     var name: String
 }
 
-@available(iOS 13.0, macOS 10.15.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, *)
+@available(iOS 13.0, macOS 10.15.0, tvOS 13.0, watchOS 6.0, *)
 class CombineTests: XCTestCase {
     func testDecodeFromXMLDecoder() {
         let data = Just(xml)
