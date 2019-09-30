@@ -269,6 +269,25 @@ extension IntOrString: Codable {
 This is described in more details in PR [\#119](https://github.com/MaxDesiatov/XMLCoder/pull/119) 
 by [@jsbean](https://github.com/jsbean) and [@bwetherfield](https://github.com/bwetherfield).
 
+## Integrating with [Combine](https://developer.apple.com/documentation/combine)
+
+When Apple's Combine framework is available, `XMLDecoder` conforms to the
+`TopLevelDecoder` protocol, which allows it to be used with the
+`decode(type:decoder:)` operator:
+
+```swift
+import Combine
+import Foundation
+import XMLCoder
+
+func fetchBook(from url: URL) -> AnyPublisher<Book, Error> {
+    return URLSession.shared.dataTaskPublisher(for: url)
+        .map(\.data)
+        .decode(type: Book.self, decoder: XMLDecoder())
+        .eraseToAnyPublisher()
+}
+```
+
 ## Installation
 
 ### Requirements
