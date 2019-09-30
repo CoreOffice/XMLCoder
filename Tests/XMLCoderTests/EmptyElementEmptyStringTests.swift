@@ -9,7 +9,6 @@ import XCTest
 import XMLCoder
 
 class EmptyElementEmptyStringTests: XCTestCase {
-
     struct Parent: Equatable, Codable {
         let thing: Thing
     }
@@ -48,7 +47,7 @@ class EmptyElementEmptyStringTests: XCTestCase {
         let expected = [
             Thing(attribute: nil, value: ""),
             Thing(attribute: "x", value: ""),
-            Thing(attribute: nil, value: "")
+            Thing(attribute: nil, value: ""),
         ]
         let result = try XMLDecoder().decode([Thing].self, from: xml.data(using: .utf8)!)
         XCTAssertEqual(expected, result)
@@ -65,7 +64,5 @@ class EmptyElementEmptyStringTests: XCTestCase {
         XCTAssertEqual(expected, result)
     }
 
-    func testNestedArrayOfEmptyElementEmptyStringDecoding() throws {
-
-    }
+    func testNestedArrayOfEmptyElementEmptyStringDecoding() throws {}
 }

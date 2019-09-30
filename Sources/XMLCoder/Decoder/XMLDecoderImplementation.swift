@@ -101,6 +101,13 @@ class XMLDecoderImplementation: Decoder {
                     attributes: KeyedStorage()
                 ))
             ))
+        case let containsEmpty as SingleKeyedBox:
+            precondition(containsEmpty.element is NullBox)
+            return KeyedDecodingContainer(XMLKeyedDecodingContainer<Key>(
+                referencing: self, wrapping: SharedBox(KeyedBox(
+                    elements: KeyedStorage([("value", StringBox(""))]), attributes: KeyedStorage()
+                ))
+            ))
         case let keyed as SharedBox<KeyedBox>:
             return KeyedDecodingContainer(XMLKeyedDecodingContainer<Key>(
                 referencing: self,
@@ -210,6 +217,10 @@ extension XMLDecoderImplementation {
         case let keyedBox as SharedBox<KeyedBox>:
             guard
                 let value = keyedBox.withShared({ $0.value as? B })
+            else { throw error }
+            return value
+        case let singleKeyedBox as SingleKeyedBox:
+            guard let value = singleKeyedBox.element as? B
             else { throw error }
             return value
         case is NullBox:
@@ -408,7 +419,6 @@ extension XMLDecoderImplementation {
     }
 
     func unbox<T: Decodable>(_ box: Box) throws -> T {
-
         let decoded: T?
         let type = T.self
 
