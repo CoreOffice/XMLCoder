@@ -101,8 +101,7 @@ class XMLDecoderImplementation: Decoder {
                     attributes: KeyedStorage()
                 ))
             ))
-        case let containsEmpty as SingleKeyedBox:
-            precondition(containsEmpty.element is NullBox)
+        case let containsEmpty as SingleKeyedBox where containsEmpty.element is NullBox:
             return KeyedDecodingContainer(XMLKeyedDecodingContainer<Key>(
                 referencing: self, wrapping: SharedBox(KeyedBox(
                     elements: KeyedStorage([("value", StringBox(""))]), attributes: KeyedStorage()
@@ -444,10 +443,7 @@ extension XMLDecoderImplementation {
                 storage.popContainer()
             }
 
-            print("type: \(type), box: \(box)")
-
             do {
-                print("try decoding in init")
                 decoded = try type.init(from: self)
             } catch {
                 guard case DecodingError.valueNotFound = error,

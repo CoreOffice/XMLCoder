@@ -324,14 +324,11 @@ extension XMLKeyedDecodingContainer {
             box = anyBox
         }
 
-        print(box)
-
         let value: T?
         if !(type is AnySequence.Type), let unkeyedBox = box as? UnkeyedBox,
             let first = unkeyedBox.first {
             // Handle case where we have held onto a `SingleKeyedBox`
             if let singleKeyed = first as? SingleKeyedBox {
-                print("single keyed here?: \(singleKeyed.element)")
                 if singleKeyed.element.isNull {
                     value = try decoder.unbox(singleKeyed)
                 } else {

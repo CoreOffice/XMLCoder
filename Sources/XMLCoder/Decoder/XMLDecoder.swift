@@ -349,8 +349,6 @@ open class XMLDecoder {
             trimValueWhitespaces: trimValueWhitespaces
         )
 
-        print("decoder.decode(\(type), from: \(data), top level: \(topLevel)")
-
         let decoder = XMLDecoderImplementation(
             referencing: topLevel,
             options: options,
