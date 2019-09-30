@@ -38,8 +38,8 @@ class RootLevelAttributeTest: XCTestCase {
         encoder.outputFormatting = [.prettyPrinted]
         let policy = Policy(name: "generic", initial: "more xml here")
         let data = try encoder.encode(policy,
-                                       withRootKey: "policy",
-                                       header: XMLHeader(version: 1.0, encoding: "UTF-8"))
+                                      withRootKey: "policy",
+                                      header: XMLHeader(version: 1.0, encoding: "UTF-8"))
         XCTAssertEqual(String(data: data, encoding: .utf8)!, expected)
     }
 }
