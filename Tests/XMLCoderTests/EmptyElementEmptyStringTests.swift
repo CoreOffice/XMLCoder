@@ -10,8 +10,28 @@ import XMLCoder
 
 class EmptyElementEmptyStringTests: XCTestCase {
 
-    struct ContainerMultiple: Equatable, Codable {
+    struct ContainerMultiple: Equatable, Decodable {
         let things: [Thing]
+        
+        enum CodingKeys: String, CodingKey {
+            case things
+        }
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+
+            var things = [Thing]()
+            if var thingContainer = try? container.nestedUnkeyedContainer(forKey: .things) {
+                while !thingContainer.isAtEnd {
+                    things.append(try thingContainer.decode(Thing.self))
+                }
+            }
+            self.things = things
+        }
+        
+        init(things: [Thing]) {
+            self.things = things
+        }
     }
 
     struct ContainerSingle: Equatable, Codable {
