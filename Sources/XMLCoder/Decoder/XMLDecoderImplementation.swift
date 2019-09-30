@@ -221,7 +221,7 @@ extension XMLDecoderImplementation {
             return value
         case let singleKeyedBox as SingleKeyedBox:
             guard let value = singleKeyedBox.element as? B
-                else { throw error}
+            else { throw error }
             return value
         case is NullBox:
             throw error
@@ -419,7 +419,6 @@ extension XMLDecoderImplementation {
     }
 
     func unbox<T: Decodable>(_ box: Box) throws -> T {
-
         let decoded: T?
         let type = T.self
 
