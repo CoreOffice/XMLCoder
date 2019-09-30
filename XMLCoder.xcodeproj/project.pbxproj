@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		4A062D4F2341924E009BCAC1 /* CombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A062D4E2341924E009BCAC1 /* CombineTests.swift */; };
 		OBJ_148 /* BoolBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* BoolBox.swift */; };
 		OBJ_149 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Box.swift */; };
 		OBJ_150 /* ChoiceBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* ChoiceBox.swift */; };
@@ -152,6 +153,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A062D4E2341924E009BCAC1 /* CombineTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombineTests.swift; sourceTree = "<group>"; };
 		OBJ_100 /* DecimalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalTests.swift; sourceTree = "<group>"; };
 		OBJ_101 /* EmptyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTests.swift; sourceTree = "<group>"; };
 		OBJ_102 /* FloatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatTests.swift; sourceTree = "<group>"; };
@@ -424,6 +426,7 @@
 				OBJ_86 /* CDCatalog.swift */,
 				OBJ_87 /* CDTest.swift */,
 				OBJ_88 /* ClassTests.swift */,
+				4A062D4E2341924E009BCAC1 /* CombineTests.swift */,
 				OBJ_89 /* CompositeChoiceTests.swift */,
 				OBJ_90 /* DecodingContainerTests.swift */,
 				OBJ_91 /* DynamicNodeDecodingTest.swift */,
@@ -734,6 +737,7 @@
 				OBJ_269 /* RJITest.swift in Sources */,
 				OBJ_270 /* RelationshipsTest.swift in Sources */,
 				OBJ_271 /* SimpleChoiceTests.swift in Sources */,
+				4A062D4F2341924E009BCAC1 /* CombineTests.swift in Sources */,
 				OBJ_272 /* SingleChildTests.swift in Sources */,
 				OBJ_273 /* SpacePreserveTest.swift in Sources */,
 			);
