@@ -79,6 +79,10 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
 
         let box = elements.first ?? attributes.first
 
+        if let singleKeyed = box as? SingleKeyedBox {
+            return singleKeyed.element.isNull
+        }
+
         return box?.isNull ?? true
     }
 
@@ -156,14 +160,19 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
         decoder.codingPath.append(key)
         defer { decoder.codingPath.removeLast() }
 
-        let elements = container.withShared { keyedBox in
-            keyedBox.elements[key.stringValue]
-        }
+        let elements = container.unboxed.elements[key.stringValue]
 
-        return XMLUnkeyedDecodingContainer(
-            referencing: decoder,
-            wrapping: SharedBox(elements)
-        )
+        if let containsKeyed = elements as? [KeyedBox], let keyed = containsKeyed.first {
+            return XMLUnkeyedDecodingContainer(
+                referencing: decoder,
+                wrapping: SharedBox(keyed.elements.map(SingleKeyedBox.init))
+            )
+        } else {
+            return XMLUnkeyedDecodingContainer(
+                referencing: decoder,
+                wrapping: SharedBox(elements)
+            )
+        }
     }
 
     public func superDecoder() throws -> Decoder {
@@ -232,14 +241,29 @@ extension XMLKeyedDecodingContainer {
                     let keyString = key.stringValue.isEmpty ? "value" : key.stringValue
                     let value = keyedBox.elements[keyString]
                     if !value.isEmpty {
-                        return value
+                        return value.map {
+                            if let singleKeyed = $0 as? SingleKeyedBox {
+                                return singleKeyed.element
+                            } else {
+                                return $0
+                            }
+                        }
                     } else if let value = keyedBox.value {
                         return [value]
                     } else {
                         return []
                     }
                 } else {
-                    return keyedBox.elements[key.stringValue]
+                    #warning("TODO: just return keyedBox.elements[key.stringValue]")
+                    return keyedBox.elements[key.stringValue].map {
+                        if let singleKeyed = $0 as? SingleKeyedBox {
+                            #warning("Don't get rid of key info just yet!")
+                            // return singleKeyed.element
+                            return singleKeyed
+                        } else {
+                            return $0
+                        }
+                    }
                 }
             }
 
@@ -264,6 +288,13 @@ extension XMLKeyedDecodingContainer {
         if strategy(key) != .attribute && elements.isEmpty,
             let empty = (type as? AnySequence.Type)?.init() as? T {
             return empty
+        }
+
+        // If we are looking at a coding key value intrinsic where the expected type is `String` and
+        // the value is empty, return `""`.
+        if strategy(key) != .attribute, elements.isEmpty, attributes.isEmpty, type == String.self,
+            key.stringValue == "value" || key.stringValue == "" {
+            return "" as! T
         }
 
         switch strategy(key) {
@@ -301,7 +332,16 @@ extension XMLKeyedDecodingContainer {
         let value: T?
         if !(type is AnySequence.Type), let unkeyedBox = box as? UnkeyedBox,
             let first = unkeyedBox.first {
-            value = try decoder.unbox(first)
+            // Handle case where we have held onto a `SingleKeyedBox`
+            if let singleKeyed = first as? SingleKeyedBox {
+                if singleKeyed.element.isNull {
+                    value = try decoder.unbox(singleKeyed)
+                } else {
+                    value = try decoder.unbox(singleKeyed.element)
+                }
+            } else {
+                value = try decoder.unbox(first)
+            }
         } else {
             value = try decoder.unbox(box)
         }
@@ -318,7 +358,6 @@ extension XMLKeyedDecodingContainer {
                 "Expected \(type) value but found null instead."
             ))
         }
-
         return unwrapped
     }
 

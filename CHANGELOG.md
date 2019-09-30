@@ -1,4 +1,36 @@
-#  0.7.0 (July 2, 2019)
+# 0.8.0 (August 4, 2019)
+
+This release adds support for decoding and encoding ordered sequences of
+different elements as enums with associated values. In addition, XMLCoder now
+supports Linux. Many thanks to [@jsbean](https://github.com/jsbean),
+[@bwetherfield](https://github.com/bwetherfield) and
+[@drewag](https://github.com/drewag) for implementing this!
+
+**Breaking changes:**
+
+- Fixed typo in `XMLDecoder` property: `errorContextLenght` has been renamed to `errorContextLength` in [\#114](https://github.com/MaxDesiatov/XMLCoder/pull/114).
+
+**Closed issues:**
+
+- XML with autoclosed tags [\#116](https://github.com/MaxDesiatov/XMLCoder/issues/116)
+- Arrays of enums [\#91](https://github.com/MaxDesiatov/XMLCoder/issues/91)
+- Array of enums with associated values [\#25](https://github.com/MaxDesiatov/XMLCoder/issues/25)
+
+**Merged pull requests:**
+
+- Decoding choice elements that can hold empty structs
+  [\#120](https://github.com/MaxDesiatov/XMLCoder/pull/120)
+  ([@bwetherfield](https://github.com/bwetherfield))
+- `Encodable` and `Decodable` support for choice elements
+  [\#119](https://github.com/MaxDesiatov/XMLCoder/pull/119)
+  ([@jsbean](https://github.com/jsbean))
+- Add Linux support [\#117](https://github.com/MaxDesiatov/XMLCoder/pull/117)
+  ([@drewag](https://github.com/drewag))
+- Fix typo: `errorContextLenght` -\> `errorContextLength`
+  [\#114](https://github.com/MaxDesiatov/XMLCoder/pull/114)
+  ([@jsbean](https://github.com/jsbean))
+
+# 0.7.0 (July 2, 2019)
 
 This release changes the behavior of attributes coding: now order of XML
 attributes is fully preserved. One of the benefits is that it improves unit
@@ -9,19 +41,19 @@ Travis for CI with great improvements to overall CI stability, speed, and
 parallel builds. Thanks to [Andrés Cecilia Luque](https://github.com/acecilia)
 and [Jay Hickey](https://github.com/jayhickey) for the contributions!
 
-## Merged pull requests
+**Merged pull requests:**
 
 - Change components variable from var to let
   [\#107](https://github.com/MaxDesiatov/XMLCoder/pull/107)
-  ([jayhickey](https://github.com/jayhickey))
+  ([@jayhickey](https://github.com/jayhickey))
 - Keep the order of the attributes during encoding operations
   [\#110](https://github.com/MaxDesiatov/XMLCoder/pull/110)
-  ([acecilia](https://github.com/acecilia))
+  ([@acecilia](https://github.com/acecilia))
 - Migrate from Travis to Azure Pipelines
   [\#111](https://github.com/MaxDesiatov/XMLCoder/pull/111)
-  ([MaxDesiatov](https://github.com/MaxDesiatov))
+  ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
-#  0.6.0 (June 17, 2019)
+# 0.6.0 (June 17, 2019)
 
 An improvement release that introduces `convertFromKebabCase` and
 `convertToKebabCase` key decoding strategies. There were a few changes that
@@ -30,39 +62,38 @@ has changed and a few more tests added. Thanks to [Andrés Cecilia
 Luque](https://github.com/acecilia) and [Vincent
 Esche](https://github.com/regexident) for the contributions!
 
-## Merged pull requests
+**Merged pull requests:**
 
 - Add support for kebab-case KeyDecodingStrategy
   [\#105](https://github.com/MaxDesiatov/XMLCoder/pull/105)
-  ([acecilia](https://github.com/acecilia))
+  ([@acecilia](https://github.com/acecilia))
 - Replace UnkeyedBox with Array, refine KeyedStorage
   [\#102](https://github.com/MaxDesiatov/XMLCoder/pull/102)
-  ([MaxDesiatov](https://github.com/MaxDesiatov))
+  ([@MaxDesiatov](https://github.com/MaxDesiatov))
 - Add tests for nested keyed/unkeyed collections
   [\#38](https://github.com/MaxDesiatov/XMLCoder/pull/38)
-  ([regexident](https://github.com/regexident))
-  
+  ([@regexident](https://github.com/regexident))
 
-#  0.5.1 (May 2, 2019)
+# 0.5.1 (May 2, 2019)
 
 Bugfix release that restores decoding of empty sequences, which became broken in
 0.5.0.
 
-## Merged pull requests
+**Merged pull requests:**
 
 - Fix decoding of empty sequences
   [\#98](https://github.com/MaxDesiatov/XMLCoder/pull/98)
-  ([MaxDesiatov](https://github.com/MaxDesiatov))
+  ([@MaxDesiatov](https://github.com/MaxDesiatov))
 - Rename `flatten` to `transformToBoxTree`, rename tests
   [\#97](https://github.com/MaxDesiatov/XMLCoder/pull/97)
-  ([MaxDesiatov](https://github.com/MaxDesiatov))
+  ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
-#  0.5.0 (May 2, 2019)
+# 0.5.0 (May 2, 2019)
 
 A small improvement release tagged early to resolve blocking issues in
 [CoreXLSX](https://github.com/MaxDesiatov/CoreXLSX). 
 
-## Notable changes
+**Notable changes:**
 
 * Empty value strings are no longer decoded as `nil` when a `String` is
   expected, but are decoded as empty strings, which represents the actual value.
@@ -70,36 +101,36 @@ A small improvement release tagged early to resolve blocking issues in
   overriding the default behaviour, where starting and trailing whitespaces are
   trimmed from string values.
 
-## Closed issues
+**Closed issues:**
 
 - Trimmed whitespace on decoding `String`
   [\#94](https://github.com/MaxDesiatov/XMLCoder/issues/94)
 
-## Merged pull requests
+**Merged pull requests:**
 
 - Fixed a bug when decoding a key with one character only
   [\#96](https://github.com/MaxDesiatov/XMLCoder/pull/96)
-  ([TheFlow95](https://github.com/TheFlow95))
+  ([@TheFlow95](https://github.com/TheFlow95))
 - Add more cases to `AttributedIntrinsicTest`
   [\#95](https://github.com/MaxDesiatov/XMLCoder/pull/95)
-  ([MaxDesiatov](https://github.com/MaxDesiatov))
+  ([@MaxDesiatov](https://github.com/MaxDesiatov))
 - Use `map` instead of `mapValues`/`shuffle` in `XMLCoderElement.flatten`
   [\#93](https://github.com/MaxDesiatov/XMLCoder/pull/93)
-  ([jsbean](https://github.com/jsbean))
+  ([@jsbean](https://github.com/jsbean))
 - Fix decoding empty element as optional
   [\#92](https://github.com/MaxDesiatov/XMLCoder/pull/92)
-  ([MaxDesiatov](https://github.com/MaxDesiatov))
+  ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
-#  0.4.1 (April 12, 2019)
+# 0.4.1 (April 12, 2019)
 
 A bugfix release removing unused Xcode project scheme to improve build time
 for Carthage users.
 
-## Notable changes
+**Notable changes:**
 
-* Remove unused scheme in Xcode project, [@MaxDesiatov](https://github.com/MaxDesiatov))
+* Remove unused scheme in Xcode project ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
-#  0.4.0 (April 8, 2019)
+# 0.4.0 (April 8, 2019)
 
 This is a release with plenty of new features that allow you to parse many more
 XML variations than previously. Compatibility with Xcode 10.2 and Swift 5.0 is
@@ -111,7 +142,7 @@ also improved. A huge thank you to [@JoeMatt](https://github.com/JoeMatt) and
 [@khoogheem](https://github.com/khoogheem) and
 [@thecb4](https://github.com/thecb4) for reporting issues during development!
 
-## Notable changes
+**Notable changes:**
 
 * Ordered encoding: this was one of the most requested changes and it's finally
   here! 🎉 Now both keyed and unkeyed elements are encoded in the exactly same
@@ -139,7 +170,7 @@ also improved. A huge thank you to [@JoeMatt](https://github.com/JoeMatt) and
   (`"value"` or empty string `""` if you already have an XML attribute named
   `"value"`).
 
-## Closed issues
+**Closed issues:**
 
 - Crash: Range invalid bounds in XMLStackParser.swift [\#83](https://github.com/MaxDesiatov/XMLCoder/issues/83)
 - Document DynamicNodeEncoding and attributed intrinsic [\#80](https://github.com/MaxDesiatov/XMLCoder/issues/80)
@@ -148,7 +179,7 @@ also improved. A huge thank you to [@JoeMatt](https://github.com/JoeMatt) and
 - XmlEncoder: ordering of elements [\#17](https://github.com/MaxDesiatov/XMLCoder/issues/17)
 - Can’t reach an XML value [\#12](https://github.com/MaxDesiatov/XMLCoder/issues/12)
 
-## Merged pull requests
+**Merged pull requests:**
 
 - Make value intrinsic smarter
   [\#89](https://github.com/MaxDesiatov/XMLCoder/pull/89)
@@ -181,7 +212,7 @@ also improved. A huge thank you to [@JoeMatt](https://github.com/JoeMatt) and
   ([@MaxDesiatov](https://github.com/MaxDesiatov))
 - Attributed Intrinsic \(value coding key\)
   [\#73](https://github.com/MaxDesiatov/XMLCoder/pull/73)
-  ([JoeMatt](https://github.com/JoeMatt))
+  ([@JoeMatt](https://github.com/JoeMatt))
 - Dynamic node encoding + new formatters + various fixes
   [\#70](https://github.com/MaxDesiatov/XMLCoder/pull/70)
   ([@JoeMatt](https://github.com/JoeMatt))
@@ -189,17 +220,17 @@ also improved. A huge thank you to [@JoeMatt](https://github.com/JoeMatt) and
   [\#45](https://github.com/MaxDesiatov/XMLCoder/pull/45)
   ([@regexident](https://github.com/regexident))
 
-#  0.3.1 (February 6, 2019)
+# 0.3.1 (February 6, 2019)
 
 A bugfix release that adds missing `CFBundleVersion` in generated framework's 
 `Info.plist` ([#72](https://github.com/MaxDesiatov/XMLCoder/issues/72) reported by 
 [@stonedauwg](https://github.com/stonedauwg)).
 
-## Changes
+**Changes:**
 
 * Set `CURRENT_PROJECT_VERSION` in project file ([#74](https://github.com/MaxDesiatov/XMLCoder/pull/74), [@MaxDesiatov](https://github.com/MaxDesiatov))
 
-#  0.3.0 (January 22, 2019)
+# 0.3.0 (January 22, 2019)
 
 A maintenance release focused on fixing bugs, improving error reporting and
 overall internal architecture of the library. For this release we've started
@@ -208,7 +239,7 @@ Thanks to [@hodovani](https://github.com/hodovani) and
 [@regexident](https://github.com/regexident) for their work on improving test
 coverage in this release.
 
-## Additions
+**Additions:**
 
 You can now set `errorContextLength: UInt` property on `XMLDecoder` instance,
 which will make it add a snippet of XML of at most this length from parser state
@@ -216,7 +247,7 @@ when a parsing error occurs. This change was provided by
 [@hodovani](https://github.com/hodovani) and  can greatly help with attempts to
 parse invalid XML, where previously only a line and column number were reported.
 
-## Deprecations
+**Deprecations:**
 
 `NodeEncodingStrategies` was renamed to `NodeEncodingStrategy` for consistency.
 `NodeEncodingStrategies` is still available as a deprecated typealias, which
@@ -224,7 +255,7 @@ will be removed in future versions. Thanks to
 [@regexident](https://github.com/regexident) for cleaning this up and providing
 many more changes in this release that make `XMLCoder` better and easier to use.
 
-## Changes
+**Changes:**
 
 * Add SwiftLint and fix linter errors
   ([#35](https://github.com/MaxDesiatov/XMLCoder/pull/35),
@@ -365,19 +396,19 @@ many more changes in this release that make `XMLCoder` better and easier to use.
 * Run tests with coverage, upload to codecov.io
   ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
-#  0.2.1 (November 18, 2018)
+# 0.2.1 (November 18, 2018)
 
 * watchOS deployment target set to 2.0 for Carthage ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
-#  0.2.0 (November 18, 2018)
+# 0.2.0 (November 18, 2018)
 
 * Add watchOS 2.0 deployment target ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
-#  0.1.1 (November 18, 2018)
+# 0.1.1 (November 18, 2018)
 
 * Set iOS deployment target to 9.0 ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
-#  0.1.0 (November 8, 2018)
+# 0.1.0 (November 8, 2018)
 
 * Add support for decoupled, type-dependent node-encoding strategies
   ([@regexident](https://github.com/regexident))

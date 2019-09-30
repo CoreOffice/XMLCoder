@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		07E441BA2340F14B00890F46 /* EmptyElementEmptyStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E441B92340F14B00890F46 /* EmptyElementEmptyStringTests.swift */; };
+		B5EA3BB6230F237800D8D69B /* NestedChoiceArrayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EA3BB4230F235C00D8D69B /* NestedChoiceArrayTest.swift */; };
 		OBJ_148 /* BoolBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* BoolBox.swift */; };
 		OBJ_149 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Box.swift */; };
 		OBJ_150 /* ChoiceBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* ChoiceBox.swift */; };
@@ -152,6 +154,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		07E441B92340F14B00890F46 /* EmptyElementEmptyStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyElementEmptyStringTests.swift; sourceTree = "<group>"; };
+		B5EA3BB4230F235C00D8D69B /* NestedChoiceArrayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedChoiceArrayTest.swift; sourceTree = "<group>"; };
 		OBJ_100 /* DecimalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalTests.swift; sourceTree = "<group>"; };
 		OBJ_101 /* EmptyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTests.swift; sourceTree = "<group>"; };
 		OBJ_102 /* FloatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatTests.swift; sourceTree = "<group>"; };
@@ -380,7 +384,7 @@
 			path = Encoder;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -400,7 +404,6 @@
 				OBJ_141 /* docs.sh */,
 				OBJ_142 /* pod.sh */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_58 /* Tests */ = {
@@ -441,12 +444,14 @@
 				OBJ_119 /* NoteTest.swift */,
 				OBJ_120 /* PlantCatalog.swift */,
 				OBJ_121 /* PlantTest.swift */,
+				07E441B92340F14B00890F46 /* EmptyElementEmptyStringTests.swift */,
 				OBJ_122 /* RJISample.swift */,
 				OBJ_123 /* RJITest.swift */,
 				OBJ_124 /* RelationshipsTest.swift */,
 				OBJ_125 /* SimpleChoiceTests.swift */,
 				OBJ_126 /* SingleChildTests.swift */,
 				OBJ_127 /* SpacePreserveTest.swift */,
+				B5EA3BB4230F235C00D8D69B /* NestedChoiceArrayTest.swift */,
 			);
 			name = XMLCoderTests;
 			path = Tests/XMLCoderTests;
@@ -595,7 +600,7 @@
 				English,
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_128 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -717,7 +722,9 @@
 				OBJ_251 /* KeyedTests.swift in Sources */,
 				OBJ_252 /* NullTests.swift in Sources */,
 				OBJ_253 /* OptionalTests.swift in Sources */,
+				07E441BA2340F14B00890F46 /* EmptyElementEmptyStringTests.swift in Sources */,
 				OBJ_254 /* StringTests.swift in Sources */,
+				B5EA3BB6230F237800D8D69B /* NestedChoiceArrayTest.swift in Sources */,
 				OBJ_255 /* UIntTests.swift in Sources */,
 				OBJ_256 /* URLTests.swift in Sources */,
 				OBJ_257 /* UnkeyedIntTests.swift in Sources */,
@@ -898,6 +905,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 0.8.0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = YES;
@@ -925,6 +933,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 0.8.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_OPTIMIZATION_LEVEL = s;
