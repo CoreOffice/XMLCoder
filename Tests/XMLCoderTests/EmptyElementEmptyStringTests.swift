@@ -9,7 +9,12 @@ import XCTest
 import XMLCoder
 
 class EmptyElementEmptyStringTests: XCTestCase {
-    struct Parent: Equatable, Codable {
+
+    struct ContainerMultiple: Equatable, Codable {
+        let things: [Thing]
+    }
+
+    struct ContainerSingle: Equatable, Codable {
         let thing: Thing
     }
 
@@ -55,14 +60,33 @@ class EmptyElementEmptyStringTests: XCTestCase {
 
     func testNestedEmptyElementEmptyStringDecoding() throws {
         let xml = """
-        <parent>
+        <container>
             <thing/>
-        </parent>
+        </container>
         """
-        let expected = Parent(thing: Thing(attribute: nil, value: ""))
-        let result = try XMLDecoder().decode(Parent.self, from: xml.data(using: .utf8)!)
+        let expected = ContainerSingle(thing: Thing(attribute: nil, value: ""))
+        let result = try XMLDecoder().decode(ContainerSingle.self, from: xml.data(using: .utf8)!)
         XCTAssertEqual(expected, result)
     }
 
-    func testNestedArrayOfEmptyElementEmptyStringDecoding() throws {}
+    func testNestedArrayOfEmptyElementEmptyStringDecoding() throws {
+        let xml = """
+        <container>
+            <things>
+                <thing></thing>
+                <thing attribute="x"></thing>
+                <thing></thing>
+            </things>
+        </container>
+        """
+        let expected = ContainerMultiple(
+            things: [
+                Thing(attribute: nil, value: ""),
+                Thing(attribute: "x", value: ""),
+                Thing(attribute: nil, value: ""),
+            ]
+        )
+        let result = try XMLDecoder().decode(ContainerMultiple.self, from: xml.data(using: .utf8)!)
+        XCTAssertEqual(expected, result)
+    }
 }
