@@ -241,11 +241,11 @@ extension XMLKeyedDecodingContainer {
                     let keyString = key.stringValue.isEmpty ? "value" : key.stringValue
                     let value = keyedBox.elements[keyString]
                     if !value.isEmpty {
-                        return value.map {
-                            if let singleKeyed = $0 as? SingleKeyedBox {
+                        return value.map { box in
+                            if let singleKeyed = box as? SingleKeyedBox {
                                 return singleKeyed.element
                             } else {
-                                return $0
+                                return box
                             }
                         }
                     } else if let value = keyedBox.value {
@@ -254,16 +254,7 @@ extension XMLKeyedDecodingContainer {
                         return []
                     }
                 } else {
-                    #warning("TODO: just return keyedBox.elements[key.stringValue]")
-                    return keyedBox.elements[key.stringValue].map {
-                        if let singleKeyed = $0 as? SingleKeyedBox {
-                            #warning("Don't get rid of key info just yet!")
-                            // return singleKeyed.element
-                            return singleKeyed
-                        } else {
-                            return $0
-                        }
-                    }
+                    return keyedBox.elements[key.stringValue]
                 }
             }
 
