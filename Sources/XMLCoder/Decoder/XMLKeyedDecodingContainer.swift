@@ -235,28 +235,19 @@ extension XMLKeyedDecodingContainer {
             )
         }
 
-        let elements = container
-            .withShared { keyedBox -> [KeyedBox.Element] in
-                if ["value", ""].contains(key.stringValue) {
-                    let keyString = key.stringValue.isEmpty ? "value" : key.stringValue
-                    let value = keyedBox.elements[keyString]
-                    if !value.isEmpty {
-                        return value.map { box in
-                            if let singleKeyed = box as? SingleKeyedBox {
-                                return singleKeyed.element
-                            } else {
-                                return box
-                            }
-                        }
-                    } else if let value = keyedBox.value {
-                        return [value]
-                    } else {
-                        return []
-                    }
-                } else {
-                    return keyedBox.elements[key.stringValue]
-                }
+        let elements = container.withShared { keyedBox -> [KeyedBox.Element] in
+            // Handle the coding key value intrinsic case
+            if ["value", ""].contains(key.stringValue) {
+                // For each boxed-up element we have, peer in to see if it is a `SingleKeyedBox`.
+                // A `SingleKeyedBox` bundles an `element` along with its `key` in order to defer
+                // its evaluation. This is used here in order to prevent the wiping away of
+                // `NullBox` elements prematurely which may be an empty `String` value in disguise.
+                // If we have a `SingledKeyedBox` here, extract its element. Otherwise, return the
+                // boxed-up element as-is.
+                return keyedBox.elements["value"].map { ($0 as? SingleKeyedBox)?.element ?? $0 }
             }
+            return keyedBox.elements[key.stringValue]
+        }
 
         let attributes = container.withShared { keyedBox in
             keyedBox.attributes[key.stringValue]
