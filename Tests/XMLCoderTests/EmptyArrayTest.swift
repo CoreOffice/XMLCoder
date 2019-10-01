@@ -5,11 +5,10 @@
 //  Created by Benjamin Wetherfield on 10/1/19.
 //
 
-import Foundation
 import XCTest
 @testable import XMLCoder
 
-struct Empty: Equatable, Codable { }
+struct Empty: Equatable, Codable {}
 
 struct EmptyArray: Equatable, Codable {
     enum CodingKeys: String, CodingKey { case empties = "empty" }
@@ -43,17 +42,16 @@ private let xmlContainsEmpty = """
 """
 
 class EmptyArrayTest: XCTestCase {
-    
     func testEmptyArrayDecode() throws {
         let decoded = try XMLDecoder().decode([Empty].self, from: xml.data(using: .utf8)!)
         XCTAssertEqual(decoded, [Empty(), Empty(), Empty()])
     }
-    
+
     func testWrappedEmptyArrayDecode() throws {
         let decoded = try XMLDecoder().decode(EmptyArray.self, from: xmlArray.data(using: .utf8)!)
         XCTAssertEqual(decoded, EmptyArray(empties: [Empty(), Empty(), Empty()]))
     }
-    
+
     func testWrappedEmptyDecode() throws {
         let decoded = try XMLDecoder().decode(EmptyWrapper.self, from: xmlContainsEmpty.data(using: .utf8)!)
         XCTAssertEqual(decoded, EmptyWrapper(empty: Empty()))
