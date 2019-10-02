@@ -24,6 +24,16 @@ struct Borders: Codable, Equatable {
     }
 }
 
+struct LeftBorders: Codable, Equatable {
+    let items: [LeftBorder?]
+    let count: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case items = "border"
+        case count
+    }
+}
+
 struct Border: Codable, Equatable {
     struct Value: Codable, Equatable {
         let style: String?
@@ -48,10 +58,30 @@ struct Border: Codable, Equatable {
     }
 }
 
+struct LeftBorder: Codable, Equatable {
+    struct Value: Codable, Equatable {
+        let style: String?
+    }
+
+    var left: Value
+    var right: Value?
+    var top: Value?
+    var bottom: Value?
+    var diagonal: Value?
+    var horizontal: Value?
+    var vertical: Value?
+}
+
 final class BorderTest: XCTestCase {
     func testSingleEmpty() throws {
         let result = try XMLDecoder().decode(Borders.self, from: xml)
         XCTAssertEqual(result.count, 1)
         XCTAssertEqual(result.items[0], Border())
+    }
+    
+    func testLeftBorder() throws {
+        let result = try XMLDecoder().decode(LeftBorders.self, from: xml)
+        XCTAssertEqual(result.count, 1)
+        XCTAssertEqual(result.items[0], nil)
     }
 }
