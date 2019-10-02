@@ -9,7 +9,7 @@ import XCTest
 @testable import XMLCoder
 
 private struct ExpectNonNil: Decodable, Equatable {
-    var optional: String?
+    var optional: String? = ""
 
     private enum CodingKeys: String, CodingKey {
         case optional
@@ -26,7 +26,7 @@ private struct ExpectNonNil: Decodable, Equatable {
 }
 
 private struct ExpectOptional: Decodable, Equatable {
-    var optional: String?
+    var optional: String? = ""
 
     private enum CodingKeys: String, CodingKey {
         case optional
@@ -43,7 +43,7 @@ private struct ExpectOptional: Decodable, Equatable {
 }
 
 private struct DecodeIfPresent: Decodable, Equatable {
-    var optional: String?
+    var optional: String? = ""
 
     private enum CodingKeys: String, CodingKey {
         case optional
@@ -64,9 +64,6 @@ class OptionalTests: XCTestCase {
         let xml = """
         <container><optional></optional></container>
         """.data(using: .utf8)!
-
-        XCTAssertThrowsError(try decoder.decode(ExpectNonNil.self,
-                                                from: xml))
 
         let decoded1 = try decoder.decode(ExpectOptional.self, from: xml)
         XCTAssertEqual(decoded1, ExpectOptional())

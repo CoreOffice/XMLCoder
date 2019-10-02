@@ -79,8 +79,8 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
 
         let box = elements.first ?? attributes.first
 
-        if let singleKeyed = box as? SingleKeyedBox {
-            return singleKeyed.element.isNull
+        if box is SingleKeyedBox {
+            return false
         }
 
         return box?.isNull ?? true

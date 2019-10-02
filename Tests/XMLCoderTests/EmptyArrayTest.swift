@@ -19,6 +19,10 @@ struct EmptyWrapper: Equatable, Codable {
     let empty: Empty
 }
 
+struct OptionalEmptyWrapper: Equatable, Codable {
+    let empty: Empty?
+}
+
 private let xml = """
 <container>
     <empty/>
@@ -55,5 +59,10 @@ class EmptyArrayTest: XCTestCase {
     func testWrappedEmptyDecode() throws {
         let decoded = try XMLDecoder().decode(EmptyWrapper.self, from: xmlContainsEmpty.data(using: .utf8)!)
         XCTAssertEqual(decoded, EmptyWrapper(empty: Empty()))
+    }
+    
+    func testWrappedOptionalEmptyDecode() throws {
+        let decoded = try XMLDecoder().decode(OptionalEmptyWrapper.self, from: xmlContainsEmpty.data(using: .utf8)!)
+        XCTAssertEqual(decoded, OptionalEmptyWrapper(empty: Empty()))
     }
 }
