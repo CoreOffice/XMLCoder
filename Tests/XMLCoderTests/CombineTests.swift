@@ -5,7 +5,7 @@
 //  Created by Adam Sharp on 9/29/19.
 //
 
-#if canImport(Combine)
+#if canImport(Combine) && !os(macOS)
 import Combine
 import Foundation
 import XCTest
