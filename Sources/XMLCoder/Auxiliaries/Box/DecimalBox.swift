@@ -47,7 +47,7 @@ extension DecimalBox: Box {
     /// ---
     ///
     /// [Schema definition](https://www.w3.org/TR/xmlschema-2/#decimal)
-    func xmlString() -> String? {
+    var xmlString: String? {
         return "\(unboxed)"
     }
 }

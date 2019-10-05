@@ -31,7 +31,11 @@ extension XMLDecoderImplementation: SingleValueDecodingContainer {
         return try unbox(try topContainer())
     }
 
-    public func decode<T: BinaryFloatingPoint & Decodable>(_: T.Type) throws -> T {
+    public func decode(_: Float.Type) throws -> Float {
+        return try unbox(try topContainer())
+    }
+
+    public func decode(_: Double.Type) throws -> Double {
         return try unbox(try topContainer())
     }
 

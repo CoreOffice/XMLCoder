@@ -24,7 +24,7 @@ extension StringBox: Box {
         return false
     }
 
-    func xmlString() -> String? {
+    var xmlString: String? {
         return unboxed.description
     }
 }

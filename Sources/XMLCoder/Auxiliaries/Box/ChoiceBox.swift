@@ -16,7 +16,7 @@ extension ChoiceBox: Box {
         return false
     }
 
-    func xmlString() -> String? {
+    var xmlString: String? {
         return nil
     }
 }

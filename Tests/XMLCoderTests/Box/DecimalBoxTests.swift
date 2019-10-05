@@ -38,7 +38,7 @@ class DecimalBoxTests: XCTestCase {
 
         for (bool, string) in values {
             let box = Boxed(bool)
-            XCTAssertEqual(box.xmlString(), string)
+            XCTAssertEqual(box.xmlString, string)
         }
     }
 

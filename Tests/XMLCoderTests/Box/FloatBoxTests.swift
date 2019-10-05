@@ -29,7 +29,7 @@ class FloatBoxTests: XCTestCase {
 
         for unboxed in values {
             let box = Boxed(unboxed)
-            XCTAssertEqual(box.unbox(), unboxed)
+            XCTAssertEqual(box.unboxed, unboxed)
         }
     }
 
@@ -43,7 +43,7 @@ class FloatBoxTests: XCTestCase {
 
         for (double, string) in values {
             let box = FloatBox(double)
-            XCTAssertEqual(box.xmlString(), string)
+            XCTAssertEqual(box.xmlString, string)
         }
     }
 
