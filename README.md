@@ -269,9 +269,10 @@ extension IntOrString: Codable {
 This is described in more details in PR [\#119](https://github.com/MaxDesiatov/XMLCoder/pull/119) 
 by [@jsbean](https://github.com/jsbean) and [@bwetherfield](https://github.com/bwetherfield).
 
-## Integrating with [Combine](https://developer.apple.com/documentation/combine)
+### Integrating with [Combine](https://developer.apple.com/documentation/combine)
 
-When Apple's Combine framework is available, `XMLDecoder` conforms to the
+Starting with XMLCoder [version 0.9](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.9.0), 
+when Apple's Combine framework is available, `XMLDecoder` conforms to the
 `TopLevelDecoder` protocol, which allows it to be used with the
 `decode(type:decoder:)` operator:
 
