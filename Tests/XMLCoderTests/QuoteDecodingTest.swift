@@ -12,7 +12,9 @@ import XCTest
 private let xml =
     """
     <root>
-    <aResponse>&lt;uesb2b:response xmlns:uesb2b=&quot;http://services.b2b.ues.ut.uhg.com/types/plans/&quot; xmlns=&quot;http://services.b2b.ues.ut.uhg.com/types/plans/&quot;&gt;&#xd;
+    <aResponse>&lt;uesb2b:response
+    xmlns:uesb2b=&quot;http://services.b2b.ues.ut.uhg.com/types/plans/&quot;
+    xmlns=&quot;http://services.b2b.ues.ut.uhg.com/types/plans/&quot;&gt;&#xd;
     &lt;uesb2b:st cd=&quot;GA&quot; /&gt;&#xd;
     &lt;uesb2b:obligId val=&quot;01&quot; /&gt;&#xd;
     &lt;uesb2b:shrArrangementId val=&quot;00&quot; /&gt;&#xd;
@@ -24,7 +26,9 @@ private let xml =
 
 private let expectedResponse =
     """
-    <uesb2b:response xmlns:uesb2b="http://services.b2b.ues.ut.uhg.com/types/plans/" xmlns="http://services.b2b.ues.ut.uhg.com/types/plans/">\r
+    <uesb2b:response
+    xmlns:uesb2b="http://services.b2b.ues.ut.uhg.com/types/plans/"
+    xmlns="http://services.b2b.ues.ut.uhg.com/types/plans/">\r
     <uesb2b:st cd="GA" />\r
     <uesb2b:obligId val="01" />\r
     <uesb2b:shrArrangementId val="00" />\r
