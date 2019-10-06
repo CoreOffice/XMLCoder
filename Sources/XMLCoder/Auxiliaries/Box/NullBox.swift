@@ -12,7 +12,7 @@ extension NullBox: Box {
         return true
     }
 
-    func xmlString() -> String? {
+    var xmlString: String? {
         return nil
     }
 }

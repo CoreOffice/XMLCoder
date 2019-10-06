@@ -7,7 +7,7 @@
 
 protocol Box {
     var isNull: Bool { get }
-    func xmlString() -> String?
+    var xmlString: String? { get }
 }
 
 /// A box that only describes a single atomic value.
