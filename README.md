@@ -305,7 +305,7 @@ func fetchBook(from url: URL) -> AnyPublisher<Book, Error> {
 **Windows**
 - Windows 10
 - Microsoft Visual Studio 2017 or later
-- CMake 3.15.3 or later
+- CMake 3.16 or later
 - Ninja build system
 - Swift 5.1 or later (see https://github.com/compnerd/windows-swift/blob/master/docs/Windows.md for more information)
 
@@ -403,10 +403,10 @@ Inside your build folder run CMake with the following command:
 For example:
 
 ```bash
-\>cmake -G Ninja C:\Projects\XMLCoder -DCMAKE_Swift_FLAGS="-sdk C:\Library\Developer\Platforms\Developer\SDKs\Windows.sdk"
+\>cmake -G Ninja C:\Projects\XMLCoder -DCMAKE_Swift_FLAGS="-sdk C:\Library\Developer\Platforms\Developer\SDKs\Windows.sdk" -DCMAKE_INSTALL_PREFIX=C:\SwiftLibraries\XMLCoder
 ```
 
-On Windows shared (.dll) library and export (.lib) library will be placed in <build_folder>/bin
+On Windows shared (.dll) library will be placed in <build_folder>/bin and export (.lib) library will be placed in <build_folder>/lib
 On Unix platforms static and shared libraries will be placed in <build_folder>/lib
 On all platforms .swiftdoc and .swiftmodule files will be placed in <build_folder>/swift
 
