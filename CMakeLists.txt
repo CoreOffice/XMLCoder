@@ -25,3 +25,4 @@ install(FILES
   ${CMAKE_BINARY_DIR}/swift/XMLCoder.swiftdoc 
   ${CMAKE_BINARY_DIR}/swift/XMLCoder.swiftmodule
   DESTINATION swift)
+  
