@@ -140,8 +140,7 @@ struct Book: Codable, Equatable, DynamicNodeEncoding {
         case categories = "category"
     }
 
-    static func nodeEncoding(forKey key: CodingKey) 
-    -> XMLEncoder.NodeEncoding {
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
         switch key {
         case Book.CodingKeys.id: return .both
         default: return .element
