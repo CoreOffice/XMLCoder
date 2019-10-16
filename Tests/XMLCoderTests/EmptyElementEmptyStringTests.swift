@@ -63,6 +63,4 @@ class EmptyElementEmptyStringTests: XCTestCase {
         let result = try XMLDecoder().decode(Parent.self, from: xml.data(using: .utf8)!)
         XCTAssertEqual(expected, result)
     }
-
-    func testNestedArrayOfEmptyElementEmptyStringDecoding() throws {}
 }
