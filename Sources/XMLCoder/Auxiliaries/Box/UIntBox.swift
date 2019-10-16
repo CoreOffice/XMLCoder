@@ -47,7 +47,7 @@ extension UIntBox: Box {
     /// ---
     ///
     /// [Schema definition](https://www.w3.org/TR/xmlschema-2/#nonNegativeInteger)
-    func xmlString() -> String? {
+    var xmlString: String? {
         return unboxed.description
     }
 }

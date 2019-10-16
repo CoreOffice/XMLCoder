@@ -42,7 +42,7 @@ class DataBoxTests: XCTestCase {
 
             guard let box = boxOrNil else { continue }
 
-            XCTAssertEqual(box.xmlString(), xmlString)
+            XCTAssertEqual(box.xmlString, xmlString)
         }
     }
 

@@ -43,6 +43,8 @@ extension DecodingError {
             return "an unsigned integer value"
         case is FloatBox:
             return "a floating-point value"
+        case is DoubleBox:
+            return "a double floating-point value"
         case is UnkeyedBox:
             return "a array value"
         case is KeyedBox:

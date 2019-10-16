@@ -22,8 +22,8 @@ extension SharedBox: Box {
         return unboxed.isNull
     }
 
-    func xmlString() -> String? {
-        return unboxed.xmlString()
+    var xmlString: String? {
+        return unboxed.xmlString
     }
 }
 

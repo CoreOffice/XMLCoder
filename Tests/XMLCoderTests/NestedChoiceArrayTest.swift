@@ -10,31 +10,22 @@ import XCTest
 
 private struct Book: Decodable {
     let title: String
-    let chapters: [Chapter]
+    let chapters: Chapters
 
     enum CodingKeys: String, CodingKey {
         case title
         case chapters
     }
+}
 
+private struct Chapters {
+    let items: [Chapter]
+}
+
+extension Chapters: Decodable, Equatable {
     init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        title = try container.decode(String.self, forKey: .title)
-
-        var chapters = [Chapter]()
-
-        if var chapterContainer = try? container.nestedUnkeyedContainer(forKey: .chapters) {
-            while !chapterContainer.isAtEnd {
-                chapters.append(try chapterContainer.decode(Chapter.self))
-            }
-        }
-
-        self.chapters = chapters
-    }
-
-    init(title: String, chapters: [Chapter]) {
-        self.title = title
-        self.chapters = chapters
+        let container = try decoder.singleValueContainer()
+        items = try container.decode([Chapter].self)
     }
 }
 
@@ -47,10 +38,6 @@ private enum Chapter {
     case intro(Content)
     case body(Content)
     case outro(Content)
-}
-
-private enum BookError: Error {
-    case unknownChapterType
 }
 
 extension Chapter: Decodable {
@@ -75,14 +62,7 @@ extension Chapter: Decodable {
 extension Chapter.Content: Decodable {
     enum CodingKeys: String, CodingKey {
         case title
-        case value = ""
-    }
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        title = try container.decode(String.self, forKey: .title)
-        content = try container.decode(String.self, forKey: .value)
+        case content = ""
     }
 }
 
@@ -105,12 +85,12 @@ class NestedChoiceArrayTest: XCTestCase {
         """
         let decoded = try XMLDecoder().decode(Book.self, from: xml.data(using: .utf8)!)
         let expected = Book(title: "Example",
-                            chapters: [
+                            chapters: Chapters(items: [
                                 .intro(.init(title: "Intro", content: "Content of first chapter")),
                                 .body(.init(title: "Chapter 1", content: "Content of chapter 1")),
                                 .body(.init(title: "Chapter 2", content: "Content of chapter 2")),
                                 .outro(.init(title: "Epilogue", content: "Content of last chapter")),
-                            ])
+                            ]))
         XCTAssertEqual(decoded, expected)
     }
 }

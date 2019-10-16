@@ -17,7 +17,9 @@ class FloatTests: XCTestCase {
 
     let values: [(Value, String)] = [
         (-42.0, "-42.0"),
+        (-3.14, "-3.14"),
         (0.0, "0.0"),
+        (3.14, "3.14"),
         (42.0, "42.0"),
     ]
 

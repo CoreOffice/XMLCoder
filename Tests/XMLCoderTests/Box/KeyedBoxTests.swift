@@ -33,7 +33,7 @@ class KeyedBoxTests: XCTestCase {
     }
 
     func testXMLString() {
-        XCTAssertEqual(box.xmlString(), nil)
+        XCTAssertEqual(box.xmlString, nil)
     }
 
     func testDescription() {
