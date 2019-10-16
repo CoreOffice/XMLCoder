@@ -18,7 +18,7 @@ class NullBoxTests: XCTestCase {
     }
 
     func testXMLString() {
-        XCTAssertEqual(box.xmlString(), nil)
+        XCTAssertEqual(box.xmlString, nil)
     }
 
     func testEqual() {

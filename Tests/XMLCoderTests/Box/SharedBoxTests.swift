@@ -24,19 +24,19 @@ class SharedBoxTests: XCTestCase {
     func testXMLString() {
         let nullBox = NullBox()
         let sharedNullBox = SharedBox(nullBox)
-        XCTAssertEqual(sharedNullBox.xmlString(), nullBox.xmlString())
+        XCTAssertEqual(sharedNullBox.xmlString, nullBox.xmlString)
 
         let boolBox = BoolBox(false)
         let sharedBoolBox = SharedBox(boolBox)
-        XCTAssertEqual(sharedBoolBox.xmlString(), boolBox.xmlString())
+        XCTAssertEqual(sharedBoolBox.xmlString, boolBox.xmlString)
 
         let intBox = IntBox(42)
         let sharedIntBox = SharedBox(intBox)
-        XCTAssertEqual(sharedIntBox.xmlString(), intBox.xmlString())
+        XCTAssertEqual(sharedIntBox.xmlString, intBox.xmlString)
 
         let stringBox = StringBox("lorem ipsum")
         let sharedStringBox = SharedBox(stringBox)
-        XCTAssertEqual(sharedStringBox.xmlString(), stringBox.xmlString())
+        XCTAssertEqual(sharedStringBox.xmlString, stringBox.xmlString)
     }
 
     func testWithShared() {

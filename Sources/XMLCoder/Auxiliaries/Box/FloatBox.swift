@@ -5,8 +5,8 @@
 //  Created by Vincent Esche on 12/17/18.
 //
 
-struct FloatBox: Equatable {
-    typealias Unboxed = Float64
+struct FloatBox: Equatable, ValueBox {
+    typealias Unboxed = Float
 
     let unboxed: Unboxed
 
@@ -19,10 +19,6 @@ struct FloatBox: Equatable {
             return nil
         }
         self.init(unboxed)
-    }
-
-    func unbox<Float: BinaryFloatingPoint>() -> Float? {
-        return Float(exactly: unboxed)
     }
 }
 
@@ -59,7 +55,7 @@ extension FloatBox: Box {
     /// ---
     ///
     /// [Schema definition](https://www.w3.org/TR/xmlschema-2/#float)
-    func xmlString() -> String? {
+    var xmlString: String? {
         guard !unboxed.isNaN else {
             return "NaN"
         }

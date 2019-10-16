@@ -288,7 +288,7 @@ extension XMLCoderElement {
         }
 
         let attributes: [Attribute] = box.attributes.compactMap { key, box in
-            guard let value = box.xmlString() else {
+            guard let value = box.xmlString else {
                 return nil
             }
             return Attribute(key: key, value: value)
@@ -299,7 +299,7 @@ extension XMLCoderElement {
 
     init(key: String, box: SimpleBox) {
         self.init(key: key)
-        value = box.xmlString()
+        value = box.xmlString
     }
 
     init(key: String, box: Box) {

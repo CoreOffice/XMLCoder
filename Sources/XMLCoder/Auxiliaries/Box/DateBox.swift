@@ -84,7 +84,7 @@ extension DateBox: Box {
         return false
     }
 
-    func xmlString() -> String? {
+    var xmlString: String? {
         return xmlString(format: format)
     }
 }

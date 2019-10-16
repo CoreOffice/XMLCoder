@@ -296,22 +296,26 @@ extension XMLDecoderImplementation {
         return uint
     }
 
-    func unbox<T: BinaryFloatingPoint & Decodable>(_ box: Box) throws -> T {
-        let stringBox: StringBox = try typedBox(box, for: T.self)
+    func unbox(_ box: Box) throws -> Float {
+        let stringBox: StringBox = try typedBox(box, for: Float.self)
         let string = stringBox.unboxed
 
         guard let floatBox = FloatBox(xmlString: string) else {
-            throw DecodingError.typeMismatch(at: codingPath, expectation: T.self, reality: box)
+            throw DecodingError.typeMismatch(at: codingPath, expectation: Float.self, reality: box)
         }
 
-        guard let float: T = floatBox.unbox() else {
-            throw DecodingError.dataCorrupted(DecodingError.Context(
-                codingPath: codingPath,
-                debugDescription: "Parsed XML number <\(string)> does not fit in \(T.self)."
-            ))
+        return floatBox.unboxed
+    }
+
+    func unbox(_ box: Box) throws -> Double {
+        let stringBox: StringBox = try typedBox(box, for: Double.self)
+        let string = stringBox.unboxed
+
+        guard let doubleBox = DoubleBox(xmlString: string) else {
+            throw DecodingError.typeMismatch(at: codingPath, expectation: Double.self, reality: box)
         }
 
-        return float
+        return doubleBox.unboxed
     }
 
     func unbox(_ box: Box) throws -> String {

@@ -22,6 +22,12 @@
 
 /* Begin PBXBuildFile section */
 		07E441BA2340F14B00890F46 /* EmptyElementEmptyStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E441B92340F14B00890F46 /* EmptyElementEmptyStringTests.swift */; };
+		4A062D4F2341924E009BCAC1 /* CombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A062D4E2341924E009BCAC1 /* CombineTests.swift */; };
+		B5EA3BB6230F237800D8D69B /* NestedChoiceArrayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EA3BB4230F235C00D8D69B /* NestedChoiceArrayTest.swift */; };
+		B5F74472233F74E400BBDB15 /* RootLevelAttributeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F74471233F74E400BBDB15 /* RootLevelAttributeTest.swift */; };
+		D11E094623491BCE00C24DCB /* DoubleBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11E094523491BCE00C24DCB /* DoubleBox.swift */; };
+		D11E094A234924C500C24DCB /* ValueBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11E0949234924C500C24DCB /* ValueBox.swift */; };
+		D18FBFB82348FAE500FA4F65 /* QuoteDecodingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18FBFB72348FAE500FA4F65 /* QuoteDecodingTest.swift */; };
 		OBJ_148 /* BoolBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* BoolBox.swift */; };
 		OBJ_149 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Box.swift */; };
 		OBJ_150 /* ChoiceBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* ChoiceBox.swift */; };
@@ -154,6 +160,12 @@
 
 /* Begin PBXFileReference section */
 		07E441B92340F14B00890F46 /* EmptyElementEmptyStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyElementEmptyStringTests.swift; sourceTree = "<group>"; };
+		4A062D4E2341924E009BCAC1 /* CombineTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombineTests.swift; sourceTree = "<group>"; };
+		B5EA3BB4230F235C00D8D69B /* NestedChoiceArrayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedChoiceArrayTest.swift; sourceTree = "<group>"; };
+		B5F74471233F74E400BBDB15 /* RootLevelAttributeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootLevelAttributeTest.swift; sourceTree = "<group>"; };
+		D11E094523491BCE00C24DCB /* DoubleBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleBox.swift; sourceTree = "<group>"; };
+		D11E0949234924C500C24DCB /* ValueBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueBox.swift; sourceTree = "<group>"; };
+		D18FBFB72348FAE500FA4F65 /* QuoteDecodingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteDecodingTest.swift; sourceTree = "<group>"; };
 		OBJ_100 /* DecimalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalTests.swift; sourceTree = "<group>"; };
 		OBJ_101 /* EmptyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTests.swift; sourceTree = "<group>"; };
 		OBJ_102 /* FloatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatTests.swift; sourceTree = "<group>"; };
@@ -326,6 +338,7 @@
 				OBJ_15 /* DataBox.swift */,
 				OBJ_16 /* DateBox.swift */,
 				OBJ_17 /* DecimalBox.swift */,
+				D11E094523491BCE00C24DCB /* DoubleBox.swift */,
 				OBJ_18 /* FloatBox.swift */,
 				OBJ_19 /* IntBox.swift */,
 				OBJ_20 /* KeyedBox.swift */,
@@ -334,8 +347,9 @@
 				OBJ_23 /* SingleKeyedBox.swift */,
 				OBJ_24 /* StringBox.swift */,
 				OBJ_25 /* UIntBox.swift */,
-				OBJ_26 /* URLBox.swift */,
 				OBJ_27 /* UnkeyedBox.swift */,
+				OBJ_26 /* URLBox.swift */,
+				D11E0949234924C500C24DCB /* ValueBox.swift */,
 			);
 			path = Box;
 			sourceTree = "<group>";
@@ -415,27 +429,29 @@
 		OBJ_59 /* XMLCoderTests */ = {
 			isa = PBXGroup;
 			children = (
+				OBJ_62 /* Auxiliary */,
+				OBJ_71 /* Box */,
+				OBJ_95 /* Minimal */,
 				OBJ_60 /* AttributedEnumIntrinsicTest.swift */,
 				OBJ_61 /* AttributedIntrinsicTest.swift */,
-				OBJ_62 /* Auxiliary */,
 				OBJ_68 /* BenchmarkTests.swift */,
 				OBJ_69 /* BooksTest.swift */,
 				OBJ_70 /* BorderTest.swift */,
-				OBJ_71 /* Box */,
 				OBJ_85 /* BreakfastTest.swift */,
 				OBJ_86 /* CDCatalog.swift */,
 				OBJ_87 /* CDTest.swift */,
 				OBJ_88 /* ClassTests.swift */,
+				4A062D4E2341924E009BCAC1 /* CombineTests.swift */,
 				OBJ_89 /* CompositeChoiceTests.swift */,
 				OBJ_90 /* DecodingContainerTests.swift */,
 				OBJ_91 /* DynamicNodeDecodingTest.swift */,
 				OBJ_92 /* DynamicNodeEncodingTest.swift */,
 				OBJ_93 /* ErrorContextTest.swift */,
 				OBJ_94 /* KeyDecodingAndEncodingStrategyTests.swift */,
-				OBJ_95 /* Minimal */,
 				OBJ_113 /* MixedContainerTest.swift */,
 				OBJ_114 /* NamespaceTest.swift */,
 				OBJ_115 /* NestedAttributeChoiceTests.swift */,
+				B5EA3BB4230F235C00D8D69B /* NestedChoiceArrayTest.swift */,
 				OBJ_116 /* NestedChoiceTests.swift */,
 				OBJ_117 /* NestingTests.swift */,
 				OBJ_118 /* NodeEncodingStrategyTests.swift */,
@@ -443,9 +459,11 @@
 				OBJ_120 /* PlantCatalog.swift */,
 				OBJ_121 /* PlantTest.swift */,
 				07E441B92340F14B00890F46 /* EmptyElementEmptyStringTests.swift */,
+				D18FBFB72348FAE500FA4F65 /* QuoteDecodingTest.swift */,
+				OBJ_124 /* RelationshipsTest.swift */,
 				OBJ_122 /* RJISample.swift */,
 				OBJ_123 /* RJITest.swift */,
-				OBJ_124 /* RelationshipsTest.swift */,
+				B5F74471233F74E400BBDB15 /* RootLevelAttributeTest.swift */,
 				OBJ_125 /* SimpleChoiceTests.swift */,
 				OBJ_126 /* SingleChildTests.swift */,
 				OBJ_127 /* SpacePreserveTest.swift */,
@@ -638,11 +656,13 @@
 				OBJ_168 /* XMLChoiceCodingKey.swift in Sources */,
 				OBJ_169 /* XMLCoderElement.swift in Sources */,
 				OBJ_170 /* XMLHeader.swift in Sources */,
+				D11E094623491BCE00C24DCB /* DoubleBox.swift in Sources */,
 				OBJ_171 /* XMLKey.swift in Sources */,
 				OBJ_172 /* XMLStackParser.swift in Sources */,
 				OBJ_173 /* DecodingErrorExtension.swift in Sources */,
 				OBJ_174 /* DynamicNodeDecoding.swift in Sources */,
 				OBJ_175 /* SingleValueDecodingContainer.swift in Sources */,
+				D11E094A234924C500C24DCB /* ValueBox.swift in Sources */,
 				OBJ_176 /* XMLChoiceDecodingContainer.swift in Sources */,
 				OBJ_177 /* XMLDecoder.swift in Sources */,
 				OBJ_178 /* XMLDecoderImplementation.swift in Sources */,
@@ -681,6 +701,7 @@
 				OBJ_213 /* XMLHeaderTests.swift in Sources */,
 				OBJ_214 /* XMLKeyTests.swift in Sources */,
 				OBJ_215 /* XMLStackParserTests.swift in Sources */,
+				D18FBFB82348FAE500FA4F65 /* QuoteDecodingTest.swift in Sources */,
 				OBJ_216 /* BenchmarkTests.swift in Sources */,
 				OBJ_217 /* BooksTest.swift in Sources */,
 				OBJ_218 /* BorderTest.swift in Sources */,
@@ -709,6 +730,7 @@
 				OBJ_241 /* KeyDecodingAndEncodingStrategyTests.swift in Sources */,
 				OBJ_242 /* BoolTests.swift in Sources */,
 				OBJ_243 /* BoxTreeTests.swift in Sources */,
+				B5F74472233F74E400BBDB15 /* RootLevelAttributeTest.swift in Sources */,
 				OBJ_244 /* DataTests.swift in Sources */,
 				OBJ_245 /* DateTests.swift in Sources */,
 				OBJ_246 /* DecimalTests.swift in Sources */,
@@ -721,6 +743,7 @@
 				OBJ_253 /* OptionalTests.swift in Sources */,
 				07E441BA2340F14B00890F46 /* EmptyElementEmptyStringTests.swift in Sources */,
 				OBJ_254 /* StringTests.swift in Sources */,
+				B5EA3BB6230F237800D8D69B /* NestedChoiceArrayTest.swift in Sources */,
 				OBJ_255 /* UIntTests.swift in Sources */,
 				OBJ_256 /* URLTests.swift in Sources */,
 				OBJ_257 /* UnkeyedIntTests.swift in Sources */,
@@ -738,6 +761,7 @@
 				OBJ_269 /* RJITest.swift in Sources */,
 				OBJ_270 /* RelationshipsTest.swift in Sources */,
 				OBJ_271 /* SimpleChoiceTests.swift in Sources */,
+				4A062D4F2341924E009BCAC1 /* CombineTests.swift in Sources */,
 				OBJ_272 /* SingleChildTests.swift in Sources */,
 				OBJ_273 /* SpacePreserveTest.swift in Sources */,
 			);

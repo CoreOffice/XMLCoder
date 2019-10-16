@@ -48,7 +48,7 @@ class DateBoxTests: XCTestCase {
 
             guard let box = boxOrNil else { continue }
 
-            XCTAssertEqual(box.xmlString(), xmlString)
+            XCTAssertEqual(box.xmlString, xmlString)
         }
     }
 
@@ -65,7 +65,7 @@ class DateBoxTests: XCTestCase {
 
             guard let box = boxOrNil else { continue }
 
-            XCTAssertEqual(box.xmlString(), xmlString)
+            XCTAssertEqual(box.xmlString, xmlString)
         }
     }
 
@@ -80,7 +80,7 @@ class DateBoxTests: XCTestCase {
 
             guard let box = boxOrNil else { continue }
 
-            XCTAssertEqual(box.xmlString(), xmlString)
+            XCTAssertEqual(box.xmlString, xmlString)
         }
     }
 
@@ -95,7 +95,7 @@ class DateBoxTests: XCTestCase {
 
             guard let box = boxOrNil else { continue }
 
-            XCTAssertEqual(box.xmlString(), xmlString)
+            XCTAssertEqual(box.xmlString, xmlString)
         }
     }
 

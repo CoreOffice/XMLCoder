@@ -165,13 +165,26 @@ extension XMLEncoderImplementation {
         return UIntBox(value)
     }
 
-    func box<T: BinaryFloatingPoint & Encodable>(_ value: T) throws -> SimpleBox {
+    func box(_ value: Float) throws -> SimpleBox {
+        return try box(value, FloatBox.self)
+    }
+
+    func box(_ value: Double) throws -> SimpleBox {
+        return try box(value, DoubleBox.self)
+    }
+
+    func box<T: BinaryFloatingPoint & Encodable, B: ValueBox>(
+        _ value: T,
+        _: B.Type
+    ) throws -> SimpleBox where B.Unboxed == T {
         guard value.isInfinite || value.isNaN else {
-            return FloatBox(value)
+            return B(value)
         }
-        guard case let .convertToString(positiveInfinity: posInfString,
-                                        negativeInfinity: negInfString,
-                                        nan: nanString) = options.nonConformingFloatEncodingStrategy else {
+        guard case let .convertToString(
+            positiveInfinity: posInfString,
+            negativeInfinity: negInfString,
+            nan: nanString
+        ) = options.nonConformingFloatEncodingStrategy else {
             throw EncodingError._invalidFloatingPointValue(value, at: codingPath)
         }
         if value == T.infinity {
