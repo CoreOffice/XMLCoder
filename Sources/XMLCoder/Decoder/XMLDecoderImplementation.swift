@@ -327,7 +327,7 @@ extension XMLDecoderImplementation {
                 return ""
             }
         }
-        
+
         return ""
     }
 

@@ -111,8 +111,8 @@ struct XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
                     // Drill down to the element in the case of an nested unkeyed element
                     value = try decode(decoder, singleKeyed.element)
                 } catch {
-                // Specialize for choice elements
-                value = try decode(decoder, ChoiceBox(key: singleKeyed.key, element: singleKeyed.element))
+                    // Specialize for choice elements
+                    value = try decode(decoder, ChoiceBox(key: singleKeyed.key, element: singleKeyed.element))
                 }
             }
         } else {

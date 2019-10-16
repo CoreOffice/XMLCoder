@@ -60,7 +60,7 @@ class EmptyArrayTest: XCTestCase {
         let decoded = try XMLDecoder().decode(EmptyWrapper.self, from: xmlContainsEmpty.data(using: .utf8)!)
         XCTAssertEqual(decoded, EmptyWrapper(empty: Empty()))
     }
-    
+
     func testWrappedOptionalEmptyDecode() throws {
         let decoded = try XMLDecoder().decode(OptionalEmptyWrapper.self, from: xmlContainsEmpty.data(using: .utf8)!)
         XCTAssertEqual(decoded, OptionalEmptyWrapper(empty: Empty()))

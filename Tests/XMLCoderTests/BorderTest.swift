@@ -27,7 +27,7 @@ struct Borders: Codable, Equatable {
 struct LeftBorders: Codable, Equatable {
     let items: [LeftBorder?]
     let count: Int
-    
+
     enum CodingKeys: String, CodingKey {
         case items = "border"
         case count
@@ -78,7 +78,7 @@ final class BorderTest: XCTestCase {
         XCTAssertEqual(result.count, 1)
         XCTAssertEqual(result.items[0], Border())
     }
-    
+
     func testLeftBorder() throws {
         let result = try XMLDecoder().decode(LeftBorders.self, from: xml)
         XCTAssertEqual(result.count, 1)
