@@ -16,12 +16,14 @@ private let nestedXML = """
 <si><t xml:space="preserve"> </t></si>
 """.data(using: .utf8)!
 
+private let copyright = "Copyright © 2019 Company, Inc."
+
 private let copyrightXML = """
-<t>Copyright © 2019 Company, Inc.</t>
+<t>\(copyright)</t>
 """.data(using: .utf8)!
 
 private let nestedCopyrightXML = """
-<si><t>Copyright © 2019 Company, Inc.</t></si>
+<si><t>\(copyright)</t></si>
 """.data(using: .utf8)!
 
 private struct Item: Codable, Equatable {
@@ -64,15 +66,13 @@ final class SpacePreserveTest: XCTestCase {
         XCTAssertFalse(item.text?.isEmpty ?? true)
     }
 
-    func testCopyRight() throws {
+    func testCopyright() throws {
         let decoder = XMLDecoder()
         decoder.trimValueWhitespaces = false
         let result = try decoder.decode(String.self, from: copyrightXML)
-        XCTAssertEqual(result, "Copyright © 2019 Company, Inc.")
+        XCTAssertEqual(result, copyright)
 
         let item = try decoder.decode(Item.self, from: nestedCopyrightXML)
-        XCTAssertEqual(item, Item(text: "Copyright © 2019 Company, Inc."))
-
-        XCTAssertEqual("Copyright © 2019 Company, Inc.".trimmingCharacters(in: .whitespacesAndNewlines), "Copyright © 2019 Company, Inc.")
+        XCTAssertEqual(item, Item(text: copyright))
     }
 }
