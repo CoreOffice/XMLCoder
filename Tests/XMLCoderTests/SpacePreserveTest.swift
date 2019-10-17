@@ -65,10 +65,12 @@ final class SpacePreserveTest: XCTestCase {
     }
 
     func testCopyRight() throws {
-        let result = try XMLDecoder().decode(String.self, from: copyrightXML)
+        let decoder = XMLDecoder()
+        decoder.trimValueWhitespaces = false
+        let result = try decoder.decode(String.self, from: copyrightXML)
         XCTAssertEqual(result, "Copyright © 2019 Company, Inc.")
 
-        let item = try XMLDecoder().decode(Item.self, from: nestedCopyrightXML)
+        let item = try decoder.decode(Item.self, from: nestedCopyrightXML)
         XCTAssertEqual(item, Item(text: "Copyright © 2019 Company, Inc."))
 
         XCTAssertEqual("Copyright © 2019 Company, Inc.".trimmingCharacters(in: .whitespacesAndNewlines), "Copyright © 2019 Company, Inc.")
