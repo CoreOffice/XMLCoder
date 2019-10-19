@@ -288,6 +288,9 @@ func fetchBook(from url: URL) -> AnyPublisher<Book, Error> {
 }
 ```
 
+This was implemented in PR [\#132](https://github.com/MaxDesiatov/XMLCoder/pull/132) 
+by [@sharplet](https://github.com/sharplet).
+
 ## Installation
 
 ### Requirements
