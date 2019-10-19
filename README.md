@@ -313,7 +313,7 @@ easy as adding it to the `dependencies` value of your `Package.swift`.
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.8.0")
+    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.9.0")
 ]
 ```
 
@@ -338,11 +338,12 @@ Inside of your `Podfile`, specify the `XMLCoder` pod:
 # platform :ios, '9.0'
 
 target 'YourApp' do
-  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+  # Comment the next line if you're not using Swift or don't want 
+  # to use dynamic frameworks
   use_frameworks!
 
-  # Pods for Test
-  pod 'XMLCoder', '~> 0.8.0'
+  # Pods for YourApp
+  pod 'XMLCoder', '~> 0.9.0'
 end
 ```
 
@@ -370,7 +371,7 @@ $ brew install carthage
 Inside of your `Cartfile`, add GitHub path to `XMLCoder`:
 
 ```ogdl
-github "MaxDesiatov/XMLCoder" ~> 0.8.0
+github "MaxDesiatov/XMLCoder" ~> 0.9.0
 ```
 
 Then, run the following command to build the framework:
