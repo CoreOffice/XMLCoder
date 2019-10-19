@@ -1,6 +1,6 @@
 # 0.9.0 (19 October 2019)
 
-This release fixes a few bugs with `Float` type parsing, Swift 5.1 support on
+This release fixes a few bugs with `Float` type parsing and Swift 5.1 support on
 Linux. It also adds a helper extension to improve compatibility with Combine and
 adds a few tests to confirm that a few edges cases are working well. Thanks to
 [@bwetherfield](https://github.com/bwetherfield),
