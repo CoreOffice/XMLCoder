@@ -309,7 +309,7 @@ by [@sharplet](https://github.com/sharplet).
 [Swift Package Manager](https://swift.org/package-manager/) is a tool for
 managing the distribution of Swift code. It’s integrated with the Swift build
 system to automate the process of downloading, compiling, and linking
-dependencies.
+dependencies on all platforms.
 
 Once you have your Swift package set up, adding `XMLCoder` as a dependency is as
 easy as adding it to the `dependencies` value of your `Package.swift`.
@@ -322,7 +322,8 @@ dependencies: [
 
 ### CocoaPods
 
-[CocoaPods](https://cocoapods.org) is a dependency manager for Swift and Objective-C Cocoa projects. You can install it with the following command:
+[CocoaPods](https://cocoapods.org) is a dependency manager for Swift and Objective-C 
+Cocoa projects for Apple's platfoms. You can install it with the following command:
 
 ```bash
 $ gem install cocoapods
@@ -362,7 +363,8 @@ file.
 
 ### Carthage
 
-[Carthage](https://github.com/Carthage/Carthage) is a dependency manager that builds your dependencies and provides you with binary frameworks.
+[Carthage](https://github.com/Carthage/Carthage) is a dependency manager for Apple's 
+platfoms that builds your dependencies and provides you with binary frameworks.
 
 Carthage can be installed with [Homebrew](https://brew.sh/) using the following command:
 
