@@ -1,4 +1,62 @@
-# 0.8.0 (August 4, 2019)
+# 0.9.0 (19 October 2019)
+
+This release fixes a few bugs with `Float` type parsing and Swift 5.1 support on
+Linux. It also adds a helper extension to improve compatibility with Combine and
+adds a few tests to confirm that a few edges cases are working well. Thanks to
+[@bwetherfield](https://github.com/bwetherfield),
+[@DJBen](https://github.com/DJBen), [@jsbean](https://github.com/jsbean),
+[@mxcl](https://github.com/mxcl),
+[@marcblanchet](https://github.com/marcblanchet) and
+[@sharplet](https://github.com/sharplet) for bug reports and pull requests!
+
+**Implemented enhancements:**
+
+- Conditionally conform to Combine.TopLevelDecoder
+  [\#132](https://github.com/MaxDesiatov/XMLCoder/pull/132)
+  ([sharplet](https://github.com/sharplet))
+
+**Fixed bugs:**
+
+- Value with copyright symbol © has its preceding whitespace trimmed off even
+  `trimValueWhitespaces` is set to false
+  [\#141](https://github.com/MaxDesiatov/XMLCoder/issues/141)
+- Float vs Float64=Double not parsing 3.14
+  [\#130](https://github.com/MaxDesiatov/XMLCoder/issues/130)
+
+**Closed issues:**
+
+- TrackPoint position parameter is ignored
+  [\#125](https://github.com/MaxDesiatov/XMLCoder/issues/125)
+- TCX file need an XML root node
+  [\#124](https://github.com/MaxDesiatov/XMLCoder/issues/124)
+- \[Swift 5.1\] Import FoundationXML rather than Foundation
+  [\#121](https://github.com/MaxDesiatov/XMLCoder/issues/121)
+
+**Merged pull requests:**
+
+- Add whitespace trimming test with copyright symbol
+  [\#147](https://github.com/MaxDesiatov/XMLCoder/pull/147)
+  ([MaxDesiatov](https://github.com/MaxDesiatov))
+- Fix CocoaPods issue on Azure Pipelines
+  [\#146](https://github.com/MaxDesiatov/XMLCoder/pull/146)
+  ([MaxDesiatov](https://github.com/MaxDesiatov))
+- Fix Float32 decoding, add DoubleBox
+  [\#138](https://github.com/MaxDesiatov/XMLCoder/pull/138)
+  ([MaxDesiatov](https://github.com/MaxDesiatov))
+- Add QuoteDecodingTest
+  [\#137](https://github.com/MaxDesiatov/XMLCoder/pull/137)
+  ([MaxDesiatov](https://github.com/MaxDesiatov))
+- Test Root Level Attribute Encoding
+  [\#134](https://github.com/MaxDesiatov/XMLCoder/pull/134)
+  ([bwetherfield](https://github.com/bwetherfield))
+- Add Xcode 11, Swift 5.1 support
+  [\#133](https://github.com/MaxDesiatov/XMLCoder/pull/133)
+  ([MaxDesiatov](https://github.com/MaxDesiatov))
+- Test Decoding of Nested Arrays of Enums
+  [\#126](https://github.com/MaxDesiatov/XMLCoder/pull/126)
+  ([bwetherfield](https://github.com/bwetherfield))
+
+# 0.8.0 (4 August 2019)
 
 This release adds support for decoding and encoding ordered sequences of
 different elements as enums with associated values. In addition, XMLCoder now
@@ -30,7 +88,7 @@ supports Linux. Many thanks to [@jsbean](https://github.com/jsbean),
   [\#114](https://github.com/MaxDesiatov/XMLCoder/pull/114)
   ([@jsbean](https://github.com/jsbean))
 
-# 0.7.0 (July 2, 2019)
+# 0.7.0 (2 July 2019)
 
 This release changes the behavior of attributes coding: now order of XML
 attributes is fully preserved. One of the benefits is that it improves unit
@@ -53,7 +111,7 @@ and [Jay Hickey](https://github.com/jayhickey) for the contributions!
   [\#111](https://github.com/MaxDesiatov/XMLCoder/pull/111)
   ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
-# 0.6.0 (June 17, 2019)
+# 0.6.0 (17 June 2019)
 
 An improvement release that introduces `convertFromKebabCase` and
 `convertToKebabCase` key decoding strategies. There were a few changes that
@@ -74,7 +132,7 @@ Esche](https://github.com/regexident) for the contributions!
   [\#38](https://github.com/MaxDesiatov/XMLCoder/pull/38)
   ([@regexident](https://github.com/regexident))
 
-# 0.5.1 (May 2, 2019)
+# 0.5.1 (2 May 2019)
 
 Bugfix release that restores decoding of empty sequences, which became broken in
 0.5.0.
@@ -88,7 +146,7 @@ Bugfix release that restores decoding of empty sequences, which became broken in
   [\#97](https://github.com/MaxDesiatov/XMLCoder/pull/97)
   ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
-# 0.5.0 (May 2, 2019)
+# 0.5.0 (2 May 2019)
 
 A small improvement release tagged early to resolve blocking issues in
 [CoreXLSX](https://github.com/MaxDesiatov/CoreXLSX). 
@@ -121,7 +179,7 @@ A small improvement release tagged early to resolve blocking issues in
   [\#92](https://github.com/MaxDesiatov/XMLCoder/pull/92)
   ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
-# 0.4.1 (April 12, 2019)
+# 0.4.1 (12 April 2019)
 
 A bugfix release removing unused Xcode project scheme to improve build time
 for Carthage users.
@@ -130,7 +188,7 @@ for Carthage users.
 
 * Remove unused scheme in Xcode project ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
-# 0.4.0 (April 8, 2019)
+# 0.4.0 (8 April 2019)
 
 This is a release with plenty of new features that allow you to parse many more
 XML variations than previously. Compatibility with Xcode 10.2 and Swift 5.0 is
@@ -220,7 +278,7 @@ also improved. A huge thank you to [@JoeMatt](https://github.com/JoeMatt) and
   [\#45](https://github.com/MaxDesiatov/XMLCoder/pull/45)
   ([@regexident](https://github.com/regexident))
 
-# 0.3.1 (February 6, 2019)
+# 0.3.1 (6 February 2019)
 
 A bugfix release that adds missing `CFBundleVersion` in generated framework's 
 `Info.plist` ([#72](https://github.com/MaxDesiatov/XMLCoder/issues/72) reported by 
@@ -230,7 +288,7 @@ A bugfix release that adds missing `CFBundleVersion` in generated framework's
 
 * Set `CURRENT_PROJECT_VERSION` in project file ([#74](https://github.com/MaxDesiatov/XMLCoder/pull/74), [@MaxDesiatov](https://github.com/MaxDesiatov))
 
-# 0.3.0 (January 22, 2019)
+# 0.3.0 (22 January 2019)
 
 A maintenance release focused on fixing bugs, improving error reporting and
 overall internal architecture of the library. For this release we've started
@@ -396,19 +454,19 @@ many more changes in this release that make `XMLCoder` better and easier to use.
 * Run tests with coverage, upload to codecov.io
   ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
-# 0.2.1 (November 18, 2018)
+# 0.2.1 (18 November 2018)
 
 * watchOS deployment target set to 2.0 for Carthage ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
-# 0.2.0 (November 18, 2018)
+# 0.2.0 (18 November 2018)
 
 * Add watchOS 2.0 deployment target ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
-# 0.1.1 (November 18, 2018)
+# 0.1.1 (18 November 2018)
 
 * Set iOS deployment target to 9.0 ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
-# 0.1.0 (November 8, 2018)
+# 0.1.0 (8 November 2018)
 
 * Add support for decoupled, type-dependent node-encoding strategies
   ([@regexident](https://github.com/regexident))

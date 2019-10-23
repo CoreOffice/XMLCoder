@@ -140,8 +140,7 @@ struct Book: Codable, Equatable, DynamicNodeEncoding {
         case categories = "category"
     }
 
-    static func nodeEncoding(forKey key: CodingKey) 
-    -> XMLEncoder.NodeEncoding {
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
         switch key {
         case Book.CodingKeys.id: return .both
         default: return .element
@@ -289,6 +288,9 @@ func fetchBook(from url: URL) -> AnyPublisher<Book, Error> {
 }
 ```
 
+This was implemented in PR [\#132](https://github.com/MaxDesiatov/XMLCoder/pull/132) 
+by [@sharplet](https://github.com/sharplet).
+
 ## Installation
 
 ### Requirements
@@ -314,20 +316,21 @@ func fetchBook(from url: URL) -> AnyPublisher<Book, Error> {
 [Swift Package Manager](https://swift.org/package-manager/) is a tool for
 managing the distribution of Swift code. It’s integrated with the Swift build
 system to automate the process of downloading, compiling, and linking
-dependencies.
+dependencies on all platforms.
 
 Once you have your Swift package set up, adding `XMLCoder` as a dependency is as
 easy as adding it to the `dependencies` value of your `Package.swift`.
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.8.0")
+    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.9.0")
 ]
 ```
 
 ### CocoaPods
 
-[CocoaPods](https://cocoapods.org) is a dependency manager for Swift and Objective-C Cocoa projects. You can install it with the following command:
+[CocoaPods](https://cocoapods.org) is a dependency manager for Swift and Objective-C 
+Cocoa projects for Apple's platfoms. You can install it with the following command:
 
 ```bash
 $ gem install cocoapods
@@ -346,11 +349,12 @@ Inside of your `Podfile`, specify the `XMLCoder` pod:
 # platform :ios, '9.0'
 
 target 'YourApp' do
-  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+  # Comment the next line if you're not using Swift or don't want 
+  # to use dynamic frameworks
   use_frameworks!
 
-  # Pods for Test
-  pod 'XMLCoder', '~> 0.8.0'
+  # Pods for YourApp
+  pod 'XMLCoder', '~> 0.9.0'
 end
 ```
 
@@ -366,7 +370,8 @@ file.
 
 ### Carthage
 
-[Carthage](https://github.com/Carthage/Carthage) is a dependency manager that builds your dependencies and provides you with binary frameworks.
+[Carthage](https://github.com/Carthage/Carthage) is a dependency manager for Apple's 
+platfoms that builds your dependencies and provides you with binary frameworks.
 
 Carthage can be installed with [Homebrew](https://brew.sh/) using the following command:
 
@@ -378,7 +383,7 @@ $ brew install carthage
 Inside of your `Cartfile`, add GitHub path to `XMLCoder`:
 
 ```ogdl
-github "MaxDesiatov/XMLCoder" ~> 0.8.0
+github "MaxDesiatov/XMLCoder" ~> 0.9.0
 ```
 
 Then, run the following command to build the framework:
