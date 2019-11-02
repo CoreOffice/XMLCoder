@@ -249,11 +249,8 @@ extension XMLKeyedDecodingContainer {
                         return []
                     }
                 } else {
-                    #warning("TODO: just return keyedBox.elements[key.stringValue]")
                     return keyedBox.elements[key.stringValue].map {
                         if let singleKeyed = $0 as? SingleKeyedBox {
-                            #warning("Don't get rid of key info just yet!")
-                            // return singleKeyed.element
                             return singleKeyed
                         } else {
                             return $0
