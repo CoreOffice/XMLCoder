@@ -3,4 +3,4 @@
 set -e 
 set -o pipefail
 
-swift test
+swift test --parallel
