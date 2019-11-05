@@ -409,8 +409,7 @@ Please check [SwiftFormat
 documentation](https://github.com/nicklockwood/SwiftFormat#how-do-i-install-it)
 for more details.
 
-SwiftFormat also runs within our [Travis
-CI](https://travis-ci.org/MaxDesiatov/XMLCoder) setup and a CI build can fail
+SwiftFormat also runs on CI for every PR and thus a CI build can fail
 with incosistent formatting. We require CI builds to pass for any PR before
 merging.
 
