@@ -97,7 +97,7 @@ class XMLDecoderImplementation: Decoder {
             return KeyedDecodingContainer(XMLKeyedDecodingContainer<Key>(
                 referencing: self,
                 wrapping: SharedBox(KeyedBox(
-                    elements: KeyedStorage([("value", string)]),
+                    elements: KeyedStorage([("", string)]),
                     attributes: KeyedStorage()
                 ))
             ))
