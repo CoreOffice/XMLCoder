@@ -232,29 +232,11 @@ extension XMLKeyedDecodingContainer {
 
         let elements = container
             .withShared { keyedBox -> [KeyedBox.Element] in
-                if ["value", ""].contains(key.stringValue) {
-                    let keyString = key.stringValue.isEmpty ? "value" : key.stringValue
-                    let value = keyedBox.elements[keyString]
-                    if !value.isEmpty {
-                        return value.map {
-                            if let singleKeyed = $0 as? SingleKeyedBox {
-                                return singleKeyed.element
-                            } else {
-                                return $0
-                            }
-                        }
-                    } else if let value = keyedBox.value {
-                        return [value]
+                keyedBox.elements[key.stringValue].map {
+                    if let singleKeyed = $0 as? SingleKeyedBox {
+                        return singleKeyed.element
                     } else {
-                        return []
-                    }
-                } else {
-                    return keyedBox.elements[key.stringValue].map {
-                        if let singleKeyed = $0 as? SingleKeyedBox {
-                            return singleKeyed
-                        } else {
-                            return $0
-                        }
+                        return $0
                     }
                 }
             }

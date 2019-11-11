@@ -82,7 +82,7 @@ private struct Foo: Codable, DynamicNodeEncoding, Equatable {
 
     enum CodingKeys: String, CodingKey {
         case id
-        case value
+        case value = ""
     }
 
     static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
@@ -97,6 +97,10 @@ private struct Foo: Codable, DynamicNodeEncoding, Equatable {
 
 private struct FooValue: Codable, Equatable {
     let value: Int
+
+    enum CodingKeys: String, CodingKey {
+        case value = ""
+    }
 }
 
 private struct FooOptional: Codable, DynamicNodeEncoding, Equatable {
@@ -105,7 +109,7 @@ private struct FooOptional: Codable, DynamicNodeEncoding, Equatable {
 
     enum CodingKeys: String, CodingKey {
         case id
-        case value
+        case value = ""
     }
 
     static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
@@ -167,7 +171,7 @@ private struct PreviewImageTime: Codable, Equatable, DynamicNodeEncoding {
 
     enum CodingKeys: String, CodingKey {
         case format
-        case value
+        case value = ""
     }
 
     static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
