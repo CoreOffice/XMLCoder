@@ -16,6 +16,11 @@ class EmptyElementEmptyStringTests: XCTestCase {
     struct Thing: Equatable, Codable {
         let attribute: String?
         let value: String
+        
+        enum CodingKeys: String, CodingKey {
+            case attribute
+            case value = ""
+        }
     }
 
     func testEmptyElementEmptyStringDecoding() throws {
