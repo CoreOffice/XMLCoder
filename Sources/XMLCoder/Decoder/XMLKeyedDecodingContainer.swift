@@ -234,7 +234,7 @@ extension XMLKeyedDecodingContainer {
             .withShared { keyedBox -> [KeyedBox.Element] in
                 keyedBox.elements[key.stringValue].map {
                     if let singleKeyed = $0 as? SingleKeyedBox {
-                        return singleKeyed.element
+                        return singleKeyed.element.isNull ? singleKeyed : singleKeyed.element
                     } else {
                         return $0
                     }
