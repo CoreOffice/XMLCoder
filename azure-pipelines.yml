@@ -36,6 +36,14 @@ jobs:
     env:
       IOS_DEVICE: 'platform=iOS Simulator,OS=12.2,name=iPhone SE'
       TVOS_DEVICE: 'platform=tvOS Simulator,OS=12.2,name=Apple TV 4K'
+- job: test_xcodebuild_10_3
+  pool:
+    vmImage: 'macOS-10.14'
+  steps:
+  - bash: ./test_xcodebuild.sh Xcode_10.3
+    env:
+      IOS_DEVICE: 'platform=iOS Simulator,OS=12.4,name=iPhone SE'
+      TVOS_DEVICE: 'platform=tvOS Simulator,OS=12.4,name=Apple TV 4K'
 - job: test_xcodebuild_11_0
   pool:
     vmImage: 'macOS-10.14'
