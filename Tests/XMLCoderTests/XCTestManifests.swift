@@ -529,6 +529,7 @@ extension NullTests {
     static let __allTests__NullTests = [
         ("testAttribute", testAttribute),
         ("testElement", testElement),
+        ("testNullElement", testNullElement),
     ]
 }
 
