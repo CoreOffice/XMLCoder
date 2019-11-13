@@ -9,7 +9,19 @@ import XCTest
 import XMLCoder
 
 class EmptyElementEmptyStringTests: XCTestCase {
-    struct ContainerMultiple: Equatable, Decodable {
+    struct ExplicitNestingContainer: Equatable, Decodable {
+        let things: ContainedArray
+
+        struct ContainedArray: Equatable, Decodable {
+            let thing: [Thing]
+
+            init(_ things: [Thing]) {
+                thing = things
+            }
+        }
+    }
+
+    struct NestingContainer: Equatable, Decodable {
         let things: [Thing]
 
         enum CodingKeys: String, CodingKey {
@@ -93,6 +105,27 @@ class EmptyElementEmptyStringTests: XCTestCase {
         XCTAssertEqual(expected, result)
     }
 
+    func testExplicitlyNestedArrayOfEmptyElementEmptyStringDecoding() throws {
+        let xml = """
+        <container>
+            <things>
+                <thing></thing>
+                <thing attribute="x"></thing>
+                <thing></thing>
+            </things>
+        </container>
+        """
+        let expected = ExplicitNestingContainer(
+            things: .init([
+                Thing(attribute: nil, value: ""),
+                Thing(attribute: "x", value: ""),
+                Thing(attribute: nil, value: ""),
+            ])
+        )
+        let result = try XMLDecoder().decode(ExplicitNestingContainer.self, from: xml.data(using: .utf8)!)
+        XCTAssertEqual(expected, result)
+    }
+
     func testNestedArrayOfEmptyElementEmptyStringDecoding() throws {
         let xml = """
         <container>
@@ -103,14 +136,14 @@ class EmptyElementEmptyStringTests: XCTestCase {
             </things>
         </container>
         """
-        let expected = ContainerMultiple(
+        let expected = NestingContainer(
             things: [
                 Thing(attribute: nil, value: ""),
                 Thing(attribute: "x", value: ""),
                 Thing(attribute: nil, value: ""),
             ]
         )
-        let result = try XMLDecoder().decode(ContainerMultiple.self, from: xml.data(using: .utf8)!)
+        let result = try XMLDecoder().decode(NestingContainer.self, from: xml.data(using: .utf8)!)
         XCTAssertEqual(expected, result)
     }
 }

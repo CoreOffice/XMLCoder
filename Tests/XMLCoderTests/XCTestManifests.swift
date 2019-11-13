@@ -274,6 +274,7 @@ extension EmptyElementEmptyStringTests {
         ("testArrayOfEmptyElementStringDecoding", testArrayOfEmptyElementStringDecoding),
         ("testEmptyElementEmptyStringDecoding", testEmptyElementEmptyStringDecoding),
         ("testEmptyElementEmptyStringWithAttributeDecoding", testEmptyElementEmptyStringWithAttributeDecoding),
+        ("testExplicitlyNestedArrayOfEmptyElementEmptyStringDecoding", testExplicitlyNestedArrayOfEmptyElementEmptyStringDecoding),
         ("testNestedArrayOfEmptyElementEmptyStringDecoding", testNestedArrayOfEmptyElementEmptyStringDecoding),
         ("testNestedEmptyElementEmptyStringDecoding", testNestedEmptyElementEmptyStringDecoding),
     ]
