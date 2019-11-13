@@ -665,6 +665,7 @@ extension StringTests {
     static let __allTests__StringTests = [
         ("testAttribute", testAttribute),
         ("testElement", testElement),
+        ("testMissing", testMissing),
     ]
 }
 
