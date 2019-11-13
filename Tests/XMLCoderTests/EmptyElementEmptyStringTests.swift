@@ -94,6 +94,23 @@ class EmptyElementEmptyStringTests: XCTestCase {
         XCTAssertEqual(expected, result)
     }
 
+    func testArrayOfSomeEmptyElementStringDecoding() throws {
+        let xml = """
+        <container>
+            <thing></thing>
+            <thing attribute="x">Non-Empty!</thing>
+            <thing>Non-Empty!</thing>
+        </container>
+        """
+        let expected = [
+            Thing(attribute: nil, value: ""),
+            Thing(attribute: "x", value: "Non-Empty!"),
+            Thing(attribute: nil, value: "Non-Empty!"),
+        ]
+        let result = try XMLDecoder().decode([Thing].self, from: xml.data(using: .utf8)!)
+        XCTAssertEqual(expected, result)
+    }
+
     func testNestedEmptyElementEmptyStringDecoding() throws {
         let xml = """
         <parent>
@@ -126,6 +143,27 @@ class EmptyElementEmptyStringTests: XCTestCase {
         XCTAssertEqual(expected, result)
     }
 
+    func testExplicitlyNestedArrayOfSomeEmptyElementEmptyStringDecoding() throws {
+        let xml = """
+        <container>
+            <things>
+                <thing></thing>
+                <thing attribute="x">Non-Empty!</thing>
+                <thing>Non-Empty!</thing>
+            </things>
+        </container>
+        """
+        let expected = ExplicitNestingContainer(
+            things: .init([
+                Thing(attribute: nil, value: ""),
+                Thing(attribute: "x", value: "Non-Empty!"),
+                Thing(attribute: nil, value: "Non-Empty!"),
+            ])
+        )
+        let result = try XMLDecoder().decode(ExplicitNestingContainer.self, from: xml.data(using: .utf8)!)
+        XCTAssertEqual(expected, result)
+    }
+
     func testNestedArrayOfEmptyElementEmptyStringDecoding() throws {
         let xml = """
         <container>
@@ -141,6 +179,27 @@ class EmptyElementEmptyStringTests: XCTestCase {
                 Thing(attribute: nil, value: ""),
                 Thing(attribute: "x", value: ""),
                 Thing(attribute: nil, value: ""),
+            ]
+        )
+        let result = try XMLDecoder().decode(NestingContainer.self, from: xml.data(using: .utf8)!)
+        XCTAssertEqual(expected, result)
+    }
+
+    func testNestedArrayOfSomeEmptyElementEmptyStringDecoding() throws {
+        let xml = """
+        <container>
+            <things>
+                <thing></thing>
+                <thing attribute="x">Non-Empty!</thing>
+                <thing>Non-Empty!</thing>
+            </things>
+        </container>
+        """
+        let expected = NestingContainer(
+            things: [
+                Thing(attribute: nil, value: ""),
+                Thing(attribute: "x", value: "Non-Empty!"),
+                Thing(attribute: nil, value: "Non-Empty!"),
             ]
         )
         let result = try XMLDecoder().decode(NestingContainer.self, from: xml.data(using: .utf8)!)

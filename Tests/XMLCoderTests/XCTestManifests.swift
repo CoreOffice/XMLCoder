@@ -272,10 +272,13 @@ extension EmptyElementEmptyStringTests {
     // to regenerate.
     static let __allTests__EmptyElementEmptyStringTests = [
         ("testArrayOfEmptyElementStringDecoding", testArrayOfEmptyElementStringDecoding),
+        ("testArrayOfSomeEmptyElementStringDecoding", testArrayOfSomeEmptyElementStringDecoding),
         ("testEmptyElementEmptyStringDecoding", testEmptyElementEmptyStringDecoding),
         ("testEmptyElementEmptyStringWithAttributeDecoding", testEmptyElementEmptyStringWithAttributeDecoding),
         ("testExplicitlyNestedArrayOfEmptyElementEmptyStringDecoding", testExplicitlyNestedArrayOfEmptyElementEmptyStringDecoding),
+        ("testExplicitlyNestedArrayOfSomeEmptyElementEmptyStringDecoding", testExplicitlyNestedArrayOfSomeEmptyElementEmptyStringDecoding),
         ("testNestedArrayOfEmptyElementEmptyStringDecoding", testNestedArrayOfEmptyElementEmptyStringDecoding),
+        ("testNestedArrayOfSomeEmptyElementEmptyStringDecoding", testNestedArrayOfSomeEmptyElementEmptyStringDecoding),
         ("testNestedEmptyElementEmptyStringDecoding", testNestedEmptyElementEmptyStringDecoding),
     ]
 }
