@@ -234,7 +234,7 @@ extension XMLKeyedDecodingContainer {
             .withShared { keyedBox -> [KeyedBox.Element] in
                 keyedBox.elements[key.stringValue].map {
                     if let singleKeyed = $0 as? SingleKeyedBox {
-                        return singleKeyed.element
+                        return singleKeyed.element.isNull ? singleKeyed : singleKeyed.element
                     } else {
                         return $0
                     }
@@ -262,6 +262,12 @@ extension XMLKeyedDecodingContainer {
         if strategy(key) != .attribute && elements.isEmpty,
             let empty = (type as? AnySequence.Type)?.init() as? T {
             return empty
+        }
+
+        // If we are looking at a coding key value intrinsic where the expected type is `String` and
+        // the value is empty, return `""`.
+        if strategy(key) != .attribute, elements.isEmpty, attributes.isEmpty, type == String.self, key.stringValue == "", let emptyString = "" as? T {
+            return emptyString
         }
 
         switch strategy(key) {
@@ -299,7 +305,16 @@ extension XMLKeyedDecodingContainer {
         let value: T?
         if !(type is AnySequence.Type), let unkeyedBox = box as? UnkeyedBox,
             let first = unkeyedBox.first {
-            value = try decoder.unbox(first)
+            // Handle case where we have held onto a `SingleKeyedBox`
+            if let singleKeyed = first as? SingleKeyedBox {
+                if singleKeyed.element.isNull {
+                    value = try decoder.unbox(singleKeyed)
+                } else {
+                    value = try decoder.unbox(singleKeyed.element)
+                }
+            } else {
+                value = try decoder.unbox(first)
+            }
         } else {
             value = try decoder.unbox(box)
         }
@@ -316,7 +331,6 @@ extension XMLKeyedDecodingContainer {
                 "Expected \(type) value but found null instead."
             ))
         }
-
         return unwrapped
     }
 
