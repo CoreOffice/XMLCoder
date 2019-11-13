@@ -33,13 +33,18 @@ class EmptyElementEmptyStringTests: XCTestCase {
         }
     }
 
-    struct ContainerSingle: Equatable, Codable {
+    struct Parent: Equatable, Codable {
         let thing: Thing
     }
 
     struct Thing: Equatable, Codable {
         let attribute: String?
         let value: String
+
+        enum CodingKeys: String, CodingKey {
+            case attribute
+            case value = ""
+        }
     }
 
     func testEmptyElementEmptyStringDecoding() throws {
@@ -79,12 +84,12 @@ class EmptyElementEmptyStringTests: XCTestCase {
 
     func testNestedEmptyElementEmptyStringDecoding() throws {
         let xml = """
-        <container>
+        <parent>
             <thing/>
-        </container>
+        </parent>
         """
-        let expected = ContainerSingle(thing: Thing(attribute: nil, value: ""))
-        let result = try XMLDecoder().decode(ContainerSingle.self, from: xml.data(using: .utf8)!)
+        let expected = Parent(thing: Thing(attribute: nil, value: ""))
+        let result = try XMLDecoder().decode(Parent.self, from: xml.data(using: .utf8)!)
         XCTAssertEqual(expected, result)
     }
 

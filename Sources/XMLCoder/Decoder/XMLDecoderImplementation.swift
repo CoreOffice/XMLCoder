@@ -97,14 +97,14 @@ class XMLDecoderImplementation: Decoder {
             return KeyedDecodingContainer(XMLKeyedDecodingContainer<Key>(
                 referencing: self,
                 wrapping: SharedBox(KeyedBox(
-                    elements: KeyedStorage([("value", string)]),
+                    elements: KeyedStorage([("", string)]),
                     attributes: KeyedStorage()
                 ))
             ))
         case let containsEmpty as SingleKeyedBox where containsEmpty.element is NullBox:
             return KeyedDecodingContainer(XMLKeyedDecodingContainer<Key>(
                 referencing: self, wrapping: SharedBox(KeyedBox(
-                    elements: KeyedStorage([("value", StringBox(""))]), attributes: KeyedStorage()
+                    elements: KeyedStorage([("", StringBox(""))]), attributes: KeyedStorage()
                 ))
             ))
         case let keyed as SharedBox<KeyedBox>:

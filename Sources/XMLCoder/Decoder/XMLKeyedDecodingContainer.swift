@@ -235,19 +235,16 @@ extension XMLKeyedDecodingContainer {
             )
         }
 
-        let elements = container.withShared { keyedBox -> [KeyedBox.Element] in
-            // Handle the coding key value intrinsic case
-            if ["value", ""].contains(key.stringValue) {
-                // For each boxed-up element we have, peer in to see if it is a `SingleKeyedBox`.
-                // A `SingleKeyedBox` bundles an `element` along with its `key` in order to defer
-                // its evaluation. This is used here in order to prevent the wiping away of
-                // `NullBox` elements prematurely which may be an empty `String` value in disguise.
-                // If we have a `SingledKeyedBox` here, extract its element. Otherwise, return the
-                // boxed-up element as-is.
-                return keyedBox.elements["value"].map { ($0 as? SingleKeyedBox)?.element ?? $0 }
+        let elements = container
+            .withShared { keyedBox -> [KeyedBox.Element] in
+                keyedBox.elements[key.stringValue].map {
+                    if let singleKeyed = $0 as? SingleKeyedBox {
+                        return singleKeyed.element.isNull ? singleKeyed : singleKeyed.element
+                    } else {
+                        return $0
+                    }
+                }
             }
-            return keyedBox.elements[key.stringValue]
-        }
 
         let attributes = container.withShared { keyedBox in
             keyedBox.attributes[key.stringValue]
@@ -274,8 +271,7 @@ extension XMLKeyedDecodingContainer {
 
         // If we are looking at a coding key value intrinsic where the expected type is `String` and
         // the value is empty, return `""`.
-        if strategy(key) != .attribute, elements.isEmpty, attributes.isEmpty, type == String.self,
-            key.stringValue == "value" || key.stringValue == "", let emptyString = "" as? T {
+        if strategy(key) != .attribute, elements.isEmpty, attributes.isEmpty, type == String.self, key.stringValue == "", let emptyString = "" as? T {
             return emptyString
         }
 

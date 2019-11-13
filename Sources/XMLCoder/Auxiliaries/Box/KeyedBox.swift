@@ -24,7 +24,7 @@ struct KeyedBox {
     }
 
     var value: SimpleBox? {
-        return elements["value"].first as? SimpleBox
+        return elements[""].first as? SimpleBox
     }
 }
 
