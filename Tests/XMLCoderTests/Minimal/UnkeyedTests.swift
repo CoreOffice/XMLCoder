@@ -68,7 +68,7 @@ class UnkeyedTests: XCTestCase {
         """.data(using: .utf8)!
 
         let decoded = try decoder.decode(NestedNilContainer.self, from: xmlData)
-        XCTAssertEqual(decoded.value, ["test1", nil, "test2"])
+        XCTAssertEqual(decoded.value, ["test1", "", "test2"])
     }
 
     func testNestedNilSingleElement() throws {
@@ -81,7 +81,7 @@ class UnkeyedTests: XCTestCase {
         """.data(using: .utf8)!
 
         let decoded = try decoder.decode(NestedNilContainer.self, from: xmlData)
-        XCTAssertEqual(decoded.value, [nil])
+        XCTAssertEqual(decoded.value, [""])
     }
 
     func testSingleElement() throws {

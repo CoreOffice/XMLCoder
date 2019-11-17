@@ -105,11 +105,15 @@ struct XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         var value: T?
         if let singleKeyed = box as? SingleKeyedBox {
             do {
-                // Drill down to the element in the case of an nested unkeyed element
-                value = try decode(decoder, singleKeyed.element)
+                value = try decode(decoder, singleKeyed)
             } catch {
-                // Specialize for choice elements
-                value = try decode(decoder, ChoiceBox(key: singleKeyed.key, element: singleKeyed.element))
+                do {
+                    // Drill down to the element in the case of an nested unkeyed element
+                    value = try decode(decoder, singleKeyed.element)
+                } catch {
+                    // Specialize for choice elements
+                    value = try decode(decoder, ChoiceBox(key: singleKeyed.key, element: singleKeyed.element))
+                }
             }
         } else {
             value = try decode(decoder, box)

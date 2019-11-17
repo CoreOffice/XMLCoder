@@ -80,7 +80,7 @@ private struct Channel: Codable, Equatable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         title = try values.decode(String.self, forKey: .title)
         link = try values.decode(URL.self, forKey: .link)
-        description = try values.decodeIfPresent(String.self, forKey: .description)
+        description = try values.decode(String.self, forKey: .description)
         language = try values.decode(String.self, forKey: .language)
         creator = try values.decode(String.self, forKey: .creator)
         rights = try values.decode(String.self, forKey: .rights)
@@ -108,7 +108,7 @@ private struct Item: Codable, Equatable {
     let guid: URL
     let enclosure: Enclosure?
     let description: String
-    let subject: String?
+    let subject: String
     let date: Date
     let author: String?
 
@@ -128,7 +128,7 @@ private struct Item: Codable, Equatable {
         guid = try values.decode(URL.self, forKey: .guid)
         enclosure = try values.decodeIfPresent(Enclosure.self, forKey: .enclosure)
         description = try values.decode(String.self, forKey: .description)
-        subject = try values.decodeIfPresent(String.self, forKey: .subject)
+        subject = try values.decode(String.self, forKey: .subject)
         date = try values.decode(Date.self, forKey: .date)
         author = try values.decodeIfPresent(String.self, forKey: .author)
     }

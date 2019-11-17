@@ -79,8 +79,8 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
 
         let box = elements.first ?? attributes.first
 
-        if let singleKeyed = box as? SingleKeyedBox {
-            return singleKeyed.element.isNull
+        if box is SingleKeyedBox {
+            return false
         }
 
         return box?.isNull ?? true
@@ -160,14 +160,19 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
         decoder.codingPath.append(key)
         defer { decoder.codingPath.removeLast() }
 
-        let elements = container.withShared { keyedBox in
-            keyedBox.elements[key.stringValue]
-        }
+        let elements = container.unboxed.elements[key.stringValue]
 
-        return XMLUnkeyedDecodingContainer(
-            referencing: decoder,
-            wrapping: SharedBox(elements)
-        )
+        if let containsKeyed = elements as? [KeyedBox], let keyed = containsKeyed.first {
+            return XMLUnkeyedDecodingContainer(
+                referencing: decoder,
+                wrapping: SharedBox(keyed.elements.map(SingleKeyedBox.init))
+            )
+        } else {
+            return XMLUnkeyedDecodingContainer(
+                referencing: decoder,
+                wrapping: SharedBox(elements)
+            )
+        }
     }
 
     public func superDecoder() throws -> Decoder {

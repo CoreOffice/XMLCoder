@@ -319,10 +319,16 @@ extension XMLDecoderImplementation {
     }
 
     func unbox(_ box: Box) throws -> String {
-        let stringBox: StringBox = try typedBox(box, for: String.self)
-        let string = stringBox.unboxed
+        do {
+            let stringBox: StringBox = try typedBox(box, for: String.self)
+            return stringBox.unboxed
+        } catch {
+            if box is NullBox {
+                return ""
+            }
+        }
 
-        return string
+        return ""
     }
 
     func unbox(_ box: Box) throws -> Date {

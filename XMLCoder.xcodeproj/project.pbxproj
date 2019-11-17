@@ -22,6 +22,8 @@
 
 /* Begin PBXBuildFile section */
 		07E441BA2340F14B00890F46 /* EmptyElementEmptyStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E441B92340F14B00890F46 /* EmptyElementEmptyStringTests.swift */; };
+		B54555BC2343F5C1000D4128 /* EmptyArrayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54555BB2343F5C1000D4128 /* EmptyArrayTest.swift */; };
+		B5EA3BB6230F237800D8D69B /* NestedChoiceArrayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EA3BB4230F235C00D8D69B /* NestedChoiceArrayTest.swift */; };
 		4A062D4F2341924E009BCAC1 /* CombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A062D4E2341924E009BCAC1 /* CombineTests.swift */; };
 		B5EA3BB6230F237800D8D69B /* NestedChoiceArrayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EA3BB4230F235C00D8D69B /* NestedChoiceArrayTest.swift */; };
 		B5F74472233F74E400BBDB15 /* RootLevelAttributeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F74471233F74E400BBDB15 /* RootLevelAttributeTest.swift */; };
@@ -160,6 +162,8 @@
 
 /* Begin PBXFileReference section */
 		07E441B92340F14B00890F46 /* EmptyElementEmptyStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyElementEmptyStringTests.swift; sourceTree = "<group>"; };
+		B54555BB2343F5C1000D4128 /* EmptyArrayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyArrayTest.swift; sourceTree = "<group>"; };
+		B5EA3BB4230F235C00D8D69B /* NestedChoiceArrayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedChoiceArrayTest.swift; sourceTree = "<group>"; };
 		4A062D4E2341924E009BCAC1 /* CombineTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombineTests.swift; sourceTree = "<group>"; };
 		B5EA3BB4230F235C00D8D69B /* NestedChoiceArrayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedChoiceArrayTest.swift; sourceTree = "<group>"; };
 		B5F74471233F74E400BBDB15 /* RootLevelAttributeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootLevelAttributeTest.swift; sourceTree = "<group>"; };
@@ -467,6 +471,8 @@
 				OBJ_125 /* SimpleChoiceTests.swift */,
 				OBJ_126 /* SingleChildTests.swift */,
 				OBJ_127 /* SpacePreserveTest.swift */,
+				B5EA3BB4230F235C00D8D69B /* NestedChoiceArrayTest.swift */,
+				B54555BB2343F5C1000D4128 /* EmptyArrayTest.swift */,
 			);
 			name = XMLCoderTests;
 			path = Tests/XMLCoderTests;
@@ -704,6 +710,7 @@
 				D18FBFB82348FAE500FA4F65 /* QuoteDecodingTest.swift in Sources */,
 				OBJ_216 /* BenchmarkTests.swift in Sources */,
 				OBJ_217 /* BooksTest.swift in Sources */,
+				B54555BC2343F5C1000D4128 /* EmptyArrayTest.swift in Sources */,
 				OBJ_218 /* BorderTest.swift in Sources */,
 				OBJ_219 /* BoolBoxTests.swift in Sources */,
 				OBJ_220 /* DataBoxTests.swift in Sources */,
