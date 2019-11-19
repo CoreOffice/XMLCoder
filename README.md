@@ -297,7 +297,7 @@ by [@sharplet](https://github.com/sharplet).
 
 **Apple Platforms**
 - Xcode 10.0 or later
-  * **IMPORTANT**: compiling XMLCoder with Xcode 11.2.0 (11B52) may cause crashes with `EXC_BAD_ACCESS` due to [a compiler bug](https://bugs.swift.org/browse/SR-11564). A known workaround is to set `DEAD_CODE_STRIPPING = NO` in your project settings. Please refer to [\#150](https://github.com/MaxDesiatov/XMLCoder/issues/150) for more details.
+  * **IMPORTANT**: compiling XMLCoder with Xcode 11.2.0 (11B52) and 11.2.1 (11B500) may cause crashes with `EXC_BAD_ACCESS` due to [a compiler bug](https://bugs.swift.org/browse/SR-11564). A known workaround is to set `DEAD_CODE_STRIPPING = NO` in your project settings. Please refer to [\#150](https://github.com/MaxDesiatov/XMLCoder/issues/150) for more details.
 - Swift 4.2 or later
 - iOS 9.0 / watchOS 2.0 / tvOS 9.0 / macOS 10.10 or later deployment targets
 
