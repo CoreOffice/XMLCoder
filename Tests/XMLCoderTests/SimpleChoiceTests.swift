@@ -13,6 +13,23 @@ private enum IntOrString: Equatable {
     case string(String)
 }
 
+private struct Mixed: Equatable {
+    let intOrString: IntOrString
+    let otherValue: String
+}
+
+extension Mixed: Encodable {
+    enum CodingKeys: String, CodingKey {
+        case otherValue = "other-value"
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(otherValue, forKey: .otherValue)
+        try intOrString.encode(to: encoder)
+    }
+}
+
 extension IntOrString: Codable {
     enum CodingKeys: String, XMLChoiceCodingKey {
         case int
@@ -114,5 +131,10 @@ class SimpleChoiceTests: XCTestCase {
         let encoded = try XMLEncoder().encode(original, withRootKey: "container")
         let decoded = try XMLDecoder().decode([[IntOrString]].self, from: encoded)
         XCTAssertEqual(original, decoded)
+    }
+    
+    func testMixedEncode() throws {
+        let original = Mixed(intOrString: .int(4), otherValue: "other")
+        print(try XMLEncoder().encode(original, withRootKey: "container"))
     }
 }
