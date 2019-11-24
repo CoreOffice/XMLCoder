@@ -31,8 +31,8 @@ struct XMLEncodingStorage {
         return containers.last
     }
 
-    mutating func pushKeyedContainer() -> SharedBox<KeyedBox> {
-        let container = SharedBox(KeyedBox())
+    mutating func pushKeyedContainer(_ keyedBox: KeyedBox = KeyedBox()) -> SharedBox<KeyedBox> {
+        let container = SharedBox(keyedBox)
         containers.append(container)
         return container
     }

@@ -12,13 +12,13 @@ extension XMLEncoderImplementation: SingleValueEncodingContainer {
     // MARK: - SingleValueEncodingContainer Methods
 
     func assertCanEncodeNewValue() {
-        precondition(
-            canEncodeNewValue,
-            """
-            Attempt to encode value through single value container when \
-            previously value already encoded.
-            """
-        )
+//        precondition(
+//            canEncodeNewValue,
+//            """
+//            Attempt to encode value through single value container when \
+//            previously value already encoded.
+//            """
+//        )
     }
 
     public func encodeNil() throws {

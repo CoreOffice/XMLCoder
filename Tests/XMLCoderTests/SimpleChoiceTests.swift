@@ -13,20 +13,57 @@ private enum IntOrString: Equatable {
     case string(String)
 }
 
-private struct Mixed: Equatable {
+private struct MixedIntOrStringFirst: Equatable {
     let intOrString: IntOrString
     let otherValue: String
 }
 
-extension Mixed: Encodable {
+extension MixedIntOrStringFirst: Encodable {
     enum CodingKeys: String, CodingKey {
         case otherValue = "other-value"
     }
-    
+
+    func encode(to encoder: Encoder) throws {
+        try intOrString.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(otherValue, forKey: .otherValue)
+    }
+}
+
+private struct MixedOtherFirst: Equatable {
+    let intOrString: IntOrString
+    let otherValue: String
+}
+
+extension MixedOtherFirst: Encodable {
+    enum CodingKeys: String, CodingKey {
+        case otherValue = "other-value"
+    }
+
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(otherValue, forKey: .otherValue)
         try intOrString.encode(to: encoder)
+    }
+}
+
+private struct MixedEitherSide {
+    let leading: String
+    let intOrString: IntOrString
+    let trailing: String
+}
+
+extension MixedEitherSide: Encodable {
+    enum CodingKeys: String, CodingKey {
+        case leading
+        case trailing
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(leading, forKey: .leading)
+        try intOrString.encode(to: encoder)
+        try container.encode(trailing, forKey: .trailing)
     }
 }
 
@@ -132,9 +169,22 @@ class SimpleChoiceTests: XCTestCase {
         let decoded = try XMLDecoder().decode([[IntOrString]].self, from: encoded)
         XCTAssertEqual(original, decoded)
     }
-    
+
     func testMixedEncode() throws {
-        let original = Mixed(intOrString: .int(4), otherValue: "other")
-        print(try XMLEncoder().encode(original, withRootKey: "container"))
+        let first = MixedIntOrStringFirst(intOrString: .int(4), otherValue: "other")
+        let second = MixedOtherFirst(intOrString: .int(4), otherValue: "other")
+        let flanked = MixedEitherSide(leading: "first", intOrString: .string("then"), trailing: "second")
+
+        let firstEncoded = try XMLEncoder().encode(first, withRootKey: "container")
+        let secondEncoded = try XMLEncoder().encode(second, withRootKey: "container")
+        let flankedEncoded = try XMLEncoder().encode(flanked, withRootKey: "container")
+
+        let firstExpectedXML = "<container><int>4</int><other-value>other</other-value></container>"
+        let secondExpectedXML = "<container><other-value>other</other-value><int>4</int></container>"
+        let flankedExpectedXML = "<container><leading>first</leading><string>then</string><trailing>second</trailing></container>"
+
+        XCTAssertEqual(String(data: firstEncoded, encoding: .utf8), firstExpectedXML)
+        XCTAssertEqual(String(data: secondEncoded, encoding: .utf8), secondExpectedXML)
+        XCTAssertEqual(String(data: flankedEncoded, encoding: .utf8), flankedExpectedXML)
     }
 }

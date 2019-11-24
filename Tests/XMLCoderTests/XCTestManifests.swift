@@ -610,6 +610,7 @@ extension SimpleChoiceTests {
         ("testIntOrStringIntDecoding", testIntOrStringIntDecoding),
         ("testIntOrStringRoundTrip", testIntOrStringRoundTrip),
         ("testIntOrStringStringDecoding", testIntOrStringStringDecoding),
+        ("testMixedEncode", testMixedEncode),
     ]
 }
 
