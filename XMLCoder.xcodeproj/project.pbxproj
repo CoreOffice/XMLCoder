@@ -22,9 +22,10 @@
 
 /* Begin PBXBuildFile section */
 		07E441BA2340F14B00890F46 /* EmptyElementEmptyStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E441B92340F14B00890F46 /* EmptyElementEmptyStringTests.swift */; };
-		B54555BC2343F5C1000D4128 /* EmptyArrayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54555BB2343F5C1000D4128 /* EmptyArrayTest.swift */; };
-		B5EA3BB6230F237800D8D69B /* NestedChoiceArrayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EA3BB4230F235C00D8D69B /* NestedChoiceArrayTest.swift */; };
 		4A062D4F2341924E009BCAC1 /* CombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A062D4E2341924E009BCAC1 /* CombineTests.swift */; };
+		B54555BC2343F5C1000D4128 /* EmptyArrayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54555BB2343F5C1000D4128 /* EmptyArrayTest.swift */; };
+		B5E67533238B47E5006C8548 /* MixedChoiceAndNonChocieTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E67532238B47E5006C8548 /* MixedChoiceAndNonChocieTests.swift */; };
+		B5E67535238B4960006C8548 /* IntOrString.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E67534238B4960006C8548 /* IntOrString.swift */; };
 		B5EA3BB6230F237800D8D69B /* NestedChoiceArrayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EA3BB4230F235C00D8D69B /* NestedChoiceArrayTest.swift */; };
 		B5F74472233F74E400BBDB15 /* RootLevelAttributeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F74471233F74E400BBDB15 /* RootLevelAttributeTest.swift */; };
 		D11E094623491BCE00C24DCB /* DoubleBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11E094523491BCE00C24DCB /* DoubleBox.swift */; };
@@ -162,9 +163,10 @@
 
 /* Begin PBXFileReference section */
 		07E441B92340F14B00890F46 /* EmptyElementEmptyStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyElementEmptyStringTests.swift; sourceTree = "<group>"; };
-		B54555BB2343F5C1000D4128 /* EmptyArrayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyArrayTest.swift; sourceTree = "<group>"; };
-		B5EA3BB4230F235C00D8D69B /* NestedChoiceArrayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedChoiceArrayTest.swift; sourceTree = "<group>"; };
 		4A062D4E2341924E009BCAC1 /* CombineTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombineTests.swift; sourceTree = "<group>"; };
+		B54555BB2343F5C1000D4128 /* EmptyArrayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyArrayTest.swift; sourceTree = "<group>"; };
+		B5E67532238B47E5006C8548 /* MixedChoiceAndNonChocieTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedChoiceAndNonChocieTests.swift; sourceTree = "<group>"; };
+		B5E67534238B4960006C8548 /* IntOrString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntOrString.swift; sourceTree = "<group>"; };
 		B5EA3BB4230F235C00D8D69B /* NestedChoiceArrayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedChoiceArrayTest.swift; sourceTree = "<group>"; };
 		B5F74471233F74E400BBDB15 /* RootLevelAttributeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootLevelAttributeTest.swift; sourceTree = "<group>"; };
 		D11E094523491BCE00C24DCB /* DoubleBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleBox.swift; sourceTree = "<group>"; };
@@ -455,7 +457,6 @@
 				OBJ_113 /* MixedContainerTest.swift */,
 				OBJ_114 /* NamespaceTest.swift */,
 				OBJ_115 /* NestedAttributeChoiceTests.swift */,
-				B5EA3BB4230F235C00D8D69B /* NestedChoiceArrayTest.swift */,
 				OBJ_116 /* NestedChoiceTests.swift */,
 				OBJ_117 /* NestingTests.swift */,
 				OBJ_118 /* NodeEncodingStrategyTests.swift */,
@@ -473,6 +474,8 @@
 				OBJ_127 /* SpacePreserveTest.swift */,
 				B5EA3BB4230F235C00D8D69B /* NestedChoiceArrayTest.swift */,
 				B54555BB2343F5C1000D4128 /* EmptyArrayTest.swift */,
+				B5E67532238B47E5006C8548 /* MixedChoiceAndNonChocieTests.swift */,
+				B5E67534238B4960006C8548 /* IntOrString.swift */,
 			);
 			name = XMLCoderTests;
 			path = Tests/XMLCoderTests;
@@ -723,6 +726,7 @@
 				OBJ_227 /* SharedBoxTests.swift in Sources */,
 				OBJ_228 /* StringBoxTests.swift in Sources */,
 				OBJ_229 /* UIntBoxTests.swift in Sources */,
+				B5E67533238B47E5006C8548 /* MixedChoiceAndNonChocieTests.swift in Sources */,
 				OBJ_230 /* URLBoxTests.swift in Sources */,
 				OBJ_231 /* UnkeyedBoxTests.swift in Sources */,
 				OBJ_232 /* BreakfastTest.swift in Sources */,
@@ -765,6 +769,7 @@
 				OBJ_266 /* PlantCatalog.swift in Sources */,
 				OBJ_267 /* PlantTest.swift in Sources */,
 				OBJ_268 /* RJISample.swift in Sources */,
+				B5E67535238B4960006C8548 /* IntOrString.swift in Sources */,
 				OBJ_269 /* RJITest.swift in Sources */,
 				OBJ_270 /* RelationshipsTest.swift in Sources */,
 				OBJ_271 /* SimpleChoiceTests.swift in Sources */,
