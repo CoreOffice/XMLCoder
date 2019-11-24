@@ -89,6 +89,7 @@ class XMLEncoderImplementation: Encoder {
             )
             return KeyedEncodingContainer(container)
         } else if let choice = storage.lastContainer as? SharedBox<ChoiceBox> {
+            _ = storage.popContainer()
             let keyed = KeyedBox(elements: .init([choice.withShared { ($0.key, $0.element) }]))
             let container = XMLKeyedEncodingContainer<Key>(
                 referencing: self,
