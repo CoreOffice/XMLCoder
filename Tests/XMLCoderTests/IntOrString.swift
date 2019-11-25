@@ -13,7 +13,7 @@ internal enum IntOrString: Equatable {
 }
 
 extension IntOrString: Codable {
-    enum CodingKeys: String, XMLChoiceCodingKey {
+    enum CodingKeys: String, CodingKey {
         case int
         case string
     }
@@ -37,3 +37,5 @@ extension IntOrString: Codable {
         }
     }
 }
+
+extension IntOrString.CodingKeys: XMLChoiceCodingKey {}

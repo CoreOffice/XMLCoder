@@ -62,6 +62,18 @@ extension MixedEitherSide: Encodable {
     }
 }
 
+private struct TwoChoiceElements {
+    let first: IntOrString
+    let second: IntOrString
+}
+
+extension TwoChoiceElements: Encodable {
+    func encode(to encoder: Encoder) throws {
+        try first.encode(to: encoder)
+        try second.encode(to: encoder)
+    }
+}
+
 class MixedChoiceAndNonChoiceTests: XCTestCase {
     func testMixedChoiceFirstEncode() throws {
         let first = MixedIntOrStringFirst(intOrString: .int(4), otherValue: "other")
@@ -84,5 +96,12 @@ class MixedChoiceAndNonChoiceTests: XCTestCase {
         <container><leading>first</leading><string>then</string><trailing>second</trailing></container>
         """
         XCTAssertEqual(String(data: flankedEncoded, encoding: .utf8), flankedExpectedXML)
+    }
+
+    func testTwoChoiceElementsEncode() throws {
+        let twoChoiceElements = TwoChoiceElements(first: .int(1), second: .string("one"))
+        let encoded = try XMLEncoder().encode(twoChoiceElements, withRootKey: "container")
+        let expectedXML = "<container><int>1</int><string>one</string></container>"
+        XCTAssertEqual(String(data: encoded, encoding: .utf8), expectedXML)
     }
 }

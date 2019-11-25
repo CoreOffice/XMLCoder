@@ -422,6 +422,7 @@ extension MixedChoiceAndNonChoiceTests {
         ("testMixedChoiceFirstEncode", testMixedChoiceFirstEncode),
         ("testMixedChoiceFlankedEncode", testMixedChoiceFlankedEncode),
         ("testMixedChoiceSecondEncode", testMixedChoiceSecondEncode),
+        ("testTwoChoiceElementsEncode", testTwoChoiceElementsEncode),
     ]
 }
 
