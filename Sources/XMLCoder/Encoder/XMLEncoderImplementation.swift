@@ -64,93 +64,13 @@ class XMLEncoderImplementation: Encoder {
     // MARK: - Encoder Methods
 
     public func container<Key>(keyedBy _: Key.Type) -> KeyedEncodingContainer<Key> {
+        guard canEncodeNewValue else {
+            return mergeWithExistingKeyedContainer(keyedBy: Key.self)
+        }
         if Key.self is XMLChoiceCodingKey.Type {
             return choiceContainer(keyedBy: Key.self)
         } else {
             return keyedContainer(keyedBy: Key.self)
-        }
-    }
-
-    public func keyedContainer<Key>(keyedBy _: Key.Type) -> KeyedEncodingContainer<Key> {
-        // If an existing keyed container was already requested, return that one.
-        if canEncodeNewValue {
-            // We haven't yet pushed a container at this level; do so here.
-            let container = XMLKeyedEncodingContainer<Key>(
-                referencing: self,
-                codingPath: codingPath,
-                wrapping: storage.pushKeyedContainer()
-            )
-            return KeyedEncodingContainer(container)
-        } else {
-            switch storage.lastContainer {
-            case let keyed as SharedBox<KeyedBox>:
-                let container = XMLKeyedEncodingContainer<Key>(
-                    referencing: self,
-                    codingPath: codingPath,
-                    wrapping: keyed
-                )
-                return KeyedEncodingContainer(container)
-            case let choice as SharedBox<ChoiceBox>:
-                _ = storage.popContainer()
-                let keyed = KeyedBox(
-                    elements: KeyedBox.Elements([choice.withShared { ($0.key, $0.element) }]),
-                    attributes: []
-                )
-                let container = XMLKeyedEncodingContainer<Key>(
-                    referencing: self,
-                    codingPath: codingPath,
-                    wrapping: storage.pushKeyedContainer(keyed)
-                )
-                return KeyedEncodingContainer(container)
-            default:
-                preconditionFailure(
-                    """
-                    Attempt to push new keyed encoding container when already previously encoded \
-                    at this path.
-                    """
-                )
-            }
-        }
-    }
-
-    public func choiceContainer<Key>(keyedBy _: Key.Type) -> KeyedEncodingContainer<Key> {
-        if canEncodeNewValue {
-            // We haven't yet pushed a container at this level; do so here.
-            let container = XMLChoiceEncodingContainer<Key>(
-                referencing: self,
-                codingPath: codingPath,
-                wrapping: storage.pushChoiceContainer()
-            )
-            return KeyedEncodingContainer(container)
-        } else {
-            switch storage.lastContainer {
-            case let keyed as SharedBox<KeyedBox>:
-                let container = XMLKeyedEncodingContainer<Key>(
-                    referencing: self,
-                    codingPath: codingPath,
-                    wrapping: keyed
-                )
-                return KeyedEncodingContainer(container)
-            case let choice as SharedBox<ChoiceBox>:
-                _ = storage.popContainer()
-                let keyed = KeyedBox(
-                    elements: KeyedBox.Elements([choice.withShared { ($0.key, $0.element) }]),
-                    attributes: []
-                )
-                let container = XMLKeyedEncodingContainer<Key>(
-                    referencing: self,
-                    codingPath: codingPath,
-                    wrapping: storage.pushKeyedContainer(keyed)
-                )
-                return KeyedEncodingContainer(container)
-            default:
-                preconditionFailure(
-                    """
-                    Attempt to push new keyed encoding container when already previously encoded \
-                    at this path.
-                    """
-                )
-            }
         }
     }
 
@@ -178,6 +98,54 @@ class XMLEncoderImplementation: Encoder {
 
     public func singleValueContainer() -> SingleValueEncodingContainer {
         return self
+    }
+    
+    private func keyedContainer<Key>(keyedBy _: Key.Type) -> KeyedEncodingContainer<Key> {
+        let container = XMLKeyedEncodingContainer<Key>(
+            referencing: self,
+            codingPath: codingPath,
+            wrapping: storage.pushKeyedContainer()
+        )
+        return KeyedEncodingContainer(container)
+    }
+
+    private func choiceContainer<Key>(keyedBy _: Key.Type) -> KeyedEncodingContainer<Key> {
+        let container = XMLChoiceEncodingContainer<Key>(
+            referencing: self,
+            codingPath: codingPath,
+            wrapping: storage.pushChoiceContainer()
+        )
+        return KeyedEncodingContainer(container)
+    }
+    
+    private func mergeWithExistingKeyedContainer<Key>(keyedBy _: Key.Type) -> KeyedEncodingContainer<Key> {
+        switch storage.lastContainer {
+        case let keyed as SharedBox<KeyedBox>:
+            let container = XMLKeyedEncodingContainer<Key>(
+                referencing: self,
+                codingPath: codingPath,
+                wrapping: keyed
+            )
+            return KeyedEncodingContainer(container)
+        case let choice as SharedBox<ChoiceBox>:
+            _ = storage.popContainer()
+            let keyed = KeyedBox(
+                elements: KeyedBox.Elements([choice.withShared { ($0.key, $0.element) }]),
+                attributes: []
+            )
+            let container = XMLKeyedEncodingContainer<Key>(
+                referencing: self,
+                codingPath: codingPath,
+                wrapping: storage.pushKeyedContainer(keyed)
+            )
+            return KeyedEncodingContainer(container)
+        default:
+            preconditionFailure(
+                """
+                No existing keyed encoding container to merge with.
+                """
+            )
+        }
     }
 }
 
