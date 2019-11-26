@@ -93,9 +93,7 @@ class XMLEncoderImplementation: Encoder {
             case let choice as SharedBox<ChoiceBox>:
                 _ = storage.popContainer()
                 let keyed = KeyedBox(
-                    elements: KeyedBox.Elements([choice.withShared { (contents: inout ChoiceBox) -> (String, Box) in
-                        (contents.key, contents.element)
-                    }]),
+                    elements: KeyedBox.Elements([choice.withShared { ($0.key, $0.element) }]),
                     attributes: []
                 )
                 let container = XMLKeyedEncodingContainer<Key>(
@@ -134,9 +132,7 @@ class XMLEncoderImplementation: Encoder {
         } else if let choice = storage.lastContainer as? SharedBox<ChoiceBox> {
             _ = storage.popContainer()
             let keyed = KeyedBox(
-                elements: KeyedBox.Elements([choice.withShared { (contents: inout ChoiceBox) -> (String, Box) in
-                    (contents.key, contents.element)
-                }]),
+                elements: KeyedBox.Elements([choice.withShared { ($0.key, $0.element) }]),
                 attributes: []
             )
             let container = XMLKeyedEncodingContainer<Key>(
