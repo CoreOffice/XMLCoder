@@ -95,7 +95,8 @@ class XMLEncoderImplementation: Encoder {
                 let keyed = KeyedBox(
                     elements: KeyedBox.Elements([choice.withShared { (contents: inout ChoiceBox) -> (String, Box) in
                         (contents.key, contents.element)
-                    }])
+                    }]),
+                    attributes: []
                 )
                 let container = XMLKeyedEncodingContainer<Key>(
                     referencing: self,
@@ -135,7 +136,8 @@ class XMLEncoderImplementation: Encoder {
             let keyed = KeyedBox(
                 elements: KeyedBox.Elements([choice.withShared { (contents: inout ChoiceBox) -> (String, Box) in
                     (contents.key, contents.element)
-                }])
+                }]),
+                attributes: []
             )
             let container = XMLKeyedEncodingContainer<Key>(
                 referencing: self,
