@@ -99,7 +99,7 @@ class XMLEncoderImplementation: Encoder {
     public func singleValueContainer() -> SingleValueEncodingContainer {
         return self
     }
-    
+
     private func keyedContainer<Key>(keyedBy _: Key.Type) -> KeyedEncodingContainer<Key> {
         let container = XMLKeyedEncodingContainer<Key>(
             referencing: self,
@@ -117,7 +117,7 @@ class XMLEncoderImplementation: Encoder {
         )
         return KeyedEncodingContainer(container)
     }
-    
+
     private func mergeWithExistingKeyedContainer<Key>(keyedBy _: Key.Type) -> KeyedEncodingContainer<Key> {
         switch storage.lastContainer {
         case let keyed as SharedBox<KeyedBox>:
