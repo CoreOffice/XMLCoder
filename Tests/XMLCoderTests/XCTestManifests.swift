@@ -419,9 +419,13 @@ extension MixedChoiceAndNonChoiceTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__MixedChoiceAndNonChoiceTests = [
+        ("testMixedChoiceFirstDecode", testMixedChoiceFirstDecode),
         ("testMixedChoiceFirstEncode", testMixedChoiceFirstEncode),
+        ("testMixedChoiceFlankedDecode", testMixedChoiceFlankedDecode),
         ("testMixedChoiceFlankedEncode", testMixedChoiceFlankedEncode),
+        ("testMixedChoiceSecondDecode", testMixedChoiceSecondDecode),
         ("testMixedChoiceSecondEncode", testMixedChoiceSecondEncode),
+        ("testTwoChoiceElementsDecode", testTwoChoiceElementsDecode),
         ("testTwoChoiceElementsEncode", testTwoChoiceElementsEncode),
     ]
 }
