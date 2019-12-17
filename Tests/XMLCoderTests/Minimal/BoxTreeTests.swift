@@ -26,8 +26,8 @@ class BoxTreeTests: XCTestCase {
             attributes: []
         )
 
-        let boxTree = root.transformToBoxTree() as! KeyedBox
-        let foo = boxTree.elements["foo"]
-        XCTAssertEqual(foo.count, 2)
+        let boxTree = root.transformToBoxTree() as? KeyedBox
+        let foo = boxTree?.elements["foo"]
+        XCTAssertEqual(foo?.count, 2)
     }
 }
