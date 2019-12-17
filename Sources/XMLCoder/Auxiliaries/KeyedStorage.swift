@@ -77,11 +77,12 @@ extension KeyedStorage where Key == String, Value == Box {
 
         let hasElements = !element.elements.isEmpty
         let hasAttributes = !element.attributes.isEmpty
+        let hasText = element.stringValue != nil
 
         if hasElements || hasAttributes {
             result.append(element.transformToBoxTree(), at: element.key)
-        } else if let value = element.value {
-            result.append(StringBox(value), at: element.key)
+        } else if hasText {
+            result.append(element.transformToBoxTree(), at: element.key)
         } else {
             result.append(SingleKeyedBox(key: element.key, element: NullBox()), at: element.key)
         }

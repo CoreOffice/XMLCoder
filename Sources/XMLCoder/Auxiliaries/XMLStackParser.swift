@@ -26,7 +26,7 @@ class XMLStackParser: NSObject {
         errorContextLength length: UInt,
         shouldProcessNamespaces: Bool,
         trimValueWhitespaces: Bool
-    ) throws -> KeyedBox {
+    ) throws -> Box {
         let parser = XMLStackParser(trimValueWhitespaces: trimValueWhitespaces)
 
         let node = try parser.parse(
@@ -159,8 +159,13 @@ extension XMLStackParser: XMLParserDelegate {
     }
 
     func parser(_: XMLParser, foundCharacters string: String) {
+        let processedString = process(string: string)
+        guard processedString.count > 0, string.count != 0 else {
+            return
+        }
+
         withCurrentElement { currentElement in
-            currentElement.append(value: process(string: string))
+            currentElement.append(string: processedString)
         }
     }
 
@@ -170,7 +175,7 @@ extension XMLStackParser: XMLParserDelegate {
         }
 
         withCurrentElement { currentElement in
-            currentElement.append(value: process(string: string))
+            currentElement.append(cdata: string)
         }
     }
 }
