@@ -212,9 +212,13 @@ extension XMLDecoderImplementation {
             else { throw error }
             return value
         case let singleKeyedBox as SingleKeyedBox:
-            guard let value = singleKeyedBox.element as? B
-            else { throw error }
-            return value
+            if let value = singleKeyedBox.element as? B {
+                return value
+            } else if let box = singleKeyedBox.element as? KeyedBox, let value = box.elements[""].first as? B {
+                return value
+            } else {
+                throw error
+            }
         case is NullBox:
             throw error
         case let keyedBox as KeyedBox:

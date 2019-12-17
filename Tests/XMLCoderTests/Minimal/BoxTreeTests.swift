@@ -12,24 +12,21 @@ class BoxTreeTests: XCTestCase {
     func testNestedValues() throws {
         let e1 = XMLCoderElement(
             key: "foo",
-            value: "456",
-            elements: [],
+            stringValue: "456",
             attributes: [Attribute(key: "id", value: "123")]
         )
         let e2 = XMLCoderElement(
             key: "foo",
-            value: "123",
-            elements: [],
+            stringValue: "123",
             attributes: [Attribute(key: "id", value: "789")]
         )
         let root = XMLCoderElement(
             key: "container",
-            value: nil,
             elements: [e1, e2],
             attributes: []
         )
 
-        let boxTree = root.transformToBoxTree()
+        let boxTree = root.transformToBoxTree() as! KeyedBox
         let foo = boxTree.elements["foo"]
         XCTAssertEqual(foo.count, 2)
     }
