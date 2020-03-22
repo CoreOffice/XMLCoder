@@ -227,7 +227,7 @@ extension XMLKeyedDecodingContainer {
         _ type: T.Type,
         forKey key: Key
     ) throws -> T {
-        guard let strategy = self.decoder.nodeDecodings.last else {
+        guard let strategy = decoder.nodeDecodings.last else {
             preconditionFailure(
                 """
                 Attempt to access node decoding strategy from empty stack.

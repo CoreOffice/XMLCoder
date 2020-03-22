@@ -71,7 +71,7 @@ class XMLDecoderImplementation: Decoder {
     }
 
     public func container<Key>(keyedBy keyType: Key.Type) throws -> KeyedDecodingContainer<Key> {
-        if let keyed = try self.topContainer() as? SharedBox<KeyedBox> {
+        if let keyed = try topContainer() as? SharedBox<KeyedBox> {
             return KeyedDecodingContainer(XMLKeyedDecodingContainer<Key>(
                 referencing: self,
                 wrapping: keyed
