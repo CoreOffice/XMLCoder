@@ -91,7 +91,7 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
             _ = self.encoder.nodeEncodings.removeLast()
             self.encoder.codingPath.removeLast()
         }
-        guard let strategy = self.encoder.nodeEncodings.last else {
+        guard let strategy = encoder.nodeEncodings.last else {
             preconditionFailure(
                 "Attempt to access node encoding strategy from empty stack."
             )
