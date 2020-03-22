@@ -23,6 +23,6 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Danger Swift
-      uses: danger/swift@2.0.3
+      uses: danger/swift@3.1.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
