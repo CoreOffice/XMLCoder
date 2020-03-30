@@ -1,3 +1,31 @@
+# 0.10.0 (28 March 2020)
+
+This is a bugfix release, which improves encoding and decoding of enums with associated values (also known as "choice coding") with the `XMLChoiceCodingKey` protocol.
+
+
+**Breaking changes:**
+
+- Fix Decoding of Arrays of Empty Elements ([#152](https://github.com/MaxDesiatov/XMLCoder/pull/152)) via [@bwetherfield](https://github.com/bwetherfield)
+- Replace value intrinsic with empty string key ([#149](https://github.com/MaxDesiatov/XMLCoder/pull/149)) via [@bwetherfield](https://github.com/bwetherfield)
+
+**Closed issues:**
+
+- EXC_BAD_ACCESS when running tests ([#153](https://github.com/MaxDesiatov/XMLCoder/issues/153))
+- EXC_BAD_ACCESS on XCode 11.2 and iOS13.2 ([#150](https://github.com/MaxDesiatov/XMLCoder/issues/150))
+- Date formatting on 24h region with display set to 12h ([#148](https://github.com/MaxDesiatov/XMLCoder/issues/148))
+- Decoding containers with (potentially)-empty elements ([#123](https://github.com/MaxDesiatov/XMLCoder/issues/123))
+
+**Merged pull requests:**
+
+- Run Danger with GitHub Actions ([#163](https://github.com/MaxDesiatov/XMLCoder/pull/163)) via [@MaxDesiatov](https://github.com/MaxDesiatov)
+- Trigger Azure Pipelines run on PRs to master ([#162](https://github.com/MaxDesiatov/XMLCoder/pull/162)) via [@MaxDesiatov](https://github.com/MaxDesiatov)
+- Add Xcode 11.3 to azure-pipelines.yml ([#158](https://github.com/MaxDesiatov/XMLCoder/pull/158)) via [@MaxDesiatov](https://github.com/MaxDesiatov)
+- Support for mixed-content nodes ([#157](https://github.com/MaxDesiatov/XMLCoder/pull/157)) via [@ultramiraculous](https://github.com/ultramiraculous)
+- Mixed choice/non-choice decoding ([#155](https://github.com/MaxDesiatov/XMLCoder/pull/155)) via [@bwetherfield](https://github.com/bwetherfield)
+- Mixed choice/non-choice encoding ([#154](https://github.com/MaxDesiatov/XMLCoder/pull/154)) via [@bwetherfield](https://github.com/bwetherfield)
+- Add Xcode 11.2 and 10.3 to azure-pipelines.yml ([#151](https://github.com/MaxDesiatov/XMLCoder/pull/151)) via [@MaxDesiatov](https://github.com/MaxDesiatov)
+- Fix Decoding of Empty String ([#145](https://github.com/MaxDesiatov/XMLCoder/pull/145)) via [@bwetherfield](https://github.com/bwetherfield)
+
 # 0.9.0 (19 October 2019)
 
 This release fixes a few bugs with `Float` type parsing and Swift 5.1 support on
