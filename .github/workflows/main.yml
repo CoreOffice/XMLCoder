@@ -2,7 +2,7 @@
 
 name: CI
 
-# Controls when the action will run. Triggers the workflow on push or pull request 
+# Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
   pull_request:
@@ -74,6 +74,15 @@ jobs:
         TVOS_DEVICE: 'platform=tvOS Simulator,OS=13.4,name=Apple TV 4K'
         CODECOV_JOB: 'true'
         CODECOV_TOKEN: ${{ secrets.codecovToken }}
+
+  pod-lib-lint:
+    runs-on: macOS-10.15
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Run CocoaPods linter
+      run: ./pod.sh
 
   danger-lint:
     runs-on: ubuntu-latest
