@@ -58,7 +58,7 @@ Sometimes you need to handle an XML namespace prefix, like in the XML below:
 </h:table>
 ```
 
-Stripping the prefix from element names is enabled with 
+Stripping the prefix from element names is enabled with
 `shouldProcessNamespaces` property:
 
 ```swift
@@ -110,7 +110,7 @@ enum NodeDecoding {
 
     // the default, attempts to decode as an element first,
     // otherwise reads from an attribute
-    case elementOrAttribute 
+    case elementOrAttribute
 }
 
 enum NodeEncoding {
@@ -160,7 +160,7 @@ works for this XML:
 </book>
 ```
 
-Please refer to PR [\#70](https://github.com/MaxDesiatov/XMLCoder/pull/70) by 
+Please refer to PR [\#70](https://github.com/MaxDesiatov/XMLCoder/pull/70) by
 [@JoeMatt](https://github.com/JoeMatt) for more details.
 
 ### Coding key value intrinsic
@@ -172,7 +172,7 @@ Suppose that you need to decode an XML that looks similar to this:
 <foo id="123">456</foo>
 ```
 
-By default you'd be able to decode `foo` as an element, but then it's not 
+By default you'd be able to decode `foo` as an element, but then it's not
 possible to decode the `id` attribute. `XMLCoder` handles certain `CodingKey`
 values in a special way to allow proper coding for this XML. Just add a coding
 key with `stringValue` that equals `"value"` or `""` (empty string). What
@@ -190,7 +190,7 @@ struct Foo: Codable, DynamicNodeEncoding {
         // case value = "" would also work
     }
 
-    static func nodeEncoding(forKey key: CodingKey) 
+    static func nodeEncoding(forKey key: CodingKey)
     -> XMLEncoder.NodeEncoding {
         switch key {
         case CodingKeys.id:
@@ -208,14 +208,14 @@ in PR [\#73](https://github.com/MaxDesiatov/XMLCoder/pull/73).
 ### Preserving whitespaces in element content
 
 By default whitespaces are trimmed in element content during decoding. This
-includes string values decoded with [value intrinsic keys](#coding-key-value-intrinsic). 
-Starting with [version 0.5](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.5.0) 
+includes string values decoded with [value intrinsic keys](#coding-key-value-intrinsic).
+Starting with [version 0.5](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.5.0)
 you can now set a property `trimValueWhitespaces` to `false` (the default value is `true`) on
 `XMLDecoder` instance to preserve all whitespaces in decoded strings.
 
 ### Choice element coding
 
-Starting with [version 0.8](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.8.0), 
+Starting with [version 0.8](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.8.0),
 you can encode and decode `enum`s with associated values by conforming your
 `CodingKey` type additionally to `XMLChoiceCodingKey`. This allows decoding
 XML elements similar in structure to this example:
@@ -265,12 +265,12 @@ extension IntOrString: Codable {
 }
 ```
 
-This is described in more details in PR [\#119](https://github.com/MaxDesiatov/XMLCoder/pull/119) 
+This is described in more details in PR [\#119](https://github.com/MaxDesiatov/XMLCoder/pull/119)
 by [@jsbean](https://github.com/jsbean) and [@bwetherfield](https://github.com/bwetherfield).
 
 ### Integrating with [Combine](https://developer.apple.com/documentation/combine)
 
-Starting with XMLCoder [version 0.9](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.9.0), 
+Starting with XMLCoder [version 0.9](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.9.0),
 when Apple's Combine framework is available, `XMLDecoder` conforms to the
 `TopLevelDecoder` protocol, which allows it to be used with the
 `decode(type:decoder:)` operator:
@@ -288,7 +288,7 @@ func fetchBook(from url: URL) -> AnyPublisher<Book, Error> {
 }
 ```
 
-This was implemented in PR [\#132](https://github.com/MaxDesiatov/XMLCoder/pull/132) 
+This was implemented in PR [\#132](https://github.com/MaxDesiatov/XMLCoder/pull/132)
 by [@sharplet](https://github.com/sharplet).
 
 ## Installation
@@ -323,7 +323,7 @@ dependencies: [
 
 ### CocoaPods
 
-[CocoaPods](https://cocoapods.org) is a dependency manager for Swift and Objective-C 
+[CocoaPods](https://cocoapods.org) is a dependency manager for Swift and Objective-C
 Cocoa projects for Apple's platfoms. You can install it with the following command:
 
 ```bash
@@ -343,7 +343,7 @@ Inside of your `Podfile`, specify the `XMLCoder` pod:
 # platform :ios, '9.0'
 
 target 'YourApp' do
-  # Comment the next line if you're not using Swift or don't want 
+  # Comment the next line if you're not using Swift or don't want
   # to use dynamic frameworks
   use_frameworks!
 
@@ -364,7 +364,7 @@ file.
 
 ### Carthage
 
-[Carthage](https://github.com/Carthage/Carthage) is a dependency manager for Apple's 
+[Carthage](https://github.com/Carthage/Carthage) is a dependency manager for Apple's
 platfoms that builds your dependencies and provides you with binary frameworks.
 
 Carthage can be installed with [Homebrew](https://brew.sh/) using the following command:
@@ -412,9 +412,17 @@ extension](https://github.com/nicklockwood/SwiftFormat#xcode-source-editor-exten
 [build phase](https://github.com/nicklockwood/SwiftFormat#xcode-build-phase) or
 [git pre-commit
 hook](https://github.com/nicklockwood/SwiftFormat#git-pre-commit-hook) etc.
-Please check [SwiftFormat
-documentation](https://github.com/nicklockwood/SwiftFormat#how-do-i-install-it)
-for more details.
+
+To guarantee that these tools run before you commit your changes on macOS, you're encouraged
+to run this once to set up the pre-commit hook:
+
+```
+brew bundle # installs SwiftLint, SwiftFormat and pre-commit
+pre-commit install # installs pre-commit hook to run checks before you commit
+```
+
+Refer to [the pre-commit documentation page](https://pre-commit.com/) for more details
+and installation instructions for other platforms.
 
 SwiftFormat also runs on CI for every PR and thus a CI build can fail
 with incosistent formatting. We require CI builds to pass for any PR before
