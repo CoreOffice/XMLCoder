@@ -21,7 +21,7 @@ and empty strings are decoded.
 ([@bwetherfield](https://github.com/bwetherfield))
 
 The value intrinsic now only accepts the empty string key `""`, as the previous `"value"` key
-caused naming collisions with attributes or elemenents that had the same name.
+caused naming collisions with attributes and elemenents that had the same name.
 
 **Closed issues:**
 
