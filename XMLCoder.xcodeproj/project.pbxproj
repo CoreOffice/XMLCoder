@@ -579,6 +579,7 @@
 			buildConfigurationList = OBJ_144 /* Build configuration list for PBXNativeTarget "XMLCoder" */;
 			buildPhases = (
 				OBJ_147 /* Sources */,
+				D16972C42438A95A000D0D87 /* ShellScript */,
 				OBJ_192 /* Frameworks */,
 			);
 			buildRules = (
@@ -636,6 +637,26 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D16972C42438A95A000D0D87 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		OBJ_147 /* Sources */ = {
