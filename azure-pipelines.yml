@@ -10,11 +10,6 @@ jobs:
     vmImage: 'macos-latest'
   steps:
   - bash: ./lint.sh
-- job: pod
-  pool:
-    vmImage: 'macOS-10.14'
-  steps:
-  - bash: ./pod.sh
 - job: test_xcodebuild_10_0
   pool:
     vmImage: 'macOS-10.14'
@@ -71,4 +66,3 @@ jobs:
   container: swift:5.2.1
   steps:
   - script: ./test_swiftpm.sh
-
