@@ -2,25 +2,86 @@
 
 name: CI
 
-# Controls when the action will run. Triggers the workflow on push or pull request 
+# Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
+  push:
+    branches: [ master ]
   pull_request:
     branches: [ master ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
+  xcode-11_0:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: macOS-10.15
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    - name: Danger Swift
-      uses: maxdesiatov/danger-swift@swiftlint-docker
+    - name: Build with Xcode 11.0
+      run: ./test_xcodebuild.sh Xcode_11
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        IOS_DEVICE: 'platform=iOS Simulator,OS=13.0,name=iPhone 8'
+        TVOS_DEVICE: 'platform=tvOS Simulator,OS=13.0,name=Apple TV 4K'
+
+  xcode-11_1:
+    runs-on: macOS-10.15
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build with Xcode 11.1
+      run: ./test_xcodebuild.sh Xcode_11.1
+      env:
+        IOS_DEVICE: 'platform=iOS Simulator,OS=13.1,name=iPhone 8'
+        TVOS_DEVICE: 'platform=tvOS Simulator,OS=13.0,name=Apple TV 4K'
+
+  xcode-11_2:
+    runs-on: macOS-10.15
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build with Xcode 11.2
+      run: ./test_xcodebuild.sh Xcode_11.2
+      env:
+        IOS_DEVICE: 'platform=iOS Simulator,OS=13.2,name=iPhone 8'
+        TVOS_DEVICE: 'platform=tvOS Simulator,OS=13.2,name=Apple TV 4K'
+
+  xcode-11_3:
+    runs-on: macOS-10.15
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build with Xcode 11.3
+      run: ./test_xcodebuild.sh Xcode_11.3
+      env:
+        IOS_DEVICE: 'platform=iOS Simulator,OS=13.3,name=iPhone 8'
+        TVOS_DEVICE: 'platform=tvOS Simulator,OS=13.3,name=Apple TV 4K'
+
+  xcode-11_4:
+    runs-on: macOS-10.15
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build with Xcode 11.4
+      run: ./test_xcodebuild.sh Xcode_11.4
+      env:
+        IOS_DEVICE: 'platform=iOS Simulator,OS=13.4,name=iPhone 8'
+        TVOS_DEVICE: 'platform=tvOS Simulator,OS=13.4,name=Apple TV 4K'
+        CODECOV_JOB: 'true'
+        CODECOV_TOKEN: ${{ secrets.codecovToken }}
+
+  pod-lib-lint:
+    runs-on: macOS-10.15
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Run CocoaPods linter
+      run: ./pod.sh
