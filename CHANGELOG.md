@@ -14,7 +14,7 @@ below for more details. Thanks to [@bwetherfield](https://github.com/bwetherfiel
 ([@bwetherfield](https://github.com/bwetherfield))
 
 This change was needed to accommodate for multiple edges cases with how arrays of empty elements
-and empty elements are decoded.
+and empty strings are decoded.
 
 - Replace value intrinsic with empty string key
 ([#149](https://github.com/MaxDesiatov/XMLCoder/pull/149))
