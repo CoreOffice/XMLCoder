@@ -1,3 +1,81 @@
+# 0.10.0 (4 April 2020)
+
+This is a bugfix release, which improves encoding and decoding of enums with associated values
+(also known as "choice coding") with the `XMLChoiceCodingKey` protocol. This release is also
+tested on Xcode 11.4 and Swift 5.2.1 on Linux. A few breaking changes were introduced, which were
+needed to simplify and improve internals of the library. Please refer to the corresponding section
+below for more details. Thanks to [@bwetherfield](https://github.com/bwetherfield) and
+[@ultramiraculous](https://github.com/ultramiraculous) for their contributions!
+
+**Breaking changes:**
+
+- Fix Decoding of Arrays of Empty Elements
+([#152](https://github.com/MaxDesiatov/XMLCoder/pull/152))
+([@bwetherfield](https://github.com/bwetherfield))
+
+This change was needed to accommodate for multiple edges cases with how arrays of empty elements
+and empty strings are decoded.
+
+- Replace value intrinsic with empty string key
+([#149](https://github.com/MaxDesiatov/XMLCoder/pull/149))
+([@bwetherfield](https://github.com/bwetherfield))
+
+The value intrinsic now only accepts the empty string key `""`, as the previous `"value"` key
+caused naming collisions with attributes and elemenents that had the same name.
+
+**Closed issues:**
+
+- Bundle identifier in wrong format
+([#164](https://github.com/MaxDesiatov/XMLCoder/issues/164))
+- Can inheritance be implemented?
+([#159](https://github.com/MaxDesiatov/XMLCoder/issues/159))
+- EXC_BAD_ACCESS when running tests
+([#153](https://github.com/MaxDesiatov/XMLCoder/issues/153))
+- EXC_BAD_ACCESS on XCode 11.2 and iOS13.2
+([#150](https://github.com/MaxDesiatov/XMLCoder/issues/150))
+- Date formatting on 24h region with display set to 12h
+([#148](https://github.com/MaxDesiatov/XMLCoder/issues/148))
+- Decoding containers with (potentially)-empty elements
+([#123](https://github.com/MaxDesiatov/XMLCoder/issues/123))
+
+**Merged pull requests:**
+- Run GitHub Actions on a push to the master branch
+([#167](https://github.com/MaxDesiatov/XMLCoder/pull/167))
+([@MaxDesiatov](https://github.com/MaxDesiatov))
+- Test w/ Xcode 11.4 on macOS, Swift 5.2.1 on Linux
+([#166](https://github.com/MaxDesiatov/XMLCoder/pull/166))
+([@MaxDesiatov](https://github.com/MaxDesiatov))
+- Use reverse-DNS notation for the bundle identifier
+([#165](https://github.com/MaxDesiatov/XMLCoder/pull/165))
+([@MaxDesiatov](https://github.com/MaxDesiatov))
+- Trigger Azure Pipelines run on PRs to master
+([#162](https://github.com/MaxDesiatov/XMLCoder/pull/162))
+([@MaxDesiatov](https://github.com/MaxDesiatov))
+- Run Danger with GitHub Actions
+([#163](https://github.com/MaxDesiatov/XMLCoder/pull/163))
+([@MaxDesiatov](https://github.com/MaxDesiatov))
+- Trigger Azure Pipelines run on PRs to master
+([#162](https://github.com/MaxDesiatov/XMLCoder/pull/162))
+([@MaxDesiatov](https://github.com/MaxDesiatov))
+- Add Xcode 11.3 to azure-pipelines.yml
+([#158](https://github.com/MaxDesiatov/XMLCoder/pull/158))
+([@MaxDesiatov](https://github.com/MaxDesiatov))
+- Support for mixed-content nodes
+([#157](https://github.com/MaxDesiatov/XMLCoder/pull/157))
+([@ultramiraculous](https://github.com/ultramiraculous))
+- Mixed choice/non-choice decoding
+([#155](https://github.com/MaxDesiatov/XMLCoder/pull/155))
+([@bwetherfield](https://github.com/bwetherfield))
+- Mixed choice/non-choice encoding
+([#154](https://github.com/MaxDesiatov/XMLCoder/pull/154))
+([@bwetherfield](https://github.com/bwetherfield))
+- Add Xcode 11.2 and 10.3 to azure-pipelines.yml
+([#151](https://github.com/MaxDesiatov/XMLCoder/pull/151))
+([@MaxDesiatov](https://github.com/MaxDesiatov))
+- Fix Decoding of Empty String
+([#145](https://github.com/MaxDesiatov/XMLCoder/pull/145))
+([@bwetherfield](https://github.com/bwetherfield))
+
 # 0.9.0 (19 October 2019)
 
 This release fixes a few bugs with `Float` type parsing and Swift 5.1 support on
@@ -149,7 +227,7 @@ Bugfix release that restores decoding of empty sequences, which became broken in
 # 0.5.0 (2 May 2019)
 
 A small improvement release tagged early to resolve blocking issues in
-[CoreXLSX](https://github.com/MaxDesiatov/CoreXLSX). 
+[CoreXLSX](https://github.com/MaxDesiatov/CoreXLSX).
 
 **Notable changes:**
 
@@ -280,8 +358,8 @@ also improved. A huge thank you to [@JoeMatt](https://github.com/JoeMatt) and
 
 # 0.3.1 (6 February 2019)
 
-A bugfix release that adds missing `CFBundleVersion` in generated framework's 
-`Info.plist` ([#72](https://github.com/MaxDesiatov/XMLCoder/issues/72) reported by 
+A bugfix release that adds missing `CFBundleVersion` in generated framework's
+`Info.plist` ([#72](https://github.com/MaxDesiatov/XMLCoder/issues/72) reported by
 [@stonedauwg](https://github.com/stonedauwg)).
 
 **Changes:**
