@@ -175,7 +175,7 @@ Suppose that you need to decode an XML that looks similar to this:
 By default you'd be able to decode `foo` as an element, but then it's not
 possible to decode the `id` attribute. `XMLCoder` handles certain `CodingKey`
 values in a special way to allow proper coding for this XML. Just add a coding
-key with `stringValue` that equals `"value"` or `""` (empty string). What
+key with `stringValue` that equals `""` (empty string). What
 follows is an example type declaration that encodes the XML above, but special
 handling of coding keys with those values works for both encoding and decoding.
 
@@ -186,8 +186,7 @@ struct Foo: Codable, DynamicNodeEncoding {
 
     enum CodingKeys: String, CodingKey {
         case id
-        case value
-        // case value = "" would also work
+        case value = ""
     }
 
     static func nodeEncoding(forKey key: CodingKey)
