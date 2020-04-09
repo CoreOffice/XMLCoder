@@ -24,6 +24,10 @@ struct KeyedStorage<Key: Hashable & Comparable, Value> {
         return buffer.map { $0.0 }
     }
 
+    var values: [Value] {
+        return buffer.map { $0.1 }
+    }
+
     init<S>(_ sequence: S) where S: Sequence, S.Element == (Key, Value) {
         buffer = Buffer()
         keyMap = KeyMap()
