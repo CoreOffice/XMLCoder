@@ -11,9 +11,7 @@ import Combine
 import OpenCombine
 #endif
 
-// Linux test manifests can only be generated on macOS (╯°□°）╯︵ ┻━┻
-// and this test shouldn't be included
-#if canImport(Combine) || canImport(OpenCombine) && !os(macOS)
+#if canImport(Combine) || canImport(OpenCombine)
 import Foundation
 import XCTest
 import XMLCoder
