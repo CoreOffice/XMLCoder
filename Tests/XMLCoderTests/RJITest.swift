@@ -115,7 +115,7 @@ class RJITest: XCTestCase {
 
         for (i1, i2) in zip(rss1.channel.items, rss2.channel.items) {
             guard i1 == i2 else {
-                XCTFail()
+                XCTFail("items in \(#function) aren't equal")
                 continue
             }
         }
