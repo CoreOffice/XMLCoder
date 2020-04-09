@@ -8,7 +8,7 @@
 import XCTest
 import XMLCoder
 
-class SimpleChoiceTests: XCTestCase {
+final class SimpleChoiceTests: XCTestCase {
     func testIntOrStringIntDecoding() throws {
         let xml = """
         <container>

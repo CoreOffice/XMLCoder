@@ -1,7 +1,7 @@
 import XCTest
 @testable import XMLCoder
 
-class BenchmarkTests: XCTestCase {
+final class BenchmarkTests: XCTestCase {
     struct Container<T: Codable>: Codable {
         let unkeyed: [T]
         let keyed: [String: T]
