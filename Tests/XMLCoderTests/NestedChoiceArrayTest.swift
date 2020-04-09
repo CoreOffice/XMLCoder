@@ -70,7 +70,7 @@ extension Book: Equatable {}
 extension Chapter: Equatable {}
 extension Chapter.Content: Equatable {}
 
-class NestedChoiceArrayTest: XCTestCase {
+final class NestedChoiceArrayTest: XCTestCase {
     func testDecodingNestedChoiceArray() throws {
         let xml = """
         <?xml version="1.0" encoding="UTF-8"?>

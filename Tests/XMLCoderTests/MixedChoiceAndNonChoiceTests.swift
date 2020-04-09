@@ -131,7 +131,7 @@ extension TwoChoiceElements: Codable {
     }
 }
 
-class MixedChoiceAndNonChoiceTests: XCTestCase {
+final class MixedChoiceAndNonChoiceTests: XCTestCase {
     func testMixedChoiceFirstEncode() throws {
         let first = MixedIntOrStringFirst(intOrString: .int(4), otherValue: "other")
         let firstEncoded = try XMLEncoder().encode(first, withRootKey: "container")

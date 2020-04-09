@@ -374,6 +374,10 @@ open class XMLDecoder {
 
 #if canImport(Combine)
 import protocol Combine.TopLevelDecoder
+#elseif canImport(OpenCombine)
+import protocol OpenCombine.TopLevelDecoder
+#endif
 
+#if canImport(Combine) || canImport(OpenCombine)
 extension XMLDecoder: TopLevelDecoder {}
 #endif

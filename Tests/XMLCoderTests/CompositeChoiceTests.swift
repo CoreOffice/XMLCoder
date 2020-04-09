@@ -47,7 +47,7 @@ extension IntOrStringWrapper: Codable {
     }
 }
 
-class EnumAssociatedValueTestComposite: XCTestCase {
+final class EnumAssociatedValueTestComposite: XCTestCase {
     var encoder: XMLEncoder {
         let encoder = XMLEncoder()
         encoder.outputFormatting = [.prettyPrinted]

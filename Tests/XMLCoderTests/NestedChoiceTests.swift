@@ -83,7 +83,7 @@ extension Entry: Codable {
     }
 }
 
-class NestedChoiceTests: XCTestCase {
+final class NestedChoiceTests: XCTestCase {
     func testBreakDecoding() throws {
         let xml = "<br></br>"
         let result = try XMLDecoder().decode(Break.self, from: xml.data(using: .utf8)!)

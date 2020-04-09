@@ -96,7 +96,7 @@ extension Entry: Codable {
     }
 }
 
-class NestedAttributeChoiceTests: XCTestCase {
+final class NestedAttributeChoiceTests: XCTestCase {
     private var encoder: XMLEncoder {
         let encoder = XMLEncoder()
         encoder.outputFormatting = [.prettyPrinted]

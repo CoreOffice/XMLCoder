@@ -85,7 +85,7 @@ private struct Foo: Codable {
     }
 }
 
-class DecodingContainerTests: XCTestCase {
+final class DecodingContainerTests: XCTestCase {
     func testExample() throws {
         let foo = Foo(
             foo: [

@@ -5,8 +5,13 @@
 //  Created by Adam Sharp on 9/29/19.
 //
 
-#if canImport(Combine) && !os(macOS)
+#if canImport(Combine)
 import Combine
+#elseif canImport(OpenCombine)
+import OpenCombine
+#endif
+
+#if canImport(Combine) || canImport(OpenCombine)
 import Foundation
 import XCTest
 import XMLCoder
@@ -23,7 +28,7 @@ private struct Foo: Decodable {
 }
 
 @available(iOS 13.0, macOS 10.15.0, tvOS 13.0, watchOS 6.0, *)
-class CombineTests: XCTestCase {
+final class CombineTests: XCTestCase {
     func testDecodeFromXMLDecoder() {
         let data = Just(xml)
         var foo: Foo?

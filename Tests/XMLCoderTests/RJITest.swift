@@ -140,7 +140,7 @@ private struct Enclosure: Codable, Equatable {
     let type: String
 }
 
-class RJITest: XCTestCase {
+final class RJITest: XCTestCase {
     func testRSS() throws {
         let decoder = XMLDecoder()
 //        let encoder = XMLEncoder()

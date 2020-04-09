@@ -8,7 +8,7 @@
 import XCTest
 import XMLCoder
 
-class EmptyElementEmptyStringTests: XCTestCase {
+final class EmptyElementEmptyStringTests: XCTestCase {
     struct ExplicitNestingContainer: Equatable, Decodable {
         let things: ContainedArray
 

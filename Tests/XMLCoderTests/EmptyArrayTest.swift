@@ -45,7 +45,7 @@ private let xmlContainsEmpty = """
 </container>
 """
 
-class EmptyArrayTest: XCTestCase {
+final class EmptyArrayTest: XCTestCase {
     func testEmptyArrayDecode() throws {
         let decoded = try XMLDecoder().decode([Empty].self, from: xml.data(using: .utf8)!)
         XCTAssertEqual(decoded, [Empty(), Empty(), Empty()])

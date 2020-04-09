@@ -32,7 +32,7 @@ let expected = """
 </policy>
 """
 
-class RootLevelAttributeTest: XCTestCase {
+final class RootLevelAttributeTest: XCTestCase {
     func testPolicyEncodingAtRoot() throws {
         let encoder = XMLEncoder()
         encoder.outputFormatting = [.prettyPrinted]

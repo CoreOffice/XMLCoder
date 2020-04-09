@@ -251,7 +251,7 @@ private struct NamespacedRow: Codable {
     }
 }
 
-class NameSpaceTest: XCTestCase {
+final class NamespaceTest: XCTestCase {
     func testTable() throws {
         let decoder = XMLDecoder()
         decoder.shouldProcessNamespaces = true

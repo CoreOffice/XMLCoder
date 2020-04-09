@@ -90,7 +90,7 @@ private let xmlData = """
 </s>
 """.data(using: .utf8)!
 
-class ClassTests: XCTestCase {
+final class ClassTests: XCTestCase {
     func testEmpty() throws {
         let decoder = XMLDecoder()
         let encoder = XMLEncoder()
