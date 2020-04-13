@@ -374,10 +374,18 @@ open class XMLDecoder {
 
 #if canImport(Combine)
 import protocol Combine.TopLevelDecoder
+import protocol Combine.TopLevelEncoder
 #elseif canImport(OpenCombine)
 import protocol OpenCombine.TopLevelDecoder
+import protocol OpenCombine.TopLevelEncoder
 #endif
 
 #if canImport(Combine) || canImport(OpenCombine)
 extension XMLDecoder: TopLevelDecoder {}
+
+extension XMLEncoder: TopLevelEncoder {
+    public func encode<T>(_ value: T) throws -> Data where T: Encodable {
+        try encode(value, withRootKey: nil, rootAttributes: nil, header: nil)
+    }
+}
 #endif

@@ -23,19 +23,32 @@ private let xml = """
 </foo>
 """.data(using: .utf8)!
 
-private struct Foo: Decodable {
+private struct Foo: Codable {
     var name: String
 }
 
 @available(iOS 13.0, macOS 10.15.0, tvOS 13.0, watchOS 6.0, *)
 final class CombineTests: XCTestCase {
-    func testDecodeFromXMLDecoder() {
-        let data = Just(xml)
+    func testDecode() {
         var foo: Foo?
-        _ = data.decode(type: Foo.self, decoder: XMLDecoder()).sink(
+        _ = Just(xml).decode(type: Foo.self, decoder: XMLDecoder()).sink(
             receiveCompletion: { _ in },
             receiveValue: { foo = $0 }
         )
+        XCTAssertEqual(foo?.name, "Foo")
+    }
+
+    func testEncode() {
+        var foo: Foo?
+        _ = Just(Foo(name: "Foo"))
+            .encode(encoder: XMLEncoder())
+            .decode(type: Foo.self, decoder: XMLDecoder())
+            .sink(
+                receiveCompletion: { _ in },
+                receiveValue: {
+                    foo = $0
+                }
+            )
         XCTAssertEqual(foo?.name, "Foo")
     }
 }
