@@ -1,3 +1,45 @@
+# 0.11.0 (13 April 2020)
+
+This is a bugfix and feature release, which fixes [an issue with CDATA
+decoding](https://github.com/MaxDesiatov/XMLCoder/issues/168)
+and adds [`TopLevelEncoder` conformance to
+`XMLEncoder`](https://github.com/MaxDesiatov/XMLCoder/pull/175). New
+[`rootAttributes` argument](https://github.com/MaxDesiatov/XMLCoder/pull/160)
+has been added to the `encode` function on `XMLEncoder` that allows
+adding attributes on root elements without adding them to your model types.
+Thanks to [@portellaa](https://github.com/portellaa),
+[@Kirow](https://github.com/Kirow) and others for their contributions and
+bug reports!
+
+**Closed issues:**
+
+- CDATA Decoding not working
+([#168](https://github.com/MaxDesiatov/XMLCoder/issues/168))
+- Decode special XML Structure
+([#156](https://github.com/MaxDesiatov/XMLCoder/issues/156))
+- Root level attributes don't get encoded back to attribute when converting back to XML file from Plist
+([#127](https://github.com/MaxDesiatov/XMLCoder/issues/127))
+- Bad access error when running on device
+([#100](https://github.com/MaxDesiatov/XMLCoder/issues/100))
+
+**Merged pull requests:**
+
+- Add TopLevelEncoder implementation
+([#175](https://github.com/MaxDesiatov/XMLCoder/pull/175))
+[@MaxDesiatov](https://github.com/MaxDesiatov)
+- Add support for root attributes propagation
+([#160](https://github.com/MaxDesiatov/XMLCoder/pull/160))
+[@portellaa](https://github.com/portellaa)
+- Fix RJITest RSS encoding and decoding
+([#171](https://github.com/MaxDesiatov/XMLCoder/pull/171))
+[@MaxDesiatov](https://github.com/MaxDesiatov)
+- Cleanup tests, support OpenCombine
+([#169](https://github.com/MaxDesiatov/XMLCoder/pull/169))
+[@MaxDesiatov](https://github.com/MaxDesiatov)
+- Fix CDATA issue
+([#170](https://github.com/MaxDesiatov/XMLCoder/pull/170))
+[@MaxDesiatov](https://github.com/MaxDesiatov)
+
 # 0.10.0 (4 April 2020)
 
 This is a bugfix release, which improves encoding and decoding of enums with associated values

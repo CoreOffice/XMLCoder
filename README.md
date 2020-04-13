@@ -290,6 +290,61 @@ func fetchBook(from url: URL) -> AnyPublisher<Book, Error> {
 This was implemented in PR [\#132](https://github.com/MaxDesiatov/XMLCoder/pull/132)
 by [@sharplet](https://github.com/sharplet).
 
+Additionally, starting with [XMLCoder
+0.11](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.11.0) `XMLEncoder`
+conforms to the `TopLevelEncoder` protocol:
+
+```swift
+import Combine
+import XMLCoder
+
+func encode(book: Book) -> AnyPublisher<Data, Error> {
+    return Just(book)
+        .encode(encoder: XMLEncoder())
+        .eraseToAnyPublisher()
+}
+```
+
+The resulting XML in the example above will start with `<book`, to customize
+capitalization of the root element (e.g. `<Book`) you'll need to set an
+appropriate `keyEncoding` strategy on the encoder. To change the element name
+altogether you'll have to change the name of the type, which is an unfortunate
+limitation of the `TopLevelEncoder` API.
+
+### Root element attributes
+
+Sometimes you need to set attributes on the root element, which aren't
+directly related to your model type. Starting with [XMLCoder
+0.11](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.11.0) the `encode`
+function on `XMLEncoder` accepts a new `rootAttributes` argument to help with
+this:
+
+```swift
+struct Policy: Encodable {
+    var name: String
+}
+
+let encoder = XMLEncoder()
+let data = try encoder.encode(Policy(name: "test"), rootAttributes: [
+    "xmlns": "http://www.nrf-arts.org/IXRetail/namespace",
+    "xmlns:xsd": "http://www.w3.org/2001/XMLSchema",
+    "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+])
+```
+
+The resulting XML will look like this:
+
+```xml
+<policy xmlns="http://www.nrf-arts.org/IXRetail/namespace"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <name>test</name>
+</policy>
+```
+
+This was implemented in PR [\#160](https://github.com/MaxDesiatov/XMLCoder/pull/160)
+by [@portellaa](https://github.com/portellaa).
+
 ## Installation
 
 ### Requirements
@@ -316,7 +371,7 @@ easy as adding it to the `dependencies` value of your `Package.swift`.
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.10.0")
+    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.11.0")
 ]
 ```
 
@@ -347,7 +402,7 @@ target 'YourApp' do
   use_frameworks!
 
   # Pods for YourApp
-  pod 'XMLCoder', '~> 0.10.0'
+  pod 'XMLCoder', '~> 0.11.0'
 end
 ```
 
@@ -376,7 +431,7 @@ $ brew install carthage
 Inside of your `Cartfile`, add GitHub path to `XMLCoder`:
 
 ```ogdl
-github "MaxDesiatov/XMLCoder" ~> 0.10.0
+github "MaxDesiatov/XMLCoder" ~> 0.11.0
 ```
 
 Then, run the following command to build the framework:
@@ -403,10 +458,10 @@ appreciated and helps in maintaining the project.
 
 ### Coding Style
 
-This project uses [SwiftFormat](https://github.com/nicklockwood/SwiftFormat) 
+This project uses [SwiftFormat](https://github.com/nicklockwood/SwiftFormat)
 and [SwiftLint](https://github.com/realm/SwiftLint) to
-enforce formatting and coding style. We encourage you to run SwiftFormat within 
-a local clone of the repository in whatever way works best for you either 
+enforce formatting and coding style. We encourage you to run SwiftFormat within
+a local clone of the repository in whatever way works best for you either
 manually or automatically via an [Xcode
 extension](https://github.com/nicklockwood/SwiftFormat#xcode-source-editor-extension),
 [build phase](https://github.com/nicklockwood/SwiftFormat#xcode-build-phase) or
@@ -424,8 +479,8 @@ pre-commit install # installs pre-commit hook to run checks before you commit
 Refer to [the pre-commit documentation page](https://pre-commit.com/) for more details
 and installation instructions for other platforms.
 
-SwiftFormat and SwiftLint also run on CI for every PR and thus a CI build can 
-fail with incosistent formatting or style. We require CI builds to pass for all 
+SwiftFormat and SwiftLint also run on CI for every PR and thus a CI build can
+fail with incosistent formatting or style. We require CI builds to pass for all
 PRs before merging.
 
 ### Test Coverage
