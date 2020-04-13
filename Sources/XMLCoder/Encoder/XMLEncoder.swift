@@ -317,7 +317,8 @@ open class XMLEncoder {
     /// Encodes the given top-level value and returns its XML representation.
     ///
     /// - parameter value: The value to encode.
-    /// - parameter withRootKey: the key used to wrap the encoded values.
+    /// - parameter withRootKey: the key used to wrap the encoded values. The
+    ///   default value is inferred from the name of the root type.
     /// - parameter rootAttributes: the list of attributes to be added to the root node
     /// - returns: A new `Data` value containing the encoded XML data.
     /// - throws: `EncodingError.invalidValue` if a non-conforming
