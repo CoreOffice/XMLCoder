@@ -1,8 +1,11 @@
 # 0.11.0 (13 April 2020)
 
-This is a bugfix and feature release, which fixes an issue with CDATA decoding
-and adds `TopLevelEncoder` conformance to `XMLEncoder`. New `rootAttributes`
-argument has been added to the `encode` function on `XMLEncoder` that allows
+This is a bugfix and feature release, which fixes [an issue with CDATA
+decoding](https://github.com/MaxDesiatov/XMLCoder/issues/168)
+and adds [`TopLevelEncoder` conformance to
+`XMLEncoder`](https://github.com/MaxDesiatov/XMLCoder/pull/175). New
+[`rootAttributes` argument](https://github.com/MaxDesiatov/XMLCoder/pull/160)
+has been added to the `encode` function on `XMLEncoder` that allows
 adding attributes on root elements without adding them to your model types.
 Thanks to [@portellaa](https://github.com/portellaa),
 [@Kirow](https://github.com/Kirow) and others for their contributions and
