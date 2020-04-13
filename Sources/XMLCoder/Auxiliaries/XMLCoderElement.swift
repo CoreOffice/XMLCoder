@@ -293,21 +293,23 @@ struct XMLCoderElement: Equatable {
 // MARK: - Convenience Initializers
 
 extension XMLCoderElement {
-    init(key: String, box: UnkeyedBox) {
+    init(key: String, box: UnkeyedBox, attributes: [Attribute] = []) {
         if let containsChoice = box as? [ChoiceBox] {
-            self.init(key: key, elements: containsChoice.map {
-                XMLCoderElement(key: $0.key, box: $0.element)
-            })
+            self.init(
+                key: key,
+                elements: containsChoice.map { XMLCoderElement(key: $0.key, box: $0.element) },
+                attributes: attributes
+            )
         } else {
-            self.init(key: key, elements: box.map { XMLCoderElement(key: key, box: $0) })
+            self.init(key: key, elements: box.map { XMLCoderElement(key: key, box: $0) }, attributes: attributes)
         }
     }
 
-    init(key: String, box: ChoiceBox) {
-        self.init(key: key, elements: [XMLCoderElement(key: box.key, box: box.element)])
+    init(key: String, box: ChoiceBox, attributes: [Attribute] = []) {
+        self.init(key: key, elements: [XMLCoderElement(key: box.key, box: box.element)], attributes: attributes)
     }
 
-    init(key: String, box: KeyedBox) {
+    init(key: String, box: KeyedBox, attributes: [Attribute] = []) {
         var elements: [XMLCoderElement] = []
 
         for (key, box) in box.elements {
@@ -338,7 +340,7 @@ extension XMLCoderElement {
             }
         }
 
-        let attributes: [Attribute] = box.attributes.compactMap { key, box in
+        let attributes: [Attribute] = attributes + box.attributes.compactMap { key, box in
             guard let value = box.xmlString else {
                 return nil
             }
@@ -356,20 +358,20 @@ extension XMLCoderElement {
         }
     }
 
-    init(key: String, box: Box) {
+    init(key: String, box: Box, attributes: [Attribute] = []) {
         switch box {
         case let sharedUnkeyedBox as SharedBox<UnkeyedBox>:
-            self.init(key: key, box: sharedUnkeyedBox.unboxed)
+            self.init(key: key, box: sharedUnkeyedBox.unboxed, attributes: attributes)
         case let sharedKeyedBox as SharedBox<KeyedBox>:
-            self.init(key: key, box: sharedKeyedBox.unboxed)
+            self.init(key: key, box: sharedKeyedBox.unboxed, attributes: attributes)
         case let sharedChoiceBox as SharedBox<ChoiceBox>:
-            self.init(key: key, box: sharedChoiceBox.unboxed)
+            self.init(key: key, box: sharedChoiceBox.unboxed, attributes: attributes)
         case let unkeyedBox as UnkeyedBox:
-            self.init(key: key, box: unkeyedBox)
+            self.init(key: key, box: unkeyedBox, attributes: attributes)
         case let keyedBox as KeyedBox:
-            self.init(key: key, box: keyedBox)
+            self.init(key: key, box: keyedBox, attributes: attributes)
         case let choiceBox as ChoiceBox:
-            self.init(key: key, box: choiceBox)
+            self.init(key: key, box: choiceBox, attributes: attributes)
         case let simpleBox as SimpleBox:
             self.init(key: key, box: simpleBox)
         case let box:
