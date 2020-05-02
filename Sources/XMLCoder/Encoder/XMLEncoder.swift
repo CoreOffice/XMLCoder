@@ -329,10 +329,7 @@ open class XMLEncoder {
                                    withRootKey rootKey: String? = nil,
                                    rootAttributes: [String: String]? = nil,
                                    header: XMLHeader? = nil) throws -> Data {
-        let encoder = XMLEncoderImplementation(
-            options: options,
-            nodeEncodings: []
-        )
+        let encoder = XMLEncoderImplementation(options: options, nodeEncodings: [])
         encoder.nodeEncodings.append(options.nodeEncodingStrategy.nodeEncodings(forType: T.self, with: encoder))
 
         let topLevel = try encoder.box(value)
