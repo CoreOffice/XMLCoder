@@ -19,7 +19,7 @@ class XMLElementTests: XCTestCase {
     }
 
     func testInitUnkeyed() {
-        let keyed = XMLCoderElement(key: "foo", box: UnkeyedBox())
+        let keyed = XMLCoderElement(key: "foo", isStringBoxCDATA: false, box: UnkeyedBox())
 
         XCTAssertEqual(keyed.key, "foo")
         XCTAssertNil(keyed.stringValue)
@@ -28,7 +28,7 @@ class XMLElementTests: XCTestCase {
     }
 
     func testInitKeyed() {
-        let keyed = XMLCoderElement(key: "foo", box: KeyedBox(
+        let keyed = XMLCoderElement(key: "foo", isStringBoxCDATA: false, box: KeyedBox(
             elements: [] as [(String, Box)],
             attributes: [("baz", NullBox()), ("blee", IntBox(42))] as [(String, SimpleBox)]
         ))
@@ -40,7 +40,7 @@ class XMLElementTests: XCTestCase {
     }
 
     func testInitSimple() {
-        let keyed = XMLCoderElement(key: "foo", box: StringBox("bar"))
+        let keyed = XMLCoderElement(key: "foo", isStringBoxCDATA: false, box: StringBox("bar"))
         let element = XMLCoderElement(stringValue: "bar")
 
         XCTAssertEqual(keyed.key, "foo")
