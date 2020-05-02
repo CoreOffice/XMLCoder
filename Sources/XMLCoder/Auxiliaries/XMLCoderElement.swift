@@ -288,11 +288,7 @@ extension XMLCoderElement {
             self.init(
                 key: key,
                 elements: containsChoice.map {
-                    XMLCoderElement(
-                        key: $0.key,
-                        isStringBoxCDATA: isStringBoxCDATA,
-                        box: $0.element
-                    )
+                    XMLCoderElement(key: $0.key, isStringBoxCDATA: isCDATA, box: $0.element)
                 },
                 attributes: attributes
             )
@@ -327,12 +323,12 @@ extension XMLCoderElement {
             case let sharedUnkeyedBox as SharedBox<UnkeyedBox>:
                 let box = sharedUnkeyedBox.unboxed
                 elements.append(contentsOf: box.map {
-                    XMLCoderElement(key: key, isStringBoxCDATA: isStringBoxCDATA, box: $0)
+                    XMLCoderElement(key: key, isStringBoxCDATA: isCDATA, box: $0)
                 })
             case let unkeyedBox as UnkeyedBox:
                 // This basically injects the unkeyed children directly into self:
                 elements.append(contentsOf: unkeyedBox.map {
-                    XMLCoderElement(key: key, isStringBoxCDATA: isStringBoxCDATA, box: $0)
+                    XMLCoderElement(key: key, isStringBoxCDATA: isCDATA, box: $0)
                 })
             case let sharedKeyedBox as SharedBox<KeyedBox>:
                 let box = sharedKeyedBox.unboxed

@@ -376,7 +376,6 @@ open class XMLEncoder {
             ))
         }
 
-        let withCDATA = stringEncodingStrategy != .deferredToString
         return element.toXMLString(with: header, formatting: outputFormatting)
             .data(using: .utf8, allowLossyConversion: true)!
     }
