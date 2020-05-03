@@ -1,4 +1,5 @@
 # XMLCoder
+
 Encoder &amp; Decoder for XML using Swift's `Codable` protocols.
 
 [![Build Status](https://dev.azure.com/max0484/max/_apis/build/status/MaxDesiatov.XMLCoder?branchName=master)](https://dev.azure.com/max0484/max/_build/latest?definitionId=4&branchName=master)
@@ -350,12 +351,14 @@ by [@portellaa](https://github.com/portellaa).
 ### Requirements
 
 **Apple Platforms**
+
 - Xcode 10.0 or later
-  * **IMPORTANT**: compiling XMLCoder with Xcode 11.2.0 (11B52) and 11.2.1 (11B500) is not recommended due to crashes with `EXC_BAD_ACCESS` caused by [a compiler bug](https://bugs.swift.org/browse/SR-11564), please use Xcode 11.3 or later instead. Please refer to [\#150](https://github.com/MaxDesiatov/XMLCoder/issues/150) for more details.
+  - **IMPORTANT**: compiling XMLCoder with Xcode 11.2.0 (11B52) and 11.2.1 (11B500) is not recommended due to crashes with `EXC_BAD_ACCESS` caused by [a compiler bug](https://bugs.swift.org/browse/SR-11564), please use Xcode 11.3 or later instead. Please refer to [\#150](https://github.com/MaxDesiatov/XMLCoder/issues/150) for more details.
 - Swift 4.2 or later
 - iOS 9.0 / watchOS 2.0 / tvOS 9.0 / macOS 10.10 or later deployment targets
 
 **Linux**
+
 - Ubuntu 14.04 or later
 - Swift 5.0.1 or later
 
@@ -371,12 +374,12 @@ easy as adding it to the `dependencies` value of your `Package.swift`.
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.11.0")
+    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.11.1")
 ]
 ```
 
 If you're using XMLCoder in an app built with Xcode, you can also add it as a direct
-dependency [using Xcode's 
+dependency [using Xcode's
 GUI](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app).
 
 ### CocoaPods
@@ -406,7 +409,7 @@ target 'YourApp' do
   use_frameworks!
 
   # Pods for YourApp
-  pod 'XMLCoder', '~> 0.11.0'
+  pod 'XMLCoder', '~> 0.11.1'
 end
 ```
 
@@ -435,7 +438,7 @@ $ brew install carthage
 Inside of your `Cartfile`, add GitHub path to `XMLCoder`:
 
 ```ogdl
-github "MaxDesiatov/XMLCoder" ~> 0.11.0
+github "MaxDesiatov/XMLCoder" ~> 0.11.1
 ```
 
 Then, run the following command to build the framework:

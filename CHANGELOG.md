@@ -1,3 +1,21 @@
+# 0.11.1 (3 May 2020)
+
+This release fixes an issue, where non-string values used CDATA encoding.
+Thanks to [@ksoftllc](https://github.com/ksoftllc) for reporting it!
+
+**Closed issues:**
+
+- Non-string values are being encoded as CData
+  ([#178](https://github.com/MaxDesiatov/XMLCoder/issues/178))
+- How to encode as an empty element
+  ([#177](https://github.com/MaxDesiatov/XMLCoder/issues/177))
+
+**Merged pull requests:**
+
+- Encode only strings as CDATA
+  ([#179](https://github.com/MaxDesiatov/XMLCoder/pull/179))
+  [@MaxDesiatov](https://github.com/MaxDesiatov)
+
 # 0.11.0 (13 April 2020)
 
 This is a bugfix and feature release, which fixes [an issue with CDATA
@@ -14,31 +32,31 @@ bug reports!
 **Closed issues:**
 
 - CDATA Decoding not working
-([#168](https://github.com/MaxDesiatov/XMLCoder/issues/168))
+  ([#168](https://github.com/MaxDesiatov/XMLCoder/issues/168))
 - Decode special XML Structure
-([#156](https://github.com/MaxDesiatov/XMLCoder/issues/156))
+  ([#156](https://github.com/MaxDesiatov/XMLCoder/issues/156))
 - Root level attributes don't get encoded back to attribute when converting back to XML file from Plist
-([#127](https://github.com/MaxDesiatov/XMLCoder/issues/127))
+  ([#127](https://github.com/MaxDesiatov/XMLCoder/issues/127))
 - Bad access error when running on device
-([#100](https://github.com/MaxDesiatov/XMLCoder/issues/100))
+  ([#100](https://github.com/MaxDesiatov/XMLCoder/issues/100))
 
 **Merged pull requests:**
 
 - Add TopLevelEncoder implementation
-([#175](https://github.com/MaxDesiatov/XMLCoder/pull/175))
-[@MaxDesiatov](https://github.com/MaxDesiatov)
+  ([#175](https://github.com/MaxDesiatov/XMLCoder/pull/175))
+  [@MaxDesiatov](https://github.com/MaxDesiatov)
 - Add support for root attributes propagation
-([#160](https://github.com/MaxDesiatov/XMLCoder/pull/160))
-[@portellaa](https://github.com/portellaa)
+  ([#160](https://github.com/MaxDesiatov/XMLCoder/pull/160))
+  [@portellaa](https://github.com/portellaa)
 - Fix RJITest RSS encoding and decoding
-([#171](https://github.com/MaxDesiatov/XMLCoder/pull/171))
-[@MaxDesiatov](https://github.com/MaxDesiatov)
+  ([#171](https://github.com/MaxDesiatov/XMLCoder/pull/171))
+  [@MaxDesiatov](https://github.com/MaxDesiatov)
 - Cleanup tests, support OpenCombine
-([#169](https://github.com/MaxDesiatov/XMLCoder/pull/169))
-[@MaxDesiatov](https://github.com/MaxDesiatov)
+  ([#169](https://github.com/MaxDesiatov/XMLCoder/pull/169))
+  [@MaxDesiatov](https://github.com/MaxDesiatov)
 - Fix CDATA issue
-([#170](https://github.com/MaxDesiatov/XMLCoder/pull/170))
-[@MaxDesiatov](https://github.com/MaxDesiatov)
+  ([#170](https://github.com/MaxDesiatov/XMLCoder/pull/170))
+  [@MaxDesiatov](https://github.com/MaxDesiatov)
 
 # 0.10.0 (4 April 2020)
 
@@ -52,15 +70,15 @@ below for more details. Thanks to [@bwetherfield](https://github.com/bwetherfiel
 **Breaking changes:**
 
 - Fix Decoding of Arrays of Empty Elements
-([#152](https://github.com/MaxDesiatov/XMLCoder/pull/152))
-([@bwetherfield](https://github.com/bwetherfield))
+  ([#152](https://github.com/MaxDesiatov/XMLCoder/pull/152))
+  ([@bwetherfield](https://github.com/bwetherfield))
 
 This change was needed to accommodate for multiple edges cases with how arrays of empty elements
 and empty strings are decoded.
 
 - Replace value intrinsic with empty string key
-([#149](https://github.com/MaxDesiatov/XMLCoder/pull/149))
-([@bwetherfield](https://github.com/bwetherfield))
+  ([#149](https://github.com/MaxDesiatov/XMLCoder/pull/149))
+  ([@bwetherfield](https://github.com/bwetherfield))
 
 The value intrinsic now only accepts the empty string key `""`, as the previous `"value"` key
 caused naming collisions with attributes and elemenents that had the same name.
@@ -68,55 +86,56 @@ caused naming collisions with attributes and elemenents that had the same name.
 **Closed issues:**
 
 - Bundle identifier in wrong format
-([#164](https://github.com/MaxDesiatov/XMLCoder/issues/164))
+  ([#164](https://github.com/MaxDesiatov/XMLCoder/issues/164))
 - Can inheritance be implemented?
-([#159](https://github.com/MaxDesiatov/XMLCoder/issues/159))
+  ([#159](https://github.com/MaxDesiatov/XMLCoder/issues/159))
 - EXC_BAD_ACCESS when running tests
-([#153](https://github.com/MaxDesiatov/XMLCoder/issues/153))
+  ([#153](https://github.com/MaxDesiatov/XMLCoder/issues/153))
 - EXC_BAD_ACCESS on XCode 11.2 and iOS13.2
-([#150](https://github.com/MaxDesiatov/XMLCoder/issues/150))
+  ([#150](https://github.com/MaxDesiatov/XMLCoder/issues/150))
 - Date formatting on 24h region with display set to 12h
-([#148](https://github.com/MaxDesiatov/XMLCoder/issues/148))
+  ([#148](https://github.com/MaxDesiatov/XMLCoder/issues/148))
 - Decoding containers with (potentially)-empty elements
-([#123](https://github.com/MaxDesiatov/XMLCoder/issues/123))
+  ([#123](https://github.com/MaxDesiatov/XMLCoder/issues/123))
 
 **Merged pull requests:**
+
 - Run GitHub Actions on a push to the master branch
-([#167](https://github.com/MaxDesiatov/XMLCoder/pull/167))
-([@MaxDesiatov](https://github.com/MaxDesiatov))
+  ([#167](https://github.com/MaxDesiatov/XMLCoder/pull/167))
+  ([@MaxDesiatov](https://github.com/MaxDesiatov))
 - Test w/ Xcode 11.4 on macOS, Swift 5.2.1 on Linux
-([#166](https://github.com/MaxDesiatov/XMLCoder/pull/166))
-([@MaxDesiatov](https://github.com/MaxDesiatov))
+  ([#166](https://github.com/MaxDesiatov/XMLCoder/pull/166))
+  ([@MaxDesiatov](https://github.com/MaxDesiatov))
 - Use reverse-DNS notation for the bundle identifier
-([#165](https://github.com/MaxDesiatov/XMLCoder/pull/165))
-([@MaxDesiatov](https://github.com/MaxDesiatov))
+  ([#165](https://github.com/MaxDesiatov/XMLCoder/pull/165))
+  ([@MaxDesiatov](https://github.com/MaxDesiatov))
 - Trigger Azure Pipelines run on PRs to master
-([#162](https://github.com/MaxDesiatov/XMLCoder/pull/162))
-([@MaxDesiatov](https://github.com/MaxDesiatov))
+  ([#162](https://github.com/MaxDesiatov/XMLCoder/pull/162))
+  ([@MaxDesiatov](https://github.com/MaxDesiatov))
 - Run Danger with GitHub Actions
-([#163](https://github.com/MaxDesiatov/XMLCoder/pull/163))
-([@MaxDesiatov](https://github.com/MaxDesiatov))
+  ([#163](https://github.com/MaxDesiatov/XMLCoder/pull/163))
+  ([@MaxDesiatov](https://github.com/MaxDesiatov))
 - Trigger Azure Pipelines run on PRs to master
-([#162](https://github.com/MaxDesiatov/XMLCoder/pull/162))
-([@MaxDesiatov](https://github.com/MaxDesiatov))
+  ([#162](https://github.com/MaxDesiatov/XMLCoder/pull/162))
+  ([@MaxDesiatov](https://github.com/MaxDesiatov))
 - Add Xcode 11.3 to azure-pipelines.yml
-([#158](https://github.com/MaxDesiatov/XMLCoder/pull/158))
-([@MaxDesiatov](https://github.com/MaxDesiatov))
+  ([#158](https://github.com/MaxDesiatov/XMLCoder/pull/158))
+  ([@MaxDesiatov](https://github.com/MaxDesiatov))
 - Support for mixed-content nodes
-([#157](https://github.com/MaxDesiatov/XMLCoder/pull/157))
-([@ultramiraculous](https://github.com/ultramiraculous))
+  ([#157](https://github.com/MaxDesiatov/XMLCoder/pull/157))
+  ([@ultramiraculous](https://github.com/ultramiraculous))
 - Mixed choice/non-choice decoding
-([#155](https://github.com/MaxDesiatov/XMLCoder/pull/155))
-([@bwetherfield](https://github.com/bwetherfield))
+  ([#155](https://github.com/MaxDesiatov/XMLCoder/pull/155))
+  ([@bwetherfield](https://github.com/bwetherfield))
 - Mixed choice/non-choice encoding
-([#154](https://github.com/MaxDesiatov/XMLCoder/pull/154))
-([@bwetherfield](https://github.com/bwetherfield))
+  ([#154](https://github.com/MaxDesiatov/XMLCoder/pull/154))
+  ([@bwetherfield](https://github.com/bwetherfield))
 - Add Xcode 11.2 and 10.3 to azure-pipelines.yml
-([#151](https://github.com/MaxDesiatov/XMLCoder/pull/151))
-([@MaxDesiatov](https://github.com/MaxDesiatov))
+  ([#151](https://github.com/MaxDesiatov/XMLCoder/pull/151))
+  ([@MaxDesiatov](https://github.com/MaxDesiatov))
 - Fix Decoding of Empty String
-([#145](https://github.com/MaxDesiatov/XMLCoder/pull/145))
-([@bwetherfield](https://github.com/bwetherfield))
+  ([#145](https://github.com/MaxDesiatov/XMLCoder/pull/145))
+  ([@bwetherfield](https://github.com/bwetherfield))
 
 # 0.9.0 (19 October 2019)
 
@@ -273,9 +292,9 @@ A small improvement release tagged early to resolve blocking issues in
 
 **Notable changes:**
 
-* Empty value strings are no longer decoded as `nil` when a `String` is
+- Empty value strings are no longer decoded as `nil` when a `String` is
   expected, but are decoded as empty strings, which represents the actual value.
-* `trimValueWhitespaces` property was added on `XMLDecoder`, which allows
+- `trimValueWhitespaces` property was added on `XMLDecoder`, which allows
   overriding the default behaviour, where starting and trailing whitespaces are
   trimmed from string values.
 
@@ -306,7 +325,7 @@ for Carthage users.
 
 **Notable changes:**
 
-* Remove unused scheme in Xcode project ([@MaxDesiatov](https://github.com/MaxDesiatov))
+- Remove unused scheme in Xcode project ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
 # 0.4.0 (8 April 2019)
 
@@ -322,25 +341,24 @@ also improved. A huge thank you to [@JoeMatt](https://github.com/JoeMatt) and
 
 **Notable changes:**
 
-* Ordered encoding: this was one of the most requested changes and it's finally
+- Ordered encoding: this was one of the most requested changes and it's finally
   here! 🎉 Now both keyed and unkeyed elements are encoded in the exactly same
   order that was used in original containers. This is applicable to both
   compiler-generated encoding implementations (just reorder properties or cases
-  in your `CodingKeys` enum if you have it) and manually implemented `func
-  encode(to: Encoder)`.
-* Stripping namespace prefix: now if your coding key string values contain an
+  in your `CodingKeys` enum if you have it) and manually implemented `func encode(to: Encoder)`.
+- Stripping namespace prefix: now if your coding key string values contain an
   XML namespace prefix (e.g. prefix `h` in `<h:td>Apples</h:td>`), you [can
   set](https://github.com/MaxDesiatov/XMLCoder/blob/3944866/README.md#stripping-namespace-prefix)
   `shouldProcessNamespaces` property to `true` on your `XMLDecoder` instance for
   the prefix to be stripped before decoding keys in your `Decodable` types.
-* Previously it was possible to customize encoding with `NodeEncodingStrategy`,
+- Previously it was possible to customize encoding with `NodeEncodingStrategy`,
   but no such type existed for decoding. A corresponding `NodeDecodingStrategy`
   type was added with `nodeDecodingStrategy` property on `XMLDecoder`.
-* Thanks to the previous change, XMLCoder now provides two helper protocols that
+- Thanks to the previous change, XMLCoder now provides two helper protocols that
   allow you to easily customize whether nodes are encoded and decoded as
   attributes or elements for conforming types: [`DynamicNodeEncoding` and
   `DynamicNodeDecoding`](https://github.com/MaxDesiatov/XMLCoder/blob/3944866/README.md#dynamic-node-coding).
-* Previously if you needed to decode or encode an XML element with both
+- Previously if you needed to decode or encode an XML element with both
   attributes and values, this was impossible to do with XMLCoder. Now with the
   addition of [coding key value
   intrinsic](https://github.com/MaxDesiatov/XMLCoder/blob/3944866/README.md#coding-key-value-intrinsic),
@@ -352,7 +370,7 @@ also improved. A huge thank you to [@JoeMatt](https://github.com/JoeMatt) and
 
 - Crash: Range invalid bounds in XMLStackParser.swift [\#83](https://github.com/MaxDesiatov/XMLCoder/issues/83)
 - Document DynamicNodeEncoding and attributed intrinsic [\#80](https://github.com/MaxDesiatov/XMLCoder/issues/80)
-- Fix nested attributed intrinsic  [\#78](https://github.com/MaxDesiatov/XMLCoder/issues/78)
+- Fix nested attributed intrinsic [\#78](https://github.com/MaxDesiatov/XMLCoder/issues/78)
 - nodeEncodingStrategy [\#49](https://github.com/MaxDesiatov/XMLCoder/issues/49)
 - XmlEncoder: ordering of elements [\#17](https://github.com/MaxDesiatov/XMLCoder/issues/17)
 - Can’t reach an XML value [\#12](https://github.com/MaxDesiatov/XMLCoder/issues/12)
@@ -394,7 +412,7 @@ also improved. A huge thank you to [@JoeMatt](https://github.com/JoeMatt) and
 - Dynamic node encoding + new formatters + various fixes
   [\#70](https://github.com/MaxDesiatov/XMLCoder/pull/70)
   ([@JoeMatt](https://github.com/JoeMatt))
-- Add `NodeDecodingStrategy`, mirroring `NodeEncodingStrategy `
+- Add `NodeDecodingStrategy`, mirroring `NodeEncodingStrategy`
   [\#45](https://github.com/MaxDesiatov/XMLCoder/pull/45)
   ([@regexident](https://github.com/regexident))
 
@@ -406,7 +424,7 @@ A bugfix release that adds missing `CFBundleVersion` in generated framework's
 
 **Changes:**
 
-* Set `CURRENT_PROJECT_VERSION` in project file ([#74](https://github.com/MaxDesiatov/XMLCoder/pull/74), [@MaxDesiatov](https://github.com/MaxDesiatov))
+- Set `CURRENT_PROJECT_VERSION` in project file ([#74](https://github.com/MaxDesiatov/XMLCoder/pull/74), [@MaxDesiatov](https://github.com/MaxDesiatov))
 
 # 0.3.0 (22 January 2019)
 
@@ -422,7 +440,7 @@ coverage in this release.
 You can now set `errorContextLength: UInt` property on `XMLDecoder` instance,
 which will make it add a snippet of XML of at most this length from parser state
 when a parsing error occurs. This change was provided by
-[@hodovani](https://github.com/hodovani) and  can greatly help with attempts to
+[@hodovani](https://github.com/hodovani) and can greatly help with attempts to
 parse invalid XML, where previously only a line and column number were reported.
 
 **Deprecations:**
@@ -435,175 +453,175 @@ many more changes in this release that make `XMLCoder` better and easier to use.
 
 **Changes:**
 
-* Add SwiftLint and fix linter errors
+- Add SwiftLint and fix linter errors
   ([#35](https://github.com/MaxDesiatov/XMLCoder/pull/35),
   [@MaxDesiatov](https://github.com/MaxDesiatov))
-* Add single array element example to tests
+- Add single array element example to tests
   ([#66](https://github.com/MaxDesiatov/XMLCoder/pull/66),
   [@MaxDesiatov](https://github.com/MaxDesiatov))
-* Remove generic encode/decode functions
+- Remove generic encode/decode functions
   ([#64](https://github.com/MaxDesiatov/XMLCoder/pull/64),
   [@hodovani](https://github.com/hodovani))
-* Change internal representation to ordered array of children
+- Change internal representation to ordered array of children
   ([#55](https://github.com/MaxDesiatov/XMLCoder/pull/55),
   [@regexident](https://github.com/regexident))
-* Keyed/unkeyed boxes as structs
+- Keyed/unkeyed boxes as structs
   ([#36](https://github.com/MaxDesiatov/XMLCoder/pull/36),
   [@regexident](https://github.com/regexident))
-* Add dedicated benchmarking test suite
+- Add dedicated benchmarking test suite
   ([#34](https://github.com/MaxDesiatov/XMLCoder/pull/34),
   [@regexident](https://github.com/regexident))
-* Add tests to increase test coverage
+- Add tests to increase test coverage
   ([#63](https://github.com/MaxDesiatov/XMLCoder/pull/63),
   [@hodovani](https://github.com/hodovani))
-* Add tests for keyed and unkeyed int types
+- Add tests for keyed and unkeyed int types
   ([#62](https://github.com/MaxDesiatov/XMLCoder/pull/62),
   [@hodovani](https://github.com/hodovani))
-* Add test to case when error context size goes outside content size
+- Add test to case when error context size goes outside content size
   ([#61](https://github.com/MaxDesiatov/XMLCoder/pull/61),
   [@hodovani](https://github.com/hodovani))
-* Specify Swift version for packaging, refine CI
+- Specify Swift version for packaging, refine CI
   ([#60](https://github.com/MaxDesiatov/XMLCoder/pull/60),
   [@MaxDesiatov](https://github.com/MaxDesiatov))
-* Add test for keyed Int types
+- Add test for keyed Int types
   ([#58](https://github.com/MaxDesiatov/XMLCoder/pull/58),
   [@hodovani](https://github.com/hodovani))
-* Fix missing trailing semicolon in character escapings
+- Fix missing trailing semicolon in character escapings
   ([#59](https://github.com/MaxDesiatov/XMLCoder/pull/59),
   [@regexident](https://github.com/regexident))
-* Increase test coverage
+- Increase test coverage
   ([#56](https://github.com/MaxDesiatov/XMLCoder/pull/56),
   [@hodovani](https://github.com/hodovani))
-* Fix `RelationshipsTest.testDecoder` crash on failure
+- Fix `RelationshipsTest.testDecoder` crash on failure
   ([#50](https://github.com/MaxDesiatov/XMLCoder/pull/50),
   [@regexident](https://github.com/regexident))
-* Improve `XMLStackParserTests` to test against CDATA blocks
+- Improve `XMLStackParserTests` to test against CDATA blocks
   ([#51](https://github.com/MaxDesiatov/XMLCoder/pull/51),
   [@regexident](https://github.com/regexident))
-* Remove unnecessary use of `@available(…)` for `OutputFormatting.sortedKeys`
+- Remove unnecessary use of `@available(…)` for `OutputFormatting.sortedKeys`
   ([#53](https://github.com/MaxDesiatov/XMLCoder/pull/53),
   [@regexident](https://github.com/regexident))
-* Fix decoding of arrays with optional elements
+- Fix decoding of arrays with optional elements
   ([#48](https://github.com/MaxDesiatov/XMLCoder/pull/48),
   [@MaxDesiatov](https://github.com/MaxDesiatov))
-* Add Optional Error Context
+- Add Optional Error Context
   ([#46](https://github.com/MaxDesiatov/XMLCoder/pull/46),
   [@hodovani](https://github.com/hodovani))
-* Install Carthage only in before_deploy on Travis
+- Install Carthage only in before_deploy on Travis
   ([#47](https://github.com/MaxDesiatov/XMLCoder/pull/47),
   [@MaxDesiatov](https://github.com/MaxDesiatov))
-* Add coding style and test coverage to README.md
+- Add coding style and test coverage to README.md
   ([#44](https://github.com/MaxDesiatov/XMLCoder/pull/44),
   [@MaxDesiatov](https://github.com/MaxDesiatov))
-* Improve code coverage of auxiliary types
+- Improve code coverage of auxiliary types
   ([#43](https://github.com/MaxDesiatov/XMLCoder/pull/43),
   [@regexident](https://github.com/regexident))
-* Improve code coverage of box types
+- Improve code coverage of box types
   ([#42](https://github.com/MaxDesiatov/XMLCoder/pull/42),
   [@regexident](https://github.com/regexident))
-* Make error handling in `XMLDecoder` simpler & safer
+- Make error handling in `XMLDecoder` simpler & safer
   ([#41](https://github.com/MaxDesiatov/XMLCoder/pull/41),
   [@regexident](https://github.com/regexident))
-* Unfold `guard … else` blocks to allow settingbreakpoints
+- Unfold `guard … else` blocks to allow settingbreakpoints
   ([#39](https://github.com/MaxDesiatov/XMLCoder/pull/39),
   [@regexident](https://github.com/regexident))
-* Cleanup throwing unit tests & add tests for missing values
+- Cleanup throwing unit tests & add tests for missing values
   ([#40](https://github.com/MaxDesiatov/XMLCoder/pull/40),
   [@regexident](https://github.com/regexident))
-* Let compiler synthesize Equatable conformance for _XMLElement
+- Let compiler synthesize Equatable conformance for \_XMLElement
   ([#33](https://github.com/MaxDesiatov/XMLCoder/pull/33),
   [@jsbean](https://github.com/jsbean))
-* Apply SwiftFormat on CI runs
+- Apply SwiftFormat on CI runs
   ([#32](https://github.com/MaxDesiatov/XMLCoder/pull/32),
   [@MaxDesiatov](https://github.com/MaxDesiatov))
-* Fix a bug with throws on `Encodable` encoding nothing
+- Fix a bug with throws on `Encodable` encoding nothing
   ([#31](https://github.com/MaxDesiatov/XMLCoder/pull/31),
   [@regexident](https://github.com/regexident))
-* Clean up `XMLElement`, `ArrayBox` & `DictionaryBox`
+- Clean up `XMLElement`, `ArrayBox` & `DictionaryBox`
   ([#28](https://github.com/MaxDesiatov/XMLCoder/pull/28),
   [@regexident](https://github.com/regexident))
-* Extract URL coding into `URLBox` with tests
+- Extract URL coding into `URLBox` with tests
   ([#30](https://github.com/MaxDesiatov/XMLCoder/pull/30),
   [@regexident](https://github.com/regexident))
-* Remove use of explicit `internal`
+- Remove use of explicit `internal`
   ([#29](https://github.com/MaxDesiatov/XMLCoder/pull/29),
   [@regexident](https://github.com/regexident))
-* Clean up coding logic, improve box naming
+- Clean up coding logic, improve box naming
   ([#27](https://github.com/MaxDesiatov/XMLCoder/pull/27),
   [@regexident](https://github.com/regexident))
-* Clean up `XMLStackParser`
+- Clean up `XMLStackParser`
   ([#26](https://github.com/MaxDesiatov/XMLCoder/pull/26),
   [@regexident](https://github.com/regexident))
-* Overhaul internal representation, replacing `NS…` with `…Box` types
+- Overhaul internal representation, replacing `NS…` with `…Box` types
   ([#19](https://github.com/MaxDesiatov/XMLCoder/pull/19),
   [@regexident](https://github.com/regexident))
-* Added benchmark to RJI test suite
+- Added benchmark to RJI test suite
   ([#20](https://github.com/MaxDesiatov/XMLCoder/pull/20),
   [@regexident](https://github.com/regexident))
-* Fix generation of Jazy docs
+- Fix generation of Jazy docs
   ([#18](https://github.com/MaxDesiatov/XMLCoder/pull/18),
   [@MaxDesiatov](https://github.com/MaxDesiatov))
-* Added unit tests for array and dictionary properties
+- Added unit tests for array and dictionary properties
   ([#7](https://github.com/MaxDesiatov/XMLCoder/pull/7),
   [@regexident](https://github.com/regexident))
-* Moved `_XML…EncodingContainer` into their own files, matching decoder
+- Moved `_XML…EncodingContainer` into their own files, matching decoder
   ([#4](https://github.com/MaxDesiatov/XMLCoder/pull/4),
   [@regexident](https://github.com/regexident))
-* Convert `Sample XML` code to XCTest
+- Convert `Sample XML` code to XCTest
   ([#1](https://github.com/MaxDesiatov/XMLCoder/pull/1),
   [@MaxDesiatov](https://github.com/MaxDesiatov))
-* Respect .sortedKeys option, add .swiftformat
+- Respect .sortedKeys option, add .swiftformat
   ([@qmoya](https://github.com/qmoya))
-* Bring back `gem install cocoapods --pre` to Travis
+- Bring back `gem install cocoapods --pre` to Travis
   ([@MaxDesiatov](https://github.com/MaxDesiatov))
-* Add --verbose flag to `pod lib lint` in travis.yml
+- Add --verbose flag to `pod lib lint` in travis.yml
   ([@MaxDesiatov](https://github.com/MaxDesiatov))
-* Specify stable versions in the installation guide
+- Specify stable versions in the installation guide
   ([@MaxDesiatov](https://github.com/MaxDesiatov))
-* Implement Travis CI deployment of Carthage archive
+- Implement Travis CI deployment of Carthage archive
   ([@MaxDesiatov](https://github.com/MaxDesiatov))
-* Add NodeEncodingStrategies typelias as deprecated
+- Add NodeEncodingStrategies typelias as deprecated
   ([#9](https://github.com/MaxDesiatov/XMLCoder/pull/9),
   [@MaxDesiatov](https://github.com/MaxDesiatov))
-* Rename `NodeEncodingStrategies` to match other type names
+- Rename `NodeEncodingStrategies` to match other type names
   ([#8](https://github.com/MaxDesiatov/XMLCoder/pull/8),
   [@regexident](https://github.com/regexident))
-* Consider node encoding strategy for values inside unkeyed containers
+- Consider node encoding strategy for values inside unkeyed containers
   ([#2](https://github.com/MaxDesiatov/XMLCoder/pull/2),
   [@regexident](https://github.com/regexident))
-* Run tests with coverage, upload to codecov.io
+- Run tests with coverage, upload to codecov.io
   ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
 # 0.2.1 (18 November 2018)
 
-* watchOS deployment target set to 2.0 for Carthage ([@MaxDesiatov](https://github.com/MaxDesiatov))
+- watchOS deployment target set to 2.0 for Carthage ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
 # 0.2.0 (18 November 2018)
 
-* Add watchOS 2.0 deployment target ([@MaxDesiatov](https://github.com/MaxDesiatov))
+- Add watchOS 2.0 deployment target ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
 # 0.1.1 (18 November 2018)
 
-* Set iOS deployment target to 9.0 ([@MaxDesiatov](https://github.com/MaxDesiatov))
+- Set iOS deployment target to 9.0 ([@MaxDesiatov](https://github.com/MaxDesiatov))
 
 # 0.1.0 (8 November 2018)
 
-* Add support for decoupled, type-dependent node-encoding strategies
+- Add support for decoupled, type-dependent node-encoding strategies
   ([@regexident](https://github.com/regexident))
-* Add missing visibility declarations
+- Add missing visibility declarations
   ([@regexident](https://github.com/regexident))
-* Improve `.gitignore` and remove tracked `*.xcuserdata` files
+- Improve `.gitignore` and remove tracked `*.xcuserdata` files
   ([@regexident](https://github.com/regexident))
-* Make `XMLEncoder.OutputFormatting.prettyPrinted` actually do something
+- Make `XMLEncoder.OutputFormatting.prettyPrinted` actually do something
   ([@regexident](https://github.com/regexident))
-* Add tvOS deployment target to podspec ([@edc1591](https://github.com/edc1591))
-* Fix Carthage command ([@salavert](https://github.com/salavert))
-* Set deployment versions to allow older SDKs
+- Add tvOS deployment target to podspec ([@edc1591](https://github.com/edc1591))
+- Fix Carthage command ([@salavert](https://github.com/salavert))
+- Set deployment versions to allow older SDKs
   ([@Lutzifer](https://github.com/Lutzifer))
-* Add Info.plist to allow Framework use in App Store Connect via Carthage
+- Add Info.plist to allow Framework use in App Store Connect via Carthage
   ([@Lutzifer](https://github.com/Lutzifer))
-* Set `CURRENT_PROJECT_VERSION`  ([@Lutzifer](https://github.com/Lutzifer))
-* Add `convertFromCapitalized` strategy, simple test
+- Set `CURRENT_PROJECT_VERSION` ([@Lutzifer](https://github.com/Lutzifer))
+- Add `convertFromCapitalized` strategy, simple test
   ([@MaxDesiatov](https://github.com/MaxDesiatov))
-* Allow older iOS/tvOS deployment targets in podspec
+- Allow older iOS/tvOS deployment targets in podspec
   ([@MaxDesiatov](https://github.com/MaxDesiatov))
