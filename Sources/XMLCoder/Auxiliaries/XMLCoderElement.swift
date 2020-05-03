@@ -122,18 +122,16 @@ struct XMLCoderElement: Equatable {
     }
 
     func toXMLString(with header: XMLHeader? = nil,
-                     withCDATA cdata: Bool,
                      formatting: XMLEncoder.OutputFormatting) -> String {
         if let header = header, let headerXML = header.toXML() {
-            return headerXML + _toXMLString(withCDATA: cdata, formatting: formatting)
+            return headerXML + _toXMLString(formatting: formatting)
         }
-        return _toXMLString(withCDATA: cdata, formatting: formatting)
+        return _toXMLString(formatting: formatting)
     }
 
     private func formatUnsortedXMLElements(
         _ string: inout String,
         _ level: Int,
-        _ cdata: Bool,
         _ formatting: XMLEncoder.OutputFormatting,
         _ prettyPrinted: Bool
     ) {
@@ -141,7 +139,6 @@ struct XMLCoderElement: Equatable {
             from: elements,
             into: &string,
             at: level,
-            cdata: cdata,
             formatting: formatting,
             prettyPrinted: prettyPrinted
         )
@@ -150,12 +147,11 @@ struct XMLCoderElement: Equatable {
     fileprivate func elementString(
         for element: XMLCoderElement,
         at level: Int,
-        cdata: Bool,
         formatting: XMLEncoder.OutputFormatting,
         prettyPrinted: Bool
     ) -> String {
         if let stringValue = element.stringValue {
-            if element.isCDATANode || cdata {
+            if element.isCDATANode {
                 return "<![CDATA[\(stringValue)]]>"
             } else {
                 return stringValue.escape(XMLCoderElement.escapedCharacterSet)
@@ -164,7 +160,7 @@ struct XMLCoderElement: Equatable {
 
         var string = ""
         string += element._toXMLString(
-            indented: level + 1, withCDATA: cdata, formatting: formatting
+            indented: level + 1, formatting: formatting
         )
         string += prettyPrinted ? "\n" : ""
         return string
@@ -173,14 +169,12 @@ struct XMLCoderElement: Equatable {
     fileprivate func formatSortedXMLElements(
         _ string: inout String,
         _ level: Int,
-        _ cdata: Bool,
         _ formatting: XMLEncoder.OutputFormatting,
         _ prettyPrinted: Bool
     ) {
         formatXMLElements(from: elements.sorted { $0.key < $1.key },
                           into: &string,
                           at: level,
-                          cdata: cdata,
                           formatting: formatting,
                           prettyPrinted: prettyPrinted)
     }
@@ -202,14 +196,12 @@ struct XMLCoderElement: Equatable {
         from elements: [XMLCoderElement],
         into string: inout String,
         at level: Int,
-        cdata: Bool,
         formatting: XMLEncoder.OutputFormatting,
         prettyPrinted: Bool
     ) {
         for element in elements {
             string += elementString(for: element,
                                     at: level,
-                                    cdata: cdata,
                                     formatting: formatting,
                                     prettyPrinted: prettyPrinted && !containsTextNodes)
         }
@@ -240,23 +232,21 @@ struct XMLCoderElement: Equatable {
         _ formatting: XMLEncoder.OutputFormatting,
         _ string: inout String,
         _ level: Int,
-        _ cdata: Bool,
         _ prettyPrinted: Bool
     ) {
         if formatting.contains(.sortedKeys) {
             formatSortedXMLElements(
-                &string, level, cdata, formatting, prettyPrinted
+                &string, level, formatting, prettyPrinted
             )
             return
         }
         formatUnsortedXMLElements(
-            &string, level, cdata, formatting, prettyPrinted
+            &string, level, formatting, prettyPrinted
         )
     }
 
     private func _toXMLString(
         indented level: Int = 0,
-        withCDATA cdata: Bool,
         formatting: XMLEncoder.OutputFormatting
     ) -> String {
         let prettyPrinted = formatting.contains(.prettyPrinted)
@@ -276,7 +266,7 @@ struct XMLCoderElement: Equatable {
             if !key.isEmpty {
                 string += prettyPrintElements ? ">\n" : ">"
             }
-            formatXMLElements(formatting, &string, level, cdata, prettyPrintElements)
+            formatXMLElements(formatting, &string, level, prettyPrintElements)
 
             if prettyPrintElements { string += indentation }
             if !key.isEmpty {
@@ -293,23 +283,35 @@ struct XMLCoderElement: Equatable {
 // MARK: - Convenience Initializers
 
 extension XMLCoderElement {
-    init(key: String, box: UnkeyedBox, attributes: [Attribute] = []) {
+    init(key: String, isStringBoxCDATA isCDATA: Bool, box: UnkeyedBox, attributes: [Attribute] = []) {
         if let containsChoice = box as? [ChoiceBox] {
             self.init(
                 key: key,
-                elements: containsChoice.map { XMLCoderElement(key: $0.key, box: $0.element) },
+                elements: containsChoice.map {
+                    XMLCoderElement(key: $0.key, isStringBoxCDATA: isCDATA, box: $0.element)
+                },
                 attributes: attributes
             )
         } else {
-            self.init(key: key, elements: box.map { XMLCoderElement(key: key, box: $0) }, attributes: attributes)
+            self.init(
+                key: key,
+                elements: box.map { XMLCoderElement(key: key, isStringBoxCDATA: isCDATA, box: $0) },
+                attributes: attributes
+            )
         }
     }
 
-    init(key: String, box: ChoiceBox, attributes: [Attribute] = []) {
-        self.init(key: key, elements: [XMLCoderElement(key: box.key, box: box.element)], attributes: attributes)
+    init(key: String, isStringBoxCDATA: Bool, box: ChoiceBox, attributes: [Attribute] = []) {
+        self.init(
+            key: key,
+            elements: [
+                XMLCoderElement(key: box.key, isStringBoxCDATA: isStringBoxCDATA, box: box.element),
+            ],
+            attributes: attributes
+        )
     }
 
-    init(key: String, box: KeyedBox, attributes: [Attribute] = []) {
+    init(key: String, isStringBoxCDATA isCDATA: Bool, box: KeyedBox, attributes: [Attribute] = []) {
         var elements: [XMLCoderElement] = []
 
         for (key, box) in box.elements {
@@ -321,20 +323,20 @@ extension XMLCoderElement {
             case let sharedUnkeyedBox as SharedBox<UnkeyedBox>:
                 let box = sharedUnkeyedBox.unboxed
                 elements.append(contentsOf: box.map {
-                    XMLCoderElement(key: key, box: $0)
+                    XMLCoderElement(key: key, isStringBoxCDATA: isCDATA, box: $0)
                 })
             case let unkeyedBox as UnkeyedBox:
                 // This basically injects the unkeyed children directly into self:
                 elements.append(contentsOf: unkeyedBox.map {
-                    XMLCoderElement(key: key, box: $0)
+                    XMLCoderElement(key: key, isStringBoxCDATA: isCDATA, box: $0)
                 })
             case let sharedKeyedBox as SharedBox<KeyedBox>:
                 let box = sharedKeyedBox.unboxed
-                elements.append(XMLCoderElement(key: key, box: box))
+                elements.append(XMLCoderElement(key: key, isStringBoxCDATA: isCDATA, box: box))
             case let keyedBox as KeyedBox:
-                elements.append(XMLCoderElement(key: key, box: keyedBox))
+                elements.append(XMLCoderElement(key: key, isStringBoxCDATA: isCDATA, box: keyedBox))
             case let simpleBox as SimpleBox:
-                elements.append(XMLCoderElement(key: key, box: simpleBox))
+                elements.append(XMLCoderElement(key: key, isStringBoxCDATA: isCDATA, box: simpleBox))
             default:
                 fail()
             }
@@ -350,30 +352,32 @@ extension XMLCoderElement {
         self.init(key: key, elements: elements, attributes: attributes)
     }
 
-    init(key: String, box: SimpleBox) {
-        if let value = box.xmlString {
+    init(key: String, isStringBoxCDATA: Bool, box: SimpleBox) {
+        if isStringBoxCDATA, let stringBox = box as? StringBox {
+            self.init(key: key, cdataValue: stringBox.unboxed)
+        } else if let value = box.xmlString {
             self.init(key: key, stringValue: value)
         } else {
             self.init(key: key)
         }
     }
 
-    init(key: String, box: Box, attributes: [Attribute] = []) {
+    init(key: String, isStringBoxCDATA isCDATA: Bool, box: Box, attributes: [Attribute] = []) {
         switch box {
         case let sharedUnkeyedBox as SharedBox<UnkeyedBox>:
-            self.init(key: key, box: sharedUnkeyedBox.unboxed, attributes: attributes)
+            self.init(key: key, isStringBoxCDATA: isCDATA, box: sharedUnkeyedBox.unboxed, attributes: attributes)
         case let sharedKeyedBox as SharedBox<KeyedBox>:
-            self.init(key: key, box: sharedKeyedBox.unboxed, attributes: attributes)
+            self.init(key: key, isStringBoxCDATA: isCDATA, box: sharedKeyedBox.unboxed, attributes: attributes)
         case let sharedChoiceBox as SharedBox<ChoiceBox>:
-            self.init(key: key, box: sharedChoiceBox.unboxed, attributes: attributes)
+            self.init(key: key, isStringBoxCDATA: isCDATA, box: sharedChoiceBox.unboxed, attributes: attributes)
         case let unkeyedBox as UnkeyedBox:
-            self.init(key: key, box: unkeyedBox, attributes: attributes)
+            self.init(key: key, isStringBoxCDATA: isCDATA, box: unkeyedBox, attributes: attributes)
         case let keyedBox as KeyedBox:
-            self.init(key: key, box: keyedBox, attributes: attributes)
+            self.init(key: key, isStringBoxCDATA: isCDATA, box: keyedBox, attributes: attributes)
         case let choiceBox as ChoiceBox:
-            self.init(key: key, box: choiceBox, attributes: attributes)
+            self.init(key: key, isStringBoxCDATA: isCDATA, box: choiceBox, attributes: attributes)
         case let simpleBox as SimpleBox:
-            self.init(key: key, box: simpleBox)
+            self.init(key: key, isStringBoxCDATA: isCDATA, box: simpleBox)
         case let box:
             preconditionFailure("Unclassified box: \(type(of: box))")
         }
