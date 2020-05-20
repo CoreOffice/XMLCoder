@@ -28,8 +28,8 @@ private struct Foo: Codable {
 }
 
 final class CustomEncoder: XMLEncoder {
-    override func encode<T>(_ value: T) throws -> Data where T : Encodable {
-        return try self.encode(value, withRootKey: "bar", rootAttributes: nil, header: nil)
+    override func encode<T>(_ value: T) throws -> Data where T: Encodable {
+        return try encode(value, withRootKey: "bar", rootAttributes: nil, header: nil)
     }
 }
 
