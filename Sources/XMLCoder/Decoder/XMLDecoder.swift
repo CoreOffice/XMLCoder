@@ -382,10 +382,5 @@ import protocol OpenCombine.TopLevelEncoder
 
 #if canImport(Combine) || canImport(OpenCombine)
 extension XMLDecoder: TopLevelDecoder {}
-
-extension XMLEncoder: TopLevelEncoder {
-    public func encode<T>(_ value: T) throws -> Data where T: Encodable {
-        try encode(value, withRootKey: nil, rootAttributes: nil, header: nil)
-    }
-}
+extension XMLEncoder: TopLevelEncoder {}
 #endif
