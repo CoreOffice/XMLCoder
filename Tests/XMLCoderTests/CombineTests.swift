@@ -27,6 +27,12 @@ private struct Foo: Codable {
     var name: String
 }
 
+final class CustomEncoder: XMLEncoder {
+    override func encode<T>(_ value: T) throws -> Data where T: Encodable {
+        return try encode(value, withRootKey: "bar", rootAttributes: nil, header: nil)
+    }
+}
+
 @available(iOS 13.0, macOS 10.15.0, tvOS 13.0, watchOS 6.0, *)
 final class CombineTests: XCTestCase {
     func testDecode() {
@@ -50,6 +56,22 @@ final class CombineTests: XCTestCase {
                 }
             )
         XCTAssertEqual(foo?.name, "Foo")
+    }
+
+    func testCustomEncode() {
+        var foo: Data?
+        _ = Just(Foo(name: "Foo"))
+            .encode(encoder: CustomEncoder())
+            .sink(
+                receiveCompletion: { _ in },
+                receiveValue: {
+                    foo = $0
+                }
+            )
+        XCTAssertEqual(
+            String(data: foo!, encoding: .utf8)!,
+            "<bar><name>Foo</name></bar>"
+        )
     }
 }
 #endif

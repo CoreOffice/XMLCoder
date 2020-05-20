@@ -376,6 +376,14 @@ open class XMLEncoder {
         return element.toXMLString(with: header, formatting: outputFormatting)
             .data(using: .utf8, allowLossyConversion: true)!
     }
+
+    // MARK: - TopLevelEncoder
+
+    #if canImport(Combine) || canImport(OpenCombine)
+    open func encode<T>(_ value: T) throws -> Data where T: Encodable {
+        return try encode(value, withRootKey: nil, rootAttributes: nil, header: nil)
+    }
+    #endif
 }
 
 private extension String {
