@@ -380,7 +380,7 @@ open class XMLEncoder {
     // MARK: - TopLevelEncoder
 
     open func encode<T>(_ value: T) throws -> Data where T: Encodable {
-        try encode(value, withRootKey: nil, rootAttributes: nil, header: nil)
+        return try encode(value, withRootKey: nil, rootAttributes: nil, header: nil)
     }
 }
 
