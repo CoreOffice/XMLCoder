@@ -1,6 +1,7 @@
+// Copyright (c) 2019-2020 XMLCoder contributors
 //
-//  DynamicNodeEncoding.swift
-//  XMLCoder
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
 //
 //  Created by Joseph Mattiello on 1/24/19.
 //

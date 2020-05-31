@@ -1,6 +1,7 @@
+// Copyright (c) 2019-2020 XMLCoder contributors
 //
-//  File.swift
-//  XMLCoder
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
 //
 //  Created by Max Desiatov on 05/10/2019.
 //

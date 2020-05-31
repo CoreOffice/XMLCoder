@@ -1,6 +1,7 @@
+// Copyright (c) 2018-2020 XMLCoder contributors
 //
-//  KeyedBox.swift
-//  XMLCoder
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
 //
 //  Created by Vincent Esche on 11/19/18.
 //

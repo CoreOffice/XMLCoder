@@ -1,6 +1,7 @@
+// Copyright (c) 2018-2020 XMLCoder contributors
 //
-//  NoteTest.swift
-//  XMLCoderTests
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
 //
 //  Created by Max Desiatov on 19/11/2018.
 //

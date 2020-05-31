@@ -1,9 +1,9 @@
+// Copyright (c) 2017-2020 Shawn Moore and XMLCoder contributors
 //
-//  XMLKey.swift
-//  XMLCoder
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
 //
 //  Created by Shawn Moore on 11/21/17.
-//  Copyright © 2017 Shawn Moore. All rights reserved.
 //
 
 import Foundation

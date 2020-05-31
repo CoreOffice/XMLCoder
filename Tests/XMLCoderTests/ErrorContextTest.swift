@@ -1,6 +1,7 @@
+// Copyright (c) 2018-2020 XMLCoder contributors
 //
-//  ErrorContextTest.swift
-//  XMLCoder
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
 //
 //  Created by Matvii Hodovaniuk on 12/27/18.
 //

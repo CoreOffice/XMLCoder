@@ -1,3 +1,8 @@
+// Copyright (c) 2019-2020 XMLCoder contributors
+//
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
+
 import XCTest
 @testable import XMLCoder
 

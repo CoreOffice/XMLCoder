@@ -1,6 +1,7 @@
+// Copyright (c) 2018-2020 XMLCoder contributors
 //
-//  UnkeyedBoxTests.swift
-//  XMLCoderTests
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
 //
 //  Created by Vincent Esche on 12/18/18.
 //

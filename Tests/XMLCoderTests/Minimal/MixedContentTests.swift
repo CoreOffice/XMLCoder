@@ -1,6 +1,7 @@
+// Copyright (c) 2019-2020 XMLCoder contributors
 //
-//  MixedContentTests.swift
-//  XMLCoderTests
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
 //
 //  Created by Christopher Williams on 11/21/19.
 //

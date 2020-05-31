@@ -1,3 +1,7 @@
+// Copyright (c) 2020 XMLCoder contributors
+//
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
 //
 //  Created by Max Desiatov on 09/04/2020.
 //
