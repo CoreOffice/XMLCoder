@@ -48,7 +48,7 @@ jobs:
     - name: Build with Xcode 11.2
       run: ./test_xcodebuild.sh Xcode_11.2
       env:
-        IOS_DEVICE: 'platform=iOS Simulator,OS=13.2,name=iPhone 8'
+        IOS_DEVICE: 'platform=iOS Simulator,OS=13.2.2,name=iPhone 8'
         TVOS_DEVICE: 'platform=tvOS Simulator,OS=13.2,name=Apple TV 4K'
 
   xcode-11_3:
