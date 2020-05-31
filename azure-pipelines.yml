@@ -5,11 +5,6 @@ pr:
 - master
 
 jobs:
-- job: lint
-  pool:
-    vmImage: 'macos-latest'
-  steps:
-  - bash: ./lint.sh
 - job: test_xcodebuild_10_0
   pool:
     vmImage: 'macOS-10.14'

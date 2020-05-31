@@ -6,7 +6,7 @@
     {
       "label": "swift test",
       "type": "shell",
-      "command": "swift test"
+      "command": "swift test --parallel"
     }
   ]
 }

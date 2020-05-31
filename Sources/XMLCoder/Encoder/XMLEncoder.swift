@@ -33,6 +33,12 @@ open class XMLEncoder {
         public static let sortedKeys = OutputFormatting(rawValue: 1 << 1)
     }
 
+    /// The identation to use when XML is pretty-printed.
+    public enum PrettyPrintIndentation {
+        case spaces(Int)
+        case tabs(Int)
+    }
+
     /// A node's encoding type
     public enum NodeEncoding {
         case attribute
@@ -264,6 +270,9 @@ open class XMLEncoder {
     /// The output format to produce. Defaults to `[]`.
     open var outputFormatting: OutputFormatting = []
 
+    /// The indentation to use when XML is printed. Defaults to `.spaces(4)`.
+    open var prettyPrintIndentation: PrettyPrintIndentation = .spaces(4)
+
     /// The strategy to use in encoding dates. Defaults to `.deferredToDate`.
     open var dateEncodingStrategy: DateEncodingStrategy = .deferredToDate
 
@@ -373,8 +382,11 @@ open class XMLEncoder {
             ))
         }
 
-        return element.toXMLString(with: header, formatting: outputFormatting)
-            .data(using: .utf8, allowLossyConversion: true)!
+        return element.toXMLString(
+            with: header,
+            formatting: outputFormatting,
+            indentation: prettyPrintIndentation
+        ).data(using: .utf8, allowLossyConversion: true)!
     }
 
     // MARK: - TopLevelEncoder
