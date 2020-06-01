@@ -85,7 +85,7 @@ jobs:
         run: ./test_xcodebuild.sh Xcode_11.5
         env:
           IOS_DEVICE: "platform=iOS Simulator,OS=13.5,name=iPhone 8"
-          TVOS_DEVICE: "platform=tvOS Simulator,OS=13.5,name=Apple TV 4K"
+          TVOS_DEVICE: "platform=tvOS Simulator,OS=13.4,name=Apple TV 4K"
           CODECOV_JOB: "true"
           CODECOV_TOKEN: ${{ secrets.codecovToken }}
 
