@@ -1,4 +1,5 @@
 {
   "licenser.license": "MIT",
   "licenser.author": "XMLCoder contributors",
+  "editor.formatOnSave": true,
 }

@@ -267,6 +267,24 @@ open class XMLEncoder {
         }
     }
 
+    /// Characters and their escaped representations to be escaped in attributes
+    open var charactersEscapedInAttributes = [
+        ("&", "&amp;"),
+        ("<", "&lt;"),
+        (">", "&gt;"),
+        ("'", "&apos;"),
+        ("\"", "&quot;"),
+    ]
+
+    /// Characters and their escaped representations to be escaped in elements
+    open var charactersEscapedInElements = [
+        ("&", "&amp;"),
+        ("<", "&lt;"),
+        (">", "&gt;"),
+        ("'", "&apos;"),
+        ("\"", "&quot;"),
+    ]
+
     /// The output format to produce. Defaults to `[]`.
     open var outputFormatting: OutputFormatting = []
 
@@ -384,6 +402,10 @@ open class XMLEncoder {
 
         return element.toXMLString(
             with: header,
+            escapedCharacters: (
+                attributes: charactersEscapedInAttributes,
+                elements: charactersEscapedInElements
+            ),
             formatting: outputFormatting,
             indentation: prettyPrintIndentation
         ).data(using: .utf8, allowLossyConversion: true)!
