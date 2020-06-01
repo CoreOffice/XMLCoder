@@ -42,15 +42,16 @@ private struct Response: Codable {
     let aResponse: String
 }
 
-private let attributeNewline = Attribute(id: """
-Got an attributed String.
-Will create a image.
+private let attributeNewline = Attribute(
+    id: """
+    Got an attributed String.
+    Will create a image.
 
 
-""")
+    """
+)
 
-private let attributeNewlineEncoded =
-    #"<Attribute id="Got an attributed String.&#10;Will create a image.&#10;&#10;" />"#
+private let attributeNewlineEncoded = #"<Attribute id="Got an attributed String.&#10;Will create a image.&#10;&#10;" />"#
 
 private struct Attribute: Codable, DynamicNodeEncoding, Equatable {
     let id: String
