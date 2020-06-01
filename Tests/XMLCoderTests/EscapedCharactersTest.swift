@@ -51,7 +51,8 @@ private let attributeNewline = Attribute(
     """
 )
 
-private let attributeNewlineEncoded = #"<Attribute id="Got an attributed String.&#10;Will create a image.&#10;&#10;" />"#
+private let attributeNewlineEncoded =
+    "<Attribute id=\"Got an attributed String.&#10;Will create a image.&#10;&#10;\" />"
 
 private struct Attribute: Codable, DynamicNodeEncoding, Equatable {
     let id: String
@@ -72,7 +73,7 @@ final class EscapedCharactersTest: XCTestCase {
     func testDefaultEncoding() throws {
         let encoder = XMLEncoder()
         let result = try String(
-            data: encoder.encode(Response(aResponse: #" """ "#)),
+            data: encoder.encode(Response(aResponse: " \"\"\" ")),
             encoding: .utf8
         )!
         XCTAssertEqual(result, "<Response><aResponse> &quot;&quot;&quot; </aResponse></Response>")
@@ -82,10 +83,10 @@ final class EscapedCharactersTest: XCTestCase {
         let encoder = XMLEncoder()
         encoder.charactersEscapedInElements = []
         let result = try String(
-            data: encoder.encode(Response(aResponse: #" """ "#)),
+            data: encoder.encode(Response(aResponse: " \"\"\" ")),
             encoding: .utf8
         )!
-        XCTAssertEqual(result, #"<Response><aResponse> """ </aResponse></Response>"#)
+        XCTAssertEqual(result, "<Response><aResponse> \"\"\" </aResponse></Response>")
     }
 
     func testNewlineAttributeEncoding() throws {
