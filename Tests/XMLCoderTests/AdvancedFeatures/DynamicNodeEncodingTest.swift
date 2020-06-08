@@ -106,7 +106,7 @@ private struct Library: Codable, Equatable {
     }
 }
 
-private struct Book: Codable, Equatable, DynamicNodeEncoding {
+private struct Book: Codable, Equatable {
     @XMLBothNode var id: UInt
     @XMLBothNode var author: String
     @XMLBothNode var gender: String
@@ -120,31 +120,15 @@ private struct Book: Codable, Equatable, DynamicNodeEncoding {
         case title
         case categories = "category"
     }
-
-    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
-        switch key {
-        case Book.CodingKeys.id, Book.CodingKeys.author, Book.CodingKeys.gender: return .both
-        default: return .element
-        }
-    }
 }
 
-private struct Category: Codable, Equatable, DynamicNodeEncoding {
+private struct Category: Codable, Equatable {
     @XMLAttributeNode var main: Bool
     let value: String
 
     private enum CodingKeys: String, CodingKey {
         case main
         case value
-    }
-
-    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
-        switch key {
-        case Category.CodingKeys.main:
-            return .attribute
-        default:
-            return .element
-        }
     }
 }
 

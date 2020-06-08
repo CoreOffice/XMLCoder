@@ -155,7 +155,7 @@ private struct Catalog: Codable, Equatable {
     }
 }
 
-private struct Book: Codable, Equatable, DynamicNodeEncoding {
+private struct Book: Codable, Equatable {
     @XMLAttributeNode var id: String
     var author: String
     var title: String
@@ -168,15 +168,6 @@ private struct Book: Codable, Equatable, DynamicNodeEncoding {
         case id, author, title, genre, price, description
 
         case publishDate = "publish_date"
-    }
-
-    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
-        switch key {
-        case CodingKeys.id:
-            return .attribute
-        default:
-            return .element
-        }
     }
 }
 

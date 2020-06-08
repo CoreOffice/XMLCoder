@@ -54,12 +54,8 @@ private let attributeNewline = Attribute(
 private let attributeNewlineEncoded =
     "<Attribute id=\"Got an attributed String.&#10;Will create a image.&#10;&#10;\" />"
 
-private struct Attribute: Codable, DynamicNodeEncoding, Equatable {
+private struct Attribute: Codable, Equatable {
     @XMLAttributeNode var id: String
-
-    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
-        return .attribute
-    }
 }
 
 final class EscapedCharactersTest: XCTestCase {

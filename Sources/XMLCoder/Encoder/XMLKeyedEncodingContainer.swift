@@ -105,16 +105,49 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
         encoder.nodeEncodings.append(nodeEncodings)
         let box = try encode(encoder, value)
 
-        switch value {
-        case is XMLElementProtocol:
-            encodeElement(forKey: key, box: box)
-        case is XMLAttributeProtocol:
-            try encodeAttribute(value, forKey: key, box: box)
-        case is XMLAttributeElementProtocol:
-            try encodeAttribute(value, forKey: key, box: box)
-            encodeElement(forKey: key, box: box)
+        let oldSelf = self
+        let attributeEncoder: (T, Key, Box) throws -> () = { value, key, box in
+            guard let attribute = box as? SimpleBox else {
+                throw EncodingError.invalidValue(value, EncodingError.Context(
+                    codingPath: [],
+                    debugDescription: "Complex values cannot be encoded as attributes."
+                ))
+            }
+            oldSelf.container.withShared { container in
+                container.attributes.append(attribute, at: oldSelf.converted(key).stringValue)
+            }
+        }
+
+        let elementEncoder: (T, Key, Box) throws -> () = { _, key, box in
+            oldSelf.container.withShared { container in
+                container.elements.append(box, at: oldSelf.converted(key).stringValue)
+            }
+        }
+
+        defer {
+            self = oldSelf
+        }
+
+        switch strategy(key) {
+        case .attribute:
+            try attributeEncoder(value, key, box)
+        case .element:
+            try elementEncoder(value, key, box)
+        case .both:
+            try attributeEncoder(value, key, box)
+            try elementEncoder(value, key, box)
         default:
-            encodeElement(forKey: key, box: box)
+            switch value {
+            case is XMLElementProtocol:
+                encodeElement(forKey: key, box: box)
+            case is XMLAttributeProtocol:
+                try encodeAttribute(value, forKey: key, box: box)
+            case is XMLAttributeElementProtocol:
+                try encodeAttribute(value, forKey: key, box: box)
+                encodeElement(forKey: key, box: box)
+            default:
+                encodeElement(forKey: key, box: box)
+            }
         }
     }
 

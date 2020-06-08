@@ -44,18 +44,11 @@ final class RootLevetExtraAttributesTests: XCTestCase {
     }
 }
 
-private struct Policy: Encodable, DynamicNodeEncoding {
+private struct Policy: Encodable {
     @XMLAttributeNode var name: String
     var initial: String
 
     enum CodingKeys: String, CodingKey {
         case name, initial
-    }
-
-    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
-        switch key {
-        case Policy.CodingKeys.name: return .attribute
-        default: return .element
-        }
     }
 }

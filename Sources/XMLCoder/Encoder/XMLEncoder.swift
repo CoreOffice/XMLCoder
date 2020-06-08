@@ -234,7 +234,7 @@ open class XMLEncoder {
     @available(*, deprecated, renamed: "NodeEncodingStrategy")
     public typealias NodeEncodingStrategies = NodeEncodingStrategy
 
-    public typealias XMLNodeEncoderClosure = ((CodingKey) -> NodeEncoding)
+    public typealias XMLNodeEncoderClosure = ((CodingKey) -> NodeEncoding?)
     public typealias XMLEncodingClosure = (Encodable.Type, Encoder) -> XMLNodeEncoderClosure
 
     /// Set of strategies to use for encoding of nodes.
@@ -248,7 +248,7 @@ open class XMLEncoder {
         func nodeEncodings(
             forType codableType: Encodable.Type,
             with encoder: Encoder
-        ) -> ((CodingKey) -> NodeEncoding) {
+        ) -> ((CodingKey) -> NodeEncoding?) {
             return encoderClosure(codableType, encoder)
         }
 
@@ -261,7 +261,7 @@ open class XMLEncoder {
 
         static let defaultEncoder: XMLEncodingClosure = { codableType, _ in
             guard let dynamicType = codableType as? DynamicNodeEncoding.Type else {
-                return { _ in .default }
+                return { _ in nil }
             }
             return dynamicType.nodeEncoding(for:)
         }
