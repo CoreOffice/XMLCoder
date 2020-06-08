@@ -43,19 +43,19 @@ private struct Response: Codable {
 }
 
 private let attributeNewline = Attribute(
-    id: """
+    id: .init("""
     Got an attributed String.
     Will create a image.
 
 
-    """
+    """)
 )
 
 private let attributeNewlineEncoded =
     "<Attribute id=\"Got an attributed String.&#10;Will create a image.&#10;&#10;\" />"
 
 private struct Attribute: Codable, DynamicNodeEncoding, Equatable {
-    let id: String
+    @XMLAttributeNode var id: String
 
     static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
         return .attribute

@@ -15,16 +15,12 @@ let attributedEnumXML = """
 <foo><number type="string">ABC</number><number type="int">123</number></foo>
 """.data(using: .utf8)!
 
-private struct Foo2: Codable {
+private struct Foo2: Encodable {
     let number: [FooNumber]
 }
 
-private struct FooNumber: Codable, DynamicNodeEncoding {
-    public let type: FooEnum
-
-    public init(type: FooEnum) {
-        self.type = type
-    }
+public struct FooNumber: Encodable, DynamicNodeEncoding {
+    @XMLAttributeNode public var type: FooEnum
 
     enum CodingKeys: String, CodingKey {
         case type
@@ -38,11 +34,11 @@ private struct FooNumber: Codable, DynamicNodeEncoding {
         }
     }
 
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        type = try container.decode(FooEnum.self, forKey: .type)
-    }
+//    public init(from decoder: Decoder) throws {
+//        let container = try decoder.container(keyedBy: CodingKeys.self)
+//
+//        type = try container.decode(FooEnum.self, forKey: .type)
+//    }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
@@ -57,8 +53,8 @@ private struct FooNumber: Codable, DynamicNodeEncoding {
     }
 }
 
-private enum FooEnum: Equatable, Codable {
-    private enum CodingKeys: String, CodingKey {
+public enum FooEnum: Equatable, Codable {
+    public enum CodingKeys: String, CodingKey {
         case string
         case int
     }
@@ -98,7 +94,7 @@ final class AttributedEnumIntrinsicTest: XCTestCase {
         let encoder = XMLEncoder()
         encoder.outputFormatting = []
 
-        let foo1 = Foo2(number: [FooNumber(type: FooEnum.string("ABC")), FooNumber(type: FooEnum.int(123))])
+        let foo1 = Foo2(number: [FooNumber(type: .init(FooEnum.string("ABC"))), FooNumber(type: .init(FooEnum.int(123)))])
 
         let header = XMLHeader(version: 1.0, encoding: "UTF-8")
         let encoded = try encoder.encode(foo1, withRootKey: "foo", header: header)

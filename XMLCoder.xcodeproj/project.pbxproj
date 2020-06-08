@@ -24,7 +24,10 @@
 		07E441BA2340F14B00890F46 /* EmptyElementEmptyStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E441B92340F14B00890F46 /* EmptyElementEmptyStringTests.swift */; };
 		4A062D4F2341924E009BCAC1 /* CombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A062D4E2341924E009BCAC1 /* CombineTests.swift */; };
 		970FA9DC2422EFAE0023C1EC /* RootLevetExtraAttributesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970FA9DB2422EFAE0023C1EC /* RootLevetExtraAttributesTests.swift */; };
+		B512614E248E07B500FC64FB /* XMLBothNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B512614D248E07B500FC64FB /* XMLBothNode.swift */; };
 		B54555BC2343F5C1000D4128 /* EmptyArrayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54555BB2343F5C1000D4128 /* EmptyArrayTest.swift */; };
+		B5647C44248876FF001F6507 /* XMLAttributeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5647C43248876FF001F6507 /* XMLAttributeNode.swift */; };
+		B5647C4824897589001F6507 /* XMLElementNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5647C4724897589001F6507 /* XMLElementNode.swift */; };
 		B5E67535238B4960006C8548 /* IntOrString.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E67534238B4960006C8548 /* IntOrString.swift */; };
 		B5F74472233F74E400BBDB15 /* RootLevelAttributeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F74471233F74E400BBDB15 /* RootLevelAttributeTest.swift */; };
 		D11E094623491BCE00C24DCB /* DoubleBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11E094523491BCE00C24DCB /* DoubleBox.swift */; };
@@ -168,7 +171,10 @@
 		07E441B92340F14B00890F46 /* EmptyElementEmptyStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyElementEmptyStringTests.swift; sourceTree = "<group>"; };
 		4A062D4E2341924E009BCAC1 /* CombineTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombineTests.swift; sourceTree = "<group>"; };
 		970FA9DB2422EFAE0023C1EC /* RootLevetExtraAttributesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootLevetExtraAttributesTests.swift; sourceTree = "<group>"; };
+		B512614D248E07B500FC64FB /* XMLBothNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLBothNode.swift; sourceTree = "<group>"; };
 		B54555BB2343F5C1000D4128 /* EmptyArrayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyArrayTest.swift; sourceTree = "<group>"; };
+		B5647C43248876FF001F6507 /* XMLAttributeNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLAttributeNode.swift; sourceTree = "<group>"; };
+		B5647C4724897589001F6507 /* XMLElementNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLElementNode.swift; sourceTree = "<group>"; };
 		B5E67534238B4960006C8548 /* IntOrString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntOrString.swift; sourceTree = "<group>"; };
 		B5F74471233F74E400BBDB15 /* RootLevelAttributeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootLevelAttributeTest.swift; sourceTree = "<group>"; };
 		D11E094523491BCE00C24DCB /* DoubleBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleBox.swift; sourceTree = "<group>"; };
@@ -373,6 +379,9 @@
 				OBJ_34 /* XMLHeader.swift */,
 				OBJ_35 /* XMLKey.swift */,
 				OBJ_36 /* XMLStackParser.swift */,
+				B5647C43248876FF001F6507 /* XMLAttributeNode.swift */,
+				B512614D248E07B500FC64FB /* XMLBothNode.swift */,
+				B5647C4724897589001F6507 /* XMLElementNode.swift */,
 			);
 			path = Auxiliaries;
 			sourceTree = "<group>";
@@ -692,6 +701,7 @@
 				OBJ_149 /* Box.swift in Sources */,
 				OBJ_150 /* ChoiceBox.swift in Sources */,
 				OBJ_151 /* DataBox.swift in Sources */,
+				B512614E248E07B500FC64FB /* XMLBothNode.swift in Sources */,
 				OBJ_152 /* DateBox.swift in Sources */,
 				OBJ_153 /* DecimalBox.swift in Sources */,
 				OBJ_154 /* FloatBox.swift in Sources */,
@@ -719,6 +729,7 @@
 				OBJ_175 /* SingleValueDecodingContainer.swift in Sources */,
 				D11E094A234924C500C24DCB /* ValueBox.swift in Sources */,
 				OBJ_176 /* XMLChoiceDecodingContainer.swift in Sources */,
+				B5647C44248876FF001F6507 /* XMLAttributeNode.swift in Sources */,
 				OBJ_177 /* XMLDecoder.swift in Sources */,
 				OBJ_178 /* XMLDecoderImplementation.swift in Sources */,
 				OBJ_179 /* XMLDecodingStorage.swift in Sources */,
@@ -727,6 +738,7 @@
 				OBJ_182 /* DynamicNodeEncoding.swift in Sources */,
 				OBJ_183 /* EncodingErrorExtension.swift in Sources */,
 				OBJ_184 /* SingleValueEncodingContainer.swift in Sources */,
+				B5647C4824897589001F6507 /* XMLElementNode.swift in Sources */,
 				OBJ_185 /* XMLChoiceEncodingContainer.swift in Sources */,
 				OBJ_186 /* XMLEncoder.swift in Sources */,
 				OBJ_187 /* XMLEncoderImplementation.swift in Sources */,

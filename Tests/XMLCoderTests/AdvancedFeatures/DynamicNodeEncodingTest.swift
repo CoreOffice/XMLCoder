@@ -107,9 +107,9 @@ private struct Library: Codable, Equatable {
 }
 
 private struct Book: Codable, Equatable, DynamicNodeEncoding {
-    let id: UInt
-    let author: String
-    let gender: String
+    @XMLBothNode var id: UInt
+    @XMLBothNode var author: String
+    @XMLBothNode var gender: String
     let title: String
     let categories: [Category]
 
@@ -130,7 +130,7 @@ private struct Book: Codable, Equatable, DynamicNodeEncoding {
 }
 
 private struct Category: Codable, Equatable, DynamicNodeEncoding {
-    let main: Bool
+    @XMLAttributeNode var main: Bool
     let value: String
 
     private enum CodingKeys: String, CodingKey {
@@ -151,24 +151,24 @@ private struct Category: Codable, Equatable, DynamicNodeEncoding {
 final class DynamicNodeEncodingTest: XCTestCase {
     func testEncode() throws {
         let book1 = Book(
-            id: 123,
-            author: "Jack",
-            gender: "novel",
+            id: .init(123),
+            author: .init("Jack"),
+            gender: .init("novel"),
             title: "Cat in the Hat",
             categories: [
-                Category(main: true, value: "Kids"),
-                Category(main: false, value: "Wildlife"),
+                Category(main: .init(true), value: "Kids"),
+                Category(main: .init(false), value: "Wildlife"),
             ]
         )
 
         let book2 = Book(
-            id: 456,
-            author: "Susan",
-            gender: "fantastic",
+            id: .init(456),
+            author: .init("Susan"),
+            gender: .init("fantastic"),
             title: "1984",
             categories: [
-                Category(main: true, value: "Classics"),
-                Category(main: false, value: "News"),
+                Category(main: .init(true), value: "Classics"),
+                Category(main: .init(false), value: "News"),
             ]
         )
 

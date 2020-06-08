@@ -11,7 +11,7 @@ import XCTest
 @testable import XMLCoder
 
 private struct Policy: Encodable, DynamicNodeEncoding {
-    var name: String
+    @XMLAttributeNode var name: String
     var initial: String
 
     enum CodingKeys: String, CodingKey {
@@ -37,7 +37,7 @@ final class RootLevelAttributeTest: XCTestCase {
     func testPolicyEncodingAtRoot() throws {
         let encoder = XMLEncoder()
         encoder.outputFormatting = [.prettyPrinted]
-        let policy = Policy(name: "generic", initial: "more xml here")
+        let policy = Policy(name: .init("generic"), initial: "more xml here")
         let data = try encoder.encode(policy,
                                       withRootKey: "policy",
                                       header: XMLHeader(version: 1.0, encoding: "UTF-8"))

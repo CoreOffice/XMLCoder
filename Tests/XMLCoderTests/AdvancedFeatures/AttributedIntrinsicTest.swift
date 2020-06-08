@@ -124,7 +124,7 @@ private struct FooOptional: Codable, DynamicNodeEncoding, Equatable {
 }
 
 private struct FooEmptyKeyed: Codable, DynamicNodeEncoding, Equatable {
-    let id: String
+    @XMLAttributeNode var id: String
     let unkeyedValue: Int
 
     enum CodingKeys: String, CodingKey {
@@ -167,7 +167,7 @@ private struct AppPreview: Codable, Equatable {
 }
 
 private struct PreviewImageTime: Codable, Equatable, DynamicNodeEncoding {
-    var format: String
+    @XMLAttributeNode var format: String
     var value: String
 
     enum CodingKeys: String, CodingKey {
@@ -190,7 +190,7 @@ final class AttributedIntrinsicTest: XCTestCase {
         let encoder = XMLEncoder()
         encoder.outputFormatting = []
 
-        let foo1 = FooEmptyKeyed(id: "123", unkeyedValue: 456)
+        let foo1 = FooEmptyKeyed(id: .init("123"), unkeyedValue: 456)
 
         let header = XMLHeader(version: 1.0, encoding: "UTF-8")
         let encoded = try encoder.encode(foo1, withRootKey: "foo", header: header)
@@ -224,7 +224,7 @@ final class AttributedIntrinsicTest: XCTestCase {
             displayTarget: "iOS-6.5-in",
             position: 1,
             previewImageTime: PreviewImageTime(
-                format: "24/999 1000/nonDrop",
+                format: .init("24/999 1000/nonDrop"),
                 value: "00:00:17:01"
             )
         ), preview)
@@ -244,8 +244,8 @@ final class AttributedIntrinsicTest: XCTestCase {
             from: fooArrayXML
         )
         XCTAssertEqual(foo2, Container(foo: [
-            FooEmptyKeyed(id: "123", unkeyedValue: 456),
-            FooEmptyKeyed(id: "789", unkeyedValue: 123),
+            FooEmptyKeyed(id: .init("123"), unkeyedValue: 456),
+            FooEmptyKeyed(id: .init("789"), unkeyedValue: 123),
         ]))
     }
 

@@ -10,7 +10,7 @@ final class RootLevetExtraAttributesTests: XCTestCase {
     private let encoder = XMLEncoder()
 
     func testExtraAttributes() {
-        let policy = Policy(name: "test", initial: "extra root attributes")
+        let policy = Policy(name: .init("test"), initial: "extra root attributes")
 
         let extraRootAttributes = [
             "xmlns": "http://www.nrf-arts.org/IXRetail/namespace",
@@ -45,7 +45,7 @@ final class RootLevetExtraAttributesTests: XCTestCase {
 }
 
 private struct Policy: Encodable, DynamicNodeEncoding {
-    var name: String
+    @XMLAttributeNode var name: String
     var initial: String
 
     enum CodingKeys: String, CodingKey {

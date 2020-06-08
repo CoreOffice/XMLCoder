@@ -156,7 +156,7 @@ private struct Catalog: Codable, Equatable {
 }
 
 private struct Book: Codable, Equatable, DynamicNodeEncoding {
-    var id: String
+    @XMLAttributeNode var id: String
     var author: String
     var title: String
     var genre: Genre
