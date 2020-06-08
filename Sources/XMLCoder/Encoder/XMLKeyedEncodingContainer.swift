@@ -104,7 +104,7 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
         )
         encoder.nodeEncodings.append(nodeEncodings)
         let box = try encode(encoder, value)
-        
+
         switch value {
         case is XMLElementProtocol:
             encodeElement(forKey: key, box: box)
@@ -117,7 +117,7 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
             encodeElement(forKey: key, box: box)
         }
     }
-    
+
     private mutating func encodeAttribute<T: Encodable>(
         _ value: T,
         forKey key: Key,
@@ -129,16 +129,16 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
                 debugDescription: "Complex values cannot be encoded as attributes."
             ))
         }
-        self.container.withShared { container in
+        container.withShared { container in
             container.attributes.append(attribute, at: self.converted(key).stringValue)
         }
     }
-    
+
     private mutating func encodeElement(
         forKey key: Key,
         box: Box
     ) {
-        self.container.withShared { container in
+        container.withShared { container in
             container.elements.append(box, at: self.converted(key).stringValue)
         }
     }
