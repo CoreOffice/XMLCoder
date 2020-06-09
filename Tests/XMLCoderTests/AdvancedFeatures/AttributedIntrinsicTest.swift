@@ -77,13 +77,22 @@ private struct FooValueElement: Codable {
     }
 }
 
-private struct Foo: Codable, Equatable {
+private struct Foo: Codable, DynamicNodeEncoding, Equatable {
     let id: String
     let value: String
 
     enum CodingKeys: String, CodingKey {
         case id
         case value = ""
+    }
+
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+        switch key {
+        case CodingKeys.id:
+            return .attribute
+        default:
+            return .element
+        }
     }
 }
 
@@ -95,7 +104,7 @@ private struct FooValue: Codable, Equatable {
     }
 }
 
-private struct FooOptional: Codable, Equatable {
+private struct FooOptional: Codable, DynamicNodeEncoding, Equatable {
     let id: String?
     let value: Int
 
@@ -103,15 +112,33 @@ private struct FooOptional: Codable, Equatable {
         case id
         case value = ""
     }
+
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+        switch key {
+        case CodingKeys.id:
+            return .attribute
+        default:
+            return .element
+        }
+    }
 }
 
-private struct FooEmptyKeyed: Codable, Equatable {
-    @XMLAttributeNode var id: String
+private struct FooEmptyKeyed: Codable, DynamicNodeEncoding, Equatable {
+    let id: String
     let unkeyedValue: Int
 
     enum CodingKeys: String, CodingKey {
         case id
         case unkeyedValue = ""
+    }
+
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+        switch key {
+        case CodingKeys.id:
+            return .attribute
+        default:
+            return .element
+        }
     }
 }
 
@@ -139,13 +166,22 @@ private struct AppPreview: Codable, Equatable {
     }
 }
 
-private struct PreviewImageTime: Codable, Equatable {
-    @XMLAttributeNode var format: String
+private struct PreviewImageTime: Codable, Equatable, DynamicNodeEncoding {
+    var format: String
     var value: String
 
     enum CodingKeys: String, CodingKey {
         case format
         case value = ""
+    }
+
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+        switch key {
+        case CodingKeys.format:
+            return .attribute
+        default:
+            return .element
+        }
     }
 }
 
@@ -154,7 +190,7 @@ final class AttributedIntrinsicTest: XCTestCase {
         let encoder = XMLEncoder()
         encoder.outputFormatting = []
 
-        let foo1 = FooEmptyKeyed(id: .init("123"), unkeyedValue: 456)
+        let foo1 = FooEmptyKeyed(id: "123", unkeyedValue: 456)
 
         let header = XMLHeader(version: 1.0, encoding: "UTF-8")
         let encoded = try encoder.encode(foo1, withRootKey: "foo", header: header)
@@ -188,7 +224,7 @@ final class AttributedIntrinsicTest: XCTestCase {
             displayTarget: "iOS-6.5-in",
             position: 1,
             previewImageTime: PreviewImageTime(
-                format: .init("24/999 1000/nonDrop"),
+                format: "24/999 1000/nonDrop",
                 value: "00:00:17:01"
             )
         ), preview)
@@ -208,8 +244,8 @@ final class AttributedIntrinsicTest: XCTestCase {
             from: fooArrayXML
         )
         XCTAssertEqual(foo2, Container(foo: [
-            FooEmptyKeyed(id: .init("123"), unkeyedValue: 456),
-            FooEmptyKeyed(id: .init("789"), unkeyedValue: 123),
+            FooEmptyKeyed(id: "123", unkeyedValue: 456),
+            FooEmptyKeyed(id: "789", unkeyedValue: 123),
         ]))
     }
 

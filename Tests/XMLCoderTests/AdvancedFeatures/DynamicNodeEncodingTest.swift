@@ -106,10 +106,10 @@ private struct Library: Codable, Equatable {
     }
 }
 
-private struct Book: Codable, Equatable {
-    @XMLBothNode var id: UInt
-    @XMLBothNode var author: String
-    @XMLBothNode var gender: String
+private struct Book: Codable, Equatable, DynamicNodeEncoding {
+    let id: UInt
+    let author: String
+    let gender: String
     let title: String
     let categories: [Category]
 
@@ -120,39 +120,55 @@ private struct Book: Codable, Equatable {
         case title
         case categories = "category"
     }
+
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+        switch key {
+        case Book.CodingKeys.id, Book.CodingKeys.author, Book.CodingKeys.gender: return .both
+        default: return .element
+        }
+    }
 }
 
-private struct Category: Codable, Equatable {
-    @XMLAttributeNode var main: Bool
+private struct Category: Codable, Equatable, DynamicNodeEncoding {
+    let main: Bool
     let value: String
 
     private enum CodingKeys: String, CodingKey {
         case main
         case value
     }
+
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+        switch key {
+        case Category.CodingKeys.main:
+            return .attribute
+        default:
+            return .element
+        }
+    }
 }
 
 final class DynamicNodeEncodingTest: XCTestCase {
     func testEncode() throws {
         let book1 = Book(
-            id: .init(123),
-            author: .init("Jack"),
-            gender: .init("novel"),
+            id: 123,
+            author: "Jack",
+            gender: "novel",
             title: "Cat in the Hat",
             categories: [
-                Category(main: .init(true), value: "Kids"),
-                Category(main: .init(false), value: "Wildlife"),
+                Category(main: true, value: "Kids"),
+                Category(main: false, value: "Wildlife"),
             ]
         )
 
         let book2 = Book(
-            id: .init(456),
-            author: .init("Susan"),
-            gender: .init("fantastic"),
+            id: 456,
+            author: "Susan",
+            gender: "fantastic",
             title: "1984",
             categories: [
-                Category(main: .init(true), value: "Classics"),
-                Category(main: .init(false), value: "News"),
+                Category(main: true, value: "Classics"),
+                Category(main: false, value: "News"),
             ]
         )
 

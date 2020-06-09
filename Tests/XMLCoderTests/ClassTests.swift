@@ -11,7 +11,7 @@ import XCTest
 @testable import XMLCoder
 
 private class A: Codable {
-    @XMLElementNode var x: String
+    let x: String
 }
 
 private class B: A {

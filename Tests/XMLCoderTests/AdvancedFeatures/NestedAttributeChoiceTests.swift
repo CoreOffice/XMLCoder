@@ -23,14 +23,27 @@ private enum Entry: Equatable {
     case br(Break)
 }
 
-private struct Run: Codable, Equatable {
-    @XMLAttributeNode var id: Int
+private struct Run: Codable, Equatable, DynamicNodeEncoding {
+    let id: Int
     let text: String
+
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+        switch key {
+        case CodingKeys.id:
+            return .attribute
+        default:
+            return .element
+        }
+    }
 }
 
-private struct Properties: Codable, Equatable {
-    @XMLAttributeNode var id: Int
-    @XMLAttributeNode var title: String
+private struct Properties: Codable, Equatable, DynamicNodeEncoding {
+    let id: Int
+    let title: String
+
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+        return .attribute
+    }
 }
 
 private struct Break: Codable, Equatable {}
@@ -114,13 +127,13 @@ final class NestedAttributeChoiceTests: XCTestCase {
                 Paragraph(
                     entries: [
                         .br(Break()),
-                        .run(Run(id: .init(1518), text: "I am answering it again.")),
-                        .properties(Properties(id: .init(431), title: .init("A Word About Wake Times"))),
+                        .run(Run(id: 1518, text: "I am answering it again.")),
+                        .properties(Properties(id: 431, title: "A Word About Wake Times")),
                     ]
                 ),
                 Paragraph(
                     entries: [
-                        .run(Run(id: .init(1519), text: "I am answering it again.")),
+                        .run(Run(id: 1519, text: "I am answering it again.")),
                         .br(Break()),
                     ]
                 ),

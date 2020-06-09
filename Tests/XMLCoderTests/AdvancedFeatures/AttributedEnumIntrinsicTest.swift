@@ -19,8 +19,8 @@ private struct Foo2: Codable {
     let number: [FooNumber]
 }
 
-public struct FooNumber: Codable, DynamicNodeEncoding {
-    public var type: FooEnum
+private struct FooNumber: Codable, DynamicNodeEncoding {
+    public let type: FooEnum
 
     public init(type: FooEnum) {
         self.type = type
@@ -57,8 +57,8 @@ public struct FooNumber: Codable, DynamicNodeEncoding {
     }
 }
 
-public enum FooEnum: Equatable, Codable {
-    public enum CodingKeys: String, CodingKey {
+private enum FooEnum: Equatable, Codable {
+    private enum CodingKeys: String, CodingKey {
         case string
         case int
     }
