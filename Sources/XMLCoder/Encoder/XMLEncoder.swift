@@ -360,7 +360,7 @@ open class XMLEncoder {
         encoder.nodeEncodings.append(options.nodeEncodingStrategy.nodeEncodings(forType: T.self, with: encoder))
 
         let topLevel = try encoder.box(value)
-        let attributes = rootAttributes?.map(Attribute.init) ?? []
+        let attributes = rootAttributes?.map(XMLCoderElement.Attribute.init) ?? []
 
         let elementOrNone: XMLCoderElement?
 

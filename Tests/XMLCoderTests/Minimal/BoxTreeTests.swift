@@ -14,12 +14,12 @@ class BoxTreeTests: XCTestCase {
         let e1 = XMLCoderElement(
             key: "foo",
             stringValue: "456",
-            attributes: [Attribute(key: "id", value: "123")]
+            attributes: [XMLCoderElement.Attribute(key: "id", value: "123")]
         )
         let e2 = XMLCoderElement(
             key: "foo",
             stringValue: "123",
-            attributes: [Attribute(key: "id", value: "789")]
+            attributes: [XMLCoderElement.Attribute(key: "id", value: "789")]
         )
         let root = XMLCoderElement(
             key: "container",

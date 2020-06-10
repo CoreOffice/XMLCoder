@@ -8,12 +8,12 @@
 
 import Foundation
 
-struct Attribute: Equatable {
-    let key: String
-    let value: String
-}
-
 struct XMLCoderElement: Equatable {
+    struct Attribute: Equatable {
+        let key: String
+        let value: String
+    }
+
     let key: String
     private(set) var stringValue: String?
     private(set) var elements: [XMLCoderElement] = []

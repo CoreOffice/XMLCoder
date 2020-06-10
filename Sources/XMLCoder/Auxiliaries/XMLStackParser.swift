@@ -135,7 +135,7 @@ extension XMLStackParser: XMLParserDelegate {
         let elementName = elementName.components(separatedBy: ":").reversed().joined(separator: ":")
         #endif
         let attributes = attributeDict.map { key, value in
-            Attribute(key: key, value: value)
+            XMLCoderElement.Attribute(key: key, value: value)
         }
         let element = XMLCoderElement(key: elementName, attributes: attributes)
         stack.append(element)
