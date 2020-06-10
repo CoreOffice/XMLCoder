@@ -285,11 +285,13 @@ extension XMLKeyedDecodingContainer {
         default:
             #if compiler(>=5.1)
             switch type {
-            case is XMLAttributeProtocol:
+            case is XMLAttributeProtocol.Type:
                 box = try getAttributeBox(attributes, key)
-            case is XMLElementProtocol:
+            case is XMLElementProtocol.Type:
                 box = elements
-            case is XMLElementAndAttributeProtocol:
+            case is XMLElementAndAttributeProtocol.Type:
+                box = try getAttributeOrElementBox(attributes, elements, key)
+            default:
                 box = try getAttributeOrElementBox(attributes, elements, key)
             }
             #else
@@ -328,22 +330,22 @@ extension XMLKeyedDecodingContainer {
         }
         return unwrapped
     }
-    
+
     private func getAttributeBox(_ attributes: [KeyedBox.Attribute], _ key: Key) throws -> Box {
         guard
             let attributeBox = attributes.first
         else {
             throw DecodingError.keyNotFound(key, DecodingError.Context(
-                codingPath: self.decoder.codingPath,
+                codingPath: decoder.codingPath,
                 debugDescription:
                 """
-                No attribute found for key \(self._errorDescription(of: key)).
+                No attribute found for key \(_errorDescription(of: key)).
                 """
             ))
         }
         return attributeBox
     }
-    
+
     private func getAttributeOrElementBox(_ attributes: [KeyedBox.Attribute], _ elements: [KeyedBox.Element], _ key: Key) throws -> Box {
         guard
             let anyBox = elements.isEmpty ? attributes.first : elements as Box?

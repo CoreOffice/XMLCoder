@@ -25,6 +25,7 @@
 		4A062D4F2341924E009BCAC1 /* CombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A062D4E2341924E009BCAC1 /* CombineTests.swift */; };
 		970FA9DC2422EFAE0023C1EC /* RootLevetExtraAttributesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970FA9DB2422EFAE0023C1EC /* RootLevetExtraAttributesTests.swift */; };
 		B512614E248E07B500FC64FB /* ElementAndAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B512614D248E07B500FC64FB /* ElementAndAttribute.swift */; };
+		B51343222491643E00352374 /* DynamicNodeDecodingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51343202491638E00352374 /* DynamicNodeDecodingTest.swift */; };
 		B54555BC2343F5C1000D4128 /* EmptyArrayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54555BB2343F5C1000D4128 /* EmptyArrayTest.swift */; };
 		B5647C44248876FF001F6507 /* Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5647C43248876FF001F6507 /* Attribute.swift */; };
 		B5647C4824897589001F6507 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5647C4724897589001F6507 /* Element.swift */; };
@@ -46,7 +47,7 @@
 		D1A183BD24842DE20058E66D /* PlantCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A1839C24842D710058E66D /* PlantCatalog.swift */; };
 		D1A183BE24842DE20058E66D /* RJITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A1839D24842D710058E66D /* RJITest.swift */; };
 		D1A183BF24842DE20058E66D /* BorderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A1839E24842D710058E66D /* BorderTest.swift */; };
-		D1A183C024842DE80058E66D /* DynamicNodeDecodingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A1838824842D710058E66D /* DynamicNodeDecodingTest.swift */; };
+		D1A183C024842DE80058E66D /* DynamicNodeDecodingLegacyTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A1838824842D710058E66D /* DynamicNodeDecodingLegacyTest.swift */; };
 		D1A183C124842DE80058E66D /* AttributedEnumIntrinsicTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A1838924842D710058E66D /* AttributedEnumIntrinsicTest.swift */; };
 		D1A183C224842DE80058E66D /* NestedChoiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A1838A24842D710058E66D /* NestedChoiceTests.swift */; };
 		D1A183C324842DE80058E66D /* AttributedIntrinsicTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A1838B24842D710058E66D /* AttributedIntrinsicTest.swift */; };
@@ -172,6 +173,7 @@
 		4A062D4E2341924E009BCAC1 /* CombineTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombineTests.swift; sourceTree = "<group>"; };
 		970FA9DB2422EFAE0023C1EC /* RootLevetExtraAttributesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootLevetExtraAttributesTests.swift; sourceTree = "<group>"; };
 		B512614D248E07B500FC64FB /* ElementAndAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementAndAttribute.swift; sourceTree = "<group>"; };
+		B51343202491638E00352374 /* DynamicNodeDecodingTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicNodeDecodingTest.swift; sourceTree = "<group>"; };
 		B54555BB2343F5C1000D4128 /* EmptyArrayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyArrayTest.swift; sourceTree = "<group>"; };
 		B5647C43248876FF001F6507 /* Attribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attribute.swift; sourceTree = "<group>"; };
 		B5647C4724897589001F6507 /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
@@ -182,7 +184,7 @@
 		D18FBFB72348FAE500FA4F65 /* EscapedCharactersTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EscapedCharactersTest.swift; sourceTree = "<group>"; };
 		D1A1838024842C7D0058E66D /* PrettyPrintTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrettyPrintTest.swift; sourceTree = "<group>"; };
 		D1A1838324842C920058E66D /* CDATATest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDATATest.swift; sourceTree = "<group>"; };
-		D1A1838824842D710058E66D /* DynamicNodeDecodingTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicNodeDecodingTest.swift; sourceTree = "<group>"; };
+		D1A1838824842D710058E66D /* DynamicNodeDecodingLegacyTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicNodeDecodingLegacyTest.swift; sourceTree = "<group>"; };
 		D1A1838924842D710058E66D /* AttributedEnumIntrinsicTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributedEnumIntrinsicTest.swift; sourceTree = "<group>"; };
 		D1A1838A24842D710058E66D /* NestedChoiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NestedChoiceTests.swift; sourceTree = "<group>"; };
 		D1A1838B24842D710058E66D /* AttributedIntrinsicTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributedIntrinsicTest.swift; sourceTree = "<group>"; };
@@ -333,7 +335,8 @@
 		D1A1838724842D710058E66D /* AdvancedFeatures */ = {
 			isa = PBXGroup;
 			children = (
-				D1A1838824842D710058E66D /* DynamicNodeDecodingTest.swift */,
+				D1A1838824842D710058E66D /* DynamicNodeDecodingLegacyTest.swift */,
+				B51343202491638E00352374 /* DynamicNodeDecodingTest.swift */,
 				D1A1838924842D710058E66D /* AttributedEnumIntrinsicTest.swift */,
 				D1A1838A24842D710058E66D /* NestedChoiceTests.swift */,
 				D1A1838B24842D710058E66D /* AttributedIntrinsicTest.swift */,
@@ -778,6 +781,7 @@
 				OBJ_220 /* DataBoxTests.swift in Sources */,
 				OBJ_221 /* DateBoxTests.swift in Sources */,
 				OBJ_222 /* DecimalBoxTests.swift in Sources */,
+				B51343222491643E00352374 /* DynamicNodeDecodingTest.swift in Sources */,
 				OBJ_223 /* FloatBoxTests.swift in Sources */,
 				OBJ_224 /* IntBoxTests.swift in Sources */,
 				OBJ_225 /* KeyedBoxTests.swift in Sources */,
@@ -794,7 +798,7 @@
 				OBJ_230 /* URLBoxTests.swift in Sources */,
 				D1A183B524842DE10058E66D /* CDCatalog.swift in Sources */,
 				OBJ_231 /* UnkeyedBoxTests.swift in Sources */,
-				D1A183C024842DE80058E66D /* DynamicNodeDecodingTest.swift in Sources */,
+				D1A183C024842DE80058E66D /* DynamicNodeDecodingLegacyTest.swift in Sources */,
 				OBJ_235 /* ClassTests.swift in Sources */,
 				OBJ_237 /* DecodingContainerTests.swift in Sources */,
 				OBJ_241 /* KeyDecodingAndEncodingStrategyTests.swift in Sources */,
