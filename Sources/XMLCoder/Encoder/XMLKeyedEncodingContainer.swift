@@ -143,7 +143,7 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
                 encodeElement(forKey: key, box: box)
             case is XMLAttributeProtocol:
                 try encodeAttribute(value, forKey: key, box: box)
-            case is XMLAttributeElementProtocol:
+            case is XMLElementAndAttributeProtocol:
                 try encodeAttribute(value, forKey: key, box: box)
                 encodeElement(forKey: key, box: box)
             default:
