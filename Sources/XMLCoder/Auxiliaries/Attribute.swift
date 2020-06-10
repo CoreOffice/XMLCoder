@@ -68,4 +68,10 @@ extension Attribute: ExpressibleByBooleanLiteral where Value: ExpressibleByBoole
         wrappedValue = value as! Value
     }
 }
+
+extension Attribute: ExpressibleByNilLiteral where Value: ExpressibleByNilLiteral {
+    public init(nilLiteral: ()) {
+        wrappedValue = nilLiteral as! Value
+    }
+}
 #endif
