@@ -277,34 +277,24 @@ extension XMLKeyedDecodingContainer {
 
         switch strategy(key) {
         case .attribute:
-            guard
-                let attributeBox = attributes.first
-            else {
-                throw DecodingError.keyNotFound(key, DecodingError.Context(
-                    codingPath: decoder.codingPath,
-                    debugDescription:
-                    """
-                    No attribute found for key \(_errorDescription(of: key)).
-                    """
-                ))
-            }
-            box = attributeBox
+            box = try getAttributeBox(attributes, key)
         case .element:
             box = elements
         case .elementOrAttribute:
-            guard
-                let anyBox = elements.isEmpty ? attributes.first : elements as Box?
-            else {
-                throw DecodingError.keyNotFound(key, DecodingError.Context(
-                    codingPath: decoder.codingPath,
-                    debugDescription:
-                    """
-                    No attribute or element found for key \
-                    \(_errorDescription(of: key)).
-                    """
-                ))
+            box = try getAttributeOrElementBox(attributes, elements, key)
+        default:
+            #if swift(>=5.1)
+            switch type {
+            case is XMLAttributeProtocol:
+                box = try getAttributeBox(attributes, key)
+            case is XMLElementProtocol:
+                box = elements
+            case is XMLElementAndAttributeProtocol:
+                box = try getAttributeOrElementBox(attributes, elements, key)
             }
-            box = anyBox
+            #else
+            box = try getAttributeOrElementBox(attributes, elements, key)
+            #endif
         }
 
         let value: T?
@@ -337,6 +327,37 @@ extension XMLKeyedDecodingContainer {
             ))
         }
         return unwrapped
+    }
+    
+    private func getAttributeBox(_ attributes: [KeyedBox.Attribute], _ key: Key) throws -> Box {
+        guard
+            let attributeBox = attributes.first
+        else {
+            throw DecodingError.keyNotFound(key, DecodingError.Context(
+                codingPath: self.decoder.codingPath,
+                debugDescription:
+                """
+                No attribute found for key \(self._errorDescription(of: key)).
+                """
+            ))
+        }
+        return attributeBox
+    }
+    
+    private func getAttributeOrElementBox(_ attributes: [KeyedBox.Attribute], _ elements: [KeyedBox.Element], _ key: Key) throws -> Box {
+        guard
+            let anyBox = elements.isEmpty ? attributes.first : elements as Box?
+        else {
+            throw DecodingError.keyNotFound(key, DecodingError.Context(
+                codingPath: decoder.codingPath,
+                debugDescription:
+                """
+                No attribute or element found for key \
+                \(_errorDescription(of: key)).
+                """
+            ))
+        }
+        return anyBox
     }
 
     private func _superDecoder(forKey key: CodingKey) throws -> Decoder {

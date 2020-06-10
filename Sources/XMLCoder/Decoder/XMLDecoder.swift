@@ -264,11 +264,11 @@ open class XMLDecoder {
         func nodeDecodings(
             forType codableType: Decodable.Type,
             with decoder: Decoder
-        ) -> ((CodingKey) -> NodeDecoding) {
+        ) -> ((CodingKey) -> NodeDecoding?) {
             switch self {
             case .deferredToDecoder:
                 guard let dynamicType = codableType as? DynamicNodeDecoding.Type else {
-                    return { _ in .elementOrAttribute }
+                    return { _ in nil }
                 }
                 return dynamicType.nodeDecoding(for:)
             case let .custom(closure):
