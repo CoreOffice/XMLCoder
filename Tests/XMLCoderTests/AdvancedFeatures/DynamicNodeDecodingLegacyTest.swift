@@ -6,7 +6,6 @@
 //  Created by Joseph Mattiello on 1/23/19.
 //
 
-#if compiler(>=5.1)
 import Foundation
 import XCTest
 @testable import XMLCoder
@@ -220,4 +219,3 @@ final class DynamicNodeDecodingLegacyTest: XCTestCase {
         XCTAssertEqual(test, TestStruct(attribute: 123, element: "StringValue"))
     }
 }
-#endif

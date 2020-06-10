@@ -5,7 +5,7 @@
 //  Created by Benjamin Wetherfield on 6/7/20.
 //
 
-#if swift(>=5.1)
+#if compiler(>=5.1)
 public protocol XMLElementAndAttributeProtocol {}
 
 @propertyWrapper public struct ElementAndAttribute<Value>: XMLElementAndAttributeProtocol {

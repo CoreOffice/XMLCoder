@@ -5,7 +5,7 @@
 //  Created by Benjamin Wetherfield on 6/4/20.
 //
 
-#if swift(>=5.1)
+#if compiler(>=5.1)
 protocol XMLElementProtocol {}
 
 @propertyWrapper public struct Element<Value>: XMLElementProtocol {

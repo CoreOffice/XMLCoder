@@ -5,7 +5,7 @@
 //  Created by Benjamin Wetherfield on 6/3/20.
 //
 
-#if swift(>=5.1)
+#if compiler(>=5.1)
 public protocol XMLAttributeProtocol {}
 
 @propertyWrapper public struct Attribute<Value>: XMLAttributeProtocol {

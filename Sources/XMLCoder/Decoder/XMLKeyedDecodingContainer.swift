@@ -283,7 +283,7 @@ extension XMLKeyedDecodingContainer {
         case .elementOrAttribute:
             box = try getAttributeOrElementBox(attributes, elements, key)
         default:
-            #if swift(>=5.1)
+            #if compiler(>=5.1)
             switch type {
             case is XMLAttributeProtocol:
                 box = try getAttributeBox(attributes, key)
