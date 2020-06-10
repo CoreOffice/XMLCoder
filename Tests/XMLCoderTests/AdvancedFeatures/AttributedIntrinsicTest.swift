@@ -6,6 +6,7 @@
 //  Created by Joseph Mattiello on 1/23/19.
 //
 
+#if compiler(>=5.1)
 import Foundation
 import XCTest
 @testable import XMLCoder
@@ -306,3 +307,4 @@ final class AttributedIntrinsicLegacyTest: XCTestCase {
         XCTAssertNil(foo.value)
     }
 }
+#endif
