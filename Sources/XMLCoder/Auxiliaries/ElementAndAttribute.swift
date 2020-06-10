@@ -8,7 +8,7 @@
 #if swift(>=5.1)
 public protocol XMLElementAndAttributeProtocol {}
 
-@propertyWrapper public struct XMLElementAndAttributeNode<Value>: XMLAttributeElementProtocol {
+@propertyWrapper public struct ElementAndAttribute<Value>: XMLElementAndAttributeProtocol {
     public var wrappedValue: Value
 
     public init(_ wrappedValue: Value) {
@@ -16,7 +16,7 @@ public protocol XMLElementAndAttributeProtocol {}
     }
 }
 
-extension XMLElementAndAttributeNode: Codable where Value: Codable {
+extension ElementAndAttribute: Codable where Value: Codable {
     public func encode(to encoder: Encoder) throws {
         try wrappedValue.encode(to: encoder)
     }
@@ -26,6 +26,6 @@ extension XMLElementAndAttributeNode: Codable where Value: Codable {
     }
 }
 
-extension XMLElementAndAttributeNode: Equatable where Value: Equatable {}
-extension XMLElementAndAttributeNode: Hashable where Value: Hashable {}
+extension ElementAndAttribute: Equatable where Value: Equatable {}
+extension ElementAndAttribute: Hashable where Value: Hashable {}
 #endif
