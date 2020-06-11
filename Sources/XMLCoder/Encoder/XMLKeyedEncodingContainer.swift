@@ -137,7 +137,7 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
             try attributeEncoder(value, key, box)
             try elementEncoder(value, key, box)
         default:
-            #if swift(>=5.1)
+            #if compiler(>=5.1)
             switch value {
             case is XMLElementProtocol:
                 encodeElement(forKey: key, box: box)
@@ -155,7 +155,7 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
         }
     }
 
-    #if swift(>=5.1)
+    #if compiler(>=5.1)
     private mutating func encodeAttribute<T: Encodable>(
         _ value: T,
         forKey key: Key,
