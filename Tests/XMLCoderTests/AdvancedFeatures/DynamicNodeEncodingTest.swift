@@ -304,9 +304,9 @@ final class DynamicNodeEncodingTest: XCTestCase {
             withRootKey: "Run",
             header: XMLHeader(version: 1.0, encoding: "UTF-8")
         ), encoding: .utf8)
-        XCTAssertEqual(encodedRun, #"""
-        <?xml version="1.0" encoding="UTF-8"?>
-        <Run version="1.8.0" />
-        """#)
+        XCTAssertEqual(encodedRun, """
+        <?xml version=\"1.0\" encoding=\"UTF-8\"?>
+        <Run version=\"1.8.0\" />
+        """)
     }
 }
