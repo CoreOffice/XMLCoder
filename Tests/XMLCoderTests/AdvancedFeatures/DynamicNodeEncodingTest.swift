@@ -278,4 +278,35 @@ final class DynamicNodeEncodingTest: XCTestCase {
                                                         encoding: "UTF-8"))
         XCTAssertEqual(String(data: data, encoding: .utf8)!, libraryXMLYNStrategy)
     }
+
+    private struct SplitsData: Codable, DynamicNodeEncoding {
+        let version: String
+
+        enum CodingKeys: String, CodingKey {
+            case version
+        }
+
+        static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+            switch key {
+            case CodingKeys.version:
+                return .attribute
+            default:
+                return .both
+            }
+        }
+    }
+
+    func testRootEncoding() throws {
+        let run = SplitsData(version: "1.8.0")
+        let encoder = XMLEncoder()
+        let encodedRun = try String(data: encoder.encode(
+            run,
+            withRootKey: "Run",
+            header: XMLHeader(version: 1.0, encoding: "UTF-8")
+        ), encoding: .utf8)
+        XCTAssertEqual(encodedRun, #"""
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Run version="1.8.0" />
+        """#)
+    }
 }
