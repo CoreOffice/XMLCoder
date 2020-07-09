@@ -226,7 +226,6 @@
 		OBJ_135 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		OBJ_136 /* test_swiftpm.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = test_swiftpm.sh; sourceTree = "<group>"; };
 		OBJ_137 /* test_xcodebuild.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = test_xcodebuild.sh; sourceTree = "<group>"; };
-		OBJ_138 /* lint.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = lint.sh; sourceTree = "<group>"; };
 		OBJ_139 /* azure-pipelines.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = "azure-pipelines.yml"; sourceTree = "<group>"; };
 		OBJ_14 /* ChoiceBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceBox.swift; sourceTree = "<group>"; };
 		OBJ_140 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -458,7 +457,6 @@
 				OBJ_135 /* CHANGELOG.md */,
 				OBJ_136 /* test_swiftpm.sh */,
 				OBJ_137 /* test_xcodebuild.sh */,
-				OBJ_138 /* lint.sh */,
 				OBJ_139 /* azure-pipelines.yml */,
 				OBJ_140 /* README.md */,
 				OBJ_141 /* docs.sh */,
