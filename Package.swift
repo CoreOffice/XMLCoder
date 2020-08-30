@@ -3,12 +3,19 @@
 
 import PackageDescription
 
+#if os(Linux)
+let libraryType: PackageDescription.Product.Library.LibraryType = .dynamic
+#else
+let libraryType: PackageDescription.Product.Library.LibraryType = .static
+#endif
+
 let package = Package(
     name: "XMLCoder",
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
             name: "XMLCoder",
+            type: libraryType,
             targets: ["XMLCoder"]
         ),
     ],
