@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XMLCoder - XMLDecoder.KeyDecodingStrategy</title>
+    <link rel="stylesheet" type="text/css" href="/XMLCoder/all.css" media="all" />
+</head>
+<body>
+    <header>
+        <a href="/XMLCoder">
+            <strong>
+                XMLCoder
+            </strong>
+            <span>Documentation</span>
+        </a>
+        <sup>Beta</sup>
+    </header>
+
+    <!--
+    <form class="search">
+        <input type="search" placeholder="Search" />
+    </form>
+    -->
+
+    <nav>
+        <div class="wrapper">
+            <h2>On This Page</h2>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Member Of</a></li></ul></li><li><a href="#enumeration cases">Enumeration Cases</a><ul><li class="case"><a href="#xmldecoder.keydecodingstrategy.usedefaultkeys">use​Default​Keys</a></li><li class="case"><a href="#xmldecoder.keydecodingstrategy.convertfromsnakecase">convert​From​Snake​Case</a></li><li class="case"><a href="#xmldecoder.keydecodingstrategy.convertfromkebabcase">convert​From​Kebab​Case</a></li><li class="case"><a href="#xmldecoder.keydecodingstrategy.convertfromcapitalized">convert​From​Capitalized</a></li><li class="case"><a href="#xmldecoder.keydecodingstrategy.custom">custom</a></li></ul></li></ol>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <h1>
+    <small>Enumeration</small>
+    <code class="name">XMLDecoder.​Key​Decoding​Strategy</code>
+</h1>
+
+<html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">enum</span> <span class="type">KeyDecodingStrategy</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The strategy to use for automatically changing the box of keys before decoding.</p>
+
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        
+        <h3>Member Of</h3>
+<dl>
+    <dt class="class"><code><a href="/XMLCoder/XMLDecoder">XMLDecoder</a></code></dt>
+<dd><p><code>XMLDecoder</code> facilitates the decoding of XML into semantic <code>Decodable</code> types.</p>
+</dd>
+</dl>
+</section>
+    <section id="enumeration cases">
+        <h2>Enumeration Cases</h2>
+
+        <div role="article" class="case" id="xmldecoder.keydecodingstrategy.usedefaultkeys">
+    <h3>
+        <code>use​Default​Keys</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">useDefaultKeys</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Use the keys specified by each type. This is the default strategy.</p>
+
+</div>
+</div>
+<div role="article" class="case" id="xmldecoder.keydecodingstrategy.convertfromsnakecase">
+    <h3>
+        <code>convert​From​Snake​Case</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">convertFromSnakeCase</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Convert from &quot;snake_case_keys&quot; to &quot;camelCaseKeys&quot; before attempting
+to match a key with the one specified by each type.</p>
+
+</div>
+<div class="discussion">
+    <p>The conversion to upper case uses <code>Locale.system</code>, also known as
+the ICU &quot;root&quot; locale. This means the result is consistent
+regardless of the current user's locale and language preferences.</p>
+
+<p>Converting from snake case to camel case:</p>
+
+<ol>
+<li>Capitalizes the word starting after each <code>_</code></li>
+<li>Removes all <code>_</code></li>
+<li>Preserves starting and ending <code>_</code> (as these are often used to indicate private variables or other metadata).
+For example, <code>one_two_three</code> becomes <code>oneTwoThree</code>. <code>_one_two_three_</code> becomes <code>_oneTwoThree_</code>.</li>
+</ol>
+
+<aside class="note">
+    <p>Using a key decoding strategy has a nominal performance cost, as each string key has to be inspected for the <code>_</code> character.</p>
+
+</aside>
+</div>
+</div>
+<div role="article" class="case" id="xmldecoder.keydecodingstrategy.convertfromkebabcase">
+    <h3>
+        <code>convert​From​Kebab​Case</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">convertFromKebabCase</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Convert from &quot;kebab-case&quot; to &quot;kebabCase&quot; before attempting
+to match a key with the one specified by each type.</p>
+
+</div>
+</div>
+<div role="article" class="case" id="xmldecoder.keydecodingstrategy.convertfromcapitalized">
+    <h3>
+        <code>convert​From​Capitalized</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">convertFromCapitalized</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Convert from &quot;CodingKey&quot; to &quot;codingKey&quot;</p>
+
+</div>
+</div>
+<div role="article" class="case" id="xmldecoder.keydecodingstrategy.custom">
+    <h3>
+        <code>custom</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">custom</span>(: (<span class="keyword">_</span> <span class="variable">codingPath</span>: [<span class="variable">CodingKey</span>]) -&gt; <span class="variable">CodingKey</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Provide a custom conversion from the key in the encoded XML to the
+keys specified by the decoded types.
+The full path to the current decoding position is provided for
+context (in case you need to locate this key within the payload).
+The returned key is used in place of the last component in the
+coding path before decoding.
+If the result of the conversion is a duplicate key, then only one
+box will be present in the container for the type to decode from.</p>
+
+</div>
+</div>
+    </section>
+
+
+
+        </article>
+    </main>
+
+    <footer>
+        <p>
+    Generated on <time datetime="2020-09-14T20:43:39+0000">September 14, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.4</span>.
+</p>
+    </footer>
+</body>
+</html>

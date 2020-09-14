@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XMLCoder - XMLEncoder.KeyEncodingStrategy</title>
+    <link rel="stylesheet" type="text/css" href="/XMLCoder/all.css" media="all" />
+</head>
+<body>
+    <header>
+        <a href="/XMLCoder">
+            <strong>
+                XMLCoder
+            </strong>
+            <span>Documentation</span>
+        </a>
+        <sup>Beta</sup>
+    </header>
+
+    <!--
+    <form class="search">
+        <input type="search" placeholder="Search" />
+    </form>
+    -->
+
+    <nav>
+        <div class="wrapper">
+            <h2>On This Page</h2>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Member Of</a></li></ul></li><li><a href="#enumeration cases">Enumeration Cases</a><ul><li class="case"><a href="#xmlencoder.keyencodingstrategy.usedefaultkeys">use​Default​Keys</a></li><li class="case"><a href="#xmlencoder.keyencodingstrategy.converttosnakecase">convert​ToSnake​Case</a></li><li class="case"><a href="#xmlencoder.keyencodingstrategy.converttokebabcase">convert​ToKebab​Case</a></li><li class="case"><a href="#xmlencoder.keyencodingstrategy.capitalized">capitalized</a></li><li class="case"><a href="#xmlencoder.keyencodingstrategy.uppercased">uppercased</a></li><li class="case"><a href="#xmlencoder.keyencodingstrategy.lowercased">lowercased</a></li><li class="case"><a href="#xmlencoder.keyencodingstrategy.custom">custom</a></li></ul></li></ol>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <h1>
+    <small>Enumeration</small>
+    <code class="name">XMLEncoder.​Key​Encoding​Strategy</code>
+</h1>
+
+<html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">enum</span> <span class="type">KeyEncodingStrategy</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The strategy to use for automatically changing the value of keys before encoding.</p>
+
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        
+        <h3>Member Of</h3>
+<dl>
+    <dt class="class"><code><a href="/XMLCoder/XMLEncoder">XMLEncoder</a></code></dt>
+<dd><p><code>XMLEncoder</code> facilitates the encoding of <code>Encodable</code> values into XML.</p>
+</dd>
+</dl>
+</section>
+    <section id="enumeration cases">
+        <h2>Enumeration Cases</h2>
+
+        <div role="article" class="case" id="xmlencoder.keyencodingstrategy.usedefaultkeys">
+    <h3>
+        <code>use​Default​Keys</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">useDefaultKeys</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Use the keys specified by each type. This is the default strategy.</p>
+
+</div>
+</div>
+<div role="article" class="case" id="xmlencoder.keyencodingstrategy.converttosnakecase">
+    <h3>
+        <code>convert​ToSnake​Case</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">convertToSnakeCase</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Convert from &quot;camelCaseKeys&quot; to &quot;snake_case_keys&quot; before writing a key to XML payload.</p>
+
+</div>
+<div class="discussion">
+    <p>Capital characters are determined by testing membership in
+<code>CharacterSet.uppercaseLetters</code> and <code>CharacterSet.lowercaseLetters</code>
+(Unicode General Categories Lu and Lt).
+The conversion to lower case uses <code>Locale.system</code>, also known as
+the ICU &quot;root&quot; locale. This means the result is consistent
+regardless of the current user's locale and language preferences.</p>
+
+<p>Converting from camel case to snake case:</p>
+
+<ol>
+<li>Splits words at the boundary of lower-case to upper-case</li>
+<li>Inserts <code>_</code> between words</li>
+<li>Lowercases the entire string</li>
+<li>Preserves starting and ending <code>_</code>.</li>
+</ol>
+
+<p>For example, <code>oneTwoThree</code> becomes <code>one_two_three</code>. <code>_oneTwoThree_</code> becomes <code>_one_two_three_</code>.</p>
+
+<aside class="note">
+    <p>Using a key encoding strategy has a nominal performance cost, as each string key has to be converted.</p>
+
+</aside>
+</div>
+</div>
+<div role="article" class="case" id="xmlencoder.keyencodingstrategy.converttokebabcase">
+    <h3>
+        <code>convert​ToKebab​Case</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">convertToKebabCase</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Same as convertToSnakeCase, but using <code>-</code> instead of <code>_</code>
+For example, <code>oneTwoThree</code> becomes <code>one-two-three</code>.</p>
+
+</div>
+</div>
+<div role="article" class="case" id="xmlencoder.keyencodingstrategy.capitalized">
+    <h3>
+        <code>capitalized</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">capitalized</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Capitalize the first letter only
+<code>oneTwoThree</code> becomes  <code>OneTwoThree</code></p>
+
+</div>
+</div>
+<div role="article" class="case" id="xmlencoder.keyencodingstrategy.uppercased">
+    <h3>
+        <code>uppercased</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">uppercased</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Uppercase ize all letters
+<code>oneTwoThree</code> becomes  <code>ONETWOTHREE</code></p>
+
+</div>
+</div>
+<div role="article" class="case" id="xmlencoder.keyencodingstrategy.lowercased">
+    <h3>
+        <code>lowercased</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">lowercased</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Lowercase all letters
+<code>oneTwoThree</code> becomes  <code>onetwothree</code></p>
+
+</div>
+</div>
+<div role="article" class="case" id="xmlencoder.keyencodingstrategy.custom">
+    <h3>
+        <code>custom</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">custom</span>(: (<span class="keyword">_</span> <span class="variable">codingPath</span>: [<span class="variable">CodingKey</span>]) -&gt; <span class="variable">CodingKey</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Provide a custom conversion to the key in the encoded XML from the
+keys specified by the encoded types.
+The full path to the current encoding position is provided for
+context (in case you need to locate this key within the payload).
+The returned key is used in place of the last component in the
+coding path before encoding.
+If the result of the conversion is a duplicate key, then only one
+value will be present in the result.</p>
+
+</div>
+</div>
+    </section>
+
+
+
+        </article>
+    </main>
+
+    <footer>
+        <p>
+    Generated on <time datetime="2020-09-14T20:43:39+0000">September 14, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.4</span>.
+</p>
+    </footer>
+</body>
+</html>

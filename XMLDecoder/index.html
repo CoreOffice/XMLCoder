@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XMLCoder - XMLDecoder</title>
+    <link rel="stylesheet" type="text/css" href="/XMLCoder/all.css" media="all" />
+</head>
+<body>
+    <header>
+        <a href="/XMLCoder">
+            <strong>
+                XMLCoder
+            </strong>
+            <span>Documentation</span>
+        </a>
+        <sup>Beta</sup>
+    </header>
+
+    <!--
+    <form class="search">
+        <input type="search" placeholder="Search" />
+    </form>
+    -->
+
+    <nav>
+        <div class="wrapper">
+            <h2>On This Page</h2>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Nested Types</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#xmldecoder.init(trimvaluewhitespaces:)">init(trim​Value​Whitespaces:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="variable"><a href="#xmldecoder.datedecodingstrategy">date​Decoding​Strategy</a></li><li class="variable"><a href="#xmldecoder.datadecodingstrategy">data​Decoding​Strategy</a></li><li class="variable"><a href="#xmldecoder.nonconformingfloatdecodingstrategy">non​Conforming​Float​Decoding​Strategy</a></li><li class="variable"><a href="#xmldecoder.keydecodingstrategy">key​Decoding​Strategy</a></li><li class="variable"><a href="#xmldecoder.nodedecodingstrategy">node​Decoding​Strategy</a></li><li class="variable"><a href="#xmldecoder.userinfo">user​Info</a></li><li class="variable"><a href="#xmldecoder.errorcontextlength">error​Context​Length</a></li><li class="variable"><a href="#xmldecoder.shouldprocessnamespaces">should​Process​Namespaces</a></li><li class="variable"><a href="#xmldecoder.trimvaluewhitespaces">trim​Value​Whitespaces</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="function"><a href="#xmldecoder.decode(_:from:)">decode(_:​from:​)</a></li></ul></li></ol>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <h1>
+    <small>Class</small>
+    <code class="name">XMLDecoder</code>
+</h1>
+
+<html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">class</span> <span class="type">XMLDecoder</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p><code>XMLDecoder</code> facilitates the decoding of XML into semantic <code>Decodable</code> types.</p>
+
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        
+        <h3>Nested Types</h3>
+<dl>
+    <dt class="enumeration"><code><a href="/XMLCoder/XMLDecoder_DateDecodingStrategy">XMLDecoder.DateDecodingStrategy</a></code></dt>
+<dd><p>The strategy to use for decoding <code>Date</code> values.</p>
+</dd>
+<dt class="enumeration"><code><a href="/XMLCoder/XMLDecoder_DataDecodingStrategy">XMLDecoder.DataDecodingStrategy</a></code></dt>
+<dd><p>The strategy to use for decoding <code>Data</code> values.</p>
+</dd>
+<dt class="enumeration"><code><a href="/XMLCoder/XMLDecoder_NonConformingFloatDecodingStrategy">XMLDecoder.NonConformingFloatDecodingStrategy</a></code></dt>
+<dd><p>The strategy to use for non-XML-conforming floating-point values (IEEE 754 infinity and NaN).</p>
+</dd>
+<dt class="enumeration"><code><a href="/XMLCoder/XMLDecoder_KeyDecodingStrategy">XMLDecoder.KeyDecodingStrategy</a></code></dt>
+<dd><p>The strategy to use for automatically changing the box of keys before decoding.</p>
+</dd>
+<dt class="enumeration"><code><a href="/XMLCoder/XMLDecoder_NodeDecoding">XMLDecoder.NodeDecoding</a></code></dt>
+<dd><p>A node's decoding type</p>
+</dd>
+<dt class="enumeration"><code><a href="/XMLCoder/XMLDecoder_NodeDecodingStrategy">XMLDecoder.NodeDecodingStrategy</a></code></dt>
+<dd><p>Set of strategies to use for encoding of nodes.</p>
+</dd>
+</dl>
+</section>
+    <section id="initializers">
+        <h2>Initializers</h2>
+
+        <div role="article" class="initializer" id="xmldecoder.init(trimvaluewhitespaces:)">
+    <h3>
+        <code>init(trim​Value​Whitespaces:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">init</span>(<span class="variable">trimValueWhitespaces</span>: <span class="type">Bool</span> = <span class="keyword">true</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Initializes <code>self</code> with default strategies.</p>
+
+</div>
+</div>
+    </section>
+    <section id="properties">
+        <h2>Properties</h2>
+
+        <div role="article" class="variable" id="xmldecoder.datedecodingstrategy">
+    <h3>
+        <code>date​Decoding​Strategy</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">dateDecodingStrategy</span>: <span class="type">DateDecodingStrategy</span> = .<span class="variable">secondsSince1970</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The strategy to use in decoding dates. Defaults to <code>.secondsSince1970</code>.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="xmldecoder.datadecodingstrategy">
+    <h3>
+        <code>data​Decoding​Strategy</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">dataDecodingStrategy</span>: <span class="type">DataDecodingStrategy</span> = .<span class="variable">base64</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The strategy to use in decoding binary data. Defaults to <code>.base64</code>.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="xmldecoder.nonconformingfloatdecodingstrategy">
+    <h3>
+        <code>non​Conforming​Float​Decoding​Strategy</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">nonConformingFloatDecodingStrategy</span>: <span class="type">NonConformingFloatDecodingStrategy</span> = .<span class="variable">throw</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The strategy to use in decoding non-conforming numbers. Defaults to <code>.throw</code>.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="xmldecoder.keydecodingstrategy">
+    <h3>
+        <code>key​Decoding​Strategy</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">keyDecodingStrategy</span>: <span class="type">KeyDecodingStrategy</span> = .<span class="variable">useDefaultKeys</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The strategy to use for decoding keys. Defaults to <code>.useDefaultKeys</code>.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="xmldecoder.nodedecodingstrategy">
+    <h3>
+        <code>node​Decoding​Strategy</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">nodeDecodingStrategy</span>: <span class="type">NodeDecodingStrategy</span> = .<span class="variable">deferredToDecoder</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The strategy to use in encoding encoding attributes. Defaults to <code>.deferredToEncoder</code>.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="xmldecoder.userinfo">
+    <h3>
+        <code>user​Info</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">userInfo</span>: [<span class="type">CodingUserInfoKey</span>: <span class="keyword">Any</span>] = [:]</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Contextual user-provided information for use during decoding.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="xmldecoder.errorcontextlength">
+    <h3>
+        <code>error​Context​Length</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">errorContextLength</span>: <span class="type">UInt</span> = <span class="number literal">0</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The error context length. Non-zero length makes an error thrown from
+the XML parser with line/column location repackaged with a context
+around that location of specified length. For example, if an error was
+thrown indicating that there's an unexpected character at line 3, column
+15 with <code>errorContextLength</code> set to 10, a new error type is rethrown
+containing 5 characters before column 15 and 5 characters after, all on
+line 3. Line wrapping should be handled correctly too as the context can
+span more than a few lines.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="xmldecoder.shouldprocessnamespaces">
+    <h3>
+        <code>should​Process​Namespaces</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">shouldProcessNamespaces</span>: <span class="type">Bool</span> = <span class="keyword">false</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>A boolean value that determines whether the parser reports the
+namespaces and qualified names of elements. The default value is <code>false</code>.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="xmldecoder.trimvaluewhitespaces">
+    <h3>
+        <code>trim​Value​Whitespaces</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">trimValueWhitespaces</span>: <span class="type">Bool</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>A boolean value that determines whether the parser trims whitespaces
+and newlines from the end and the beginning of string values. The default
+value is <code>true</code>.</p>
+
+</div>
+</div>
+    </section>
+    <section id="methods">
+        <h2>Methods</h2>
+
+        <div role="article" class="function" id="xmldecoder.decode(_:from:)">
+    <h3>
+        <code>decode(_:​from:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">decode</span>&lt;<span class="variable">T</span>: <span class="type">Decodable</span>&gt;(<span class="keyword">_</span> <span class="variable">type</span>: <span class="type">T</span>.<span class="type">Type</span>, <span class="variable">from</span> <span class="variable">data</span>: <span class="type">Data</span>) <span class="keyword">throws</span> -&gt; <span class="type">T</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Decodes a top-level box of the given type from the given XML representation.</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>type</th>
+    <td><code class="type">T.​Type</code></td>
+    <td><p>The type of the box to decode.</p>
+</td>
+</tr>
+<tr>
+    <th>data</th>
+    <td><code class="type">Data</code></td>
+    <td><p>The data to decode from.</p>
+</td>
+</tr>
+  </tbody>
+</table>
+  <h4>Throws</h4>
+  <p>An error if any box throws an error during decoding.</p>
+
+  <h4>Returns</h4>
+  <p>A box of the requested type.</p>
+
+</div>
+    </section>
+
+
+
+        </article>
+    </main>
+
+    <footer>
+        <p>
+    Generated on <time datetime="2020-09-14T20:43:39+0000">September 14, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.4</span>.
+</p>
+    </footer>
+</body>
+</html>

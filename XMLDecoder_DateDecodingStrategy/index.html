@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XMLCoder - XMLDecoder.DateDecodingStrategy</title>
+    <link rel="stylesheet" type="text/css" href="/XMLCoder/all.css" media="all" />
+</head>
+<body>
+    <header>
+        <a href="/XMLCoder">
+            <strong>
+                XMLCoder
+            </strong>
+            <span>Documentation</span>
+        </a>
+        <sup>Beta</sup>
+    </header>
+
+    <!--
+    <form class="search">
+        <input type="search" placeholder="Search" />
+    </form>
+    -->
+
+    <nav>
+        <div class="wrapper">
+            <h2>On This Page</h2>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Member Of</a></li></ul></li><li><a href="#enumeration cases">Enumeration Cases</a><ul><li class="case"><a href="#xmldecoder.datedecodingstrategy.deferredtodate">deferred​ToDate</a></li><li class="case"><a href="#xmldecoder.datedecodingstrategy.secondssince1970">seconds​Since1970</a></li><li class="case"><a href="#xmldecoder.datedecodingstrategy.millisecondssince1970">milliseconds​Since1970</a></li><li class="case"><a href="#xmldecoder.datedecodingstrategy.iso8601">iso8601</a></li><li class="case"><a href="#xmldecoder.datedecodingstrategy.formatted">formatted</a></li><li class="case"><a href="#xmldecoder.datedecodingstrategy.custom">custom</a></li></ul></li></ol>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <h1>
+    <small>Enumeration</small>
+    <code class="name">XMLDecoder.​Date​Decoding​Strategy</code>
+</h1>
+
+<html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">enum</span> <span class="type">DateDecodingStrategy</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The strategy to use for decoding <code>Date</code> values.</p>
+
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        
+        <h3>Member Of</h3>
+<dl>
+    <dt class="class"><code><a href="/XMLCoder/XMLDecoder">XMLDecoder</a></code></dt>
+<dd><p><code>XMLDecoder</code> facilitates the decoding of XML into semantic <code>Decodable</code> types.</p>
+</dd>
+</dl>
+</section>
+    <section id="enumeration cases">
+        <h2>Enumeration Cases</h2>
+
+        <div role="article" class="case" id="xmldecoder.datedecodingstrategy.deferredtodate">
+    <h3>
+        <code>deferred​ToDate</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">deferredToDate</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Defer to <code>Date</code> for decoding. This is the default strategy.</p>
+
+</div>
+</div>
+<div role="article" class="case" id="xmldecoder.datedecodingstrategy.secondssince1970">
+    <h3>
+        <code>seconds​Since1970</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">secondsSince1970</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Decode the <code>Date</code> as a UNIX timestamp from a XML number. This is the default strategy.</p>
+
+</div>
+</div>
+<div role="article" class="case" id="xmldecoder.datedecodingstrategy.millisecondssince1970">
+    <h3>
+        <code>milliseconds​Since1970</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">millisecondsSince1970</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Decode the <code>Date</code> as UNIX millisecond timestamp from a XML number.</p>
+
+</div>
+</div>
+<div role="article" class="case" id="xmldecoder.datedecodingstrategy.iso8601">
+    <h3>
+        <code>iso8601</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">iso8601</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Decode the <code>Date</code> as an ISO-8601-formatted string (in RFC 3339 format).</p>
+
+</div>
+</div>
+<div role="article" class="case" id="xmldecoder.datedecodingstrategy.formatted">
+    <h3>
+        <code>formatted</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">formatted</span>(: <span class="type">DateFormatter</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Decode the <code>Date</code> as a string parsed by the given formatter.</p>
+
+</div>
+</div>
+<div role="article" class="case" id="xmldecoder.datedecodingstrategy.custom">
+    <h3>
+        <code>custom</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">custom</span>(: (<span class="keyword">_</span> <span class="variable">decoder</span>: <span class="type">Decoder</span>) <span class="keyword">throws</span> -&gt; <span class="variable">Date</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Decode the <code>Date</code> as a custom box decoded by the given closure.</p>
+
+</div>
+</div>
+    </section>
+
+
+
+        </article>
+    </main>
+
+    <footer>
+        <p>
+    Generated on <time datetime="2020-09-14T20:43:39+0000">September 14, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.4</span>.
+</p>
+    </footer>
+</body>
+</html>
