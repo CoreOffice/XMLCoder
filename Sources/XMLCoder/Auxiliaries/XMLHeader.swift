@@ -9,13 +9,13 @@
 import Foundation
 
 public struct XMLHeader {
-    /// the XML standard that the produced document conforms to.
+    /// The XML standard that the produced document conforms to.
     public let version: Double?
 
-    /// the encoding standard used to represent the characters in the produced document.
+    /// The encoding standard used to represent the characters in the produced document.
     public let encoding: String?
 
-    /// indicates whether a document relies on information from an external source.
+    /// Indicates whether a document relies on information from an external source.
     public let standalone: String?
 
     public init(version: Double? = nil, encoding: String? = nil, standalone: String? = nil) {
