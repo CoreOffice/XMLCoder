@@ -69,9 +69,19 @@ extension Attribute: ExpressibleByBooleanLiteral where Value: ExpressibleByBoole
     }
 }
 
-extension Attribute: ExpressibleByNilLiteral where Value: ExpressibleByNilLiteral {
-    public init(nilLiteral: ()) {
-        wrappedValue = nilLiteral as! Value
+//extension Attribute: ExpressibleByNilLiteral where Value: ExpressibleByNilLiteral {
+//    public init(nilLiteral: ()) {
+//        wrappedValue = nilLiteral as! Value
+//    }
+//}
+
+protocol XMLOptionalAttributeProtocol: XMLAttributeProtocol {
+    init()
+}
+
+extension Attribute: XMLOptionalAttributeProtocol where Value: AnyOptional {
+    init() {
+        wrappedValue = Value.init()
     }
 }
 #endif

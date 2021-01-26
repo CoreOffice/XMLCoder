@@ -248,9 +248,9 @@ final class AttributedIntrinsicTest: XCTestCase {
             from: fooValueXML
         )
         XCTAssertEqual(foo, Container(foo: [
-            FooOptional(id: nil, value: 456),
-            FooOptional(id: nil, value: 123),
-            FooOptional(id: nil, value: 789),
+            FooOptional(id: .init(nil), value: 456),
+            FooOptional(id: .init(nil), value: 123),
+            FooOptional(id: .init(nil), value: 789),
         ]))
     }
 

@@ -305,6 +305,26 @@ extension XMLKeyedDecodingContainer {
         }
 
         let value: T?
+        #if compiler(>=5.1)
+        if !(type is AnySequence.Type), let unkeyedBox = box as? UnkeyedBox,
+           let first = unkeyedBox.first
+        {
+            // Handle case where we have held onto a `SingleKeyedBox`
+            if let singleKeyed = first as? SingleKeyedBox {
+                if singleKeyed.element.isNull {
+                    value = try decoder.unbox(singleKeyed)
+                } else {
+                    value = try decoder.unbox(singleKeyed.element)
+                }
+            } else {
+                value = try decoder.unbox(first)
+            }
+        } else if box.isNull, let type = type as? XMLOptionalAttributeProtocol.Type, let nullAttribute = type.init() as? T {
+            value = nullAttribute
+        } else {
+            value = try decoder.unbox(box)
+        }
+        #else
         if !(type is AnySequence.Type), let unkeyedBox = box as? UnkeyedBox,
            let first = unkeyedBox.first
         {
@@ -321,6 +341,7 @@ extension XMLKeyedDecodingContainer {
         } else {
             value = try decoder.unbox(box)
         }
+        #endif
 
         if value == nil, let type = type as? AnyOptional.Type,
            let result = type.init() as? T
@@ -339,17 +360,7 @@ extension XMLKeyedDecodingContainer {
     }
 
     private func getAttributeBox(_ attributes: [KeyedBox.Attribute], _ key: Key) throws -> Box {
-        guard
-            let attributeBox = attributes.first
-        else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(
-                codingPath: decoder.codingPath,
-                debugDescription:
-                """
-                No attribute found for key \(_errorDescription(of: key)).
-                """
-            ))
-        }
+        let attributeBox = attributes.first ?? NullBox()
         return attributeBox
     }
 
