@@ -25,7 +25,8 @@ final class ErrorContextTest: XCTestCase {
         XCTAssertThrowsError(try decoder.decode(Container.self,
                                                 from: xmlData)) { error in
             guard case let DecodingError.dataCorrupted(ctx) = error,
-                let underlying = ctx.underlyingError else {
+                  let underlying = ctx.underlyingError
+            else {
                 XCTAssert(false, "wrong error type thrown")
                 return
             }
@@ -66,7 +67,8 @@ final class ErrorContextTest: XCTestCase {
         XCTAssertThrowsError(try decoder.decode(Container.self,
                                                 from: xmlData)) { error in
             guard case let DecodingError.dataCorrupted(ctx) = error,
-                let underlying = ctx.underlyingError else {
+                  let underlying = ctx.underlyingError
+            else {
                 XCTAssert(false, "wrong error type thrown")
                 return
             }
@@ -109,7 +111,8 @@ final class ErrorContextTest: XCTestCase {
         XCTAssertThrowsError(try decoder.decode(Container.self,
                                                 from: xmlData)) { error in
             guard case let DecodingError.dataCorrupted(ctx) = error,
-                let underlying = ctx.underlyingError else {
+                  let underlying = ctx.underlyingError
+            else {
                 XCTAssert(false, "wrong error type thrown")
                 return
             }

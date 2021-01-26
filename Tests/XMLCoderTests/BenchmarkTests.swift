@@ -89,9 +89,9 @@ final class BenchmarkTests: XCTestCase {
     let uint: UInt = 42
     let float: Float = 42.0
     let decimal: Decimal = 42.0
-    let date: Date = Date()
-    let data: Data = Data(base64Encoded: "bG9yZW0gaXBzdW0=")!
-    let url: URL = URL(string: "http://example.com")!
+    let date = Date()
+    let data = Data(base64Encoded: "bG9yZW0gaXBzdW0=")!
+    let url = URL(string: "http://example.com")!
     let array: [Int] = [1, 2, 3, 4, 5]
     let dictionary: [String: Int] = ["key_1": 1, "key_2": 2, "key_3": 3, "key_4": 4, "key_5": 5]
 

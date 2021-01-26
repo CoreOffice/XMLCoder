@@ -128,7 +128,8 @@ extension XMLStackParser: XMLParserDelegate {
                 didStartElement elementName: String,
                 namespaceURI: String?,
                 qualifiedName: String?,
-                attributes attributeDict: [String: String] = [:]) {
+                attributes attributeDict: [String: String] = [:])
+    {
         #if os(Linux) && !compiler(>=5.1)
         // For some reason, element names on linux are coming out with the namespace after the name
         // https://bugs.swift.org/browse/SR-11191
@@ -144,7 +145,8 @@ extension XMLStackParser: XMLParserDelegate {
     func parser(_: XMLParser,
                 didEndElement _: String,
                 namespaceURI _: String?,
-                qualifiedName _: String?) {
+                qualifiedName _: String?)
+    {
         guard let element = stack.popLast() else {
             return
         }

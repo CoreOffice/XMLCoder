@@ -119,7 +119,8 @@ struct XMLUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         defer { currentIndex += 1 }
 
         if value == nil, let type = type as? AnyOptional.Type,
-            let result = type.init() as? T {
+           let result = type.init() as? T
+        {
             return result
         }
 
