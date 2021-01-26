@@ -33,13 +33,17 @@ extension Attribute: ExpressibleByIntegerLiteral where Value: ExpressibleByInteg
     public typealias IntegerLiteralType = Value.IntegerLiteralType
 
     public init(integerLiteral value: Value.IntegerLiteralType) {
+        // swiftlint:disable force_cast
         wrappedValue = value as! Value
+        // swiftlint:enable force_cast
     }
 }
 
 extension Attribute: ExpressibleByUnicodeScalarLiteral where Value: ExpressibleByUnicodeScalarLiteral {
     public init(unicodeScalarLiteral value: Value.UnicodeScalarLiteralType) {
+        // swiftlint:disable force_cast
         wrappedValue = value as! Value
+        // swiftlint:enable force_cast
     }
 
     public typealias UnicodeScalarLiteralType = Value.UnicodeScalarLiteralType
@@ -49,7 +53,9 @@ extension Attribute: ExpressibleByExtendedGraphemeClusterLiteral where Value: Ex
     public typealias ExtendedGraphemeClusterLiteralType = Value.ExtendedGraphemeClusterLiteralType
 
     public init(extendedGraphemeClusterLiteral value: Value.ExtendedGraphemeClusterLiteralType) {
+        // swiftlint:disable force_cast
         wrappedValue = value as! Value
+        // swiftlint:enable force_cast
     }
 }
 
@@ -57,7 +63,9 @@ extension Attribute: ExpressibleByStringLiteral where Value: ExpressibleByString
     public typealias StringLiteralType = Value.StringLiteralType
 
     public init(stringLiteral value: Value.StringLiteralType) {
+        // swiftlint:disable force_cast
         wrappedValue = value as! Value
+        // swiftlint:enable force_cast
     }
 }
 
@@ -65,7 +73,9 @@ extension Attribute: ExpressibleByBooleanLiteral where Value: ExpressibleByBoole
     public typealias BooleanLiteralType = Value.BooleanLiteralType
 
     public init(booleanLiteral value: Value.BooleanLiteralType) {
+        // swiftlint:disable force_cast
         wrappedValue = value as! Value
+        // swiftlint:enable force_cast
     }
 }
 
