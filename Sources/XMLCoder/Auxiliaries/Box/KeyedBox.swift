@@ -32,7 +32,8 @@ struct KeyedBox {
 extension KeyedBox {
     init<E, A>(elements: E, attributes: A)
         where E: Sequence, E.Element == (Key, Element),
-        A: Sequence, A.Element == (Key, Attribute) {
+        A: Sequence, A.Element == (Key, Attribute)
+    {
         let elements = Elements(elements)
         let attributes = Attributes(attributes)
         self.init(elements: elements, attributes: attributes)

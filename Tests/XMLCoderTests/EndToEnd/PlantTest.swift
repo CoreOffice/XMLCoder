@@ -38,7 +38,8 @@ private struct Currency: Codable, Equatable {
         let container = try decoder.singleValueContainer()
         let string = try container.decode(String.self)
         guard let value = Currency.formatter
-            .number(from: string)?.doubleValue else {
+            .number(from: string)?.doubleValue
+        else {
             throw CurrencyCodingError()
         }
 
@@ -74,7 +75,8 @@ private struct Plant: Codable, Equatable {
          zone: String,
          light: String,
          price: Currency,
-         amountAvailable: Int) {
+         amountAvailable: Int)
+    {
         self.common = common
         self.botanical = botanical
         self.zone = zone

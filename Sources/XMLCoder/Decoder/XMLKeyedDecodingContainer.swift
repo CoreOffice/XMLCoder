@@ -98,9 +98,10 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
         }
 
         if let type = type as? AnySequence.Type,
-            !attributeFound,
-            !elementFound,
-            let result = type.init() as? T {
+           !attributeFound,
+           !elementFound,
+           let result = type.init() as? T
+        {
             return result
         }
 
@@ -207,19 +208,22 @@ extension XMLKeyedDecodingContainer {
 
     private func decodeSignedInteger<T>(_ type: T.Type,
                                         forKey key: Key) throws -> T
-        where T: BinaryInteger & SignedInteger & Decodable {
+        where T: BinaryInteger & SignedInteger & Decodable
+    {
         return try decodeConcrete(type, forKey: key)
     }
 
     private func decodeUnsignedInteger<T>(_ type: T.Type,
                                           forKey key: Key) throws -> T
-        where T: BinaryInteger & UnsignedInteger & Decodable {
+        where T: BinaryInteger & UnsignedInteger & Decodable
+    {
         return try decodeConcrete(type, forKey: key)
     }
 
     private func decodeFloatingPoint<T>(_ type: T.Type,
                                         forKey key: Key) throws -> T
-        where T: BinaryFloatingPoint & Decodable {
+        where T: BinaryFloatingPoint & Decodable
+    {
         return try decodeConcrete(type, forKey: key)
     }
 
@@ -265,7 +269,8 @@ extension XMLKeyedDecodingContainer {
         // You can't decode sequences from attributes, but other strategies
         // need special handling for empty sequences.
         if strategy(key) != .attribute && elements.isEmpty,
-            let empty = (type as? AnySequence.Type)?.init() as? T {
+           let empty = (type as? AnySequence.Type)?.init() as? T
+        {
             return empty
         }
 
@@ -301,7 +306,8 @@ extension XMLKeyedDecodingContainer {
 
         let value: T?
         if !(type is AnySequence.Type), let unkeyedBox = box as? UnkeyedBox,
-            let first = unkeyedBox.first {
+           let first = unkeyedBox.first
+        {
             // Handle case where we have held onto a `SingleKeyedBox`
             if let singleKeyed = first as? SingleKeyedBox {
                 if singleKeyed.element.isNull {
@@ -317,7 +323,8 @@ extension XMLKeyedDecodingContainer {
         }
 
         if value == nil, let type = type as? AnyOptional.Type,
-            let result = type.init() as? T {
+           let result = type.init() as? T
+        {
             return result
         }
 

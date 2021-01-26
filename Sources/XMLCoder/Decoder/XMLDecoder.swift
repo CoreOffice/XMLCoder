@@ -50,7 +50,8 @@ open class XMLDecoder {
                 }
 
                 guard let container = try? decoder.singleValueContainer(),
-                    let text = try? container.decode(String.self) else {
+                      let text = try? container.decode(String.self)
+                else {
                     throw DecodingError.dataCorrupted(DecodingError.Context(
                         codingPath: decoder.codingPath,
                         debugDescription: "Could not decode date text"
@@ -100,7 +101,8 @@ open class XMLDecoder {
                 }
 
                 guard let container = try? decoder.singleValueContainer(),
-                    let text = try? container.decode(String.self) else {
+                      let text = try? container.decode(String.self)
+                else {
                     throw DecodingError.dataCorrupted(DecodingError.Context(
                         codingPath: decoder.codingPath,
                         debugDescription: "Could not decode date text"

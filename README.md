@@ -10,7 +10,7 @@ Encoder &amp; Decoder for XML using Swift's `Codable` protocols.
 
 This package is a fork of the original
 [ShawnMoore/XMLParsing](https://github.com/ShawnMoore/XMLParsing)
-with more features and improved test coverage.
+with more features and improved test coverage. Automatically generated documentation is available on [our GitHub Pages](https://maxdesiatov.github.io/XMLCoder/).
 
 ## Example
 
@@ -374,7 +374,7 @@ easy as adding it to the `dependencies` value of your `Package.swift`.
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.11.1")
+    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.12.0")
 ]
 ```
 
@@ -409,7 +409,7 @@ target 'YourApp' do
   use_frameworks!
 
   # Pods for YourApp
-  pod 'XMLCoder', '~> 0.11.1'
+  pod 'XMLCoder', '~> 0.12.0'
 end
 ```
 
@@ -438,7 +438,7 @@ $ brew install carthage
 Inside of your `Cartfile`, add GitHub path to `XMLCoder`:
 
 ```ogdl
-github "MaxDesiatov/XMLCoder" ~> 0.11.1
+github "MaxDesiatov/XMLCoder" ~> 0.12.0
 ```
 
 Then, run the following command to build the framework:
