@@ -12,7 +12,7 @@ class XMLDecoderImplementation: Decoder {
     // MARK: Properties
 
     /// The decoder's storage.
-    var storage: XMLDecodingStorage = XMLDecodingStorage()
+    var storage = XMLDecodingStorage()
 
     /// Options set on the top-level decoder.
     let options: XMLDecoder.Options
@@ -442,7 +442,8 @@ extension XMLDecoderImplementation {
             decoded = decimal as? T
         } else if
             type == String.self || type == NSString.self,
-            let value = (try unbox(box) as String) as? T {
+            let value = (try unbox(box) as String) as? T
+        {
             decoded = value
         } else {
             storage.push(container: box)
@@ -454,8 +455,9 @@ extension XMLDecoderImplementation {
                 decoded = try type.init(from: self)
             } catch {
                 guard case DecodingError.valueNotFound = error,
-                    let type = type as? AnyOptional.Type,
-                    let result = type.init() as? T else {
+                      let type = type as? AnyOptional.Type,
+                      let result = type.init() as? T
+                else {
                     throw error
                 }
 

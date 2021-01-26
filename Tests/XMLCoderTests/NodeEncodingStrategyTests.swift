@@ -63,7 +63,7 @@ private struct ComplexElement: Encodable {
         let c: String
     }
 
-    var key: Key = Key(a: "C", b: "B", c: "A")
+    var key = Key(a: "C", b: "B", c: "A")
 
     enum CodingKeys: CodingKey {
         case key

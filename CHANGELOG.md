@@ -1,3 +1,33 @@
+# 0.12.0 (26 January 2021)
+
+This release adds a few new features. Namely:
+
+- New `charactersEscapedInAttributes` and `charactersEscapedInElements` properties on `XMLEncoder`
+  that allow customizing how certain characters are escaped.
+- You can now override the implementation of `TopLevelEncoder` Combine protocol conformance when
+  subclassing `XMLEncoder`.
+- New `prettyPrintIndentation` property on `XMLEncoder`, which can take `XMLEncoder.PrettyPrintIndentation` values such as `.tabs(1)` or `.spaces(2)`.
+
+Thanks to [Kenta Kubo](https://github.com/kkk669) for the contribution!
+
+**Closed issues:**
+
+- How to decode `<itunes:episode>` tags ([#201](https://github.com/MaxDesiatov/XMLCoder/issues/201))
+- Fail to build in Xcode 12 beta ([#196](https://github.com/MaxDesiatov/XMLCoder/issues/196))
+- Changing the root node name ? ([#191](https://github.com/MaxDesiatov/XMLCoder/issues/191))
+- " in XML element may not always be escaping ([#187](https://github.com/MaxDesiatov/XMLCoder/issues/187))
+- `&#10;` in XML attributes ([#185](https://github.com/MaxDesiatov/XMLCoder/issues/185))
+- " and `&quot;` are not decoded equally ([#184](https://github.com/MaxDesiatov/XMLCoder/issues/184))
+- Use 2 spaces instead of 4 when .prettyPrinted ([#183](https://github.com/MaxDesiatov/XMLCoder/issues/183))
+- (Help using) How to decode this XML? ([#180](https://github.com/MaxDesiatov/XMLCoder/issues/180))
+
+**Merged pull requests:**
+
+- Test `DynamicNodeEncoding` for root elements ([#195](https://github.com/MaxDesiatov/XMLCoder/pull/195)) via [@MaxDesiatov](https://github.com/MaxDesiatov)
+- Make character escaping customizable in `XMLEncoder` ([#188](https://github.com/MaxDesiatov/XMLCoder/pull/188)) via [@MaxDesiatov](https://github.com/MaxDesiatov)
+- Add `prettyPrintIndentation` property on `XMLEncoder` ([#186](https://github.com/MaxDesiatov/XMLCoder/pull/186)) via [@MaxDesiatov](https://github.com/MaxDesiatov)
+- Make `TopLevelEncoder` implementation overridable ([#182](https://github.com/MaxDesiatov/XMLCoder/pull/182)) via [@kkk669](https://github.com/kkk669)
+
 # 0.11.1 (3 May 2020)
 
 This release fixes an issue, where non-string values used CDATA encoding.
