@@ -16,8 +16,9 @@ with more features and improved test coverage. Automatically generated documenta
 
 ```swift
 import XMLCoder
+import Foundation
 
-let xmlStr = """
+let sourceXML = """
 <note>
     <to>Bob</to>
     <from>Jane</from>
@@ -33,11 +34,9 @@ struct Note: Codable {
     let body: String
 }
 
-guard let data = xmlStr.data(using: .utf8) else { return }
+let note = try! XMLDecoder().decode(Note.self, from: Data(sourceXML.utf8))
 
-let note = try? XMLDecoder().decode(Note.self, from: data)
-
-let returnData = try? XMLEncoder().encode(note, withRootKey: "note")
+let encodedXML = try! XMLEncoder().encode(note, withRootKey: "note")
 ```
 
 ## Advanced features
