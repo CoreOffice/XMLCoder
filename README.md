@@ -2,11 +2,11 @@
 
 Encoder &amp; Decoder for XML using Swift's `Codable` protocols.
 
-[![Build Status](https://dev.azure.com/max0484/max/_apis/build/status/MaxDesiatov.XMLCoder?branchName=master)](https://dev.azure.com/max0484/max/_build/latest?definitionId=4&branchName=master)
+[![Build Status](https://dev.azure.com/max0484/max/_apis/build/status/MaxDesiatov.XMLCoder?branchName=main)](https://dev.azure.com/max0484/max/_build/latest?definitionId=4&branchName=main)
 [![Version](https://img.shields.io/cocoapods/v/XMLCoder.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
 [![License](https://img.shields.io/cocoapods/l/XMLCoder.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
 [![Platform](https://img.shields.io/badge/platform-watchos%20%7C%20ios%20%7C%20tvos%20%7C%20macos%20%7C%20linux-lightgrey.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
-[![Coverage](https://img.shields.io/codecov/c/github/MaxDesiatov/XMLCoder/master.svg?style=flat)](https://codecov.io/gh/maxdesiatov/XMLCoder)
+[![Coverage](https://img.shields.io/codecov/c/github/MaxDesiatov/XMLCoder/main.svg?style=flat)](https://codecov.io/gh/maxdesiatov/XMLCoder)
 
 This package is a fork of the original
 [ShawnMoore/XMLParsing](https://github.com/ShawnMoore/XMLParsing)
@@ -451,7 +451,7 @@ Drag the built framework into your Xcode project.
 ## Contributing
 
 This project adheres to the [Contributor Covenant Code of
-Conduct](https://github.com/MaxDesiatov/XMLCoder/blob/master/CODE_OF_CONDUCT.md).
+Conduct](https://github.com/MaxDesiatov/XMLCoder/blob/main/CODE_OF_CONDUCT.md).
 By participating, you are expected to uphold this code. Please report
 unacceptable behavior to xmlcoder@desiatov.com.
 
