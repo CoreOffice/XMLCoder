@@ -1,4 +1,4 @@
-// Copyright (c) 2018-2020 XMLCoder contributors
+// Copyright (c) 2018-2021 XMLCoder contributors
 //
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
@@ -129,11 +129,11 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
         }
 
         switch strategy(key) {
-        case .attribute:
+        case .attribute?:
             try attributeEncoder(value, key, box)
-        case .element:
+        case .element?:
             try elementEncoder(value, key, box)
-        case .both:
+        case .both?:
             try attributeEncoder(value, key, box)
             try elementEncoder(value, key, box)
         default:
