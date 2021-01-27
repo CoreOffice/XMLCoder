@@ -6,7 +6,6 @@
 //  Created by Joseph Mattiello on 1/24/19.
 //
 
-@available(*, deprecated, message: "Use @Attribute, @Element, and @ElementAndAttribute property wrappers instead")
 public protocol DynamicNodeEncoding: Encodable {
     static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding
 }
