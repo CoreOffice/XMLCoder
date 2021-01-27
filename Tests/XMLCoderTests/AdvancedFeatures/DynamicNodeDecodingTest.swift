@@ -76,7 +76,7 @@ private let libraryXMLYNStrategy = """
 """.data(using: .utf8)!
 
 private struct TestStruct: Codable, Equatable {
-    @XMLCoder .Attribute var attribute: Int
+    @Attribute var attribute: Int
     let element: String
 
     private enum CodingKeys: CodingKey {
@@ -90,7 +90,7 @@ private struct TestStruct: Codable, Equatable {
 }
 
 private struct Library: Codable, Equatable {
-    @XMLCoder .Attribute var count: Int
+    @Attribute var count: Int
     let books: [Book]
 
     enum CodingKeys: String, CodingKey {
@@ -100,9 +100,9 @@ private struct Library: Codable, Equatable {
 }
 
 private struct Book: Codable, Equatable {
-    @XMLCoder .ElementAndAttribute var id: UInt
-    @XMLCoder .ElementAndAttribute var author: String
-    @XMLCoder .ElementAndAttribute var gender: String
+    @ElementAndAttribute var id: UInt
+    @ElementAndAttribute var author: String
+    @ElementAndAttribute var gender: String
     let title: String
     let categories: [Category]
 
@@ -116,7 +116,7 @@ private struct Book: Codable, Equatable {
 }
 
 private struct Category: Codable, Equatable {
-    @XMLCoder .Attribute var main: Bool
+    @Attribute var main: Bool
     let value: String
 
     private enum CodingKeys: String, CodingKey {

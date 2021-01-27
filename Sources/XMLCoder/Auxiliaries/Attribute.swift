@@ -33,17 +33,13 @@ extension Attribute: ExpressibleByIntegerLiteral where Value: ExpressibleByInteg
     public typealias IntegerLiteralType = Value.IntegerLiteralType
 
     public init(integerLiteral value: Value.IntegerLiteralType) {
-        // swiftlint:disable force_cast
-        wrappedValue = value as! Value
-        // swiftlint:enable force_cast
+        wrappedValue = Value(integerLiteral: value)
     }
 }
 
 extension Attribute: ExpressibleByUnicodeScalarLiteral where Value: ExpressibleByUnicodeScalarLiteral {
     public init(unicodeScalarLiteral value: Value.UnicodeScalarLiteralType) {
-        // swiftlint:disable force_cast
-        wrappedValue = value as! Value
-        // swiftlint:enable force_cast
+        wrappedValue = Value(unicodeScalarLiteral: value)
     }
 
     public typealias UnicodeScalarLiteralType = Value.UnicodeScalarLiteralType
@@ -53,9 +49,7 @@ extension Attribute: ExpressibleByExtendedGraphemeClusterLiteral where Value: Ex
     public typealias ExtendedGraphemeClusterLiteralType = Value.ExtendedGraphemeClusterLiteralType
 
     public init(extendedGraphemeClusterLiteral value: Value.ExtendedGraphemeClusterLiteralType) {
-        // swiftlint:disable force_cast
-        wrappedValue = value as! Value
-        // swiftlint:enable force_cast
+        wrappedValue = Value(extendedGraphemeClusterLiteral: value)
     }
 }
 
@@ -63,9 +57,7 @@ extension Attribute: ExpressibleByStringLiteral where Value: ExpressibleByString
     public typealias StringLiteralType = Value.StringLiteralType
 
     public init(stringLiteral value: Value.StringLiteralType) {
-        // swiftlint:disable force_cast
-        wrappedValue = value as! Value
-        // swiftlint:enable force_cast
+        wrappedValue = Value(stringLiteral: value)
     }
 }
 
@@ -73,17 +65,15 @@ extension Attribute: ExpressibleByBooleanLiteral where Value: ExpressibleByBoole
     public typealias BooleanLiteralType = Value.BooleanLiteralType
 
     public init(booleanLiteral value: Value.BooleanLiteralType) {
-        // swiftlint:disable force_cast
-        wrappedValue = value as! Value
-        // swiftlint:enable force_cast
+        wrappedValue = Value(booleanLiteral: value)
     }
 }
 
-//extension Attribute: ExpressibleByNilLiteral where Value: ExpressibleByNilLiteral {
-//    public init(nilLiteral: ()) {
-//        wrappedValue = nilLiteral as! Value
-//    }
-//}
+extension Attribute: ExpressibleByNilLiteral where Value: ExpressibleByNilLiteral {
+    public init(nilLiteral: ()) {
+        wrappedValue = Value(nilLiteral: ())
+    }
+}
 
 protocol XMLOptionalAttributeProtocol: XMLAttributeProtocol {
     init()
@@ -91,7 +81,7 @@ protocol XMLOptionalAttributeProtocol: XMLAttributeProtocol {
 
 extension Attribute: XMLOptionalAttributeProtocol where Value: AnyOptional {
     init() {
-        wrappedValue = Value.init()
+        wrappedValue = Value()
     }
 }
 #endif

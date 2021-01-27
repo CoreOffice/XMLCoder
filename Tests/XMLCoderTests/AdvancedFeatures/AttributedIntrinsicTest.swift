@@ -51,7 +51,7 @@ private let fooValueElementXML = """
 """.data(using: .utf8)!
 
 private struct FooValueAttribute: Codable {
-    @XMLCoder .Attribute var valueAttribute: String
+    @Attribute var valueAttribute: String
     let value: Int
 
     enum CodingKeys: String, CodingKey {
@@ -71,7 +71,7 @@ private struct FooValueElement: Codable {
 }
 
 private struct Foo: Codable, Equatable {
-    @XMLCoder .Attribute var id: String
+    @Attribute var id: String
     let value: String
 
     enum CodingKeys: String, CodingKey {
@@ -89,7 +89,7 @@ private struct FooValue: Codable, Equatable {
 }
 
 private struct FooOptional: Codable, Equatable {
-    @XMLCoder .Attribute var id: String?
+    @Attribute var id: String?
     let value: Int
 
     enum CodingKeys: String, CodingKey {
@@ -99,7 +99,7 @@ private struct FooOptional: Codable, Equatable {
 }
 
 private struct FooEmptyKeyed: Codable, Equatable {
-    @XMLCoder .Attribute var id: String
+    @Attribute var id: String
     let unkeyedValue: Int
 
     enum CodingKeys: String, CodingKey {

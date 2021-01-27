@@ -294,8 +294,6 @@ extension XMLKeyedDecodingContainer {
                 box = try getAttributeBox(attributes, key)
             case is XMLElementProtocol.Type:
                 box = elements
-            case is XMLElementAndAttributeProtocol.Type:
-                box = try getAttributeOrElementBox(attributes, elements, key)
             default:
                 box = try getAttributeOrElementBox(attributes, elements, key)
             }
