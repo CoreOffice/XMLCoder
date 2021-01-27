@@ -288,7 +288,6 @@ extension XMLKeyedDecodingContainer {
         case .elementOrAttribute?:
             box = try getAttributeOrElementBox(attributes, elements, key)
         default:
-            #if compiler(>=5.1)
             switch type {
             case is XMLAttributeProtocol.Type:
                 box = try getAttributeBox(attributes, key)
@@ -297,13 +296,9 @@ extension XMLKeyedDecodingContainer {
             default:
                 box = try getAttributeOrElementBox(attributes, elements, key)
             }
-            #else
-            box = try getAttributeOrElementBox(attributes, elements, key)
-            #endif
         }
 
         let value: T?
-        #if compiler(>=5.1)
         if !(type is AnySequence.Type), let unkeyedBox = box as? UnkeyedBox,
            let first = unkeyedBox.first
         {
@@ -322,24 +317,6 @@ extension XMLKeyedDecodingContainer {
         } else {
             value = try decoder.unbox(box)
         }
-        #else
-        if !(type is AnySequence.Type), let unkeyedBox = box as? UnkeyedBox,
-           let first = unkeyedBox.first
-        {
-            // Handle case where we have held onto a `SingleKeyedBox`
-            if let singleKeyed = first as? SingleKeyedBox {
-                if singleKeyed.element.isNull {
-                    value = try decoder.unbox(singleKeyed)
-                } else {
-                    value = try decoder.unbox(singleKeyed.element)
-                }
-            } else {
-                value = try decoder.unbox(first)
-            }
-        } else {
-            value = try decoder.unbox(box)
-        }
-        #endif
 
         if value == nil, let type = type as? AnyOptional.Type,
            let result = type.init() as? T

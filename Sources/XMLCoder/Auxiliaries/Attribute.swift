@@ -5,7 +5,6 @@
 //  Created by Benjamin Wetherfield on 6/3/20.
 //
 
-#if compiler(>=5.1)
 public protocol XMLAttributeProtocol {}
 
 @propertyWrapper public struct Attribute<Value>: XMLAttributeProtocol {
@@ -84,4 +83,3 @@ extension Attribute: XMLOptionalAttributeProtocol where Value: AnyOptional {
         wrappedValue = Value()
     }
 }
-#endif

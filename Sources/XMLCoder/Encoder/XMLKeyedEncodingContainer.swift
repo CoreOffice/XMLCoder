@@ -137,7 +137,6 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
             try attributeEncoder(value, key, box)
             try elementEncoder(value, key, box)
         default:
-            #if compiler(>=5.1)
             switch value {
             case is XMLElementProtocol:
                 encodeElement(forKey: key, box: box)
@@ -149,13 +148,9 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
             default:
                 encodeElement(forKey: key, box: box)
             }
-            #else
-            try elementEncoder(value, key, box)
-            #endif
         }
     }
 
-    #if compiler(>=5.1)
     private mutating func encodeAttribute<T: Encodable>(
         _ value: T,
         forKey key: Key,
@@ -180,7 +175,6 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
             container.elements.append(box, at: self.converted(key).stringValue)
         }
     }
-    #endif
 
     public mutating func nestedContainer<NestedKey>(
         keyedBy _: NestedKey.Type,

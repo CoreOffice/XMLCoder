@@ -5,7 +5,6 @@
 //  Created by Benjamin Wetherfield on 6/4/20.
 //
 
-#if compiler(>=5.1)
 protocol XMLElementProtocol {}
 
 @propertyWrapper public struct Element<Value>: XMLElementProtocol {
@@ -28,4 +27,3 @@ extension Element: Codable where Value: Codable {
 
 extension Element: Equatable where Value: Equatable {}
 extension Element: Hashable where Value: Hashable {}
-#endif
