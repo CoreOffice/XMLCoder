@@ -351,15 +351,15 @@ by [@portellaa](https://github.com/portellaa).
 
 **Apple Platforms**
 
-- Xcode 10.0 or later
+- Xcode 11.0 or later
   - **IMPORTANT**: compiling XMLCoder with Xcode 11.2.0 (11B52) and 11.2.1 (11B500) is not recommended due to crashes with `EXC_BAD_ACCESS` caused by [a compiler bug](https://bugs.swift.org/browse/SR-11564), please use Xcode 11.3 or later instead. Please refer to [\#150](https://github.com/MaxDesiatov/XMLCoder/issues/150) for more details.
-- Swift 4.2 or later
+- Swift 5.1 or later
 - iOS 9.0 / watchOS 2.0 / tvOS 9.0 / macOS 10.10 or later deployment targets
 
 **Linux**
 
-- Ubuntu 14.04 or later
-- Swift 5.0.1 or later
+- Ubuntu 18.04 or later
+- Swift 5.1 or later
 
 ### Swift Package Manager
 

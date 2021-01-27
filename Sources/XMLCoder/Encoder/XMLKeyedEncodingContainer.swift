@@ -1,4 +1,4 @@
-// Copyright (c) 2018-2020 XMLCoder contributors
+// Copyright (c) 2018-2021 XMLCoder contributors
 //
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
@@ -129,13 +129,50 @@ struct XMLKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {
         }
 
         switch strategy(key) {
-        case .attribute:
+        case .attribute?:
             try attributeEncoder(value, key, box)
-        case .element:
+        case .element?:
             try elementEncoder(value, key, box)
-        case .both:
+        case .both?:
             try attributeEncoder(value, key, box)
             try elementEncoder(value, key, box)
+        default:
+            switch value {
+            case is XMLElementProtocol:
+                encodeElement(forKey: key, box: box)
+            case is XMLAttributeProtocol:
+                try encodeAttribute(value, forKey: key, box: box)
+            case is XMLElementAndAttributeProtocol:
+                try encodeAttribute(value, forKey: key, box: box)
+                encodeElement(forKey: key, box: box)
+            default:
+                encodeElement(forKey: key, box: box)
+            }
+        }
+    }
+
+    private mutating func encodeAttribute<T: Encodable>(
+        _ value: T,
+        forKey key: Key,
+        box: Box
+    ) throws {
+        guard let attribute = box as? SimpleBox else {
+            throw EncodingError.invalidValue(value, EncodingError.Context(
+                codingPath: [],
+                debugDescription: "Complex values cannot be encoded as attributes."
+            ))
+        }
+        container.withShared { container in
+            container.attributes.append(attribute, at: self.converted(key).stringValue)
+        }
+    }
+
+    private mutating func encodeElement(
+        forKey key: Key,
+        box: Box
+    ) {
+        container.withShared { container in
+            container.elements.append(box, at: self.converted(key).stringValue)
         }
     }
 

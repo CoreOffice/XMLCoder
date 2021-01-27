@@ -20,7 +20,7 @@ class XMLDecoderImplementation: Decoder {
     /// The path to the current point in encoding.
     public internal(set) var codingPath: [CodingKey]
 
-    public var nodeDecodings: [(CodingKey) -> XMLDecoder.NodeDecoding]
+    public var nodeDecodings: [(CodingKey) -> XMLDecoder.NodeDecoding?]
 
     /// Contextual user-provided information for use during encoding.
     public var userInfo: [CodingUserInfoKey: Any] {
@@ -36,7 +36,7 @@ class XMLDecoderImplementation: Decoder {
     init(
         referencing container: Box,
         options: XMLDecoder.Options,
-        nodeDecodings: [(CodingKey) -> XMLDecoder.NodeDecoding],
+        nodeDecodings: [(CodingKey) -> XMLDecoder.NodeDecoding?],
         codingPath: [CodingKey] = []
     ) {
         storage.push(container: container)

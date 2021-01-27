@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2020 Shawn Moore and XMLCoder contributors
+// Copyright (c) 2017-2021 Shawn Moore and XMLCoder contributors
 //
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
@@ -281,35 +281,21 @@ extension XMLKeyedDecodingContainer {
         }
 
         switch strategy(key) {
-        case .attribute:
-            guard
-                let attributeBox = attributes.first
-            else {
-                throw DecodingError.keyNotFound(key, DecodingError.Context(
-                    codingPath: decoder.codingPath,
-                    debugDescription:
-                    """
-                    No attribute found for key \(_errorDescription(of: key)).
-                    """
-                ))
-            }
-            box = attributeBox
-        case .element:
+        case .attribute?:
+            box = try getAttributeBox(attributes, key)
+        case .element?:
             box = elements
-        case .elementOrAttribute:
-            guard
-                let anyBox = elements.isEmpty ? attributes.first : elements as Box?
-            else {
-                throw DecodingError.keyNotFound(key, DecodingError.Context(
-                    codingPath: decoder.codingPath,
-                    debugDescription:
-                    """
-                    No attribute or element found for key \
-                    \(_errorDescription(of: key)).
-                    """
-                ))
+        case .elementOrAttribute?:
+            box = try getAttributeOrElementBox(attributes, elements, key)
+        default:
+            switch type {
+            case is XMLAttributeProtocol.Type:
+                box = try getAttributeBox(attributes, key)
+            case is XMLElementProtocol.Type:
+                box = elements
+            default:
+                box = try getAttributeOrElementBox(attributes, elements, key)
             }
-            box = anyBox
         }
 
         let value: T?
@@ -326,6 +312,8 @@ extension XMLKeyedDecodingContainer {
             } else {
                 value = try decoder.unbox(first)
             }
+        } else if box.isNull, let type = type as? XMLOptionalAttributeProtocol.Type, let nullAttribute = type.init() as? T {
+            value = nullAttribute
         } else {
             value = try decoder.unbox(box)
         }
@@ -344,6 +332,27 @@ extension XMLKeyedDecodingContainer {
             ))
         }
         return unwrapped
+    }
+
+    private func getAttributeBox(_ attributes: [KeyedBox.Attribute], _ key: Key) throws -> Box {
+        let attributeBox = attributes.first ?? NullBox()
+        return attributeBox
+    }
+
+    private func getAttributeOrElementBox(_ attributes: [KeyedBox.Attribute], _ elements: [KeyedBox.Element], _ key: Key) throws -> Box {
+        guard
+            let anyBox = elements.isEmpty ? attributes.first : elements as Box?
+        else {
+            throw DecodingError.keyNotFound(key, DecodingError.Context(
+                codingPath: decoder.codingPath,
+                debugDescription:
+                """
+                No attribute or element found for key \
+                \(_errorDescription(of: key)).
+                """
+            ))
+        }
+        return anyBox
     }
 
     private func _superDecoder(forKey key: CodingKey) throws -> Decoder {

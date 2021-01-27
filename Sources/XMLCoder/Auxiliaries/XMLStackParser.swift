@@ -82,13 +82,8 @@ class XMLStackParser: NSObject {
             upperBoundIndex = errorPosition + offset
         }
 
-        #if compiler(>=5.0)
         let lowerBound = String.Index(utf16Offset: lowerBoundIndex, in: string)
         let upperBound = String.Index(utf16Offset: upperBoundIndex, in: string)
-        #else
-        let lowerBound = String.Index(encodedOffset: lowerBoundIndex)
-        let upperBound = String.Index(encodedOffset: upperBoundIndex)
-        #endif
 
         let context = string[lowerBound..<upperBound]
 
@@ -130,13 +125,8 @@ extension XMLStackParser: XMLParserDelegate {
                 qualifiedName: String?,
                 attributes attributeDict: [String: String] = [:])
     {
-        #if os(Linux) && !compiler(>=5.1)
-        // For some reason, element names on linux are coming out with the namespace after the name
-        // https://bugs.swift.org/browse/SR-11191
-        let elementName = elementName.components(separatedBy: ":").reversed().joined(separator: ":")
-        #endif
         let attributes = attributeDict.map { key, value in
-            Attribute(key: key, value: value)
+            XMLCoderElement.Attribute(key: key, value: value)
         }
         let element = XMLCoderElement(key: elementName, attributes: attributes)
         stack.append(element)

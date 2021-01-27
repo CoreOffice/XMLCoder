@@ -1,4 +1,4 @@
-// Copyright © 2017-2020 Shawn Moore and XMLCoder contributors.
+// Copyright © 2017-2021 Shawn Moore and XMLCoder contributors.
 //
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
@@ -7,10 +7,6 @@
 //
 
 import Foundation
-
-//===----------------------------------------------------------------------===//
-// XML Encoder
-//===----------------------------------------------------------------------===//
 
 /// `XMLEncoder` facilitates the encoding of `Encodable` values into XML.
 open class XMLEncoder {
@@ -234,7 +230,7 @@ open class XMLEncoder {
     @available(*, deprecated, renamed: "NodeEncodingStrategy")
     public typealias NodeEncodingStrategies = NodeEncodingStrategy
 
-    public typealias XMLNodeEncoderClosure = ((CodingKey) -> NodeEncoding)
+    public typealias XMLNodeEncoderClosure = ((CodingKey) -> NodeEncoding?)
     public typealias XMLEncodingClosure = (Encodable.Type, Encoder) -> XMLNodeEncoderClosure
 
     /// Set of strategies to use for encoding of nodes.
@@ -248,7 +244,7 @@ open class XMLEncoder {
         func nodeEncodings(
             forType codableType: Encodable.Type,
             with encoder: Encoder
-        ) -> ((CodingKey) -> NodeEncoding) {
+        ) -> ((CodingKey) -> NodeEncoding?) {
             return encoderClosure(codableType, encoder)
         }
 
@@ -261,7 +257,7 @@ open class XMLEncoder {
 
         static let defaultEncoder: XMLEncodingClosure = { codableType, _ in
             guard let dynamicType = codableType as? DynamicNodeEncoding.Type else {
-                return { _ in .default }
+                return { _ in nil }
             }
             return dynamicType.nodeEncoding(for:)
         }
@@ -361,7 +357,7 @@ open class XMLEncoder {
         encoder.nodeEncodings.append(options.nodeEncodingStrategy.nodeEncodings(forType: T.self, with: encoder))
 
         let topLevel = try encoder.box(value)
-        let attributes = rootAttributes?.map(Attribute.init) ?? []
+        let attributes = rootAttributes?.map(XMLCoderElement.Attribute.init) ?? []
 
         let elementOrNone: XMLCoderElement?
 

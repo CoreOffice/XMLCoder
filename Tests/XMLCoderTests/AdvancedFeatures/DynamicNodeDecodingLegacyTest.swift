@@ -74,8 +74,8 @@ private let libraryXMLYNStrategy = """
 </library>
 """.data(using: .utf8)!
 
-private struct TestStruct: Codable, Equatable {
-    @Attribute var attribute: Int
+private struct TestStruct: Codable, Equatable, DynamicNodeDecoding {
+    let attribute: Int
     let element: String
 
     private enum CodingKeys: CodingKey {
@@ -86,22 +86,40 @@ private struct TestStruct: Codable, Equatable {
             return "key"
         }
     }
+
+    static func nodeDecoding(for key: CodingKey) -> XMLDecoder.NodeDecoding {
+        switch key {
+        case CodingKeys.attribute:
+            return .attribute
+        default:
+            return .element
+        }
+    }
 }
 
-private struct Library: Codable, Equatable {
-    @Attribute var count: Int
+private struct Library: Codable, Equatable, DynamicNodeDecoding {
+    let count: Int
     let books: [Book]
 
     enum CodingKeys: String, CodingKey {
         case count
         case books = "book"
     }
+
+    static func nodeDecoding(for key: CodingKey) -> XMLDecoder.NodeDecoding {
+        switch key {
+        case CodingKeys.count:
+            return .attribute
+        default:
+            return .element
+        }
+    }
 }
 
-private struct Book: Codable, Equatable {
-    @ElementAndAttribute var id: UInt
-    @ElementAndAttribute var author: String
-    @ElementAndAttribute var gender: String
+private struct Book: Codable, Equatable, DynamicNodeEncoding {
+    let id: UInt
+    let author: String
+    let gender: String
     let title: String
     let categories: [Category]
 
@@ -112,19 +130,35 @@ private struct Book: Codable, Equatable {
         case title
         case categories = "category"
     }
+
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+        switch key {
+        case Book.CodingKeys.id, Book.CodingKeys.author, Book.CodingKeys.gender: return .both
+        default: return .element
+        }
+    }
 }
 
-private struct Category: Codable, Equatable {
-    @Attribute var main: Bool
+private struct Category: Codable, Equatable, DynamicNodeEncoding {
+    let main: Bool
     let value: String
 
     private enum CodingKeys: String, CodingKey {
         case main
         case value
     }
+
+    static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+        switch key {
+        case Category.CodingKeys.main:
+            return .attribute
+        default:
+            return .element
+        }
+    }
 }
 
-final class DynamicNodeDecodingTest: XCTestCase {
+final class DynamicNodeDecodingLegacyTest: XCTestCase {
     func testDecode() throws {
         let decoder = XMLDecoder()
         decoder.errorContextLength = 10

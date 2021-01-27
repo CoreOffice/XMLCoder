@@ -37,7 +37,7 @@ class XMLElementTests: XCTestCase {
         XCTAssertEqual(keyed.key, "foo")
         XCTAssertNil(keyed.stringValue)
         XCTAssertEqual(keyed.elements, [])
-        XCTAssertEqual(keyed.attributes, [Attribute(key: "blee", value: "42")])
+        XCTAssertEqual(keyed.attributes, [XMLCoderElement.Attribute(key: "blee", value: "42")])
     }
 
     func testInitSimple() {
