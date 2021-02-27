@@ -482,6 +482,8 @@ extension XMLDecoderImplementation {
             return XMLDecoder.KeyDecodingStrategy._convertFromSnakeCase
         case .convertFromCapitalized:
             return XMLDecoder.KeyDecodingStrategy._convertFromCapitalized
+        case .convertFromUppercase:
+            return XMLDecoder.KeyDecodingStrategy._convertFromUppercase
         case .convertFromKebabCase:
             return XMLDecoder.KeyDecodingStrategy._convertFromKebabCase
         case .useDefaultKeys:
