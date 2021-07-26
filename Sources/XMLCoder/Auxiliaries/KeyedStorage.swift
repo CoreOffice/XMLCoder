@@ -84,12 +84,32 @@ extension KeyedStorage where Key == String, Value == Box {
         let hasAttributes = !element.attributes.isEmpty
         let hasText = element.stringValue != nil
 
-        if hasElements || hasAttributes {
-            result.append(element.transformToBoxTree(), at: element.key)
-        } else if hasText {
-            result.append(element.transformToBoxTree(), at: element.key)
+        var numEmptyKey = 0
+        var numNonEmptyKey = 0
+        var filteredElements: [XMLCoderElement] = []
+        for ele in element.elements {
+            if ele.isWhitespaceWithNoElements() {
+                numEmptyKey += 1
+            } else {
+                numNonEmptyKey += 1
+                filteredElements.append(ele)
+            }
+        }
+        let updatedElement: XMLCoderElement
+        if numEmptyKey != 0 && numNonEmptyKey != 0 {
+            updatedElement = XMLCoderElement(key: element.key, elements: filteredElements, attributes: element.attributes)
         } else {
-            result.append(SingleKeyedBox(key: element.key, element: NullBox()), at: element.key)
+            updatedElement = element
+        }
+        
+        if hasElements || hasAttributes {
+            let value = updatedElement.transformToBoxTree()
+            result.append(value, at: updatedElement.key)
+        } else if hasText {
+            let value = updatedElement.transformToBoxTree()
+            result.append(value, at: updatedElement.key)
+        } else {
+            result.append(SingleKeyedBox(key: updatedElement.key, element: NullBox()), at: updatedElement.key)
         }
 
         return result
