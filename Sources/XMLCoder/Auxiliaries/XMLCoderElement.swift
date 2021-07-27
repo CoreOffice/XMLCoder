@@ -392,3 +392,10 @@ extension XMLCoderElement {
         }
     }
 }
+
+extension XMLCoderElement {
+    func isWhitespaceWithNoElements() -> Bool {
+        let stringValueIsWhitespaceOrNil = stringValue?.isAllWhitespace() ?? true
+        return self.key == "" && stringValueIsWhitespaceOrNil && self.elements.isEmpty
+    }
+}

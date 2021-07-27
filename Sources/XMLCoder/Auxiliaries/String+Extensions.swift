@@ -44,3 +44,9 @@ extension StringProtocol {
         self = lowercasingFirstLetter()
     }
 }
+
+extension String {
+    func isAllWhitespace() -> Bool {
+        return self.trimmingCharacters(in: .whitespacesAndNewlines) == ""
+    }
+}

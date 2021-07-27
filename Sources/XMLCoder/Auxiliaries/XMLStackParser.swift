@@ -141,13 +141,36 @@ extension XMLStackParser: XMLParserDelegate {
             return
         }
 
+        let updatedElement = elementWithFilteredElements(element: element)
+    
         withCurrentElement { currentElement in
-            currentElement.append(element: element, forKey: element.key)
+            currentElement.append(element: updatedElement, forKey: updatedElement.key)
         }
 
         if stack.isEmpty {
             root = element
         }
+    }
+
+    func elementWithFilteredElements(element: XMLCoderElement) -> XMLCoderElement {
+        var hasWhitespaceElements: Bool = false
+        var hasNonWhitespaceElements: Bool = false
+        var filteredElements: [XMLCoderElement] = []
+        for ele in element.elements {
+            if ele.isWhitespaceWithNoElements() {
+                hasWhitespaceElements = true
+            } else {
+                hasNonWhitespaceElements = true
+                filteredElements.append(ele)
+            }
+        }
+        let updatedElement: XMLCoderElement
+        if hasWhitespaceElements && hasNonWhitespaceElements {
+            updatedElement = XMLCoderElement(key: element.key, elements: filteredElements, attributes: element.attributes)
+        } else {
+            updatedElement = element
+        }
+        return updatedElement
     }
 
     func parser(_: XMLParser, foundCharacters string: String) {
