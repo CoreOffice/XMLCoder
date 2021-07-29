@@ -129,6 +129,25 @@ class KeyedTests: XCTestCase {
         XCTAssertThrowsError(try decoder.decode(ContainerCamelCase.self, from: xmlData))
     }
 
+    func testConvertFromAllCaps() throws {
+        let decoder = XMLDecoder()
+        decoder.keyDecodingStrategy = .convertFromUppercase
+
+        let xmlString =
+            """
+            <CONTAINER TEST_ATTRIBUTE="test_container">
+                <VAL_UE>
+                    <FOO>12</FOO>
+                </VAL_UE>
+            </CONTAINER>
+            """
+        let xmlData = xmlString.data(using: .utf8)!
+
+        let decoded = try decoder.decode(ContainerCamelCase.self, from: xmlData)
+
+        XCTAssertEqual(decoded.valUe, ["foo": 12])
+    }
+
     func testCustomDecoderConvert() throws {
         let decoder = XMLDecoder()
         decoder.keyDecodingStrategy = .custom { keys in

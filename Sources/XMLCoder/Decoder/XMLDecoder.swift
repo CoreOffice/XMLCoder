@@ -158,6 +158,9 @@ open class XMLDecoder {
         /// Convert from "CodingKey" to "codingKey"
         case convertFromCapitalized
 
+        /// Convert from "CODING_KEY" to "codingKey"
+        case convertFromUppercase
+
         /// Provide a custom conversion from the key in the encoded XML to the
         /// keys specified by the decoded types.
         /// The full path to the current decoding position is provided for
@@ -175,6 +178,10 @@ open class XMLDecoder {
             let firstLetter = stringKey.prefix(1).lowercased()
             let result = firstLetter + stringKey.dropFirst()
             return result
+        }
+
+        static func _convertFromUppercase(_ stringKey: String) -> String {
+          _convert(stringKey.lowercased(), usingSeparator: "_")
         }
 
         static func _convertFromSnakeCase(_ stringKey: String) -> String {
