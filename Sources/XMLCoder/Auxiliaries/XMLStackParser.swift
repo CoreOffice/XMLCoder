@@ -157,8 +157,8 @@ extension XMLStackParser: XMLParserDelegate {
     }
 
     func elementWithFilteredElements(element: XMLCoderElement) -> XMLCoderElement {
-        var hasWhitespaceElements: Bool = false
-        var hasNonWhitespaceElements: Bool = false
+        var hasWhitespaceElements = false
+        var hasNonWhitespaceElements = false
         var filteredElements: [XMLCoderElement] = []
         for ele in element.elements {
             if ele.isWhitespaceWithNoElements() {
@@ -168,13 +168,11 @@ extension XMLStackParser: XMLParserDelegate {
                 filteredElements.append(ele)
             }
         }
-        let updatedElement: XMLCoderElement
+
         if hasWhitespaceElements && hasNonWhitespaceElements {
-            updatedElement = XMLCoderElement(key: element.key, elements: filteredElements, attributes: element.attributes)
-        } else {
-            updatedElement = element
+            return XMLCoderElement(key: element.key, elements: filteredElements, attributes: element.attributes)
         }
-        return updatedElement
+        return element
     }
 
     func parser(_: XMLParser, foundCharacters string: String) {
