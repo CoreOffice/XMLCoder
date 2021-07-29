@@ -106,7 +106,7 @@ class XMLStackParserTests: XCTestCase {
                 </nestedStringList>
             </SomeType>
             """.data(using: .utf8)!
-        let root = try! parser.parse(with: xmlData, errorContextLength: 0, shouldProcessNamespaces: false)
+        let root = try parser.parse(with: xmlData, errorContextLength: 0, shouldProcessNamespaces: false)
 
         XCTAssertEqual(root.elements[0].key, "")
         XCTAssertEqual(root.elements[0].stringValue, "\n    ")
