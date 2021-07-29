@@ -56,4 +56,106 @@ class XMLStackParserTests: XCTestCase {
             shouldProcessNamespaces: false
         ))
     }
+    
+    func testNestedMembers_removeWhitespaceElements() throws {
+        let parser = XMLStackParser(trimValueWhitespaces: false, removeWhitespaceElements: true)
+        let xmlData =
+            """
+            <SomeType>
+                <nestedStringList>
+                    <member>
+                        <member>foo</member>
+                        <member>bar</member>
+                    </member>
+                    <member>
+                        <member>baz</member>
+                        <member>qux</member>
+                    </member>
+                </nestedStringList>
+            </SomeType>
+            """.data(using: .utf8)!
+        let root = try! parser.parse(with: xmlData, errorContextLength: 0, shouldProcessNamespaces: false)
+
+        XCTAssertEqual(root.elements[0].key, "nestedStringList")
+
+        XCTAssertEqual(root.elements[0].elements[0].key, "member")
+        XCTAssertEqual(root.elements[0].elements[0].elements[0].key, "member")
+        XCTAssertEqual(root.elements[0].elements[0].elements[0].elements[0].stringValue, "foo")
+        XCTAssertEqual(root.elements[0].elements[0].elements[1].elements[0].stringValue, "bar")
+
+        XCTAssertEqual(root.elements[0].elements[1].key, "member")
+        XCTAssertEqual(root.elements[0].elements[1].elements[0].key, "member")
+        XCTAssertEqual(root.elements[0].elements[1].elements[0].elements[0].stringValue, "baz")
+        XCTAssertEqual(root.elements[0].elements[1].elements[1].elements[0].stringValue, "qux")
+    }
+
+    func testNestedMembers() throws {
+        let parser = XMLStackParser(trimValueWhitespaces: false, removeWhitespaceElements: false)
+        let xmlData =
+            """
+            <SomeType>
+                <nestedStringList>
+                    <member>
+                        <member>foo</member>
+                        <member>bar</member>
+                    </member>
+                    <member>
+                        <member>baz</member>
+                        <member>qux</member>
+                    </member>
+                </nestedStringList>
+            </SomeType>
+            """.data(using: .utf8)!
+        let root = try! parser.parse(with: xmlData, errorContextLength: 0, shouldProcessNamespaces: false)
+
+        XCTAssertEqual(root.elements[0].key, "")
+        XCTAssertEqual(root.elements[0].stringValue, "\n    ")
+        
+        XCTAssertEqual(root.elements[1].key, "nestedStringList")
+        XCTAssertEqual(root.elements[1].elements[0].key, "")
+        XCTAssertEqual(root.elements[1].elements[0].stringValue, "\n        ")
+        XCTAssertEqual(root.elements[1].elements[1].key, "member")
+        XCTAssertEqual(root.elements[1].elements[1].elements[0].stringValue, "\n            ")
+
+        XCTAssertEqual(root.elements[1].elements[1].elements[1].key, "member")
+        XCTAssertEqual(root.elements[1].elements[1].elements[1].elements[0].stringValue, "foo")
+        XCTAssertEqual(root.elements[1].elements[1].elements[3].key, "member")
+        XCTAssertEqual(root.elements[1].elements[1].elements[3].elements[0].stringValue, "bar")
+
+        XCTAssertEqual(root.elements[1].elements[3].elements[1].key, "member")
+        XCTAssertEqual(root.elements[1].elements[3].elements[1].elements[0].stringValue, "baz")
+        XCTAssertEqual(root.elements[1].elements[3].elements[3].key, "member")
+        XCTAssertEqual(root.elements[1].elements[3].elements[3].elements[0].stringValue, "qux")
+    }
+    
+    func testEscapableCharacters_removeWhitespaceElements() {
+        let parser = XMLStackParser(trimValueWhitespaces: false, removeWhitespaceElements: true)
+        let xmlData =
+            """
+            <SomeType>
+                <strValue>escaped data: &amp;lt;&#xD;&#10;</strValue>
+            </SomeType>
+            """.data(using: .utf8)!
+        let root = try! parser.parse(with: xmlData, errorContextLength: 0, shouldProcessNamespaces: false)
+
+        XCTAssertEqual(root.key, "SomeType")
+        XCTAssertEqual(root.elements[0].key, "strValue")
+        XCTAssertEqual(root.elements[0].elements[0].stringValue, "escaped data: &lt;\r\n")
+    }
+    
+    func testEscapableCharacters() {
+        let parser = XMLStackParser(trimValueWhitespaces: false, removeWhitespaceElements: false)
+        let xmlData =
+            """
+            <SomeType>
+                <strValue>escaped data: &amp;lt;&#xD;&#10;</strValue>
+            </SomeType>
+            """.data(using: .utf8)!
+        let root = try! parser.parse(with: xmlData, errorContextLength: 0, shouldProcessNamespaces: false)
+        XCTAssertEqual(root.key, "SomeType")
+        XCTAssertEqual(root.elements[0].key, "")
+        XCTAssertEqual(root.elements[0].stringValue, "\n    ")
+        XCTAssertEqual(root.elements[1].elements[0].stringValue, "escaped data: &lt;\r\n")
+        XCTAssertEqual(root.elements[2].stringValue, "\n")
+    }
 }

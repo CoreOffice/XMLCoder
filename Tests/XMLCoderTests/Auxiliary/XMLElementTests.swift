@@ -49,4 +49,19 @@ class XMLElementTests: XCTestCase {
         XCTAssertEqual(keyed.elements, [element])
         XCTAssertEqual(keyed.attributes, [])
     }
+    
+    func testWhitespaceWithNoElements_keyed() {
+        let keyed = XMLCoderElement(key: "foo", isStringBoxCDATA: false, box: StringBox("bar"))
+        XCTAssertFalse(keyed.isWhitespaceWithNoElements())
+    }
+
+    func testWhitespaceWithNoElements_whitespace() {
+        let whitespaceElement1 = XMLCoderElement(stringValue: "\n    ")
+        let whitespaceElement2 = XMLCoderElement(stringValue: "\n")
+        let whitespaceElement3 = XMLCoderElement(stringValue: "    ")
+
+        XCTAssert(whitespaceElement1.isWhitespaceWithNoElements())
+        XCTAssert(whitespaceElement2.isWhitespaceWithNoElements())
+        XCTAssert(whitespaceElement3.isWhitespaceWithNoElements())
+    }
 }
