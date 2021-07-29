@@ -143,7 +143,7 @@ class XMLStackParserTests: XCTestCase {
         XCTAssertEqual(root.elements[0].elements[0].stringValue, "escaped data: &lt;\r\n")
     }
     
-    func testEscapableCharacters() {
+    func testEscapableCharacters() throws {
         let parser = XMLStackParser(trimValueWhitespaces: false, removeWhitespaceElements: false)
         let xmlData =
             """
