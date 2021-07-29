@@ -128,7 +128,7 @@ class XMLStackParserTests: XCTestCase {
         XCTAssertEqual(root.elements[1].elements[3].elements[3].elements[0].stringValue, "qux")
     }
     
-    func testEscapableCharacters_removeWhitespaceElements() {
+    func testEscapableCharacters_removeWhitespaceElements() throws {
         let parser = XMLStackParser(trimValueWhitespaces: false, removeWhitespaceElements: true)
         let xmlData =
             """
