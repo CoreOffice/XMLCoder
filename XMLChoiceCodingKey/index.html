@@ -14,7 +14,6 @@
             </strong>
             <span>Documentation</span>
         </a>
-        <sup>Beta</sup>
     </header>
 
     <!--
@@ -37,7 +36,9 @@
     <code class="name">XMLChoice​Coding​Key</code>
 </h1>
 
-<html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">protocol</span> <span class="type">XMLChoiceCodingKey</span>: <span class="type">CodingKey</span></code></pre></body></html>
+<div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">protocol</span> <span class="type">XMLChoiceCodingKey</span>: <span class="type">CodingKey</span>  </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>An empty marker protocol that can be used in place of <code>CodingKey</code>. It must be used when
 attempting to encode and decode union-type–like enums with associated values to and from <code>XML</code>
@@ -45,7 +46,7 @@ choice elements.</p>
 
 </div>
 <div class="discussion">
-    <aside class="important">
+    <aside class="important" title="Important">
     <p>In order for your <code>XML</code>-destined <code>Codable</code> type to be encoded and/or decoded properly, you must conform your custom <code>CodingKey</code> type additionally to <code>XMLChoiceCodingKey</code>.</p>
 
 </aside>
@@ -65,21 +66,21 @@ choice elements.</p>
     }
 
     <span class="keyword">func</span> <span class="function">encode</span>(<span class="variable">to</span> <span class="variable">encoder</span>: <span class="type">Encoder</span>) <span class="keyword">throws</span> {
-        <span class="keyword">var</span> <span class="variable">container</span> = <span class="variable">encoder</span>.<span class="type">container</span>(<span class="variable">keyedBy</span>: <span class="type">CodingKeys</span>.<span class="keyword">self</span>)
+        <span class="keyword">var</span> <span class="variable">container</span> = <span class="variable">encoder</span>.<span class="variable">container</span>(<span class="variable">keyedBy</span>: <span class="type">CodingKeys</span>.<span class="keyword">self</span>)
         <span class="keyword">switch</span> <span class="keyword">self</span> {
         <span class="keyword">case</span> <span class="keyword">let</span> .<span class="variable">int</span>(<span class="variable">value</span>):
-            <span class="keyword">try</span> <span class="variable">container</span>.<span class="type">encode</span>(<span class="variable">value</span>, <span class="variable">forKey</span>: .<span class="variable">int</span>)
+            <span class="keyword">try</span> <span class="variable">container</span>.<span class="variable">encode</span>(<span class="variable">value</span>, <span class="variable">forKey</span>: .<span class="variable">int</span>)
         <span class="keyword">case</span> <span class="keyword">let</span> .<span class="variable">string</span>(<span class="variable">value</span>):
-            <span class="keyword">try</span> <span class="variable">container</span>.<span class="type">encode</span>(<span class="variable">value</span>, <span class="variable">forKey</span>: .<span class="variable">string</span>)
+            <span class="keyword">try</span> <span class="variable">container</span>.<span class="variable">encode</span>(<span class="variable">value</span>, <span class="variable">forKey</span>: .<span class="variable">string</span>)
         }
     }
 
     <span class="keyword">init</span>(<span class="variable">from</span> <span class="variable">decoder</span>: <span class="type">Decoder</span>) <span class="keyword">throws</span> {
-        <span class="keyword">let</span> <span class="variable">container</span> = <span class="keyword">try</span> <span class="variable">decoder</span>.<span class="type">container</span>(<span class="variable">keyedBy</span>: <span class="type">CodingKeys</span>.<span class="keyword">self</span>)
+        <span class="keyword">let</span> <span class="variable">container</span> = <span class="keyword">try</span> <span class="variable">decoder</span>.<span class="variable">container</span>(<span class="variable">keyedBy</span>: <span class="type">CodingKeys</span>.<span class="keyword">self</span>)
         <span class="keyword">do</span> {
-            <span class="keyword">self</span> = .<span class="variable">int</span>(<span class="keyword">try</span> <span class="variable">container</span>.<span class="type">decode</span>(<span class="variable">Int</span>.<span class="keyword">self</span>, <span class="variable">forKey</span>: .<span class="variable">int</span>))
+            <span class="keyword">self</span> = .<span class="variable">int</span>(<span class="keyword">try</span> <span class="variable">container</span>.<span class="variable">decode</span>(<span class="variable">Int</span>.<span class="keyword">self</span>, <span class="variable">forKey</span>: .<span class="variable">int</span>))
         } <span class="keyword">catch</span> {
-            <span class="keyword">self</span> = .<span class="variable">string</span>(<span class="keyword">try</span> <span class="variable">container</span>.<span class="type">decode</span>(<span class="variable">String</span>.<span class="keyword">self</span>, <span class="variable">forKey</span>: .<span class="variable">string</span>))
+            <span class="keyword">self</span> = .<span class="variable">string</span>(<span class="keyword">try</span> <span class="variable">container</span>.<span class="variable">decode</span>(<span class="variable">String</span>.<span class="keyword">self</span>, <span class="variable">forKey</span>: .<span class="variable">string</span>))
         }
     }
 }
@@ -89,7 +90,7 @@ encoded format.</p>
 
 <html><body><pre class="highlight"><code><span class="keyword">extension</span> <span class="type">IntOrString</span>.<span class="type">CodingKeys</span>: <span class="type">XMLChoiceCodingKey</span> {}
 </code></pre></body></html>
-<aside class="note">
+<aside class="note" title="Note">
     <p>The <code>XMLChoiceCodingKey</code> marker protocol allows the <code>XMLEncoder</code> / <code>XMLDecoder</code> to resolve ambiguities particular to the <code>XML</code> format between nested unkeyed container elements and choice elements.</p>
 
 </aside>
@@ -102,11 +103,11 @@ encoded format.</p>
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.40.1 (20161225.0304)
  -->
-<!-- Title: %3 Pages: 1 -->
+<!-- Title: %7 Pages: 1 -->
 <svg width="872pt" height="116pt"
  viewBox="0.00 0.00 872.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
-<title>%3</title>
+<title>%7</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-112 868,-112 868,4 -4,4"/>
 <!-- XMLChoiceCodingKey -->
 <g id="node1" class="node protocol current">
@@ -149,7 +150,7 @@ encoded format.</p>
 
     <footer>
         <p>
-    Generated on <time datetime="2021-01-27T11:53:21+0000">January 27, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.5</span>.
+    Generated on <time datetime="2021-07-29T17:10:26+0000">July 29, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
 </p>
     </footer>
 </body>

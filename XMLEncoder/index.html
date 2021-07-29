@@ -14,7 +14,6 @@
             </strong>
             <span>Documentation</span>
         </a>
-        <sup>Beta</sup>
     </header>
 
     <!--
@@ -37,7 +36,9 @@
     <code class="name">XMLEncoder</code>
 </h1>
 
-<html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">class</span> <span class="type">XMLEncoder</span></code></pre></body></html>
+<div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">class</span> <span class="type">XMLEncoder</span>  </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p><code>XMLEncoder</code> facilitates the encoding of <code>Encodable</code> values into XML.</p>
 
@@ -81,21 +82,28 @@
 
         <div role="article" class="typealias" id="xmlencoder.nodeencodingstrategies">
     <h3>
-        <code>Node​Encoding​Strategies</code>
+        <code><a href="#xmlencoder.nodeencodingstrategies">Node​Encoding​Strategies</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">available</span>(*, <span class="variable">deprecated</span>, <span class="variable">renamed</span>: <span class="string literal">"NodeEncodingStrategy"</span>) <span class="keyword">public</span> <span class="keyword">typealias</span> <span class="variable">NodeEncodingStrategies</span> = <span class="type">NodeEncodingStrategy</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">@</span><span class="attribute">available</span>(*, <span class="variable">deprecated</span>, <span class="variable">renamed</span>: <span class="string literal">"NodeEncodingStrategy"</span>)
+    <span class="keyword">public</span> <span class="keyword">typealias</span> <span class="variable">NodeEncodingStrategies</span> = <span class="type">NodeEncodingStrategy</span></body></html></code></pre>
+</div>
 </div>
 <div role="article" class="typealias" id="xmlencoder.xmlnodeencoderclosure">
     <h3>
-        <code>XMLNode​Encoder​Closure</code>
+        <code><a href="#xmlencoder.xmlnodeencoderclosure">XMLNode​Encoder​Closure</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">typealias</span> <span class="variable">XMLNodeEncoderClosure</span> = ((<span class="type">CodingKey</span>) -&gt; <span class="type">NodeEncoding</span>?)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">typealias</span> <span class="variable">XMLNodeEncoderClosure</span> = ((<span class="type">CodingKey</span>) -&gt; <span class="type">NodeEncoding</span>?) </body></html></code></pre>
+</div>
 </div>
 <div role="article" class="typealias" id="xmlencoder.xmlencodingclosure">
     <h3>
-        <code>XMLEncoding​Closure</code>
+        <code><a href="#xmlencoder.xmlencodingclosure">XMLEncoding​Closure</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">typealias</span> <span class="variable">XMLEncodingClosure</span> = (<span class="type">Encodable</span>.<span class="type">Type</span>, <span class="type">Encoder</span>) -&gt; <span class="type">XMLNodeEncoderClosure</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">typealias</span> <span class="variable">XMLEncodingClosure</span> = (<span class="type">Encodable</span>.<span class="type">Type</span>, <span class="type">Encoder</span>) -&gt; <span class="type">XMLNodeEncoderClosure</span></body></html></code></pre>
+</div>
 </div>
     </section>
     <section id="initializers">
@@ -103,9 +111,11 @@
 
         <div role="article" class="initializer" id="xmlencoder.init()">
     <h3>
-        <code>init()</code>
+        <code><a href="#xmlencoder.init()">init()</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">init</span>()</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">init</span>()  </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Initializes <code>self</code> with default strategies.</p>
 
@@ -117,15 +127,17 @@
 
         <div role="article" class="variable" id="xmlencoder.charactersescapedinattributes">
     <h3>
-        <code>characters​Escaped​InAttributes</code>
+        <code><a href="#xmlencoder.charactersescapedinattributes">characters​Escaped​InAttributes</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">charactersEscapedInAttributes</span> = [
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">charactersEscapedInAttributes</span> = [
         (<span class="string literal">"</span><span class="string literal">&amp;</span><span class="string literal">"</span>, <span class="string literal">"</span><span class="string literal">&amp;amp;</span><span class="string literal">"</span>),
         (<span class="string literal">"</span><span class="string literal">&lt;</span><span class="string literal">"</span>, <span class="string literal">"</span><span class="string literal">&amp;lt;</span><span class="string literal">"</span>),
         (<span class="string literal">"</span><span class="string literal">&gt;</span><span class="string literal">"</span>, <span class="string literal">"</span><span class="string literal">&amp;gt;</span><span class="string literal">"</span>),
         (<span class="string literal">"</span><span class="string literal">'</span><span class="string literal">"</span>, <span class="string literal">"</span><span class="string literal">&amp;apos;</span><span class="string literal">"</span>),
         (<span class="string literal">"</span><span class="string literal">\"</span><span class="string literal">"</span>, <span class="string literal">"</span><span class="string literal">&amp;quot;</span><span class="string literal">"</span>),
-    ]</code></pre></body></html>
+    ] </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Characters and their escaped representations to be escaped in attributes</p>
 
@@ -133,15 +145,17 @@
 </div>
 <div role="article" class="variable" id="xmlencoder.charactersescapedinelements">
     <h3>
-        <code>characters​Escaped​InElements</code>
+        <code><a href="#xmlencoder.charactersescapedinelements">characters​Escaped​InElements</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">charactersEscapedInElements</span> = [
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">charactersEscapedInElements</span> = [
         (<span class="string literal">"</span><span class="string literal">&amp;</span><span class="string literal">"</span>, <span class="string literal">"</span><span class="string literal">&amp;amp;</span><span class="string literal">"</span>),
         (<span class="string literal">"</span><span class="string literal">&lt;</span><span class="string literal">"</span>, <span class="string literal">"</span><span class="string literal">&amp;lt;</span><span class="string literal">"</span>),
         (<span class="string literal">"</span><span class="string literal">&gt;</span><span class="string literal">"</span>, <span class="string literal">"</span><span class="string literal">&amp;gt;</span><span class="string literal">"</span>),
         (<span class="string literal">"</span><span class="string literal">'</span><span class="string literal">"</span>, <span class="string literal">"</span><span class="string literal">&amp;apos;</span><span class="string literal">"</span>),
         (<span class="string literal">"</span><span class="string literal">\"</span><span class="string literal">"</span>, <span class="string literal">"</span><span class="string literal">&amp;quot;</span><span class="string literal">"</span>),
-    ]</code></pre></body></html>
+    ] </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Characters and their escaped representations to be escaped in elements</p>
 
@@ -149,9 +163,11 @@
 </div>
 <div role="article" class="variable" id="xmlencoder.outputformatting">
     <h3>
-        <code>output​Formatting</code>
+        <code><a href="#xmlencoder.outputformatting">output​Formatting</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">outputFormatting</span>: <span class="type">OutputFormatting</span> = []</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">outputFormatting</span>: <span class="type">OutputFormatting</span> = [] </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>The output format to produce. Defaults to <code>[]</code>.</p>
 
@@ -159,9 +175,11 @@
 </div>
 <div role="article" class="variable" id="xmlencoder.prettyprintindentation">
     <h3>
-        <code>pretty​Print​Indentation</code>
+        <code><a href="#xmlencoder.prettyprintindentation">pretty​Print​Indentation</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">prettyPrintIndentation</span>: <span class="type">PrettyPrintIndentation</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">prettyPrintIndentation</span>: <span class="type">PrettyPrintIndentation</span>  </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>The indentation to use when XML is printed. Defaults to <code>.spaces(4)</code>.</p>
 
@@ -169,9 +187,11 @@
 </div>
 <div role="article" class="variable" id="xmlencoder.dateencodingstrategy">
     <h3>
-        <code>date​Encoding​Strategy</code>
+        <code><a href="#xmlencoder.dateencodingstrategy">date​Encoding​Strategy</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">dateEncodingStrategy</span>: <span class="type">DateEncodingStrategy</span> = .<span class="variable">deferredToDate</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">dateEncodingStrategy</span>: <span class="type">DateEncodingStrategy</span> = .<span class="variable">deferredToDate</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>The strategy to use in encoding dates. Defaults to <code>.deferredToDate</code>.</p>
 
@@ -179,9 +199,11 @@
 </div>
 <div role="article" class="variable" id="xmlencoder.dataencodingstrategy">
     <h3>
-        <code>data​Encoding​Strategy</code>
+        <code><a href="#xmlencoder.dataencodingstrategy">data​Encoding​Strategy</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">dataEncodingStrategy</span>: <span class="type">DataEncodingStrategy</span> = .<span class="variable">base64</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">dataEncodingStrategy</span>: <span class="type">DataEncodingStrategy</span> = .<span class="variable">base64</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>The strategy to use in encoding binary data. Defaults to <code>.base64</code>.</p>
 
@@ -189,9 +211,11 @@
 </div>
 <div role="article" class="variable" id="xmlencoder.nonconformingfloatencodingstrategy">
     <h3>
-        <code>non​Conforming​Float​Encoding​Strategy</code>
+        <code><a href="#xmlencoder.nonconformingfloatencodingstrategy">non​Conforming​Float​Encoding​Strategy</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">nonConformingFloatEncodingStrategy</span>: <span class="type">NonConformingFloatEncodingStrategy</span> = .<span class="variable">throw</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">nonConformingFloatEncodingStrategy</span>: <span class="type">NonConformingFloatEncodingStrategy</span> = .<span class="variable">throw</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>The strategy to use in encoding non-conforming numbers. Defaults to <code>.throw</code>.</p>
 
@@ -199,9 +223,11 @@
 </div>
 <div role="article" class="variable" id="xmlencoder.keyencodingstrategy">
     <h3>
-        <code>key​Encoding​Strategy</code>
+        <code><a href="#xmlencoder.keyencodingstrategy">key​Encoding​Strategy</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">keyEncodingStrategy</span>: <span class="type">KeyEncodingStrategy</span> = .<span class="variable">useDefaultKeys</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">keyEncodingStrategy</span>: <span class="type">KeyEncodingStrategy</span> = .<span class="variable">useDefaultKeys</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>The strategy to use for encoding keys. Defaults to <code>.useDefaultKeys</code>.</p>
 
@@ -209,9 +235,11 @@
 </div>
 <div role="article" class="variable" id="xmlencoder.nodeencodingstrategy">
     <h3>
-        <code>node​Encoding​Strategy</code>
+        <code><a href="#xmlencoder.nodeencodingstrategy">node​Encoding​Strategy</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">nodeEncodingStrategy</span>: <span class="type">NodeEncodingStrategy</span> = .<span class="variable">deferredToEncoder</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">nodeEncodingStrategy</span>: <span class="type">NodeEncodingStrategy</span> = .<span class="variable">deferredToEncoder</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>The strategy to use in encoding encoding attributes. Defaults to <code>.deferredToEncoder</code>.</p>
 
@@ -219,9 +247,11 @@
 </div>
 <div role="article" class="variable" id="xmlencoder.stringencodingstrategy">
     <h3>
-        <code>string​Encoding​Strategy</code>
+        <code><a href="#xmlencoder.stringencodingstrategy">string​Encoding​Strategy</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">stringEncodingStrategy</span>: <span class="type">StringEncodingStrategy</span> = .<span class="variable">deferredToString</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">stringEncodingStrategy</span>: <span class="type">StringEncodingStrategy</span> = .<span class="variable">deferredToString</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>The strategy to use in encoding strings. Defaults to <code>.deferredToString</code>.</p>
 
@@ -229,9 +259,11 @@
 </div>
 <div role="article" class="variable" id="xmlencoder.userinfo">
     <h3>
-        <code>user​Info</code>
+        <code><a href="#xmlencoder.userinfo">user​Info</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">userInfo</span>: [<span class="type">CodingUserInfoKey</span>: <span class="keyword">Any</span>] = [:]</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">userInfo</span>: [<span class="type">CodingUserInfoKey</span>: <span class="keyword">Any</span>] = [:] </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Contextual user-provided information for use during encoding.</p>
 
@@ -243,9 +275,14 @@
 
         <div role="article" class="function" id="xmlencoder.encode(_:withrootkey:rootattributes:header:)">
     <h3>
-        <code>encode(_:​with​Root​Key:​root​Attributes:​header:​)</code>
+        <code><a href="#xmlencoder.encode(_:withrootkey:rootattributes:header:)">encode(_:​with​Root​Key:​root​Attributes:​header:​)</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">encode</span>&lt;<span class="variable">T</span>: <span class="type">Encodable</span>&gt;(<span class="keyword">_</span> <span class="variable">value</span>: <span class="type">T</span>, <span class="variable">withRootKey</span> <span class="variable">rootKey</span>: <span class="type">String</span>? = <span class="keyword">nil</span>, <span class="variable">rootAttributes</span>: [<span class="type">String</span>: <span class="type">String</span>]? = <span class="keyword">nil</span>, <span class="variable">header</span>: <a href="/XMLCoder/XMLHeader"><span class="type">XMLHeader</span></a>? = <span class="keyword">nil</span>) <span class="keyword">throws</span> -&gt; <span class="type">Data</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">encode</span>&lt;<span class="variable">T</span>: <span class="type">Encodable</span>&gt;(<span class="keyword">_</span> <span class="variable">value</span>: <span class="type">T</span>,
+                                   <span class="variable">withRootKey</span> <span class="variable">rootKey</span>: <span class="type">String</span>? = <span class="keyword">nil</span>,
+                                   <span class="variable">rootAttributes</span>: [<span class="type">String</span>: <span class="type">String</span>]? = <span class="keyword">nil</span>,
+                                   <span class="variable">header</span>: <a href="/XMLCoder/XMLHeader"><span class="type">XMLHeader</span></a>? = <span class="keyword">nil</span>) <span class="keyword">throws</span> -&gt; <span class="type">Data</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Encodes the given top-level value and returns its XML representation.</p>
 
@@ -290,9 +327,11 @@
 </div>
 <div role="article" class="function" id="xmlencoder.encode(_:)">
     <h3>
-        <code>encode(_:​)</code>
+        <code><a href="#xmlencoder.encode(_:)">encode(_:​)</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">encode</span>&lt;<span class="variable">T</span>&gt;(<span class="keyword">_</span> <span class="variable">value</span>: <span class="type">T</span>) <span class="keyword">throws</span> -&gt; <span class="type">Data</span> <span class="keyword">where</span> <span class="type">T</span>: <span class="type">Encodable</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">encode</span>&lt;<span class="variable">T</span>&gt;(<span class="keyword">_</span> <span class="variable">value</span>: <span class="type">T</span>) <span class="keyword">throws</span> -&gt; <span class="type">Data</span> <span class="keyword">where</span> <span class="type">T</span>: <span class="type">Encodable</span>  </body></html></code></pre>
+</div>
 </div>
     </section>
 
@@ -303,7 +342,7 @@
 
     <footer>
         <p>
-    Generated on <time datetime="2021-01-27T11:53:21+0000">January 27, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.5</span>.
+    Generated on <time datetime="2021-07-29T17:10:26+0000">July 29, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
 </p>
     </footer>
 </body>

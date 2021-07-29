@@ -14,7 +14,6 @@
             </strong>
             <span>Documentation</span>
         </a>
-        <sup>Beta</sup>
     </header>
 
     <!--
@@ -26,7 +25,7 @@
     <nav>
         <div class="wrapper">
             <h2>On This Page</h2>
-            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Member Of</a></li></ul></li><li><a href="#enumeration cases">Enumeration Cases</a><ul><li class="case"><a href="#xmldecoder.keydecodingstrategy.usedefaultkeys">use​Default​Keys</a></li><li class="case"><a href="#xmldecoder.keydecodingstrategy.convertfromsnakecase">convert​From​Snake​Case</a></li><li class="case"><a href="#xmldecoder.keydecodingstrategy.convertfromkebabcase">convert​From​Kebab​Case</a></li><li class="case"><a href="#xmldecoder.keydecodingstrategy.convertfromcapitalized">convert​From​Capitalized</a></li><li class="case"><a href="#xmldecoder.keydecodingstrategy.custom">custom</a></li></ul></li></ol>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Member Of</a></li></ul></li><li><a href="#enumeration cases">Enumeration Cases</a><ul><li class="case"><a href="#xmldecoder.keydecodingstrategy.usedefaultkeys">use​Default​Keys</a></li><li class="case"><a href="#xmldecoder.keydecodingstrategy.convertfromsnakecase">convert​From​Snake​Case</a></li><li class="case"><a href="#xmldecoder.keydecodingstrategy.convertfromkebabcase">convert​From​Kebab​Case</a></li><li class="case"><a href="#xmldecoder.keydecodingstrategy.convertfromcapitalized">convert​From​Capitalized</a></li><li class="case"><a href="#xmldecoder.keydecodingstrategy.convertfromuppercase">convert​From​Uppercase</a></li><li class="case"><a href="#xmldecoder.keydecodingstrategy.custom">custom</a></li></ul></li></ol>
         </div>
     </nav>
 
@@ -37,7 +36,9 @@
     <code class="name">XMLDecoder.​Key​Decoding​Strategy</code>
 </h1>
 
-<html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">enum</span> <span class="type">KeyDecodingStrategy</span></code></pre></body></html>
+<div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">enum</span> <span class="type">KeyDecodingStrategy</span>  </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>The strategy to use for automatically changing the box of keys before decoding.</p>
 
@@ -57,9 +58,11 @@
 
         <div role="article" class="case" id="xmldecoder.keydecodingstrategy.usedefaultkeys">
     <h3>
-        <code>use​Default​Keys</code>
+        <code><a href="#xmldecoder.keydecodingstrategy.usedefaultkeys">use​Default​Keys</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">useDefaultKeys</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">useDefaultKeys</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Use the keys specified by each type. This is the default strategy.</p>
 
@@ -67,9 +70,11 @@
 </div>
 <div role="article" class="case" id="xmldecoder.keydecodingstrategy.convertfromsnakecase">
     <h3>
-        <code>convert​From​Snake​Case</code>
+        <code><a href="#xmldecoder.keydecodingstrategy.convertfromsnakecase">convert​From​Snake​Case</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">convertFromSnakeCase</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">convertFromSnakeCase</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Convert from &quot;snake_case_keys&quot; to &quot;camelCaseKeys&quot; before attempting
 to match a key with the one specified by each type.</p>
@@ -89,7 +94,7 @@ regardless of the current user's locale and language preferences.</p>
 For example, <code>one_two_three</code> becomes <code>oneTwoThree</code>. <code>_one_two_three_</code> becomes <code>_oneTwoThree_</code>.</li>
 </ol>
 
-<aside class="note">
+<aside class="note" title="Note">
     <p>Using a key decoding strategy has a nominal performance cost, as each string key has to be inspected for the <code>_</code> character.</p>
 
 </aside>
@@ -97,9 +102,11 @@ For example, <code>one_two_three</code> becomes <code>oneTwoThree</code>. <code>
 </div>
 <div role="article" class="case" id="xmldecoder.keydecodingstrategy.convertfromkebabcase">
     <h3>
-        <code>convert​From​Kebab​Case</code>
+        <code><a href="#xmldecoder.keydecodingstrategy.convertfromkebabcase">convert​From​Kebab​Case</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">convertFromKebabCase</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">convertFromKebabCase</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Convert from &quot;kebab-case&quot; to &quot;kebabCase&quot; before attempting
 to match a key with the one specified by each type.</p>
@@ -108,19 +115,35 @@ to match a key with the one specified by each type.</p>
 </div>
 <div role="article" class="case" id="xmldecoder.keydecodingstrategy.convertfromcapitalized">
     <h3>
-        <code>convert​From​Capitalized</code>
+        <code><a href="#xmldecoder.keydecodingstrategy.convertfromcapitalized">convert​From​Capitalized</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">convertFromCapitalized</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">convertFromCapitalized</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Convert from &quot;CodingKey&quot; to &quot;codingKey&quot;</p>
 
 </div>
 </div>
+<div role="article" class="case" id="xmldecoder.keydecodingstrategy.convertfromuppercase">
+    <h3>
+        <code><a href="#xmldecoder.keydecodingstrategy.convertfromuppercase">convert​From​Uppercase</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">convertFromUppercase</span></body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Convert from &quot;CODING_KEY&quot; to &quot;codingKey&quot;</p>
+
+</div>
+</div>
 <div role="article" class="case" id="xmldecoder.keydecodingstrategy.custom">
     <h3>
-        <code>custom</code>
+        <code><a href="#xmldecoder.keydecodingstrategy.custom">custom</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">custom</span>(: (<span class="keyword">_</span> <span class="variable">codingPath</span>: [<span class="variable">CodingKey</span>]) -&gt; <span class="variable">CodingKey</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">custom</span>((<span class="keyword">_</span> <span class="variable">codingPath</span>: [<span class="type">CodingKey</span>]) -&gt; <span class="type">CodingKey</span>) </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Provide a custom conversion from the key in the encoded XML to the
 keys specified by the decoded types.
@@ -142,7 +165,7 @@ box will be present in the container for the type to decode from.</p>
 
     <footer>
         <p>
-    Generated on <time datetime="2021-01-27T11:53:20+0000">January 27, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.5</span>.
+    Generated on <time datetime="2021-07-29T17:10:26+0000">July 29, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
 </p>
     </footer>
 </body>

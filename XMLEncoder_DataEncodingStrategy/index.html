@@ -14,7 +14,6 @@
             </strong>
             <span>Documentation</span>
         </a>
-        <sup>Beta</sup>
     </header>
 
     <!--
@@ -37,7 +36,9 @@
     <code class="name">XMLEncoder.​Data​Encoding​Strategy</code>
 </h1>
 
-<html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">enum</span> <span class="type">DataEncodingStrategy</span></code></pre></body></html>
+<div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">enum</span> <span class="type">DataEncodingStrategy</span>  </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>The strategy to use for encoding <code>Data</code> values.</p>
 
@@ -57,9 +58,11 @@
 
         <div role="article" class="case" id="xmlencoder.dataencodingstrategy.deferredtodata">
     <h3>
-        <code>deferred​ToData</code>
+        <code><a href="#xmlencoder.dataencodingstrategy.deferredtodata">deferred​ToData</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">deferredToData</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">deferredToData</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Defer to <code>Data</code> for choosing an encoding.</p>
 
@@ -67,9 +70,11 @@
 </div>
 <div role="article" class="case" id="xmlencoder.dataencodingstrategy.base64">
     <h3>
-        <code>base64</code>
+        <code><a href="#xmlencoder.dataencodingstrategy.base64">base64</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">base64</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">base64</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Encoded the <code>Data</code> as a Base64-encoded string. This is the default strategy.</p>
 
@@ -77,9 +82,11 @@
 </div>
 <div role="article" class="case" id="xmlencoder.dataencodingstrategy.custom">
     <h3>
-        <code>custom</code>
+        <code><a href="#xmlencoder.dataencodingstrategy.custom">custom</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">custom</span>(: (<span class="variable">Data</span>, <span class="variable">Encoder</span>) <span class="keyword">throws</span> -&gt; ())</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">custom</span>((<span class="type">Data</span>, <span class="type">Encoder</span>) <span class="keyword">throws</span> -&gt; ()) </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Encode the <code>Data</code> as a custom value encoded by the given closure.</p>
 
@@ -98,7 +105,7 @@
 
     <footer>
         <p>
-    Generated on <time datetime="2021-01-27T11:53:21+0000">January 27, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.5</span>.
+    Generated on <time datetime="2021-07-29T17:10:26+0000">July 29, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
 </p>
     </footer>
 </body>

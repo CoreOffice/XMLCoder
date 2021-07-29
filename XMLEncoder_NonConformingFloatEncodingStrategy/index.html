@@ -14,7 +14,6 @@
             </strong>
             <span>Documentation</span>
         </a>
-        <sup>Beta</sup>
     </header>
 
     <!--
@@ -37,7 +36,9 @@
     <code class="name">XMLEncoder.​Non​Conforming​Float​Encoding​Strategy</code>
 </h1>
 
-<html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">enum</span> <span class="type">NonConformingFloatEncodingStrategy</span></code></pre></body></html>
+<div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">enum</span> <span class="type">NonConformingFloatEncodingStrategy</span>  </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>The strategy to use for non-XML-conforming floating-point values (IEEE 754 infinity and NaN).</p>
 
@@ -57,9 +58,11 @@
 
         <div role="article" class="case" id="xmlencoder.nonconformingfloatencodingstrategy.`throw`">
     <h3>
-        <code>`throw`</code>
+        <code><a href="#xmlencoder.nonconformingfloatencodingstrategy.`throw`">`throw`</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">`throw`</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">`throw`</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Throw upon encountering non-conforming values. This is the default strategy.</p>
 
@@ -67,9 +70,11 @@
 </div>
 <div role="article" class="case" id="xmlencoder.nonconformingfloatencodingstrategy.converttostring">
     <h3>
-        <code>convert​ToString</code>
+        <code><a href="#xmlencoder.nonconformingfloatencodingstrategy.converttostring">convert​ToString</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">convertToString</span>(<span class="variable">positiveInfinity</span>: <span class="type">String</span>, <span class="variable">negativeInfinity</span>: <span class="type">String</span>, <span class="variable">nan</span>: <span class="type">String</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">convertToString</span>(<span class="variable">positiveInfinity</span>: <span class="type">String</span>, <span class="variable">negativeInfinity</span>: <span class="type">String</span>, <span class="variable">nan</span>: <span class="type">String</span>) </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Encode the values using the given representation strings.</p>
 
@@ -84,7 +89,7 @@
 
     <footer>
         <p>
-    Generated on <time datetime="2021-01-27T11:53:21+0000">January 27, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.5</span>.
+    Generated on <time datetime="2021-07-29T17:10:26+0000">July 29, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
 </p>
     </footer>
 </body>

@@ -14,7 +14,6 @@
             </strong>
             <span>Documentation</span>
         </a>
-        <sup>Beta</sup>
     </header>
 
     <!--
@@ -37,7 +36,9 @@
     <code class="name">XMLDecoder</code>
 </h1>
 
-<html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">class</span> <span class="type">XMLDecoder</span></code></pre></body></html>
+<div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">class</span> <span class="type">XMLDecoder</span>  </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p><code>XMLDecoder</code> facilitates the decoding of XML into semantic <code>Decodable</code> types.</p>
 
@@ -72,9 +73,11 @@
 
         <div role="article" class="initializer" id="xmldecoder.init(trimvaluewhitespaces:)">
     <h3>
-        <code>init(trim​Value​Whitespaces:​)</code>
+        <code><a href="#xmldecoder.init(trimvaluewhitespaces:)">init(trim​Value​Whitespaces:​)</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">init</span>(<span class="variable">trimValueWhitespaces</span>: <span class="type">Bool</span> = <span class="keyword">true</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">init</span>(<span class="variable">trimValueWhitespaces</span>: <span class="type">Bool</span> = <span class="keyword">true</span>)  </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Initializes <code>self</code> with default strategies.</p>
 
@@ -86,9 +89,11 @@
 
         <div role="article" class="variable" id="xmldecoder.datedecodingstrategy">
     <h3>
-        <code>date​Decoding​Strategy</code>
+        <code><a href="#xmldecoder.datedecodingstrategy">date​Decoding​Strategy</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">dateDecodingStrategy</span>: <span class="type">DateDecodingStrategy</span> = .<span class="variable">secondsSince1970</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">dateDecodingStrategy</span>: <span class="type">DateDecodingStrategy</span> = .<span class="variable">secondsSince1970</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>The strategy to use in decoding dates. Defaults to <code>.secondsSince1970</code>.</p>
 
@@ -96,9 +101,11 @@
 </div>
 <div role="article" class="variable" id="xmldecoder.datadecodingstrategy">
     <h3>
-        <code>data​Decoding​Strategy</code>
+        <code><a href="#xmldecoder.datadecodingstrategy">data​Decoding​Strategy</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">dataDecodingStrategy</span>: <span class="type">DataDecodingStrategy</span> = .<span class="variable">base64</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">dataDecodingStrategy</span>: <span class="type">DataDecodingStrategy</span> = .<span class="variable">base64</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>The strategy to use in decoding binary data. Defaults to <code>.base64</code>.</p>
 
@@ -106,9 +113,11 @@
 </div>
 <div role="article" class="variable" id="xmldecoder.nonconformingfloatdecodingstrategy">
     <h3>
-        <code>non​Conforming​Float​Decoding​Strategy</code>
+        <code><a href="#xmldecoder.nonconformingfloatdecodingstrategy">non​Conforming​Float​Decoding​Strategy</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">nonConformingFloatDecodingStrategy</span>: <span class="type">NonConformingFloatDecodingStrategy</span> = .<span class="variable">throw</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">nonConformingFloatDecodingStrategy</span>: <span class="type">NonConformingFloatDecodingStrategy</span> = .<span class="variable">throw</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>The strategy to use in decoding non-conforming numbers. Defaults to <code>.throw</code>.</p>
 
@@ -116,9 +125,11 @@
 </div>
 <div role="article" class="variable" id="xmldecoder.keydecodingstrategy">
     <h3>
-        <code>key​Decoding​Strategy</code>
+        <code><a href="#xmldecoder.keydecodingstrategy">key​Decoding​Strategy</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">keyDecodingStrategy</span>: <span class="type">KeyDecodingStrategy</span> = .<span class="variable">useDefaultKeys</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">keyDecodingStrategy</span>: <span class="type">KeyDecodingStrategy</span> = .<span class="variable">useDefaultKeys</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>The strategy to use for decoding keys. Defaults to <code>.useDefaultKeys</code>.</p>
 
@@ -126,9 +137,11 @@
 </div>
 <div role="article" class="variable" id="xmldecoder.nodedecodingstrategy">
     <h3>
-        <code>node​Decoding​Strategy</code>
+        <code><a href="#xmldecoder.nodedecodingstrategy">node​Decoding​Strategy</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">nodeDecodingStrategy</span>: <span class="type">NodeDecodingStrategy</span> = .<span class="variable">deferredToDecoder</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">nodeDecodingStrategy</span>: <span class="type">NodeDecodingStrategy</span> = .<span class="variable">deferredToDecoder</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>The strategy to use in encoding encoding attributes. Defaults to <code>.deferredToEncoder</code>.</p>
 
@@ -136,9 +149,11 @@
 </div>
 <div role="article" class="variable" id="xmldecoder.userinfo">
     <h3>
-        <code>user​Info</code>
+        <code><a href="#xmldecoder.userinfo">user​Info</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">userInfo</span>: [<span class="type">CodingUserInfoKey</span>: <span class="keyword">Any</span>] = [:]</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">userInfo</span>: [<span class="type">CodingUserInfoKey</span>: <span class="keyword">Any</span>] = [:] </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Contextual user-provided information for use during decoding.</p>
 
@@ -146,9 +161,11 @@
 </div>
 <div role="article" class="variable" id="xmldecoder.errorcontextlength">
     <h3>
-        <code>error​Context​Length</code>
+        <code><a href="#xmldecoder.errorcontextlength">error​Context​Length</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">errorContextLength</span>: <span class="type">UInt</span> = <span class="number literal">0</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">errorContextLength</span>: <span class="type">UInt</span> = <span class="number literal">0</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>The error context length. Non-zero length makes an error thrown from
 the XML parser with line/column location repackaged with a context
@@ -163,9 +180,11 @@ span more than a few lines.</p>
 </div>
 <div role="article" class="variable" id="xmldecoder.shouldprocessnamespaces">
     <h3>
-        <code>should​Process​Namespaces</code>
+        <code><a href="#xmldecoder.shouldprocessnamespaces">should​Process​Namespaces</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">shouldProcessNamespaces</span>: <span class="type">Bool</span> = <span class="keyword">false</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">shouldProcessNamespaces</span>: <span class="type">Bool</span> = <span class="keyword">false</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>A boolean value that determines whether the parser reports the
 namespaces and qualified names of elements. The default value is <code>false</code>.</p>
@@ -174,9 +193,11 @@ namespaces and qualified names of elements. The default value is <code>false</co
 </div>
 <div role="article" class="variable" id="xmldecoder.trimvaluewhitespaces">
     <h3>
-        <code>trim​Value​Whitespaces</code>
+        <code><a href="#xmldecoder.trimvaluewhitespaces">trim​Value​Whitespaces</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">trimValueWhitespaces</span>: <span class="type">Bool</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">trimValueWhitespaces</span>: <span class="type">Bool</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>A boolean value that determines whether the parser trims whitespaces
 and newlines from the end and the beginning of string values. The default
@@ -190,9 +211,14 @@ value is <code>true</code>.</p>
 
         <div role="article" class="function" id="xmldecoder.decode(_:from:)">
     <h3>
-        <code>decode(_:​from:​)</code>
+        <code><a href="#xmldecoder.decode(_:from:)">decode(_:​from:​)</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">decode</span>&lt;<span class="variable">T</span>: <span class="type">Decodable</span>&gt;(<span class="keyword">_</span> <span class="variable">type</span>: <span class="type">T</span>.<span class="type">Type</span>, <span class="variable">from</span> <span class="variable">data</span>: <span class="type">Data</span>) <span class="keyword">throws</span> -&gt; <span class="type">T</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">decode</span>&lt;<span class="variable">T</span>: <span class="type">Decodable</span>&gt;(
+        <span class="keyword">_</span> <span class="variable">type</span>: <span class="type">T</span>.<span class="type">Type</span>,
+        <span class="variable">from</span> <span class="variable">data</span>: <span class="type">Data</span>
+    ) <span class="keyword">throws</span> -&gt; <span class="type">T</span>  </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Decodes a top-level box of the given type from the given XML representation.</p>
 
@@ -238,7 +264,7 @@ value is <code>true</code>.</p>
 
     <footer>
         <p>
-    Generated on <time datetime="2021-01-27T11:53:21+0000">January 27, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.5</span>.
+    Generated on <time datetime="2021-07-29T17:10:26+0000">July 29, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
 </p>
     </footer>
 </body>

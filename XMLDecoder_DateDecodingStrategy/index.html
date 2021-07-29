@@ -14,7 +14,6 @@
             </strong>
             <span>Documentation</span>
         </a>
-        <sup>Beta</sup>
     </header>
 
     <!--
@@ -37,7 +36,9 @@
     <code class="name">XMLDecoder.​Date​Decoding​Strategy</code>
 </h1>
 
-<html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">enum</span> <span class="type">DateDecodingStrategy</span></code></pre></body></html>
+<div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">enum</span> <span class="type">DateDecodingStrategy</span>  </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>The strategy to use for decoding <code>Date</code> values.</p>
 
@@ -57,9 +58,11 @@
 
         <div role="article" class="case" id="xmldecoder.datedecodingstrategy.deferredtodate">
     <h3>
-        <code>deferred​ToDate</code>
+        <code><a href="#xmldecoder.datedecodingstrategy.deferredtodate">deferred​ToDate</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">deferredToDate</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">deferredToDate</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Defer to <code>Date</code> for decoding. This is the default strategy.</p>
 
@@ -67,9 +70,11 @@
 </div>
 <div role="article" class="case" id="xmldecoder.datedecodingstrategy.secondssince1970">
     <h3>
-        <code>seconds​Since1970</code>
+        <code><a href="#xmldecoder.datedecodingstrategy.secondssince1970">seconds​Since1970</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">secondsSince1970</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">secondsSince1970</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Decode the <code>Date</code> as a UNIX timestamp from a XML number. This is the default strategy.</p>
 
@@ -77,9 +82,11 @@
 </div>
 <div role="article" class="case" id="xmldecoder.datedecodingstrategy.millisecondssince1970">
     <h3>
-        <code>milliseconds​Since1970</code>
+        <code><a href="#xmldecoder.datedecodingstrategy.millisecondssince1970">milliseconds​Since1970</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">millisecondsSince1970</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">millisecondsSince1970</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Decode the <code>Date</code> as UNIX millisecond timestamp from a XML number.</p>
 
@@ -87,9 +94,12 @@
 </div>
 <div role="article" class="case" id="xmldecoder.datedecodingstrategy.iso8601">
     <h3>
-        <code>iso8601</code>
+        <code><a href="#xmldecoder.datedecodingstrategy.iso8601">iso8601</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">iso8601</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">@</span><span class="attribute">available</span>(<span class="keyword">macOS</span> <span class="number literal">10.12</span>, <span class="keyword">iOS</span> <span class="number literal">10.0</span>, <span class="keyword">watchOS</span> <span class="number literal">3.0</span>, <span class="keyword">tvOS</span> <span class="number literal">10.0</span>, *)
+        <span class="keyword">case</span> <span class="variable">iso8601</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Decode the <code>Date</code> as an ISO-8601-formatted string (in RFC 3339 format).</p>
 
@@ -97,9 +107,11 @@
 </div>
 <div role="article" class="case" id="xmldecoder.datedecodingstrategy.formatted">
     <h3>
-        <code>formatted</code>
+        <code><a href="#xmldecoder.datedecodingstrategy.formatted">formatted</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">formatted</span>(: <span class="type">DateFormatter</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">formatted</span>(<span class="type">DateFormatter</span>) </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Decode the <code>Date</code> as a string parsed by the given formatter.</p>
 
@@ -107,9 +119,11 @@
 </div>
 <div role="article" class="case" id="xmldecoder.datedecodingstrategy.custom">
     <h3>
-        <code>custom</code>
+        <code><a href="#xmldecoder.datedecodingstrategy.custom">custom</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">custom</span>(: (<span class="keyword">_</span> <span class="variable">decoder</span>: <span class="type">Decoder</span>) <span class="keyword">throws</span> -&gt; <span class="variable">Date</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">custom</span>((<span class="keyword">_</span> <span class="variable">decoder</span>: <span class="type">Decoder</span>) <span class="keyword">throws</span> -&gt; <span class="type">Date</span>) </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Decode the <code>Date</code> as a custom box decoded by the given closure.</p>
 
@@ -124,7 +138,7 @@
 
     <footer>
         <p>
-    Generated on <time datetime="2021-01-27T11:53:20+0000">January 27, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.5</span>.
+    Generated on <time datetime="2021-07-29T17:10:26+0000">July 29, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
 </p>
     </footer>
 </body>

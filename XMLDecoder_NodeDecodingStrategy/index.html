@@ -14,7 +14,6 @@
             </strong>
             <span>Documentation</span>
         </a>
-        <sup>Beta</sup>
     </header>
 
     <!--
@@ -37,7 +36,9 @@
     <code class="name">XMLDecoder.​Node​Decoding​Strategy</code>
 </h1>
 
-<html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">enum</span> <span class="type">NodeDecodingStrategy</span></code></pre></body></html>
+<div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">enum</span> <span class="type">NodeDecodingStrategy</span>  </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Set of strategies to use for encoding of nodes.</p>
 
@@ -57,9 +58,11 @@
 
         <div role="article" class="case" id="xmldecoder.nodedecodingstrategy.deferredtodecoder">
     <h3>
-        <code>deferred​ToDecoder</code>
+        <code><a href="#xmldecoder.nodedecodingstrategy.deferredtodecoder">deferred​ToDecoder</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">deferredToDecoder</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">deferredToDecoder</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Defer to <code>Encoder</code> for choosing an encoding. This is the default strategy.</p>
 
@@ -67,9 +70,11 @@
 </div>
 <div role="article" class="case" id="xmldecoder.nodedecodingstrategy.custom">
     <h3>
-        <code>custom</code>
+        <code><a href="#xmldecoder.nodedecodingstrategy.custom">custom</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">custom</span>(: (<span class="variable">Decodable</span>.<span class="type">Type</span>, <span class="variable">Decoder</span>) -&gt; ((<span class="variable">CodingKey</span>) -&gt; <span class="variable">NodeDecoding</span>))</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">custom</span>((<span class="type">Decodable</span>.<span class="type">Type</span>, <span class="type">Decoder</span>) -&gt; ((<span class="type">CodingKey</span>) -&gt; <span class="type">NodeDecoding</span>)) </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Return a closure computing the desired node encoding for the value by its coding key.</p>
 
@@ -84,7 +89,7 @@
 
     <footer>
         <p>
-    Generated on <time datetime="2021-01-27T11:53:21+0000">January 27, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.5</span>.
+    Generated on <time datetime="2021-07-29T17:10:26+0000">July 29, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
 </p>
     </footer>
 </body>

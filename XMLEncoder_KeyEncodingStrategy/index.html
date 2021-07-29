@@ -14,7 +14,6 @@
             </strong>
             <span>Documentation</span>
         </a>
-        <sup>Beta</sup>
     </header>
 
     <!--
@@ -37,7 +36,9 @@
     <code class="name">XMLEncoder.​Key​Encoding​Strategy</code>
 </h1>
 
-<html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">enum</span> <span class="type">KeyEncodingStrategy</span></code></pre></body></html>
+<div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">enum</span> <span class="type">KeyEncodingStrategy</span>  </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>The strategy to use for automatically changing the value of keys before encoding.</p>
 
@@ -57,9 +58,11 @@
 
         <div role="article" class="case" id="xmlencoder.keyencodingstrategy.usedefaultkeys">
     <h3>
-        <code>use​Default​Keys</code>
+        <code><a href="#xmlencoder.keyencodingstrategy.usedefaultkeys">use​Default​Keys</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">useDefaultKeys</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">useDefaultKeys</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Use the keys specified by each type. This is the default strategy.</p>
 
@@ -67,9 +70,11 @@
 </div>
 <div role="article" class="case" id="xmlencoder.keyencodingstrategy.converttosnakecase">
     <h3>
-        <code>convert​ToSnake​Case</code>
+        <code><a href="#xmlencoder.keyencodingstrategy.converttosnakecase">convert​ToSnake​Case</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">convertToSnakeCase</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">convertToSnakeCase</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Convert from &quot;camelCaseKeys&quot; to &quot;snake_case_keys&quot; before writing a key to XML payload.</p>
 
@@ -93,7 +98,7 @@ regardless of the current user's locale and language preferences.</p>
 
 <p>For example, <code>oneTwoThree</code> becomes <code>one_two_three</code>. <code>_oneTwoThree_</code> becomes <code>_one_two_three_</code>.</p>
 
-<aside class="note">
+<aside class="note" title="Note">
     <p>Using a key encoding strategy has a nominal performance cost, as each string key has to be converted.</p>
 
 </aside>
@@ -101,9 +106,11 @@ regardless of the current user's locale and language preferences.</p>
 </div>
 <div role="article" class="case" id="xmlencoder.keyencodingstrategy.converttokebabcase">
     <h3>
-        <code>convert​ToKebab​Case</code>
+        <code><a href="#xmlencoder.keyencodingstrategy.converttokebabcase">convert​ToKebab​Case</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">convertToKebabCase</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">convertToKebabCase</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Same as convertToSnakeCase, but using <code>-</code> instead of <code>_</code>
 For example, <code>oneTwoThree</code> becomes <code>one-two-three</code>.</p>
@@ -112,9 +119,11 @@ For example, <code>oneTwoThree</code> becomes <code>one-two-three</code>.</p>
 </div>
 <div role="article" class="case" id="xmlencoder.keyencodingstrategy.capitalized">
     <h3>
-        <code>capitalized</code>
+        <code><a href="#xmlencoder.keyencodingstrategy.capitalized">capitalized</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">capitalized</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">capitalized</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Capitalize the first letter only
 <code>oneTwoThree</code> becomes  <code>OneTwoThree</code></p>
@@ -123,9 +132,11 @@ For example, <code>oneTwoThree</code> becomes <code>one-two-three</code>.</p>
 </div>
 <div role="article" class="case" id="xmlencoder.keyencodingstrategy.uppercased">
     <h3>
-        <code>uppercased</code>
+        <code><a href="#xmlencoder.keyencodingstrategy.uppercased">uppercased</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">uppercased</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">uppercased</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Uppercase ize all letters
 <code>oneTwoThree</code> becomes  <code>ONETWOTHREE</code></p>
@@ -134,9 +145,11 @@ For example, <code>oneTwoThree</code> becomes <code>one-two-three</code>.</p>
 </div>
 <div role="article" class="case" id="xmlencoder.keyencodingstrategy.lowercased">
     <h3>
-        <code>lowercased</code>
+        <code><a href="#xmlencoder.keyencodingstrategy.lowercased">lowercased</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">lowercased</span></code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">lowercased</span></body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Lowercase all letters
 <code>oneTwoThree</code> becomes  <code>onetwothree</code></p>
@@ -145,9 +158,11 @@ For example, <code>oneTwoThree</code> becomes <code>one-two-three</code>.</p>
 </div>
 <div role="article" class="case" id="xmlencoder.keyencodingstrategy.custom">
     <h3>
-        <code>custom</code>
+        <code><a href="#xmlencoder.keyencodingstrategy.custom">custom</a></code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">case</span> <span class="variable">custom</span>(: (<span class="keyword">_</span> <span class="variable">codingPath</span>: [<span class="variable">CodingKey</span>]) -&gt; <span class="variable">CodingKey</span>)</code></pre></body></html>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">case</span> <span class="variable">custom</span>((<span class="keyword">_</span> <span class="variable">codingPath</span>: [<span class="type">CodingKey</span>]) -&gt; <span class="type">CodingKey</span>) </body></html></code></pre>
+</div>
 <div class="summary" role="doc-abstract">
     <p>Provide a custom conversion to the key in the encoded XML from the
 keys specified by the encoded types.
@@ -169,7 +184,7 @@ value will be present in the result.</p>
 
     <footer>
         <p>
-    Generated on <time datetime="2021-01-27T11:53:21+0000">January 27, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.5</span>.
+    Generated on <time datetime="2021-07-29T17:10:26+0000">July 29, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
 </p>
     </footer>
 </body>
