@@ -148,7 +148,6 @@ class KeyedTests: XCTestCase {
         XCTAssertEqual(decoded.valUe, ["foo": 12])
     }
 
-
     func testCustomDecoderConvert() throws {
         let decoder = XMLDecoder()
         decoder.keyDecodingStrategy = .custom { keys in
