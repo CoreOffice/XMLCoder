@@ -136,7 +136,7 @@ class XMLStackParserTests: XCTestCase {
                 <strValue>escaped data: &amp;lt;&#xD;&#10;</strValue>
             </SomeType>
             """.data(using: .utf8)!
-        let root = try! parser.parse(with: xmlData, errorContextLength: 0, shouldProcessNamespaces: false)
+        let root = try parser.parse(with: xmlData, errorContextLength: 0, shouldProcessNamespaces: false)
 
         XCTAssertEqual(root.key, "SomeType")
         XCTAssertEqual(root.elements[0].key, "strValue")
