@@ -25,7 +25,7 @@
     <nav>
         <div class="wrapper">
             <h2>On This Page</h2>
-            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Nested Types</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#xmldecoder.init(trimvaluewhitespaces:)">init(trim​Value​Whitespaces:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="variable"><a href="#xmldecoder.datedecodingstrategy">date​Decoding​Strategy</a></li><li class="variable"><a href="#xmldecoder.datadecodingstrategy">data​Decoding​Strategy</a></li><li class="variable"><a href="#xmldecoder.nonconformingfloatdecodingstrategy">non​Conforming​Float​Decoding​Strategy</a></li><li class="variable"><a href="#xmldecoder.keydecodingstrategy">key​Decoding​Strategy</a></li><li class="variable"><a href="#xmldecoder.nodedecodingstrategy">node​Decoding​Strategy</a></li><li class="variable"><a href="#xmldecoder.userinfo">user​Info</a></li><li class="variable"><a href="#xmldecoder.errorcontextlength">error​Context​Length</a></li><li class="variable"><a href="#xmldecoder.shouldprocessnamespaces">should​Process​Namespaces</a></li><li class="variable"><a href="#xmldecoder.trimvaluewhitespaces">trim​Value​Whitespaces</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="function"><a href="#xmldecoder.decode(_:from:)">decode(_:​from:​)</a></li></ul></li></ol>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Nested Types</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#xmldecoder.init(trimvaluewhitespaces:removewhitespaceelements:)">init(trim​Value​Whitespaces:​remove​Whitespace​Elements:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="variable"><a href="#xmldecoder.datedecodingstrategy">date​Decoding​Strategy</a></li><li class="variable"><a href="#xmldecoder.datadecodingstrategy">data​Decoding​Strategy</a></li><li class="variable"><a href="#xmldecoder.nonconformingfloatdecodingstrategy">non​Conforming​Float​Decoding​Strategy</a></li><li class="variable"><a href="#xmldecoder.keydecodingstrategy">key​Decoding​Strategy</a></li><li class="variable"><a href="#xmldecoder.nodedecodingstrategy">node​Decoding​Strategy</a></li><li class="variable"><a href="#xmldecoder.userinfo">user​Info</a></li><li class="variable"><a href="#xmldecoder.errorcontextlength">error​Context​Length</a></li><li class="variable"><a href="#xmldecoder.shouldprocessnamespaces">should​Process​Namespaces</a></li><li class="variable"><a href="#xmldecoder.trimvaluewhitespaces">trim​Value​Whitespaces</a></li><li class="variable"><a href="#xmldecoder.removewhitespaceelements">remove​Whitespace​Elements</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="function"><a href="#xmldecoder.decode(_:from:)">decode(_:​from:​)</a></li></ul></li></ol>
         </div>
     </nav>
 
@@ -71,12 +71,12 @@
     <section id="initializers">
         <h2>Initializers</h2>
 
-        <div role="article" class="initializer" id="xmldecoder.init(trimvaluewhitespaces:)">
+        <div role="article" class="initializer" id="xmldecoder.init(trimvaluewhitespaces:removewhitespaceelements:)">
     <h3>
-        <code><a href="#xmldecoder.init(trimvaluewhitespaces:)">init(trim​Value​Whitespaces:​)</a></code>
+        <code><a href="#xmldecoder.init(trimvaluewhitespaces:removewhitespaceelements:)">init(trim​Value​Whitespaces:​remove​Whitespace​Elements:​)</a></code>
     </h3>
     <div class="declaration">
-<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">init</span>(<span class="variable">trimValueWhitespaces</span>: <span class="type">Bool</span> = <span class="keyword">true</span>)  </body></html></code></pre>
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">init</span>(<span class="variable">trimValueWhitespaces</span>: <span class="type">Bool</span> = <span class="keyword">true</span>, <span class="variable">removeWhitespaceElements</span>: <span class="type">Bool</span> = <span class="keyword">false</span>)  </body></html></code></pre>
 </div>
 <div class="summary" role="doc-abstract">
     <p>Initializes <code>self</code> with default strategies.</p>
@@ -205,6 +205,20 @@ value is <code>true</code>.</p>
 
 </div>
 </div>
+<div role="article" class="variable" id="xmldecoder.removewhitespaceelements">
+    <h3>
+        <code><a href="#xmldecoder.removewhitespaceelements">remove​Whitespace​Elements</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">var</span> <span class="variable">removeWhitespaceElements</span>: <span class="type">Bool</span></body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>A boolean value that determines whether to remove pure whitespace elements
+that have sibling elements that aren't pure whitespace. The default value
+is <code>false</code>.</p>
+
+</div>
+</div>
     </section>
     <section id="methods">
         <h2>Methods</h2>
@@ -264,7 +278,7 @@ value is <code>true</code>.</p>
 
     <footer>
         <p>
-    Generated on <time datetime="2021-07-29T17:10:26+0000">July 29, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
+    Generated on <time datetime="2021-07-30T11:41:51+0000">July 30, 2021</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
 </p>
     </footer>
 </body>
