@@ -15,9 +15,11 @@ class XMLStackParser: NSObject {
     var root: XMLCoderElement?
     private var stack: [XMLCoderElement] = []
     private let trimValueWhitespaces: Bool
+    private let removeWhitespaceElements: Bool
 
-    init(trimValueWhitespaces: Bool = true) {
+    init(trimValueWhitespaces: Bool = true, removeWhitespaceElements: Bool = false) {
         self.trimValueWhitespaces = trimValueWhitespaces
+        self.removeWhitespaceElements = removeWhitespaceElements
         super.init()
     }
 
@@ -25,9 +27,11 @@ class XMLStackParser: NSObject {
         with data: Data,
         errorContextLength length: UInt,
         shouldProcessNamespaces: Bool,
-        trimValueWhitespaces: Bool
+        trimValueWhitespaces: Bool,
+        removeWhitespaceElements: Bool
     ) throws -> Box {
-        let parser = XMLStackParser(trimValueWhitespaces: trimValueWhitespaces)
+        let parser = XMLStackParser(trimValueWhitespaces: trimValueWhitespaces,
+                                    removeWhitespaceElements: removeWhitespaceElements)
 
         let node = try parser.parse(
             with: data,
@@ -141,13 +145,34 @@ extension XMLStackParser: XMLParserDelegate {
             return
         }
 
+        let updatedElement = removeWhitespaceElements ? elementWithFilteredElements(element: element) : element
+    
         withCurrentElement { currentElement in
-            currentElement.append(element: element, forKey: element.key)
+            currentElement.append(element: updatedElement, forKey: updatedElement.key)
         }
 
         if stack.isEmpty {
-            root = element
+            root = updatedElement
         }
+    }
+
+    func elementWithFilteredElements(element: XMLCoderElement) -> XMLCoderElement {
+        var hasWhitespaceElements = false
+        var hasNonWhitespaceElements = false
+        var filteredElements: [XMLCoderElement] = []
+        for ele in element.elements {
+            if ele.isWhitespaceWithNoElements() {
+                hasWhitespaceElements = true
+            } else {
+                hasNonWhitespaceElements = true
+                filteredElements.append(ele)
+            }
+        }
+
+        if hasWhitespaceElements && hasNonWhitespaceElements {
+            return XMLCoderElement(key: element.key, elements: filteredElements, attributes: element.attributes)
+        }
+        return element
     }
 
     func parser(_: XMLParser, foundCharacters string: String) {

@@ -310,6 +310,12 @@ open class XMLDecoder {
      */
     open var trimValueWhitespaces: Bool
 
+    /** A boolean value that determines whether to remove pure whitespace elements
+     that have sibling elements that aren't pure whitespace. The default value
+     is `false`.
+     */
+    open var removeWhitespaceElements: Bool
+
     /// Options set on the top-level encoder to pass down the decoding hierarchy.
     struct Options {
         let dateDecodingStrategy: DateDecodingStrategy
@@ -335,8 +341,9 @@ open class XMLDecoder {
     // MARK: - Constructing a XML Decoder
 
     /// Initializes `self` with default strategies.
-    public init(trimValueWhitespaces: Bool = true) {
+    public init(trimValueWhitespaces: Bool = true, removeWhitespaceElements: Bool = false) {
         self.trimValueWhitespaces = trimValueWhitespaces
+        self.removeWhitespaceElements = removeWhitespaceElements
     }
 
     // MARK: - Decoding Values
@@ -356,7 +363,8 @@ open class XMLDecoder {
             with: data,
             errorContextLength: errorContextLength,
             shouldProcessNamespaces: shouldProcessNamespaces,
-            trimValueWhitespaces: trimValueWhitespaces
+            trimValueWhitespaces: trimValueWhitespaces,
+            removeWhitespaceElements: removeWhitespaceElements
         )
 
         let decoder = XMLDecoderImplementation(
