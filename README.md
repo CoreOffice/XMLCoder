@@ -216,7 +216,7 @@ you can now set a property `trimValueWhitespaces` to `false` (the default value 
 ### Remove whitespace elements
 
 When decoding pretty-printed XML while `trimValueWhitespaces` is set to `false`, it's possible
-for whitespace elements to be added as child elements on an instance of XMLCoderElement.  These
+for whitespace elements to be added as child elements on an instance of `XMLCoderElement`.  These
 whitespace elements make it impossible to decode data structures that require custom `Decodable` logic.
 Starting with [version 0.13.0](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.13.0) you can
 set a property `removeWhitespaceElements` to `true` (the default value is `false`) on
