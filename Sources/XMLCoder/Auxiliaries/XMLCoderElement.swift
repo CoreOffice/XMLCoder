@@ -217,9 +217,16 @@ struct XMLCoderElement: Equatable {
         _ string: inout String,
         _ charactersEscapedInAttributes: [(String, String)]
     ) {
+        let actuallyAttributes = self.elements.filter {
+            $0.key.isEmpty && $0.elements.isEmpty && !$0.attributes.isEmpty
+        }.flatMap {
+            $0.attributes
+        }
+        let allAttributes = self.attributes + actuallyAttributes
+
         let attributes = formatting.contains(.sortedKeys) ?
-            self.attributes.sorted(by: { $0.key < $1.key }) :
-            self.attributes
+            allAttributes.sorted(by: { $0.key < $1.key }) :
+            allAttributes
         formatXMLAttributes(
             from: attributes,
             into: &string,
@@ -266,9 +273,8 @@ struct XMLCoderElement: Equatable {
 
         if !key.isEmpty {
             string += "<\(key)"
+            formatXMLAttributes(formatting, &string, escapedCharacters.attributes)
         }
-
-        formatXMLAttributes(formatting, &string, escapedCharacters.attributes)
 
         if !elements.isEmpty {
             let prettyPrintElements = prettyPrinted && !containsTextNodes
@@ -282,7 +288,9 @@ struct XMLCoderElement: Equatable {
                 string += "</\(key)>"
             }
         } else {
-            string += " />"
+            if !key.isEmpty {
+                string += " />"
+            }
         }
 
         return string
