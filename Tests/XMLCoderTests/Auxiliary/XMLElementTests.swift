@@ -64,4 +64,70 @@ class XMLElementTests: XCTestCase {
         XCTAssert(whitespaceElement2.isWhitespaceWithNoElements())
         XCTAssert(whitespaceElement3.isWhitespaceWithNoElements())
     }
+
+    func testNestedElementWith_Namespace_Attribute() {
+        typealias Attribute = XMLCoderElement.Attribute
+        typealias Element = XMLCoderElement
+        let nested = Element(key: "Nested",
+                             elements: [
+                                Element(key: "",
+                                        elements: [],
+                                        attributes: [
+                                            Attribute(key: "xsi:someName", value: "nestedAttrValue")
+                                        ]
+                                )],
+                             attributes: [
+                                Attribute(key: "xmlns:xsi", value: "https://example.com")
+                             ])
+        let inputNamespace = Attribute(key: "xmlns", value: "https://example.com")
+        let input = Element(key: "Input",
+                            elements: [nested],
+                            attributes: [inputNamespace])
+
+        let result = input.toXMLString(
+            escapedCharacters: (elements: XMLEncoder().charactersEscapedInElements,
+                                attributes: XMLEncoder().charactersEscapedInAttributes),
+            formatting: [],
+            indentation: .spaces(4)
+        )
+
+        XCTAssertEqual(result, """
+        <Input xmlns="https://example.com"><Nested xmlns:xsi="https://example.com" xsi:someName="nestedAttrValue"></Nested></Input>
+        """)
+    }
+    
+    func testNestedElementWith_Namespace_Attribute_Element() {
+        typealias Attribute = XMLCoderElement.Attribute
+        typealias Element = XMLCoderElement
+        let nested = Element(key: "Nested",
+                             elements: [
+                                Element(key: "",
+                                        elements: [
+                                            Element(key: "nonAttrField",
+                                                    elements: [Element(key: "", stringValue: "hello")],
+                                                    attributes: [])
+                                        ],
+                                        attributes: [
+                                            Attribute(key: "xsi:someName", value: "nestedAttrValue")
+                                        ]
+                                )],
+                             attributes: [
+                                Attribute(key: "xmlns:xsi", value: "https://example.com")
+                             ])
+        let inputNamespace = Attribute(key: "xmlns", value: "https://example.com")
+        let input = Element(key: "Input",
+                            elements: [nested],
+                            attributes: [inputNamespace])
+
+        let result = input.toXMLString(
+            escapedCharacters: (elements: XMLEncoder().charactersEscapedInElements,
+                                attributes: XMLEncoder().charactersEscapedInAttributes),
+            formatting: [],
+            indentation: .spaces(4)
+        )
+
+        XCTAssertEqual(result, """
+        <Input xmlns="https://example.com"><Nested xmlns:xsi="https://example.com" xsi:someName="nestedAttrValue"><nonAttrField>hello</nonAttrField></Nested></Input>
+        """)
+    }
 }
