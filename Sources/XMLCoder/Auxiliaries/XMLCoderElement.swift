@@ -217,12 +217,12 @@ struct XMLCoderElement: Equatable {
         _ string: inout String,
         _ charactersEscapedInAttributes: [(String, String)]
     ) {
-        let actuallyAttributes = self.elements.filter {
-            $0.key.isEmpty && $0.elements.isEmpty && !$0.attributes.isEmpty
+        let attributesBelongingToContainer = self.elements.filter {
+            $0.key.isEmpty && !$0.attributes.isEmpty
         }.flatMap {
             $0.attributes
         }
-        let allAttributes = self.attributes + actuallyAttributes
+        let allAttributes = self.attributes + attributesBelongingToContainer
 
         let attributes = formatting.contains(.sortedKeys) ?
             allAttributes.sorted(by: { $0.key < $1.key }) :
