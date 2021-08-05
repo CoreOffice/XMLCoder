@@ -90,7 +90,7 @@ class XMLElementTests: XCTestCase {
             formatting: [],
             indentation: .spaces(4)
         )
-
+        // swiftlint:disable line_length
         XCTAssertEqual(result, """
         <Input xmlns="https://example.com"><Nested xmlns:xsi="https://example.com" xsi:someName="nestedAttrValue"></Nested></Input>
         """)
