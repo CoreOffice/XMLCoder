@@ -79,22 +79,23 @@ class XMLElementTests: XCTestCase {
                              attributes: [
                                 Attribute(key: "xmlns:xsi", value: "https://example.com")
                              ])
-        let simpleScalarPropertiesInputNamespace = Attribute(key: "xmlns", value: "https://example.com")
-        let simpleScalarPropertiesInput = Element(key: "SimpleScalarPropertiesInput",
-                                                  elements: [nested],
-                                                  attributes: [simpleScalarPropertiesInputNamespace])
+        let inputNamespace = Attribute(key: "xmlns", value: "https://example.com")
+        let input = Element(key: "Input",
+                            elements: [nested],
+                            attributes: [inputNamespace])
 
-        let result = simpleScalarPropertiesInput.toXMLString(
-            escapedCharacters: (elements: XMLEncoder().charactersEscapedInElements, attributes: XMLEncoder().charactersEscapedInAttributes),
+        let result = input.toXMLString(
+            escapedCharacters: (elements: XMLEncoder().charactersEscapedInElements,
+                                attributes: XMLEncoder().charactersEscapedInAttributes),
             formatting: [],
             indentation: .spaces(4)
         )
 
         XCTAssertEqual(result, """
-        <SimpleScalarPropertiesInput xmlns="https://example.com"><Nested xmlns:xsi="https://example.com" xsi:someName="nestedAttrValue"></Nested></SimpleScalarPropertiesInput>
+        <Input xmlns="https://example.com"><Nested xmlns:xsi="https://example.com" xsi:someName="nestedAttrValue"></Nested></Input>
         """)
     }
-
+    
     func testNestedElementWith_Namespace_Attribute_Element() {
         typealias Attribute = XMLCoderElement.Attribute
         typealias Element = XMLCoderElement
@@ -113,19 +114,20 @@ class XMLElementTests: XCTestCase {
                              attributes: [
                                 Attribute(key: "xmlns:xsi", value: "https://example.com")
                              ])
-        let simpleScalarPropertiesInputNamespace = Attribute(key: "xmlns", value: "https://example.com")
-        let simpleScalarPropertiesInput = Element(key: "SimpleScalarPropertiesInput",
-                                                  elements: [nested],
-                                                  attributes: [simpleScalarPropertiesInputNamespace])
+        let inputNamespace = Attribute(key: "xmlns", value: "https://example.com")
+        let input = Element(key: "Input",
+                            elements: [nested],
+                            attributes: [inputNamespace])
 
-        let result = simpleScalarPropertiesInput.toXMLString(
-            escapedCharacters: (elements: XMLEncoder().charactersEscapedInElements, attributes: XMLEncoder().charactersEscapedInAttributes),
+        let result = input.toXMLString(
+            escapedCharacters: (elements: XMLEncoder().charactersEscapedInElements,
+                                attributes: XMLEncoder().charactersEscapedInAttributes),
             formatting: [],
             indentation: .spaces(4)
         )
 
         XCTAssertEqual(result, """
-        <SimpleScalarPropertiesInput xmlns="https://example.com"><Nested xmlns:xsi="https://example.com" xsi:someName="nestedAttrValue"><nonAttrField>hello</nonAttrField></Nested></SimpleScalarPropertiesInput>
+        <Input xmlns="https://example.com"><Nested xmlns:xsi="https://example.com" xsi:someName="nestedAttrValue"><nonAttrField>hello</nonAttrField></Nested></Input>
         """)
     }
 }
