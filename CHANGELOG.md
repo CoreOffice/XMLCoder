@@ -1,3 +1,29 @@
+# 0.13.0 (6 August 2021)
+
+This release adds two new features and a bugfix.
+
+Namely:
+
+* `removeWhitespaceElements` boolean flag on `XMLDecoder` allows removing elements that have
+purely whitespace content.
+* `convertFromUppercase` case on `KeyDecodingStrategy` allows converting `ALL_CAPS_SNAKE_CASE` to
+`camelCase`.
+* an edge case in intrinsic key value decoding has been fixed.
+
+Many thanks to [@huwr](https://github.com/huwr), [@kneekey23](https://github.com/kneekey23), and
+[@wooj2](https://github.com/wooj2) for their contributions!
+
+**Closed issues:**
+
+- Decoding special whitespace characters ([#219](https://github.com/MaxDesiatov/XMLCoder/issues/219))
+- Help with mix of attributes and elements ([#212](https://github.com/MaxDesiatov/XMLCoder/issues/212))
+
+**Merged pull requests:**
+
+- Encode element with empty key, empty element, and attributes ([#223](https://github.com/MaxDesiatov/XMLCoder/pull/223)) via [@wooj2](https://github.com/wooj2)
+- Implement `removeWhitespaceElements ` on `XMLDecoder` ([#222](https://github.com/MaxDesiatov/XMLCoder/pull/222)) via [@wooj2](https://github.com/wooj2)
+- Add convert from UPPERCASE decoding key strategy ([#214](https://github.com/MaxDesiatov/XMLCoder/pull/214)) via [@huwr](https://github.com/huwr)
+
 # 0.12.0 (26 January 2021)
 
 This release adds a few new features. Namely:
