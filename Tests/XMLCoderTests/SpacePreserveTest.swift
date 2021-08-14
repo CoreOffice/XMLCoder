@@ -27,6 +27,16 @@ private let nestedCopyrightXML = """
 <si><t>\(copyright)</t></si>
 """.data(using: .utf8)!
 
+private let deCharacterString = "Stilles Örtchen"
+private let deCharacterXML = """
+<t>\(deCharacterString)</t>
+""".data(using: .utf8)!
+
+private let jaCharacterString = "Music 音楽"
+private let jaCharacterXML = """
+<t>\(jaCharacterString)</t>
+""".data(using: .utf8)!
+
 private struct Item: Codable, Equatable {
     public let text: String?
 
@@ -75,5 +85,15 @@ final class SpacePreserveTest: XCTestCase {
 
         let item = try decoder.decode(Item.self, from: nestedCopyrightXML)
         XCTAssertEqual(item, Item(text: copyright))
+    }
+
+    func testNonStandardCharacters() throws {
+        let decoder = XMLDecoder()
+        decoder.trimValueWhitespaces = true
+        let resultGerman = try decoder.decode(String.self, from: deCharacterXML)
+        XCTAssertEqual(resultGerman, deCharacterString)
+
+        let resultJapanese = try decoder.decode(String.self, from: jaCharacterXML)
+        XCTAssertEqual(resultJapanese, jaCharacterString)
     }
 }
