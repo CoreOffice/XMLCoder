@@ -75,7 +75,7 @@ struct XMLCoderElement: Equatable {
         stringValue = string
     }
 
-    mutating func append(element: XMLCoderElement, forKey key: String) {
+    mutating func append(element: XMLCoderElement) {
         elements.append(element)
         containsTextNodes = containsTextNodes || element.isTextNode
     }
