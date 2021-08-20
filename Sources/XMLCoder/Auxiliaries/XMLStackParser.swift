@@ -109,8 +109,7 @@ class XMLStackParser: NSObject {
         try body(&stack[stack.count - 1])
     }
 
-    /// Trim whitespaces for a given string if needed.
-    func process(string: String) -> String {
+    func trimWhitespacesIfNeeded(_ string: String) -> String {
         return trimValueWhitespaces
             ? string.trimmingCharacters(in: .whitespacesAndNewlines)
             : string
@@ -141,12 +140,15 @@ extension XMLStackParser: XMLParserDelegate {
                 namespaceURI _: String?,
                 qualifiedName _: String?)
     {
-        guard let element = stack.popLast() else {
+        guard var element = stack.popLast() else {
             return
+        }
+        if trimValueWhitespaces && element.containsTextNodes {
+            element.trimTextNodes()
         }
 
         let updatedElement = removeWhitespaceElements ? elementWithFilteredElements(element: element) : element
-    
+
         withCurrentElement { currentElement in
             currentElement.append(element: updatedElement, forKey: updatedElement.key)
         }
@@ -176,13 +178,13 @@ extension XMLStackParser: XMLParserDelegate {
     }
 
     func parser(_: XMLParser, foundCharacters string: String) {
-        let processedString = process(string: string)
+        let processedString = trimWhitespacesIfNeeded(string)
         guard processedString.count > 0, string.count != 0 else {
             return
         }
 
         withCurrentElement { currentElement in
-            currentElement.append(string: processedString)
+            currentElement.append(string: string)
         }
     }
 

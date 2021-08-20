@@ -56,7 +56,7 @@ class XMLStackParserTests: XCTestCase {
             shouldProcessNamespaces: false
         ))
     }
-    
+
     func testNestedMembers_removeWhitespaceElements() throws {
         let parser = XMLStackParser(trimValueWhitespaces: false, removeWhitespaceElements: true)
         let xmlData =
