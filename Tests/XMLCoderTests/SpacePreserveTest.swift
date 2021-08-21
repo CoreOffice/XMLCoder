@@ -37,6 +37,14 @@ private let jaCharacterXML = """
 <t>\(jaCharacterString)</t>
 """.data(using: .utf8)!
 
+private let deCharacterXMLNested = """
+<si><t xml:space="preserve">\(deCharacterString)</t></si>
+""".data(using: .utf8)!
+
+private let deCharacterXMLSpaced = """
+<t>     \(deCharacterString)    </t>
+""".data(using: .utf8)!
+
 private struct Item: Codable, Equatable {
     public let text: String?
 
@@ -96,4 +104,21 @@ final class SpacePreserveTest: XCTestCase {
         let resultJapanese = try decoder.decode(String.self, from: jaCharacterXML)
         XCTAssertEqual(resultJapanese, jaCharacterString)
     }
+
+    func testNonStandardCharactersNested() throws {
+        let decoder = XMLDecoder(trimValueWhitespaces: true)
+
+        let resultGerman = try decoder.decode(Item.self, from: deCharacterXMLNested)
+
+        XCTAssertEqual(resultGerman, Item(text: deCharacterString))
+    }
+
+    func testNonStandardCharactersSpaced() throws {
+        let decoder = XMLDecoder(trimValueWhitespaces: false)
+
+        let resultGerman = try decoder.decode(String.self, from: deCharacterXMLSpaced)
+
+        XCTAssertEqual(resultGerman, "     \(deCharacterString)    ")
+    }
+
 }
