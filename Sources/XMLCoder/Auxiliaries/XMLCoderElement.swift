@@ -100,6 +100,13 @@ struct XMLCoderElement: Equatable {
         containsTextNodes = true
     }
 
+    mutating func trimTextNodes() {
+        guard containsTextNodes else { return }
+        for idx in elements.indices {
+            elements[idx].stringValue = elements[idx].stringValue?.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+    }
+
     func transformToBoxTree() -> Box {
         if isTextNode {
             return StringBox(stringValue!)
