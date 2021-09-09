@@ -1,5 +1,5 @@
-protocol XMLPositionIndexedElementProtocol { }
-protocol XMLPositionIndexedSequenceProtocol { }
+public protocol XMLPositionIndexedElementProtocol { }
+public protocol XMLPositionIndexedSequenceProtocol { }
 
 public struct XMLPositionIndexed<T: Decodable>: Decodable, XMLPositionIndexedElementProtocol {
     public let index: Int
