@@ -38,6 +38,10 @@ struct KeyedStorage<Key: Hashable & Comparable, Value> {
     subscript(key: Key) -> [Value] {
         return keyMap[key]?.map { buffer[$0].1 } ?? []
     }
+    
+    func indexedValues(for key: Key) -> [(index: Int, value: Value)] {
+        return keyMap[key]?.map { ($0, buffer[$0].1) } ?? []
+    }
 
     mutating func append(_ value: Value, at key: Key) {
         let i = buffer.count

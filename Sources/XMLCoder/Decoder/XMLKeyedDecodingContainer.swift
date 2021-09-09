@@ -241,19 +241,33 @@ extension XMLKeyedDecodingContainer {
 
         let elements = container
             .withShared { keyedBox -> [KeyedBox.Element] in
-                keyedBox.elements[key.stringValue].map {
-                    if let singleKeyed = $0 as? SingleKeyedBox {
-                        return singleKeyed.element.isNull ? singleKeyed : singleKeyed.element
-                    } else {
-                        return $0
+                if type is XMLPositionIndexedProtocol {
+                    return keyedBox.elements
+                        .indexedValues(for: key.stringValue)
+                        .map { indexedValue -> Box in
+                            KeyedBox(
+                                elements: [
+                                    ("index", StringBox(xmlString: String(indexedValue.index))),
+                                    ("value", indexedValue.value)
+                                ],
+                                attributes: []
+                            )
+                        }
+                } else {
+                    return keyedBox.elements[key.stringValue].map {
+                        if let singleKeyed = $0 as? SingleKeyedBox {
+                            return singleKeyed.element.isNull ? singleKeyed : singleKeyed.element
+                        } else {
+                            return $0
+                        }
                     }
                 }
             }
-
+        
         let attributes = container.withShared { keyedBox in
             keyedBox.attributes[key.stringValue]
         }
-
+        
         decoder.codingPath.append(key)
         let nodeDecodings = decoder.options.nodeDecodingStrategy.nodeDecodings(
             forType: T.self,
