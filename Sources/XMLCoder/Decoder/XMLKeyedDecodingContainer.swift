@@ -241,7 +241,7 @@ extension XMLKeyedDecodingContainer {
 
         let elements = container
             .withShared { keyedBox -> [KeyedBox.Element] in
-                if type is XMLPositionIndexedProtocol {
+                if type is XMLPositionIndexedSequenceProtocol {
                     print("DECODING INDEXED \(type) at \(key)")
                     return keyedBox.elements
                         .indexedValues(for: key.stringValue)
