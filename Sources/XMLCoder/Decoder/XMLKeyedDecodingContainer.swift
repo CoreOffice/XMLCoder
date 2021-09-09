@@ -240,12 +240,8 @@ extension XMLKeyedDecodingContainer {
         }
 
         let elements = container
-            .withShared { keyedBox -> [KeyedBox.Element] in
-                let localKey = key
-                print("DECODING INDEXED??\(type is XMLPositionIndexedSequenceProtocol.Type) \(type) at \(key)")
-                
+            .withShared { keyedBox -> [KeyedBox.Element] in                
                 if type is XMLPositionIndexedSequenceProtocol.Type {
-                    print("DECODING INDEXED \(type) at \(localKey)")
                     return keyedBox.elements
                         .indexedValues(for: key.stringValue)
                         .map { indexedValue -> Box in
@@ -258,7 +254,6 @@ extension XMLKeyedDecodingContainer {
                             )
                         }
                 } else {
-                    print("DECODING REGULAR \(type) at \(localKey)")
                     return keyedBox.elements[key.stringValue].map {
                         if let singleKeyed = $0 as? SingleKeyedBox {
                             return singleKeyed.element.isNull ? singleKeyed : singleKeyed.element
