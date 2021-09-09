@@ -244,7 +244,7 @@ extension XMLKeyedDecodingContainer {
                 let localKey = key
                 print("DECODING INDEXED??\(type is XMLPositionIndexedSequenceProtocol.Type) \(type) at \(key)")
                 
-                if type is XMLPositionIndexedSequenceProtocol {
+                if type is XMLPositionIndexedSequenceProtocol.Type {
                     print("DECODING INDEXED \(type) at \(localKey)")
                     return keyedBox.elements
                         .indexedValues(for: key.stringValue)
