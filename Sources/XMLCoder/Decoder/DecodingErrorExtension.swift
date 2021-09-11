@@ -8,9 +8,7 @@
 
 import Foundation
 
-//===----------------------------------------------------------------------===//
-// Error Utilities
-//===----------------------------------------------------------------------===//
+// MARK: - Error Utilities
 
 extension DecodingError {
     /// Returns a `.typeMismatch` error describing the expected type.

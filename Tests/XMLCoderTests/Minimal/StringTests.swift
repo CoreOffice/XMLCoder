@@ -16,8 +16,7 @@ class StringTests: XCTestCase {
     }
 
     let values: [(Value, String)] = [
-        // FIXME!
-        // ("", ""),
+        ("", ""),
         ("false", "false"),
         ("-42", "-42"),
         ("42", "42"),

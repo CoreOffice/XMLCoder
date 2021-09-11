@@ -49,7 +49,7 @@ class XMLElementTests: XCTestCase {
         XCTAssertEqual(keyed.elements, [element])
         XCTAssertEqual(keyed.attributes, [])
     }
-    
+
     func testWhitespaceWithNoElements_keyed() {
         let keyed = XMLCoderElement(key: "foo", isStringBoxCDATA: false, box: StringBox("bar"))
         XCTAssertFalse(keyed.isWhitespaceWithNoElements())
@@ -95,7 +95,7 @@ class XMLElementTests: XCTestCase {
         <Input xmlns="https://example.com"><Nested xmlns:xsi="https://example.com" xsi:someName="nestedAttrValue"></Nested></Input>
         """)
     }
-    
+
     func testNestedElementWith_Namespace_Attribute_Element() {
         typealias Attribute = XMLCoderElement.Attribute
         typealias Element = XMLCoderElement
