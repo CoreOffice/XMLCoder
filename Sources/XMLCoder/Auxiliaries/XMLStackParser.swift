@@ -146,7 +146,7 @@ extension XMLStackParser: XMLParserDelegate {
         }
 
         let updatedElement = removeWhitespaceElements ? elementWithFilteredElements(element: element) : element
-    
+
         withCurrentElement { currentElement in
             currentElement.append(element: updatedElement, forKey: updatedElement.key)
         }

@@ -28,10 +28,10 @@ class NestedStringList: XCTestCase {
             let containerValues = try decoder.container(keyedBy: CodingKeys.self)
             let nestedStringListWrappedContainer = try containerValues.nestedContainer(keyedBy: NestedMemberKeys.self, forKey: .nestedStringList)
             let nestedStringListContainer = try nestedStringListWrappedContainer.decodeIfPresent([[String]].self, forKey: .member)
-            var nestedStringListBuffer:[[String]] = []
+            var nestedStringListBuffer: [[String]] = []
             if let nestedStringListContainer = nestedStringListContainer {
                 nestedStringListBuffer = [[String]]()
-                var listBuffer0: [String]? = nil
+                var listBuffer0: [String]?
                 for listContainer0 in nestedStringListContainer {
                     listBuffer0 = [String]()
                     for stringContainer1 in listContainer0 {

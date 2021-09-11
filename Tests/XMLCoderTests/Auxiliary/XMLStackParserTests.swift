@@ -56,7 +56,7 @@ class XMLStackParserTests: XCTestCase {
             shouldProcessNamespaces: false
         ))
     }
-    
+
     func testNestedMembers_removeWhitespaceElements() throws {
         let parser = XMLStackParser(trimValueWhitespaces: false, removeWhitespaceElements: true)
         let xmlData =
@@ -110,7 +110,7 @@ class XMLStackParserTests: XCTestCase {
 
         XCTAssertEqual(root.elements[0].key, "")
         XCTAssertEqual(root.elements[0].stringValue, "\n    ")
-        
+
         XCTAssertEqual(root.elements[1].key, "nestedStringList")
         XCTAssertEqual(root.elements[1].elements[0].key, "")
         XCTAssertEqual(root.elements[1].elements[0].stringValue, "\n        ")
@@ -127,7 +127,7 @@ class XMLStackParserTests: XCTestCase {
         XCTAssertEqual(root.elements[1].elements[3].elements[3].key, "member")
         XCTAssertEqual(root.elements[1].elements[3].elements[3].elements[0].stringValue, "qux")
     }
-    
+
     func testEscapableCharacters_removeWhitespaceElements() throws {
         let parser = XMLStackParser(trimValueWhitespaces: false, removeWhitespaceElements: true)
         let xmlData =
@@ -142,7 +142,7 @@ class XMLStackParserTests: XCTestCase {
         XCTAssertEqual(root.elements[0].key, "strValue")
         XCTAssertEqual(root.elements[0].elements[0].stringValue, "escaped data: &lt;\r\n")
     }
-    
+
     func testEscapableCharacters() throws {
         let parser = XMLStackParser(trimValueWhitespaces: false, removeWhitespaceElements: false)
         let xmlData =
