@@ -278,12 +278,12 @@ struct XMLCoderElement: Equatable {
         }
         var string = prefix
 
-        if !key.isEmpty {
-            string += "<\(key)"
-            formatXMLAttributes(formatting, &string, escapedCharacters.attributes)
-        }
-
         if !elements.isEmpty {
+            if !key.isEmpty {
+                string += "<\(key)"
+                formatXMLAttributes(formatting, &string, escapedCharacters.attributes)
+            }
+            
             let prettyPrintElements = prettyPrinted && !containsTextNodes
             if !key.isEmpty {
                 string += prettyPrintElements ? ">\n" : ">"
@@ -293,10 +293,6 @@ struct XMLCoderElement: Equatable {
             if prettyPrintElements { string += prefix }
             if !key.isEmpty {
                 string += "</\(key)>"
-            }
-        } else {
-            if !key.isEmpty {
-                string += " />"
             }
         }
 
