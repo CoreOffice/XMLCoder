@@ -44,7 +44,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build with Xcode ${{ matrix.xcode }}
-        run: ./test_xcodebuild.sh ${{ matrix.xcode }}
+        run: ./test_xcodebuild.sh Xcode_${{ matrix.xcode }}
         env:
           IOS_DEVICE: "platform=iOS Simulator,OS=${{ matrix.iOS }},name=iPhone 8"
           TVOS_DEVICE: "platform=tvOS Simulator,OS=${{ matrix.tvOS }},name=Apple TV 4K"
