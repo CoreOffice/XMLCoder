@@ -39,6 +39,12 @@ final class ErrorContextTest: XCTestCase {
             at line 1, column 7:
             `ah //>`
             """)
+            #elseif os(Windows)
+            XCTAssertEqual(ctx.debugDescription, """
+            \(underlying.localizedDescription) \
+            at line 1, column 10:
+            `<blah `
+            """)
             #else
             XCTAssertEqual(ctx.debugDescription, """
             \(underlying.localizedDescription) \
