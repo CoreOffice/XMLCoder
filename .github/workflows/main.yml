@@ -28,7 +28,7 @@ jobs:
             useCodecov: "false"
           - xcode: "12.5.1" # Swift 5.4
             macOS: "11.0"
-            iOS: "14.4"
+            iOS: "14.5"
             tvOS: "14.4"
             useCodecov: "false"
           - xcode: "13.1"   # Swift 5.5
