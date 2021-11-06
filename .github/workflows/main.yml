@@ -64,7 +64,7 @@ jobs:
     strategy:
       matrix:
         swift:
-          - "5.4"
+          # - "5.4"
           - "5.5"
 
     runs-on: windows-2019
