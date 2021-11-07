@@ -2,7 +2,7 @@
 
 This is a bugfix release that fixes an edge case with the use of `trimValueWhitespaces` configuration on
 `XMLDecoder`, and adds official Windows support for users of Swift 5.5. Many thanks to
-[@MartinP7r](https://github.com/MartinP7r) for multiple contributions in this release!
+[@MartinP7r](https://github.com/MartinP7r) for multiple contributions to this release!
 
 **Closed issues:**
 
