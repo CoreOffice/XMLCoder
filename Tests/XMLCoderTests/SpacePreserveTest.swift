@@ -45,6 +45,12 @@ private let deCharacterXMLSpaced = """
 <t>     \(deCharacterString)    </t>
 """.data(using: .utf8)!
 
+private let xmlEntityString = "one &amp; two"
+private let xmlEntityStringResult = "one & two"
+private let xmlEntityXml = """
+<t>\(xmlEntityString)</t>
+""".data(using: .utf8)!
+
 private struct Item: Codable, Equatable {
     public let text: String?
 
@@ -121,4 +127,11 @@ final class SpacePreserveTest: XCTestCase {
         XCTAssertEqual(resultGerman, "     \(deCharacterString)    ")
     }
 
+    func testXmlEntitesSpaced() throws {
+        let decoder = XMLDecoder(trimValueWhitespaces: false)
+
+        let resultXmlEntity = try decoder.decode(String.self, from: xmlEntityXml)
+
+        XCTAssertEqual(resultXmlEntity, xmlEntityStringResult)
+    }
 }
