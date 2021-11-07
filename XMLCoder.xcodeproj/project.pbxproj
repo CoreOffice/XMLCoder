@@ -239,7 +239,6 @@
 		OBJ_139 /* azure-pipelines.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = "azure-pipelines.yml"; sourceTree = "<group>"; };
 		OBJ_14 /* ChoiceBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceBox.swift; sourceTree = "<group>"; };
 		OBJ_140 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		OBJ_141 /* docs.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = docs.sh; sourceTree = "<group>"; };
 		OBJ_142 /* pod.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = pod.sh; sourceTree = "<group>"; };
 		OBJ_15 /* DataBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBox.swift; sourceTree = "<group>"; };
 		OBJ_16 /* DateBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateBox.swift; sourceTree = "<group>"; };
@@ -474,7 +473,6 @@
 				OBJ_137 /* test_xcodebuild.sh */,
 				OBJ_139 /* azure-pipelines.yml */,
 				OBJ_140 /* README.md */,
-				OBJ_141 /* docs.sh */,
 				OBJ_142 /* pod.sh */,
 			);
 			sourceTree = "<group>";
