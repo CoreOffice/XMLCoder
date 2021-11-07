@@ -1,14 +1,34 @@
+# 0.13.1 (7 November 2021)
+
+This is a bugfix release that fixes an edge with the use of `trimValueWhitespaces` configuration on
+`XMLDecoder`, and officially supports Windows for users of Swift 5.5. Many thanks to
+[@MartinP7r](https://github.com/MartinP7r) for multiple contributions in this release!
+
+**Closed issues:**
+
+- Encoding an Attribute doesn't work anymore ([#231](https://github.com/MaxDesiatov/XMLCoder/issues/231))
+- How to "skip" certain XML tags / element in a TCX file ([#227](https://github.com/MaxDesiatov/XMLCoder/issues/227))
+- Encode element with empty key, no elements, and attributes ([#224](https://github.com/MaxDesiatov/XMLCoder/issues/224))
+
+**Merged pull requests:**
+
+- Add Windows to GitHub Actions CI build matrix ([#233](https://github.com/MaxDesiatov/XMLCoder/pull/233)) via [@MaxDesiatov](https://github.com/MaxDesiatov)
+- Add test for preserved spaces with XML entities ([#234](https://github.com/MaxDesiatov/XMLCoder/pull/234)) via [@MartinP7r](https://github.com/MartinP7r)
+- Fix `trimValueWhitespaces` removing needed white-spaces ([#226](https://github.com/MaxDesiatov/XMLCoder/pull/226)) via [@MartinP7r](https://github.com/MartinP7r)
+- Remove some of the SwiftLint generated warnings ([#229](https://github.com/MaxDesiatov/XMLCoder/pull/229)) via [@MartinP7r](https://github.com/MartinP7r)
+- Remove unneeded parameter `key` ([#225](https://github.com/MaxDesiatov/XMLCoder/pull/225)) via [@MartinP7r](https://github.com/MartinP7r)
+
 # 0.13.0 (6 August 2021)
 
 This release adds two new features and a bugfix.
 
 Namely:
 
-* `removeWhitespaceElements` boolean flag on `XMLDecoder` allows removing elements that have
-purely whitespace content.
-* `convertFromUppercase` case on `KeyDecodingStrategy` allows converting `ALL_CAPS_SNAKE_CASE` to
-`camelCase`.
-* an edge case in intrinsic key value decoding has been fixed.
+- `removeWhitespaceElements` boolean flag on `XMLDecoder` allows removing elements that have
+  purely whitespace content.
+- `convertFromUppercase` case on `KeyDecodingStrategy` allows converting `ALL_CAPS_SNAKE_CASE` to
+  `camelCase`.
+- an edge case in intrinsic key value decoding has been fixed.
 
 Many thanks to [@huwr](https://github.com/huwr), [@kneekey23](https://github.com/kneekey23), and
 [@wooj2](https://github.com/wooj2) for their contributions!
