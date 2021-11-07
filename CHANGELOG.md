@@ -1,7 +1,7 @@
 # 0.13.1 (7 November 2021)
 
-This is a bugfix release that fixes an edge with the use of `trimValueWhitespaces` configuration on
-`XMLDecoder`, and officially supports Windows for users of Swift 5.5. Many thanks to
+This is a bugfix release that fixes an edge case with the use of `trimValueWhitespaces` configuration on
+`XMLDecoder`, and adds official Windows support for users of Swift 5.5. Many thanks to
 [@MartinP7r](https://github.com/MartinP7r) for multiple contributions in this release!
 
 **Closed issues:**
