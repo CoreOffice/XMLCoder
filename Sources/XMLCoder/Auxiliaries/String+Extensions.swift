@@ -47,6 +47,6 @@ extension StringProtocol {
 
 extension String {
     func isAllWhitespace() -> Bool {
-        return self.trimmingCharacters(in: .whitespacesAndNewlines) == ""
+        return unicodeScalars.allSatisfy(CharacterSet.whitespacesAndNewlines.contains)
     }
 }
