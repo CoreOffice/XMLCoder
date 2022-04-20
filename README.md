@@ -12,7 +12,7 @@ Encoder &amp; Decoder for XML using Swift's `Codable` protocols.
 
 This package is a fork of the original
 [ShawnMoore/XMLParsing](https://github.com/ShawnMoore/XMLParsing)
-with more features and improved test coverage. Automatically generated documentation is available on [our GitHub Pages](https://maxdesiatov.github.io/XMLCoder/).
+with more features and improved test coverage. Automatically generated documentation is available on [our GitHub Pages](https://coreoffice.github.io/XMLCoder/).
 
 ## Example
 
