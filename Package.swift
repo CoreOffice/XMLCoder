@@ -3,8 +3,15 @@
 
 import PackageDescription
 
+#if swift(>=5.7)
+let platforms: [PackageDescription.SupportedPlatform] = [.macOS(.v10_13), .iOS(.v11), .watchOS(.v4), .tvOS(.v11)]
+#elseif swift(>=5.0)
+let platforms: [PackageDescription.SupportedPlatform]? = nil
+#endif
+
 let package = Package(
     name: "XMLCoder",
+    platforms: platforms,
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
