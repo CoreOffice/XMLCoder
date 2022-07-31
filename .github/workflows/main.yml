@@ -52,7 +52,7 @@ jobs:
         run: ./test_xcodebuild.sh Xcode_${{ matrix.xcode }}
         env:
           IOS_DEVICE: "platform=iOS Simulator,OS=${{ matrix.iOS }},name=iPhone 8"
-          TVOS_DEVICE: "platform=tvOS Simulator,OS=${{ matrix.tvOS }},name=Apple TV 4K"
+          TVOS_DEVICE: "platform=tvOS Simulator,OS=${{ matrix.tvOS }},name=Apple TV"
           CODECOV_JOB: ${{ matrix.useCodecov }}
           CODECOV_TOKEN: ${{ secrets.codecovToken }}
 
