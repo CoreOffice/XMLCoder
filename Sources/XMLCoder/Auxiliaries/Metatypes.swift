@@ -8,13 +8,13 @@
 
 /// Type-erased protocol helper for a metatype check in generic `decode`
 /// overload.
-protocol AnySequence {
+public protocol XMLDecodableSequence {
     init()
 }
 
-extension Array: AnySequence {}
+extension Array: XMLDecodableSequence {}
 
-extension Dictionary: AnySequence {}
+extension Dictionary: XMLDecodableSequence {}
 
 /// Type-erased protocol helper for a metatype check in generic `decode`
 /// overload.

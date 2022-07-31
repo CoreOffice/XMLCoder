@@ -97,7 +97,7 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
             !keyedBox.elements[key.stringValue].isEmpty || keyedBox.value != nil
         }
 
-        if let type = type as? AnySequence.Type,
+        if let type = type as? XMLDecodableSequence.Type,
            !attributeFound,
            !elementFound,
            let result = type.init() as? T
@@ -269,7 +269,7 @@ extension XMLKeyedDecodingContainer {
         // You can't decode sequences from attributes, but other strategies
         // need special handling for empty sequences.
         if strategy(key) != .attribute && elements.isEmpty,
-           let empty = (type as? AnySequence.Type)?.init() as? T
+           let empty = (type as? XMLDecodableSequence.Type)?.init() as? T
         {
             return empty
         }
@@ -299,7 +299,7 @@ extension XMLKeyedDecodingContainer {
         }
 
         let value: T?
-        if !(type is AnySequence.Type), let unkeyedBox = box as? UnkeyedBox,
+        if !(type is XMLDecodableSequence.Type), let unkeyedBox = box as? UnkeyedBox,
            let first = unkeyedBox.first
         {
             // Handle case where we have held onto a `SingleKeyedBox`
