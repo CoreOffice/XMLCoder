@@ -7,7 +7,9 @@
 //
 
 /// Type-erased protocol helper for a metatype check in generic `decode`
-/// overload.
+/// overload. If you custom sequence type is not decoded correctly, try
+/// making it confirm to `XMLDecodableSequence`. Default conformances for
+/// `Array` and `Dictionary` are already provided by the XMLCoder library.
 public protocol XMLDecodableSequence {
     init()
 }
