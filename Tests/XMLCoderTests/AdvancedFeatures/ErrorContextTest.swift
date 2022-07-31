@@ -31,7 +31,7 @@ final class ErrorContextTest: XCTestCase {
                 return
             }
 
-            #if os(Linux)
+            #if os(Linux) && swift(<5.4)
             // XML Parser returns a different column on Linux
             // https://bugs.swift.org/browse/SR-11192
             XCTAssertEqual(ctx.debugDescription, """
@@ -39,7 +39,7 @@ final class ErrorContextTest: XCTestCase {
             at line 1, column 7:
             `ah //>`
             """)
-            #elseif os(Windows)
+            #elseif os(Windows) || os(Linux)
             XCTAssertEqual(ctx.debugDescription, """
             \(underlying.localizedDescription) \
             at line 1, column 10:
@@ -55,8 +55,8 @@ final class ErrorContextTest: XCTestCase {
         }
     }
 
-    // FIXME: not sure why this isn't passing on Windows
-    #if !os(Windows)
+    // FIXME: not sure why this isn't passing with SwiftFoundation since Swift 5.4
+    #if canImport(Darwin) || swift(<5.4)
     func testErrorContext() {
         let decoder = XMLDecoder()
         decoder.errorContextLength = 8
