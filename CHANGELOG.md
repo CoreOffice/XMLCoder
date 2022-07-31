@@ -1,3 +1,22 @@
+# 0.14.0 (31 July 2022)
+
+## What's Changed
+
+- Simplify string `isAllWhitespace` implementation by @LucianoPAlmeida in https://github.com/CoreOffice/XMLCoder/pull/235
+- Bump cocoapods-downloader from 1.5.1 to 1.6.3 by @dependabot in https://github.com/CoreOffice/XMLCoder/pull/239
+- Update link to project's GitHub Pages by @christopherweems in https://github.com/CoreOffice/XMLCoder/pull/240
+- Fix iOS 11 support warnings by @kikeenrique in https://github.com/CoreOffice/XMLCoder/pull/242
+- Make `AnySequence` public `XMLDecodableSequence` by @MaxDesiatov in https://github.com/CoreOffice/XMLCoder/pull/244
+
+## New Contributors
+
+- @LucianoPAlmeida made their first contribution in https://github.com/CoreOffice/XMLCoder/pull/235
+- @dependabot made their first contribution in https://github.com/CoreOffice/XMLCoder/pull/239
+- @christopherweems made their first contribution in https://github.com/CoreOffice/XMLCoder/pull/240
+- @kikeenrique made their first contribution in https://github.com/CoreOffice/XMLCoder/pull/242
+
+**Full Changelog**: https://github.com/CoreOffice/XMLCoder/compare/0.13.1...0.14.0
+
 # 0.13.1 (7 November 2021)
 
 This is a bugfix release that fixes an edge case with the use of `trimValueWhitespaces` configuration on
