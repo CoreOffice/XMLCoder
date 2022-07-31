@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XMLCoder - Array</title>
+    <title>XMLCoder - XMLDecodableSequence</title>
     <link rel="stylesheet" type="text/css" href="/XMLCoder/all.css" media="all" />
 </head>
 <body>
@@ -25,25 +25,38 @@
     <nav>
         <div class="wrapper">
             <h2>On This Page</h2>
-            <ol><li><a href="#methods">Methods</a><ul><li class="function"><a href="#array.nodeencoding(for:)">node​Encoding(for:​)</a></li></ul></li></ol>
+            <ol><li><a href="#requirements">Requirements</a><ul><li class="initializer"><a href="#xmldecodablesequence.init()">init()</a></li></ul></li></ol>
         </div>
     </nav>
 
     <main>
         <article>
             <h1>
-    <small>Extensions on</small>
-    <code class="name">Array</code>
+    <small>Protocol</small>
+    <code class="name">XMLDecodable​Sequence</code>
 </h1>
-    <section id="methods">
-        <h2>Methods</h2>
 
-        <div role="article" class="function" id="array.nodeencoding(for:)">
+<div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">protocol</span> <span class="type">XMLDecodableSequence</span>  </body></html></code></pre>
+</div>
+<div class="summary" role="doc-abstract">
+    <p>Type-erased protocol helper for a metatype check in generic <code>decode</code>
+overload.</p>
+
+</div>
+
+
+
+
+    <section id="requirements">
+        <h2>Requirements</h2>
+
+        <div role="article" class="initializer" id="xmldecodablesequence.init()">
     <h3>
-        <code><a href="#array.nodeencoding(for:)">node​Encoding(for:​)</a></code>
+        <code>init()</code>
     </h3>
     <div class="declaration">
-<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">func</span> <span class="function">nodeEncoding</span>(<span class="variable">for</span> <span class="variable">key</span>: <span class="type">CodingKey</span>) -&gt; <a href="/XMLCoder/XMLEncoder"><span class="type">XMLEncoder</span></a>.<span class="type">NodeEncoding</span>  </body></html></code></pre>
+<pre class="highlight"><code><html><body><span class="keyword">init</span>() </body></html></code></pre>
 </div>
 </div>
     </section>
