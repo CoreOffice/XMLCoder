@@ -4,7 +4,6 @@
 
 Encoder &amp; Decoder for XML using Swift's `Codable` protocols.
 
-[![Build Status](https://dev.azure.com/max0484/max/_apis/build/status/MaxDesiatov.XMLCoder?branchName=main)](https://dev.azure.com/max0484/max/_build/latest?definitionId=4&branchName=main)
 [![Version](https://img.shields.io/cocoapods/v/XMLCoder.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
 [![License](https://img.shields.io/cocoapods/l/XMLCoder.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
 [![Platform](https://img.shields.io/badge/platform-watchos%20%7C%20ios%20%7C%20tvos%20%7C%20macos%20%7C%20linux%20%7C%20windows-lightgrey.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
