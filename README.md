@@ -465,9 +465,9 @@ Drag the built framework into your Xcode project.
 ## Contributing
 
 This project adheres to the [Contributor Covenant Code of
-Conduct](https://github.com/MaxDesiatov/XMLCoder/blob/main/CODE_OF_CONDUCT.md).
+Conduct](https://github.com/CoreOffice/XMLCoder/blob/main/CODE_OF_CONDUCT.md).
 By participating, you are expected to uphold this code. Please report
-unacceptable behavior to xmlcoder@desiatov.com.
+unacceptable behavior to coreoffice@desiatov.com.
 
 ### Sponsorship
 
