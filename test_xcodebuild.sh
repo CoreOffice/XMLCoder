@@ -11,7 +11,7 @@ xcodebuild test -scheme XMLCoder \
 xcodebuild test -scheme XMLCoder \
   -sdk appletvsimulator -destination "$TVOS_DEVICE" | xcpretty
 
-if [ "$CODECOV_JOB" = "true"] ; then
+if [ "$CODECOV_JOB" = "true" ] ; then
   xcodebuild test -enableCodeCoverage YES -scheme XMLCoder \
     -sdk macosx | xcpretty
   bash <(curl -s https://codecov.io/bash)
