@@ -54,7 +54,7 @@ final class ErrorContextTest: XCTestCase {
             #elseif os(Windows) || os(Linux)
             XCTAssertEqual(ctx.debugDescription, column10)
             #else
-            if #available(iOS 16.0, tvOS 16.0, *) {
+            if #available(iOS 16.0, tvOS 16.0, macOS 13.0, *) {
                 XCTAssertEqual(ctx.debugDescription, column7)
             } else {
                 XCTAssertEqual(ctx.debugDescription, column2)
@@ -108,7 +108,7 @@ final class ErrorContextTest: XCTestCase {
             // https://bugs.swift.org/browse/SR-11192
             XCTAssertEqual(ctx.debugDescription, line4column1)
             #else
-            if #available(iOS 16.0, tvOS 16.0, *) {
+            if #available(iOS 16.0, tvOS 16.0, macOS 13.0, *) {
                 XCTAssertEqual(ctx.debugDescription, line4column1)
             } else {
                 XCTAssertEqual(ctx.debugDescription, line3column8)
