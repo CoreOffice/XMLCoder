@@ -47,7 +47,7 @@ final class ErrorContextTest: XCTestCase {
             `//>`
             """
 
-            #if (os(Linux) && swift(<5.4)) || os(iOS)
+            #if os(Linux) && swift(<5.4)
             // XML Parser returns a different column on Linux and iOS 16+
             // https://bugs.swift.org/browse/SR-11192
             XCTAssertEqual(ctx.debugDescription, column7)
