@@ -353,6 +353,46 @@ The resulting XML will look like this:
 This was implemented in PR [\#160](https://github.com/MaxDesiatov/XMLCoder/pull/160)
 by [@portellaa](https://github.com/portellaa).
 
+### Property wrappers
+
+If your version of Swift allows property wrappers to be used, you may prefer this API to the more verbose
+[dynamic node coding](#dynamic-node-coding). 
+
+For example, this type
+```swift
+struct Book: Codable {
+    @Element var id: Int
+}
+```
+
+will encode value `Book(id: 42)` as `<Book><id>42</id></Book>`. And vice versa,
+it will decode the former into the latter.
+
+Similarly,
+ 
+```swift
+struct Book: Codable {
+    @Attribute var id: Int
+}
+```
+
+will encode value `Book(id: 42)` as `<Book id="42"></Book>` and vice versa for decoding.
+ 
+If you don't know upfront if a property will be present as an element or an attribute during decoding,
+use `@ElementAndAttribute`:
+
+```swift
+struct Book: Codable {
+    @ElementAndAttribute var id: Int
+}
+```
+
+This will encode value `Book(id: 42)` as `<Book id="42"><id>42</id></Book>`. It will decode both
+`<Book><id>42</id></Book>` and `<Book id="42"></Book>` as `Book(id: 42)`.
+
+This feature is available starting with XMLCoder 0.13.0 and was implemented
+by [@bwetherfield](https://github.com/bwetherfield).
+
 ## Installation
 
 ### Requirements
