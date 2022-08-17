@@ -5,9 +5,22 @@
 //  Created by Benjamin Wetherfield on 6/3/20.
 //
 
-public protocol XMLAttributeProtocol {}
+protocol XMLAttributeProtocol {}
 
-@propertyWrapper public struct Attribute<Value>: XMLAttributeProtocol {
+/** Property wrapper specifying that a given property should be encoded and decoded as an XML attribute.
+
+ For example, this type
+ ```swift
+ struct Book: Codable {
+     @Attribute var id: Int
+ }
+ ```
+
+ will encode value `Book(id: 42)` as `<Book id="42"></Book>`. And vice versa,
+ it will decode the former into the latter.
+ */
+@propertyWrapper
+public struct Attribute<Value>: XMLAttributeProtocol {
     public var wrappedValue: Value
 
     public init(_ wrappedValue: Value) {

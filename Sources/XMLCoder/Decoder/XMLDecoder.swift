@@ -39,7 +39,7 @@ open class XMLDecoder {
         static func keyFormatted(
             _ formatterForKey: @escaping (CodingKey) throws -> DateFormatter?
         ) -> XMLDecoder.DateDecodingStrategy {
-            return .custom { (decoder) -> Date in
+            return .custom { decoder -> Date in
                 guard let codingKey = decoder.codingPath.last else {
                     throw DecodingError.dataCorrupted(DecodingError.Context(
                         codingPath: decoder.codingPath,
@@ -90,7 +90,7 @@ open class XMLDecoder {
         static func keyFormatted(
             _ formatterForKey: @escaping (CodingKey) throws -> Data?
         ) -> XMLDecoder.DataDecodingStrategy {
-            return .custom { (decoder) -> Data in
+            return .custom { decoder -> Data in
                 guard let codingKey = decoder.codingPath.last else {
                     throw DecodingError.dataCorrupted(DecodingError.Context(
                         codingPath: decoder.codingPath,
@@ -179,7 +179,7 @@ open class XMLDecoder {
         }
 
         static func _convertFromUppercase(_ stringKey: String) -> String {
-          _convert(stringKey.lowercased(), usingSeparator: "_")
+            _convert(stringKey.lowercased(), usingSeparator: "_")
         }
 
         static func _convertFromSnakeCase(_ stringKey: String) -> String {
@@ -252,8 +252,12 @@ open class XMLDecoder {
 
     /// A node's decoding type
     public enum NodeDecoding {
+        /// Decodes a node from attributes of form `nodeName="value"`.
         case attribute
+        /// Decodes a node from elements of form `<nodeName>value</nodeName>`.
         case element
+        /// Decodes a node from either elements of form `<nodeName>value</nodeName>` or attributes
+        //// of form `nodeName="value"`.
         case elementOrAttribute
     }
 

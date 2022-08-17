@@ -6,6 +6,40 @@
 //  Created by Joseph Mattiello on 1/24/19.
 //
 
+/** Allows conforming types to specify how its properties will be encoded.
+
+ For example:
+ ```swift
+ struct Book: Codable, Equatable, DynamicNodeEncoding {
+     let id: UInt
+     let title: String
+     let categories: [Category]
+
+     enum CodingKeys: String, CodingKey {
+         case id
+         case title
+         case categories = "category"
+     }
+
+     static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+         switch key {
+         case Book.CodingKeys.id: return .both
+         default: return .element
+         }
+     }
+ }
+ ```
+ produces XML of this form for values of type `Book`:
+
+ ```xml
+ <book id="123">
+     <id>123</id>
+     <title>Cat in the Hat</title>
+     <category>Kids</category>
+     <category>Wildlife</category>
+ </book>
+ ```
+ */
 public protocol DynamicNodeEncoding: Encodable {
     static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding
 }
