@@ -366,7 +366,7 @@ struct Book: Codable {
 ```
 
 will encode value `Book(id: 42)` as `<Book><id>42</id></Book>`. And vice versa,
-it will decode the former into the latter.
+it will decode the latter into the former.
 
 Similarly,
  
