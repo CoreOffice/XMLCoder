@@ -257,7 +257,7 @@ open class XMLDecoder {
         /// Decodes a node from elements of form `<nodeName>value</nodeName>`.
         case element
         /// Decodes a node from either elements of form `<nodeName>value</nodeName>` or attributes
-        //// of form `nodeName="value"`.
+        /// of form `nodeName="value"`, with elements taking priority.
         case elementOrAttribute
     }
 
