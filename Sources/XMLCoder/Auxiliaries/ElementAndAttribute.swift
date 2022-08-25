@@ -5,9 +5,23 @@
 //  Created by Benjamin Wetherfield on 6/7/20.
 //
 
-public protocol XMLElementAndAttributeProtocol {}
+protocol XMLElementAndAttributeProtocol {}
 
-@propertyWrapper public struct ElementAndAttribute<Value>: XMLElementAndAttributeProtocol {
+/** Property wrapper specifying that a given property should be decoded from either an XML element
+ or an XML attribute. When encoding, the value will be present as both an attribute, and an element.
+
+ For example, this type
+ ```swift
+ struct Book: Codable {
+     @ElementAndAttribute var id: Int
+ }
+ ```
+
+ will encode value `Book(id: 42)` as `<Book id="42"><id>42</id></Book>`. It will decode both
+ `<Book><id>42</id></Book>` and `<Book id="42"></Book>` as `Book(id: 42)`.
+ */
+@propertyWrapper
+public struct ElementAndAttribute<Value>: XMLElementAndAttributeProtocol {
     public var wrappedValue: Value
 
     public init(_ wrappedValue: Value) {

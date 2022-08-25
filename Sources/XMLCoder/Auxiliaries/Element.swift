@@ -7,7 +7,20 @@
 
 protocol XMLElementProtocol {}
 
-@propertyWrapper public struct Element<Value>: XMLElementProtocol {
+/** Property wrapper specifying that a given property should be encoded and decoded as an XML element.
+
+ For example, this type
+ ```swift
+ struct Book: Codable {
+     @Element var id: Int
+ }
+ ```
+
+ will encode value `Book(id: 42)` as `<Book><id>42</id></Book>`. And vice versa,
+ it will decode the former into the latter.
+ */
+@propertyWrapper
+public struct Element<Value>: XMLElementProtocol {
     public var wrappedValue: Value
 
     public init(_ wrappedValue: Value) {

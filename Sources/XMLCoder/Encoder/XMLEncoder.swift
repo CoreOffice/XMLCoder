@@ -29,13 +29,13 @@ open class XMLEncoder {
         public static let sortedKeys = OutputFormatting(rawValue: 1 << 1)
     }
 
-    /// The identation to use when XML is pretty-printed.
+    /// The indentation to use when XML is pretty-printed.
     public enum PrettyPrintIndentation {
         case spaces(Int)
         case tabs(Int)
     }
 
-    /// A node's encoding type
+    /// A node's encoding type. Specifies how a node will be encoded.
     public enum NodeEncoding {
         case attribute
         case element
@@ -230,7 +230,7 @@ open class XMLEncoder {
     @available(*, deprecated, renamed: "NodeEncodingStrategy")
     public typealias NodeEncodingStrategies = NodeEncodingStrategy
 
-    public typealias XMLNodeEncoderClosure = ((CodingKey) -> NodeEncoding?)
+    public typealias XMLNodeEncoderClosure = (CodingKey) -> NodeEncoding?
     public typealias XMLEncodingClosure = (Encodable.Type, Encoder) -> XMLNodeEncoderClosure
 
     /// Set of strategies to use for encoding of nodes.
@@ -343,6 +343,7 @@ open class XMLEncoder {
     /// - parameter withRootKey: the key used to wrap the encoded values. The
     ///   default value is inferred from the name of the root type.
     /// - parameter rootAttributes: the list of attributes to be added to the root node
+    /// - parameter header: the XML header to start the encoded data with.
     /// - returns: A new `Data` value containing the encoded XML data.
     /// - throws: `EncodingError.invalidValue` if a non-conforming
     /// floating-point value is encountered during encoding, and the encoding
