@@ -31,26 +31,34 @@ final class ErrorContextTest: XCTestCase {
                 return
             }
 
-            #if os(Linux) && swift(<5.4)
-            // XML Parser returns a different column on Linux
-            // https://bugs.swift.org/browse/SR-11192
-            XCTAssertEqual(ctx.debugDescription, """
-            \(underlying.localizedDescription) \
-            at line 1, column 7:
-            `ah //>`
-            """)
-            #elseif os(Windows) || os(Linux)
-            XCTAssertEqual(ctx.debugDescription, """
-            \(underlying.localizedDescription) \
-            at line 1, column 10:
-            `//>`
-            """)
-            #else
-            XCTAssertEqual(ctx.debugDescription, """
+            let column2 = """
             \(underlying.localizedDescription) \
             at line 1, column 2:
             `<blah `
-            """)
+            """
+            let column7 = """
+            \(underlying.localizedDescription) \
+            at line 1, column 7:
+            `ah //>`
+            """
+            let column10 = """
+            \(underlying.localizedDescription) \
+            at line 1, column 10:
+            `//>`
+            """
+
+            #if os(Linux) && swift(<5.4)
+            // XML Parser returns a different column on Linux and iOS 16+
+            // https://bugs.swift.org/browse/SR-11192
+            XCTAssertEqual(ctx.debugDescription, column7)
+            #elseif os(Windows) || os(Linux)
+            XCTAssertEqual(ctx.debugDescription, column10)
+            #else
+            if #available(iOS 16.0, tvOS 16.0, macOS 13.0, *) {
+                XCTAssertEqual(ctx.debugDescription, column7)
+            } else {
+                XCTAssertEqual(ctx.debugDescription, column2)
+            }
             #endif
         }
     }
@@ -81,22 +89,30 @@ final class ErrorContextTest: XCTestCase {
                 return
             }
 
-            #if os(Linux)
-            // XML Parser returns a different column on Linux
-            // https://bugs.swift.org/browse/SR-11192
-            XCTAssertEqual(ctx.debugDescription, """
+            let line4column1 = """
             \(underlying.localizedDescription) \
             at line 4, column 1:
             `blah>
             <c`
-            """)
-            #else
-            XCTAssertEqual(ctx.debugDescription, """
+            """
+
+            let line3column8 = """
             \(underlying.localizedDescription) \
             at line 3, column 8:
             `blah>
             <c`
-            """)
+            """
+
+            #if os(Linux)
+            // XML Parser returns a different column on Linux
+            // https://bugs.swift.org/browse/SR-11192
+            XCTAssertEqual(ctx.debugDescription, line4column1)
+            #else
+            if #available(iOS 16.0, tvOS 16.0, macOS 13.0, *) {
+                XCTAssertEqual(ctx.debugDescription, line4column1)
+            } else {
+                XCTAssertEqual(ctx.debugDescription, line3column8)
+            }
             #endif
         }
     }
