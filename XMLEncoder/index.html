@@ -52,10 +52,10 @@
 <dd><p>The formatting of the output XML data.</p>
 </dd>
 <dt class="enumeration"><code><a href="/XMLCoder/XMLEncoder_PrettyPrintIndentation">XMLEncoder.PrettyPrintIndentation</a></code></dt>
-<dd><p>The identation to use when XML is pretty-printed.</p>
+<dd><p>The indentation to use when XML is pretty-printed.</p>
 </dd>
 <dt class="enumeration"><code><a href="/XMLCoder/XMLEncoder_NodeEncoding">XMLEncoder.NodeEncoding</a></code></dt>
-<dd><p>A node's encoding type</p>
+<dd><p>A node's encoding type. Specifies how a node will be encoded.</p>
 </dd>
 <dt class="enumeration"><code><a href="/XMLCoder/XMLEncoder_DateEncodingStrategy">XMLEncoder.DateEncodingStrategy</a></code></dt>
 <dd><p>The strategy to use for encoding <code>Date</code> values.</p>
@@ -94,7 +94,7 @@
         <code><a href="#xmlencoder.xmlnodeencoderclosure">XMLNode​Encoder​Closure</a></code>
     </h3>
     <div class="declaration">
-<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">typealias</span> <span class="variable">XMLNodeEncoderClosure</span> = ((<span class="type">CodingKey</span>) -&gt; <span class="type">NodeEncoding</span>?) </body></html></code></pre>
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">typealias</span> <span class="variable">XMLNodeEncoderClosure</span> = (<span class="type">CodingKey</span>) -&gt; <span class="type">NodeEncoding</span>? </body></html></code></pre>
 </div>
 </div>
 <div role="article" class="typealias" id="xmlencoder.xmlencodingclosure">
@@ -316,6 +316,12 @@
     <td><p>the list of attributes to be added to the root node</p>
 </td>
 </tr>
+<tr>
+    <th>header</th>
+    <td><code class="type">XMLHeader?</code></td>
+    <td><p>the XML header to start the encoded data with.</p>
+</td>
+</tr>
   </tbody>
 </table>
   <h4>Throws</h4>
@@ -342,7 +348,7 @@
 
     <footer>
         <p>
-    Generated on <time datetime="2022-08-25T16:19:19+0000">August 25, 2022</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
+    Generated on <time datetime="2022-08-25T16:19:38+0000">August 25, 2022</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
 </p>
     </footer>
 </body>

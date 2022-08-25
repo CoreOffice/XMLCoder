@@ -63,7 +63,8 @@
     </a>
 </dt>
 <dd>
-    
+    <p>Property wrapper specifying that a given property should be encoded and decoded as an XML attribute.</p>
+
 </dd>
 <dt class="structure">
     <a href="/XMLCoder/Element" title="structure - Element">
@@ -71,7 +72,8 @@
     </a>
 </dt>
 <dd>
-    
+    <p>Property wrapper specifying that a given property should be encoded and decoded as an XML element.</p>
+
 </dd>
 <dt class="structure">
     <a href="/XMLCoder/ElementAndAttribute" title="structure - ElementAndAttribute">
@@ -79,7 +81,9 @@
     </a>
 </dt>
 <dd>
-    
+    <p>Property wrapper specifying that a given property should be decoded from either an XML element
+or an XML attribute. When encoding, the value will be present as both an attribute, and an element.</p>
+
 </dd>
 <dt class="structure">
     <a href="/XMLCoder/XMLHeader" title="structure - XMLHeader">
@@ -87,7 +91,10 @@
     </a>
 </dt>
 <dd>
-    
+    <p>Type that allows overriding XML header during encoding. Pass a value of this type to the <code>encode</code>
+function of <code>XMLEncoder</code> to specify the exact value of the header you'd like to see in the encoded
+data.</p>
+
 </dd>
 <dt class="structure">
     <a href="/XMLCoder/XMLEncoder_OutputFormatting" title="structure - XMLEncoder.OutputFormatting">
@@ -163,7 +170,7 @@
     </a>
 </dt>
 <dd>
-    <p>The identation to use when XML is pretty-printed.</p>
+    <p>The indentation to use when XML is pretty-printed.</p>
 
 </dd>
 <dt class="enumeration">
@@ -172,7 +179,7 @@
     </a>
 </dt>
 <dd>
-    <p>A node's encoding type</p>
+    <p>A node's encoding type. Specifies how a node will be encoded.</p>
 
 </dd>
 <dt class="enumeration">
@@ -235,22 +242,6 @@
         <h2>Protocols</h2>
         <dl>
             <dt class="protocol">
-    <a href="/XMLCoder/XMLAttributeProtocol" title="protocol - XMLAttributeProtocol">
-        XMLAttribute​Protocol
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="protocol">
-    <a href="/XMLCoder/XMLElementAndAttributeProtocol" title="protocol - XMLElementAndAttributeProtocol">
-        XMLElement​And​Attribute​Protocol
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="protocol">
     <a href="/XMLCoder/XMLDecodableSequence" title="protocol - XMLDecodableSequence">
         XMLDecodable​Sequence
     </a>
@@ -279,7 +270,8 @@ choice elements.</p>
     </a>
 </dt>
 <dd>
-    
+    <p>Allows conforming types to specify how its properties will be decoded.</p>
+
 </dd>
 <dt class="protocol">
     <a href="/XMLCoder/DynamicNodeEncoding" title="protocol - DynamicNodeEncoding">
@@ -287,7 +279,8 @@ choice elements.</p>
     </a>
 </dt>
 <dd>
-    
+    <p>Allows conforming types to specify how its properties will be encoded.</p>
+
 </dd>
         </dl>
     </section>
@@ -305,7 +298,7 @@ choice elements.</p>
 
     <footer>
         <p>
-    Generated on <time datetime="2022-08-25T16:19:19+0000">August 25, 2022</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
+    Generated on <time datetime="2022-08-25T16:19:38+0000">August 25, 2022</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
 </p>
     </footer>
 </body>
