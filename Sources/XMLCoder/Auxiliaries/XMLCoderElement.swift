@@ -121,15 +121,23 @@ struct XMLCoderElement: Equatable {
     }
 
     func toXMLString(
-        with header: XMLHeader? = nil,
+        with header: XMLHeader?,
+        doctype: XMLDocumentType?,
         escapedCharacters: (elements: [(String, String)], attributes: [(String, String)]),
         formatting: XMLEncoder.OutputFormatting,
         indentation: XMLEncoder.PrettyPrintIndentation
     ) -> String {
+        var base = ""
+        
         if let header = header, let headerXML = header.toXML() {
-            return headerXML + _toXMLString(escapedCharacters, formatting, indentation)
+            base += headerXML
         }
-        return _toXMLString(escapedCharacters, formatting, indentation)
+        
+        if let doctype = doctype {
+            base += doctype.toXML()
+        }
+        
+        return base + _toXMLString(escapedCharacters, formatting, indentation)
     }
 
     private func formatUnsortedXMLElements(

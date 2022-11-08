@@ -352,7 +352,8 @@ open class XMLEncoder {
     open func encode<T: Encodable>(_ value: T,
                                    withRootKey rootKey: String? = nil,
                                    rootAttributes: [String: String]? = nil,
-                                   header: XMLHeader? = nil) throws -> Data
+                                   header: XMLHeader? = nil,
+                                   doctype: XMLDocumentType? = nil) throws -> Data
     {
         let encoder = XMLEncoderImplementation(options: options, nodeEncodings: [])
         encoder.nodeEncodings.append(options.nodeEncodingStrategy.nodeEncodings(forType: T.self, with: encoder))
@@ -400,6 +401,7 @@ open class XMLEncoder {
 
         return element.toXMLString(
             with: header,
+            doctype: doctype,
             escapedCharacters: (
                 elements: charactersEscapedInElements,
                 attributes: charactersEscapedInAttributes
