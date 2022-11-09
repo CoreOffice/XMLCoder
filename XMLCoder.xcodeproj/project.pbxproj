@@ -22,6 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		07E441BA2340F14B00890F46 /* EmptyElementEmptyStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E441B92340F14B00890F46 /* EmptyElementEmptyStringTests.swift */; };
+		246B0DF8291BB1310076D5B9 /* XMLDocumentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246B0DF7291BB1310076D5B9 /* XMLDocumentType.swift */; };
 		4A062D4F2341924E009BCAC1 /* CombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A062D4E2341924E009BCAC1 /* CombineTests.swift */; };
 		970FA9DC2422EFAE0023C1EC /* RootLevetExtraAttributesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970FA9DB2422EFAE0023C1EC /* RootLevetExtraAttributesTests.swift */; };
 		B512614E248E07B500FC64FB /* ElementAndAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B512614D248E07B500FC64FB /* ElementAndAttribute.swift */; };
@@ -172,6 +173,7 @@
 
 /* Begin PBXFileReference section */
 		07E441B92340F14B00890F46 /* EmptyElementEmptyStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyElementEmptyStringTests.swift; sourceTree = "<group>"; };
+		246B0DF7291BB1310076D5B9 /* XMLDocumentType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLDocumentType.swift; sourceTree = "<group>"; };
 		4A062D4E2341924E009BCAC1 /* CombineTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombineTests.swift; sourceTree = "<group>"; };
 		970FA9DB2422EFAE0023C1EC /* RootLevetExtraAttributesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootLevetExtraAttributesTests.swift; sourceTree = "<group>"; };
 		B512614D248E07B500FC64FB /* ElementAndAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementAndAttribute.swift; sourceTree = "<group>"; };
@@ -386,6 +388,7 @@
 				OBJ_34 /* XMLHeader.swift */,
 				OBJ_35 /* XMLKey.swift */,
 				OBJ_36 /* XMLStackParser.swift */,
+				246B0DF7291BB1310076D5B9 /* XMLDocumentType.swift */,
 				B5647C43248876FF001F6507 /* Attribute.swift */,
 				B512614D248E07B500FC64FB /* ElementAndAttribute.swift */,
 				B5647C4724897589001F6507 /* Element.swift */,
@@ -750,6 +753,7 @@
 				OBJ_188 /* XMLEncodingStorage.swift in Sources */,
 				OBJ_189 /* XMLKeyedEncodingContainer.swift in Sources */,
 				OBJ_190 /* XMLReferencingEncoder.swift in Sources */,
+				246B0DF8291BB1310076D5B9 /* XMLDocumentType.swift in Sources */,
 				OBJ_191 /* XMLUnkeyedEncodingContainer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
