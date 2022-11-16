@@ -25,7 +25,7 @@
     <nav>
         <div class="wrapper">
             <h2>On This Page</h2>
-            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Nested Types</a></li></ul></li><li><a href="#nested type aliases">Nested Type Aliases</a><ul><li class="typealias"><a href="#xmlencoder.nodeencodingstrategies">Node​Encoding​Strategies</a></li><li class="typealias"><a href="#xmlencoder.xmlnodeencoderclosure">XMLNode​Encoder​Closure</a></li><li class="typealias"><a href="#xmlencoder.xmlencodingclosure">XMLEncoding​Closure</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#xmlencoder.init()">init()</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="variable"><a href="#xmlencoder.charactersescapedinattributes">characters​Escaped​InAttributes</a></li><li class="variable"><a href="#xmlencoder.charactersescapedinelements">characters​Escaped​InElements</a></li><li class="variable"><a href="#xmlencoder.outputformatting">output​Formatting</a></li><li class="variable"><a href="#xmlencoder.prettyprintindentation">pretty​Print​Indentation</a></li><li class="variable"><a href="#xmlencoder.dateencodingstrategy">date​Encoding​Strategy</a></li><li class="variable"><a href="#xmlencoder.dataencodingstrategy">data​Encoding​Strategy</a></li><li class="variable"><a href="#xmlencoder.nonconformingfloatencodingstrategy">non​Conforming​Float​Encoding​Strategy</a></li><li class="variable"><a href="#xmlencoder.keyencodingstrategy">key​Encoding​Strategy</a></li><li class="variable"><a href="#xmlencoder.nodeencodingstrategy">node​Encoding​Strategy</a></li><li class="variable"><a href="#xmlencoder.stringencodingstrategy">string​Encoding​Strategy</a></li><li class="variable"><a href="#xmlencoder.userinfo">user​Info</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="function"><a href="#xmlencoder.encode(_:withrootkey:rootattributes:header:)">encode(_:​with​Root​Key:​root​Attributes:​header:​)</a></li><li class="function"><a href="#xmlencoder.encode(_:)">encode(_:​)</a></li></ul></li></ol>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Nested Types</a></li></ul></li><li><a href="#nested type aliases">Nested Type Aliases</a><ul><li class="typealias"><a href="#xmlencoder.nodeencodingstrategies">Node​Encoding​Strategies</a></li><li class="typealias"><a href="#xmlencoder.xmlnodeencoderclosure">XMLNode​Encoder​Closure</a></li><li class="typealias"><a href="#xmlencoder.xmlencodingclosure">XMLEncoding​Closure</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#xmlencoder.init()">init()</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="variable"><a href="#xmlencoder.charactersescapedinattributes">characters​Escaped​InAttributes</a></li><li class="variable"><a href="#xmlencoder.charactersescapedinelements">characters​Escaped​InElements</a></li><li class="variable"><a href="#xmlencoder.outputformatting">output​Formatting</a></li><li class="variable"><a href="#xmlencoder.prettyprintindentation">pretty​Print​Indentation</a></li><li class="variable"><a href="#xmlencoder.dateencodingstrategy">date​Encoding​Strategy</a></li><li class="variable"><a href="#xmlencoder.dataencodingstrategy">data​Encoding​Strategy</a></li><li class="variable"><a href="#xmlencoder.nonconformingfloatencodingstrategy">non​Conforming​Float​Encoding​Strategy</a></li><li class="variable"><a href="#xmlencoder.keyencodingstrategy">key​Encoding​Strategy</a></li><li class="variable"><a href="#xmlencoder.nodeencodingstrategy">node​Encoding​Strategy</a></li><li class="variable"><a href="#xmlencoder.stringencodingstrategy">string​Encoding​Strategy</a></li><li class="variable"><a href="#xmlencoder.userinfo">user​Info</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="function"><a href="#xmlencoder.encode(_:withrootkey:rootattributes:header:doctype:)">encode(_:​with​Root​Key:​root​Attributes:​header:​doctype:​)</a></li><li class="function"><a href="#xmlencoder.encode(_:)">encode(_:​)</a></li></ul></li></ol>
         </div>
     </nav>
 
@@ -273,15 +273,16 @@
     <section id="methods">
         <h2>Methods</h2>
 
-        <div role="article" class="function" id="xmlencoder.encode(_:withrootkey:rootattributes:header:)">
+        <div role="article" class="function" id="xmlencoder.encode(_:withrootkey:rootattributes:header:doctype:)">
     <h3>
-        <code><a href="#xmlencoder.encode(_:withrootkey:rootattributes:header:)">encode(_:​with​Root​Key:​root​Attributes:​header:​)</a></code>
+        <code><a href="#xmlencoder.encode(_:withrootkey:rootattributes:header:doctype:)">encode(_:​with​Root​Key:​root​Attributes:​header:​doctype:​)</a></code>
     </h3>
     <div class="declaration">
 <pre class="highlight"><code><html><body><span class="attribute">open</span> <span class="keyword">func</span> <span class="function">encode</span>&lt;<span class="variable">T</span>: <span class="type">Encodable</span>&gt;(<span class="keyword">_</span> <span class="variable">value</span>: <span class="type">T</span>,
                                    <span class="variable">withRootKey</span> <span class="variable">rootKey</span>: <span class="type">String</span>? = <span class="keyword">nil</span>,
                                    <span class="variable">rootAttributes</span>: [<span class="type">String</span>: <span class="type">String</span>]? = <span class="keyword">nil</span>,
-                                   <span class="variable">header</span>: <a href="/XMLCoder/XMLHeader"><span class="type">XMLHeader</span></a>? = <span class="keyword">nil</span>) <span class="keyword">throws</span> -&gt; <span class="type">Data</span></body></html></code></pre>
+                                   <span class="variable">header</span>: <a href="/XMLCoder/XMLHeader"><span class="type">XMLHeader</span></a>? = <span class="keyword">nil</span>,
+                                   <span class="variable">doctype</span>: <a href="/XMLCoder/XMLDocumentType"><span class="type">XMLDocumentType</span></a>? = <span class="keyword">nil</span>) <span class="keyword">throws</span> -&gt; <span class="type">Data</span></body></html></code></pre>
 </div>
 <div class="summary" role="doc-abstract">
     <p>Encodes the given top-level value and returns its XML representation.</p>
@@ -348,7 +349,7 @@
 
     <footer>
         <p>
-    Generated on <time datetime="2022-11-16T21:57:55+0000">November 16, 2022</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
+    Generated on <time datetime="2022-11-16T22:02:30+0000">November 16, 2022</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
 </p>
     </footer>
 </body>

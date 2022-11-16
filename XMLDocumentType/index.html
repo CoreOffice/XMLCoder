@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XMLCoder - XMLDocumentType</title>
+    <link rel="stylesheet" type="text/css" href="/XMLCoder/all.css" media="all" />
+</head>
+<body>
+    <header>
+        <a href="/XMLCoder">
+            <strong>
+                XMLCoder
+            </strong>
+            <span>Documentation</span>
+        </a>
+    </header>
+
+    <!--
+    <form class="search">
+        <input type="search" placeholder="Search" />
+    </form>
+    -->
+
+    <nav>
+        <div class="wrapper">
+            <h2>On This Page</h2>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Nested Types</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="variable"><a href="#xmldocumenttype.rootelement">root​Element</a></li><li class="variable"><a href="#xmldocumenttype.external">external</a></li><li class="variable"><a href="#xmldocumenttype.dtdname">dtd​Name</a></li><li class="variable"><a href="#xmldocumenttype.dtdlocation">dtd​Location</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="function"><a href="#xmldocumenttype.`public`(rootelement:dtdname:dtdlocation:)">`public`(root​Element:​dtd​Name:​dtd​Location:​)</a></li><li class="function"><a href="#xmldocumenttype.system(rootelement:dtdlocation:)">system(root​Element:​dtd​Location:​)</a></li></ul></li></ol>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <h1>
+    <small>Structure</small>
+    <code class="name">XMLDocument​Type</code>
+</h1>
+
+<div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">struct</span> <span class="type">XMLDocumentType</span>  </body></html></code></pre>
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        
+        <h3>Nested Types</h3>
+<dl>
+    <dt class="enumeration"><code><a href="/XMLCoder/XMLDocumentType_External">XMLDocumentType.External</a></code></dt>
+<dd></dd>
+</dl>
+</section>
+    <section id="properties">
+        <h2>Properties</h2>
+
+        <div role="article" class="variable" id="xmldocumenttype.rootelement">
+    <h3>
+        <code><a href="#xmldocumenttype.rootelement">root​Element</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">let</span> <span class="variable">rootElement</span>: <span class="type">String</span></body></html></code></pre>
+</div>
+</div>
+<div role="article" class="variable" id="xmldocumenttype.external">
+    <h3>
+        <code><a href="#xmldocumenttype.external">external</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">let</span> <span class="variable">external</span>: <span class="type">External</span></body></html></code></pre>
+</div>
+</div>
+<div role="article" class="variable" id="xmldocumenttype.dtdname">
+    <h3>
+        <code><a href="#xmldocumenttype.dtdname">dtd​Name</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">let</span> <span class="variable">dtdName</span>: <span class="type">String</span>? </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="variable" id="xmldocumenttype.dtdlocation">
+    <h3>
+        <code><a href="#xmldocumenttype.dtdlocation">dtd​Location</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">let</span> <span class="variable">dtdLocation</span>: <span class="type">String</span></body></html></code></pre>
+</div>
+</div>
+    </section>
+    <section id="methods">
+        <h2>Methods</h2>
+
+        <div role="article" class="function" id="xmldocumenttype.`public`(rootelement:dtdname:dtdlocation:)">
+    <h3>
+        <code><a href="#xmldocumenttype.`public`(rootelement:dtdname:dtdlocation:)">`public`(root​Element:​dtd​Name:​dtd​Location:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">func</span> <span class="function">`public`</span>(<span class="variable">rootElement</span>: <span class="type">String</span>, <span class="variable">dtdName</span>: <span class="type">String</span>, <span class="variable">dtdLocation</span>: <span class="type">String</span>) -&gt; <a href="/XMLCoder/XMLDocumentType"><span class="type">XMLDocumentType</span></a>  </body></html></code></pre>
+</div>
+</div>
+<div role="article" class="function" id="xmldocumenttype.system(rootelement:dtdlocation:)">
+    <h3>
+        <code><a href="#xmldocumenttype.system(rootelement:dtdlocation:)">system(root​Element:​dtd​Location:​)</a></code>
+    </h3>
+    <div class="declaration">
+<pre class="highlight"><code><html><body><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">func</span> <span class="function">system</span>(<span class="variable">rootElement</span>: <span class="type">String</span>, <span class="variable">dtdLocation</span>: <span class="type">String</span>) -&gt; <a href="/XMLCoder/XMLDocumentType"><span class="type">XMLDocumentType</span></a>  </body></html></code></pre>
+</div>
+</div>
+    </section>
+
+
+
+        </article>
+    </main>
+
+    <footer>
+        <p>
+    Generated on <time datetime="2022-11-16T22:02:30+0000">November 16, 2022</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-rc.1</span>.
+</p>
+    </footer>
+</body>
+</html>
