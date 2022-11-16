@@ -521,6 +521,36 @@ $ carthage update
 
 Drag the built framework into your Xcode project.
 
+## Usage with Vapor
+
+```swift
+extension XMLEncoder: ContentEncoder {
+    public func encode<E: Encodable>(
+        _ encodable: E,
+        to body: inout ByteBuffer,
+        headers: inout HTTPHeaders
+    ) throws {
+        headers.contentType = .xml
+        
+        // Note: You can provide an XMLHeader or DocType if necessary
+        let data = try self.encode(encodable)
+        body.writeData(data)
+    }
+}
+
+extension XMLDecoder: ContentDecoder {
+    public func decode<D: Decodable>(
+        _ decodable: D.Type,
+        from body: ByteBuffer,
+        headers: HTTPHeaders
+    ) throws -> D {
+        // Force wrap is acceptable, as we're guaranteed these bytes exist through `readableBytes`
+        let body = body.readData(length: body.readableBytes)!
+        return try self.decode(D.self, from: body)
+    }
+}
+```
+
 ## Contributing
 
 This project adheres to the [Contributor Covenant Code of
