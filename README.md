@@ -5,7 +5,7 @@ Encoder &amp; Decoder for XML using Swift's `Codable` protocols.
 [![Version](https://img.shields.io/cocoapods/v/XMLCoder.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
 [![License](https://img.shields.io/cocoapods/l/XMLCoder.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
 [![Platform](https://img.shields.io/badge/platform-watchos%20%7C%20ios%20%7C%20tvos%20%7C%20macos%20%7C%20linux%20%7C%20windows-lightgrey.svg?style=flat)](https://cocoapods.org/pods/XMLCoder)
-[![Coverage](https://img.shields.io/codecov/c/github/MaxDesiatov/XMLCoder/main.svg?style=flat)](https://codecov.io/gh/maxdesiatov/XMLCoder)
+[![Coverage](https://img.shields.io/codecov/c/github/CoreOffice/XMLCoder/main.svg?style=flat)](https://codecov.io/gh/maxdesiatov/XMLCoder)
 
 This package is a fork of the original
 [ShawnMoore/XMLParsing](https://github.com/ShawnMoore/XMLParsing)
@@ -41,7 +41,7 @@ let encodedXML = try! XMLEncoder().encode(note, withRootKey: "note")
 ## Advanced features
 
 The following features are available in [0.4.0
-release](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.4.0) or later
+release](https://github.com/CoreOffice/XMLCoder/releases/tag/0.4.0) or later
 (unless stated otherwise):
 
 ### Stripping namespace prefix
@@ -159,7 +159,7 @@ works for this XML:
 </book>
 ```
 
-Please refer to PR [\#70](https://github.com/MaxDesiatov/XMLCoder/pull/70) by
+Please refer to PR [\#70](https://github.com/CoreOffice/XMLCoder/pull/70) by
 [@JoeMatt](https://github.com/JoeMatt) for more details.
 
 ### Coding key value intrinsic
@@ -201,13 +201,13 @@ struct Foo: Codable, DynamicNodeEncoding {
 ```
 
 Thanks to [@JoeMatt](https://github.com/JoeMatt) for implementing this in
-in PR [\#73](https://github.com/MaxDesiatov/XMLCoder/pull/73).
+in PR [\#73](https://github.com/CoreOffice/XMLCoder/pull/73).
 
 ### Preserving whitespaces in element content
 
 By default whitespaces are trimmed in element content during decoding. This
 includes string values decoded with [value intrinsic keys](#coding-key-value-intrinsic).
-Starting with [version 0.5](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.5.0)
+Starting with [version 0.5](https://github.com/CoreOffice/XMLCoder/releases/tag/0.5.0)
 you can now set a property `trimValueWhitespaces` to `false` (the default value is `true`) on
 `XMLDecoder` instance to preserve all whitespaces in decoded strings.
 
@@ -216,13 +216,13 @@ you can now set a property `trimValueWhitespaces` to `false` (the default value 
 When decoding pretty-printed XML while `trimValueWhitespaces` is set to `false`, it's possible
 for whitespace elements to be added as child elements on an instance of `XMLCoderElement`. These
 whitespace elements make it impossible to decode data structures that require custom `Decodable` logic.
-Starting with [version 0.13.0](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.13.0) you can
+Starting with [version 0.13.0](https://github.com/CoreOffice/XMLCoder/releases/tag/0.13.0) you can
 set a property `removeWhitespaceElements` to `true` (the default value is `false`) on
 `XMLDecoder` to remove these whitespace elements.
 
 ### Choice element coding
 
-Starting with [version 0.8](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.8.0),
+Starting with [version 0.8](https://github.com/CoreOffice/XMLCoder/releases/tag/0.8.0),
 you can encode and decode `enum`s with associated values by conforming your
 `CodingKey` type additionally to `XMLChoiceCodingKey`. This allows decoding
 XML elements similar in structure to this example:
@@ -272,12 +272,12 @@ extension IntOrString: Codable {
 }
 ```
 
-This is described in more details in PR [\#119](https://github.com/MaxDesiatov/XMLCoder/pull/119)
+This is described in more details in PR [\#119](https://github.com/CoreOffice/XMLCoder/pull/119)
 by [@jsbean](https://github.com/jsbean) and [@bwetherfield](https://github.com/bwetherfield).
 
 ### Integrating with [Combine](https://developer.apple.com/documentation/combine)
 
-Starting with XMLCoder [version 0.9](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.9.0),
+Starting with XMLCoder [version 0.9](https://github.com/CoreOffice/XMLCoder/releases/tag/0.9.0),
 when Apple's Combine framework is available, `XMLDecoder` conforms to the
 `TopLevelDecoder` protocol, which allows it to be used with the
 `decode(type:decoder:)` operator:
@@ -295,11 +295,11 @@ func fetchBook(from url: URL) -> AnyPublisher<Book, Error> {
 }
 ```
 
-This was implemented in PR [\#132](https://github.com/MaxDesiatov/XMLCoder/pull/132)
+This was implemented in PR [\#132](https://github.com/CoreOffice/XMLCoder/pull/132)
 by [@sharplet](https://github.com/sharplet).
 
 Additionally, starting with [XMLCoder
-0.11](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.11.0) `XMLEncoder`
+0.11](https://github.com/CoreOffice/XMLCoder/releases/tag/0.11.0) `XMLEncoder`
 conforms to the `TopLevelEncoder` protocol:
 
 ```swift
@@ -323,7 +323,7 @@ limitation of the `TopLevelEncoder` API.
 
 Sometimes you need to set attributes on the root element, which aren't
 directly related to your model type. Starting with [XMLCoder
-0.11](https://github.com/MaxDesiatov/XMLCoder/releases/tag/0.11.0) the `encode`
+0.11](https://github.com/CoreOffice/XMLCoder/releases/tag/0.11.0) the `encode`
 function on `XMLEncoder` accepts a new `rootAttributes` argument to help with
 this:
 
@@ -350,7 +350,7 @@ The resulting XML will look like this:
 </policy>
 ```
 
-This was implemented in PR [\#160](https://github.com/MaxDesiatov/XMLCoder/pull/160)
+This was implemented in PR [\#160](https://github.com/CoreOffice/XMLCoder/pull/160)
 by [@portellaa](https://github.com/portellaa).
 
 ### Property wrappers
@@ -400,7 +400,7 @@ by [@bwetherfield](https://github.com/bwetherfield).
 **Apple Platforms**
 
 - Xcode 11.0 or later
-  - **IMPORTANT**: compiling XMLCoder with Xcode 11.2.0 (11B52) and 11.2.1 (11B500) is not recommended due to crashes with `EXC_BAD_ACCESS` caused by [a compiler bug](https://bugs.swift.org/browse/SR-11564), please use Xcode 11.3 or later instead. Please refer to [\#150](https://github.com/MaxDesiatov/XMLCoder/issues/150) for more details.
+  - **IMPORTANT**: compiling XMLCoder with Xcode 11.2.0 (11B52) and 11.2.1 (11B500) is not recommended due to crashes with `EXC_BAD_ACCESS` caused by [a compiler bug](https://bugs.swift.org/browse/SR-11564), please use Xcode 11.3 or later instead. Please refer to [\#150](https://github.com/CoreOffice/XMLCoder/issues/150) for more details.
 - Swift 5.1 or later
 - iOS 9.0 / watchOS 2.0 / tvOS 9.0 / macOS 10.10 or later deployment targets
 
@@ -425,7 +425,7 @@ easy as adding it to the `dependencies` value of your `Package.swift`.
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.14.0")
+    .package(url: "https://github.com/CoreOffice/XMLCoder.git", from: "0.14.0")
 ]
 ```
 
@@ -489,7 +489,7 @@ $ brew install carthage
 Inside of your `Cartfile`, add GitHub path to `XMLCoder`:
 
 ```ogdl
-github "MaxDesiatov/XMLCoder" ~> 0.14.0
+github "CoreOffice/XMLCoder" ~> 0.14.0
 ```
 
 Then, run the following command to build the framework:
@@ -539,7 +539,7 @@ PRs before merging.
 Our goal is to keep XMLCoder stable and to serialize any XML correctly according
 to [XML 1.0 standard](https://www.w3.org/TR/2008/REC-xml-20081126/). All of this
 can be easily tested automatically and we're slowly improving [test coverage of
-XMLCoder](https://codecov.io/gh/MaxDesiatov/XMLCoder) and don't expect it to
+XMLCoder](https://codecov.io/gh/CoreOffice/XMLCoder) and don't expect it to
 decrease. PRs that decrease the test coverage have a much lower chance of being
 merged. If you add any new features, please make sure to add tests, likewise for
 changes and any refactoring in existing code.
