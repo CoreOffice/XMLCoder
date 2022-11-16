@@ -393,6 +393,27 @@ This will encode value `Book(id: 42)` as `<Book id="42"><id>42</id></Book>`. It 
 This feature is available starting with XMLCoder 0.13.0 and was implemented
 by [@bwetherfield](https://github.com/bwetherfield).
 
+### XML Headers
+
+You can add an XML header and/or doctype when encoding an object by supplying it to the `encode` function.
+These arguments are both optional, and will only render when explicitly provided.
+
+```swift
+struct User: Codable {
+    @Element var username: String
+}
+
+let data = try encoder.encode(
+    User(username: "Joanis"),
+    withRootKey: "user",
+    header: XMLHeader(version: 1.0, encoding: "UTF-8"),
+    doctype: .system(
+        rootElement: "user",
+        dtdLocation: "http://example.com/myUser_v1.dtd"
+    )
+)
+```
+
 ## Installation
 
 ### Requirements
@@ -425,7 +446,7 @@ easy as adding it to the `dependencies` value of your `Package.swift`.
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/CoreOffice/XMLCoder.git", from: "0.14.0")
+    .package(url: "https://github.com/CoreOffice/XMLCoder.git", from: "0.15.0")
 ]
 ```
 
@@ -489,7 +510,7 @@ $ brew install carthage
 Inside of your `Cartfile`, add GitHub path to `XMLCoder`:
 
 ```ogdl
-github "CoreOffice/XMLCoder" ~> 0.14.0
+github "CoreOffice/XMLCoder" ~> 0.15.0
 ```
 
 Then, run the following command to build the framework:
