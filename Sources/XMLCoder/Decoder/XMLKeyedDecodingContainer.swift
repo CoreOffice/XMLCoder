@@ -275,9 +275,14 @@ extension XMLKeyedDecodingContainer {
         }
 
         // If we are looking at a coding key value intrinsic where the expected type is `String` and
-        // the value is empty, return `""`.
+        // the value is empty, return CDATA if present otherwise `""`.
         if strategy(key) != .attribute, elements.isEmpty, attributes.isEmpty, type == String.self, key.stringValue == "", let emptyString = "" as? T {
-            return emptyString
+            let cdata = container.withShared { keyedBox in
+                keyedBox.elements["#CDATA"].map {
+                    return ($0 as? KeyedBox)?.value ?? $0
+                }
+            }.first
+            return ((cdata as? StringBox)?.unboxed as? T) ?? emptyString
         }
 
         switch strategy(key) {
