@@ -291,12 +291,14 @@ struct XMLCoderElement: Equatable {
             formatXMLAttributes(formatting, &string, escapedCharacters.attributes)
         }
 
-        if !elements.isEmpty {
+        if !elements.isEmpty || formatting.contains(.noEmptyElements) {
             let prettyPrintElements = prettyPrinted && !containsTextNodes
             if !key.isEmpty {
                 string += prettyPrintElements ? ">\n" : ">"
             }
-            formatXMLElements(escapedCharacters, formatting, indentation, &string, level, prettyPrintElements)
+            if !elements.isEmpty {
+                formatXMLElements(escapedCharacters, formatting, indentation, &string, level, prettyPrintElements)
+            }
 
             if prettyPrintElements { string += prefix }
             if !key.isEmpty {

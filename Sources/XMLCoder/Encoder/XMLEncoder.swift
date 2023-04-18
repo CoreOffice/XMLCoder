@@ -27,6 +27,9 @@ open class XMLEncoder {
 
         /// Produce XML with keys sorted in lexicographic order.
         public static let sortedKeys = OutputFormatting(rawValue: 1 << 1)
+
+        /// Produce XML with no short-hand annotation for empty elements, e.g., use `<p></p>` over `</p>`
+        public static let noEmptyElements = OutputFormatting(rawValue: 1 << 2)
     }
 
     /// The indentation to use when XML is pretty-printed.
