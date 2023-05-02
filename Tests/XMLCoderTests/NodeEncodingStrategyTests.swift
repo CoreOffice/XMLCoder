@@ -313,11 +313,7 @@ final class NodeEncodingStrategyTests: XCTestCase {
 
     func testNoEmptyElements() {
         let encoder = XMLEncoder()
-        if #available(macOS 10.13, *) {
-            encoder.outputFormatting = [.noEmptyElements]
-        } else {
-            return
-        }
+        encoder.outputFormatting = [.noEmptyElements]
 
         do {
             let data = try encoder.encode(UnkeyedContainer(elements: []), withRootKey: "container")
