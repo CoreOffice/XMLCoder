@@ -309,4 +309,23 @@ final class NodeEncodingStrategyTests: XCTestCase {
             XCTAssert(false, "failed to decode the example: \(error)")
         }
     }
+    
+
+    func testNoEmptyElements() {
+        let encoder = XMLEncoder()
+        encoder.outputFormatting = [.noEmptyElements]
+
+        do {
+            let data = try encoder.encode(UnkeyedContainer(elements: []), withRootKey: "container")
+            let xml = String(data: data, encoding: .utf8)!
+
+            let expected =
+                """
+                <container></container>
+                """
+            XCTAssertEqual(xml, expected)
+        } catch {
+            XCTAssert(false, "failed to decode the example: \(error)")
+        }
+    }
 }
