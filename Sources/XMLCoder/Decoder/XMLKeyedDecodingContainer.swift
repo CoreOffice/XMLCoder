@@ -144,6 +144,13 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
                 referencing: decoder,
                 wrapping: SharedBox(keyedContainer)
             )
+        } else if let singleBox = value as? SingleKeyedBox {
+            let element = (singleBox.key, singleBox.element)
+            let keyedContainer = KeyedBox(elements: [element], attributes: [])
+            container = XMLKeyedDecodingContainer<NestedKey>(
+                referencing: decoder,
+                wrapping: SharedBox(keyedContainer)
+            )
         } else {
             throw DecodingError.typeMismatch(
                 at: codingPath,

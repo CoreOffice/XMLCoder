@@ -85,4 +85,58 @@ final class SimpleChoiceTests: XCTestCase {
         let decoded = try XMLDecoder().decode([[IntOrString]].self, from: encoded)
         XCTAssertEqual(original, decoded)
     }
+    
+#if swift(>=5.5)
+    func testMixedChoice() throws {
+        enum Choice: Equatable, Codable {
+            case one
+            case two(value: Int)
+            case three(key: String, value: Int)
+            case four(Int)
+        }
+
+        struct Foo: Equatable, Codable {
+            var field1 = Choice.one
+            var field2 = Choice.two(value: 10)
+            var field3 = Choice.three(key: "qq", value: 20)
+            var field4 = Choice.four(30)
+        }
+        
+        let encoder = XMLEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        encoder.prettyPrintIndentation = .spaces(4)
+        
+        let original = Foo()
+        let encoded = try encoder.encode(original, withRootKey: "container")
+        let decoded = try XMLDecoder().decode(Foo.self, from: encoded)
+        XCTAssertEqual(original, decoded)
+        
+        XCTAssertEqual(
+            String(data: encoded, encoding: .utf8),
+            """
+            <container>
+                <field1>
+                    <one />
+                </field1>
+                <field2>
+                    <two>
+                        <value>10</value>
+                    </two>
+                </field2>
+                <field3>
+                    <three>
+                        <key>qq</key>
+                        <value>20</value>
+                    </three>
+                </field3>
+                <field4>
+                    <four>
+                        <_0>30</_0>
+                    </four>
+                </field4>
+            </container>
+            """
+        )
+    }
+#endif
 }
