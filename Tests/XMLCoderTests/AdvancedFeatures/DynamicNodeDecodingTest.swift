@@ -184,48 +184,167 @@ final class DynamicNodeDecodingTest: XCTestCase {
         let test = try decoder.decode(TestStruct.self, from: overlappingKeys)
         XCTAssertEqual(test, TestStruct(attribute: 123, element: "StringValue"))
     }
+
+    struct Foo<T: Decodable>: Decodable {
+        var nested: T
+    }
+
+    struct ArrayFoo<T: Decodable>: Decodable {
+        var nested: [T]
+    }
+
+    struct NestedElement: Decodable, DynamicNodeDecoding {
+        var field1: String
+        var field2: String
+
+        static func nodeDecoding(for key: CodingKey) -> XMLDecoder.NodeDecoding { .element }
+    }
+
+    struct NestedAttribute: Decodable, DynamicNodeDecoding {
+        var field1: String
+        var field2: String
+
+        static func nodeDecoding(for key: CodingKey) -> XMLDecoder.NodeDecoding { .attribute }
+    }
+
+    struct NestedElementOrAttribute: Decodable, DynamicNodeDecoding {
+        var field1: String
+        var field2: String
+
+        static func nodeDecoding(for key: CodingKey) -> XMLDecoder.NodeDecoding { .elementOrAttribute }
+    }
     
-    func testMissingValues() {
-        let xml =
+    func testGenericKeyedFailsOnMissingValues() {
+        let failureElementXML =
+        """
+        <Root>
+           <nested><field1>value_1</field1></nested>
+        </Root>
+        """
+
+        let failureAttributeXML =
         """
         <Root>
            <nested field1="value_1" />
         </Root>
         """
-        
-        struct Foo<T: Decodable>: Decodable {
-            var nested: T
-        }
-        
-        struct NestedElement: Decodable, DynamicNodeDecoding {
-            var field1: String
-            var field2: String
-            
-            static func nodeDecoding(for key: CodingKey) -> XMLDecoder.NodeDecoding { .element }
-        }
-        
-        struct NestedAttribute: Decodable, DynamicNodeDecoding {
-            var field1: String
-            var field2: String
-            
-            static func nodeDecoding(for key: CodingKey) -> XMLDecoder.NodeDecoding { .attribute }
-        }
-        
-        struct NestedElementOrAttribute: Decodable, DynamicNodeDecoding {
-            var field1: String
-            var field2: String
-            
-            static func nodeDecoding(for key: CodingKey) -> XMLDecoder.NodeDecoding { .elementOrAttribute }
-        }
-        
-        XCTAssertThrowsError(try XMLDecoder().decode(Foo<NestedElement>.self, from: Data(xml.utf8))) {
+
+        XCTAssertThrowsError(try XMLDecoder().decode(Foo<NestedElement>.self, from: Data(failureElementXML.utf8))) {
             guard case DecodingError.keyNotFound = $0 else { XCTFail("Invalid error thrown: \($0)"); return }
         }
-        XCTAssertThrowsError(try XMLDecoder().decode(Foo<NestedAttribute>.self, from: Data(xml.utf8))) {
+        XCTAssertThrowsError(try XMLDecoder().decode(Foo<NestedAttribute>.self, from: Data(failureElementXML.utf8))) {
             guard case DecodingError.keyNotFound = $0 else { XCTFail("Invalid error thrown: \($0)"); return }
         }
-        XCTAssertThrowsError(try XMLDecoder().decode(Foo<NestedElementOrAttribute>.self, from: Data(xml.utf8))) {
+        XCTAssertThrowsError(try XMLDecoder().decode(Foo<NestedElementOrAttribute>.self, from: Data(failureElementXML.utf8))) {
             guard case DecodingError.keyNotFound = $0 else { XCTFail("Invalid error thrown: \($0)"); return }
         }
+        
+        XCTAssertThrowsError(try XMLDecoder().decode(Foo<NestedElement>.self, from: Data(failureAttributeXML.utf8))) {
+            guard case DecodingError.keyNotFound = $0 else { XCTFail("Invalid error thrown: \($0)"); return }
+        }
+        XCTAssertThrowsError(try XMLDecoder().decode(Foo<NestedAttribute>.self, from: Data(failureAttributeXML.utf8))) {
+            guard case DecodingError.keyNotFound = $0 else { XCTFail("Invalid error thrown: \($0)"); return }
+        }
+        XCTAssertThrowsError(try XMLDecoder().decode(Foo<NestedElementOrAttribute>.self, from: Data(failureAttributeXML.utf8))) {
+            guard case DecodingError.keyNotFound = $0 else { XCTFail("Invalid error thrown: \($0)"); return }
+        }
+    }
+
+    func testGenericUnkeyedFailsOnMissingValues() {
+        let failureAttributeXML =
+        """
+        <Root>
+           <nested field1="value_1" />
+           <nested field1="value_1" />
+           <nested field1="value_1" />
+        </Root>
+        """
+
+        let failureElementXML =
+        """
+        <Root>
+           <nested><field1>value_1</field1></nested>
+           <nested><field1>value_1</field1></nested>
+           <nested><field1>value_1</field1></nested>
+        </Root>
+        """
+
+        XCTAssertThrowsError(try XMLDecoder().decode(ArrayFoo<NestedElement>.self, from: Data(failureAttributeXML.utf8))) {
+            guard case DecodingError.keyNotFound = $0 else { XCTFail("Invalid error thrown: \($0)"); return }
+        }
+        XCTAssertThrowsError(try XMLDecoder().decode(ArrayFoo<NestedAttribute>.self, from: Data(failureAttributeXML.utf8))) {
+            guard case DecodingError.keyNotFound = $0 else { XCTFail("Invalid error thrown: \($0)"); return }
+        }
+        XCTAssertThrowsError(try XMLDecoder().decode(ArrayFoo<NestedElementOrAttribute>.self, from: Data(failureAttributeXML.utf8))) {
+            guard case DecodingError.keyNotFound = $0 else { XCTFail("Invalid error thrown: \($0)"); return }
+        }
+
+        XCTAssertThrowsError(try XMLDecoder().decode(ArrayFoo<NestedElement>.self, from: Data(failureElementXML.utf8))) {
+            guard case DecodingError.keyNotFound = $0 else { XCTFail("Invalid error thrown: \($0)"); return }
+        }
+        XCTAssertThrowsError(try XMLDecoder().decode(ArrayFoo<NestedAttribute>.self, from: Data(failureElementXML.utf8))) {
+            guard case DecodingError.keyNotFound = $0 else { XCTFail("Invalid error thrown: \($0)"); return }
+        }
+        XCTAssertThrowsError(try XMLDecoder().decode(ArrayFoo<NestedElementOrAttribute>.self, from: Data(failureElementXML.utf8))) {
+            guard case DecodingError.keyNotFound = $0 else { XCTFail("Invalid error thrown: \($0)"); return }
+        }
+    }
+
+    func testGenericKeyedSucceedsWithoutMissingValues() {
+        let successElementXML =
+        """
+        <Root>
+           <nested><field1>value_1</field1><field2>value_2</field2></nested>
+        </Root>
+        """
+
+        let successAttributeXML =
+        """
+        <Root>
+           <nested field1="value_1" field2="value_2" />
+        </Root>
+        """
+
+        XCTAssertNoThrow(try XMLDecoder().decode(Foo<NestedElement>.self, from: Data(successElementXML.utf8)))
+        XCTAssertThrowsError(try XMLDecoder().decode(Foo<NestedAttribute>.self, from: Data(successElementXML.utf8))) {
+            guard case DecodingError.keyNotFound = $0 else { XCTFail("Invalid error thrown: \($0)"); return }
+        }
+        XCTAssertNoThrow(try XMLDecoder().decode(Foo<NestedElementOrAttribute>.self, from: Data(successElementXML.utf8)))
+
+        XCTAssertThrowsError(try XMLDecoder().decode(Foo<NestedElement>.self, from: Data(successAttributeXML.utf8))) {
+            guard case DecodingError.keyNotFound = $0 else { XCTFail("Invalid error thrown: \($0)"); return }
+        }
+        XCTAssertNoThrow(try XMLDecoder().decode(Foo<NestedAttribute>.self, from: Data(successAttributeXML.utf8)))
+        XCTAssertNoThrow(try XMLDecoder().decode(Foo<NestedElementOrAttribute>.self, from: Data(successAttributeXML.utf8)))
+    }
+
+    func testGenericUnkeyedSucceedsWithoutMissingValues() {
+        let successElementXML =
+        """
+        <Root>
+           <nested><field1>value_1</field1><field2>value_2</field2></nested>
+           <nested><field1>value_1</field1><field2>value_2</field2></nested>
+        </Root>
+        """
+
+        let successAttributeXML =
+        """
+        <Root>
+           <nested field1="value_1" field2="value_2" />
+           <nested field1="value_1" field2="value_2" />
+        </Root>
+        """
+
+        XCTAssertNoThrow(try XMLDecoder().decode(ArrayFoo<NestedElement>.self, from: Data(successElementXML.utf8)))
+        XCTAssertThrowsError(try XMLDecoder().decode(ArrayFoo<NestedAttribute>.self, from: Data(successElementXML.utf8))) {
+            guard case DecodingError.keyNotFound = $0 else { XCTFail("Invalid error thrown: \($0)"); return }
+        }
+        XCTAssertNoThrow(try XMLDecoder().decode(ArrayFoo<NestedElementOrAttribute>.self, from: Data(successElementXML.utf8)))
+
+        XCTAssertThrowsError(try XMLDecoder().decode(ArrayFoo<NestedElement>.self, from: Data(successAttributeXML.utf8))) {
+            guard case DecodingError.keyNotFound = $0 else { XCTFail("Invalid error thrown: \($0)"); return }
+        }
+        XCTAssertNoThrow(try XMLDecoder().decode(ArrayFoo<NestedAttribute>.self, from: Data(successAttributeXML.utf8)))
+        XCTAssertNoThrow(try XMLDecoder().decode(ArrayFoo<NestedElementOrAttribute>.self, from: Data(successAttributeXML.utf8)))
     }
 }
