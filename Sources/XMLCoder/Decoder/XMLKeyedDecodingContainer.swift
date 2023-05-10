@@ -294,17 +294,17 @@ extension XMLKeyedDecodingContainer {
 
         switch strategy(key) {
         case .attribute?:
-            box = try getAttributeBox(attributes, key)
+            box = try getAttributeBox(for: type, attributes, key)
         case .element?:
-            box = elements
+            box = try getElementBox(for: type, elements, key)
         case .elementOrAttribute?:
             box = try getAttributeOrElementBox(attributes, elements, key)
         default:
             switch type {
             case is XMLAttributeProtocol.Type:
-                box = try getAttributeBox(attributes, key)
+                box = try getAttributeBox(for: type, attributes, key)
             case is XMLElementProtocol.Type:
-                box = elements
+                box = try getElementBox(for: type, elements, key)
             default:
                 box = try getAttributeOrElementBox(attributes, elements, key)
             }
@@ -346,9 +346,24 @@ extension XMLKeyedDecodingContainer {
         return unwrapped
     }
 
-    private func getAttributeBox(_ attributes: [KeyedBox.Attribute], _ key: Key) throws -> Box {
-        let attributeBox = attributes.first ?? NullBox()
-        return attributeBox
+    private func getAttributeBox<T: Decodable>(for type: T.Type, _ attributes: [KeyedBox.Attribute], _ key: Key) throws -> Box {
+        if let box = attributes.first { return box }
+        if type is AnyOptional.Type || type is XMLOptionalAttributeProtocol.Type { return NullBox() }
+
+        throw DecodingError.keyNotFound(key, DecodingError.Context(
+            codingPath: decoder.codingPath,
+            debugDescription: "No attribute found for key \(_errorDescription(of: key))."
+        ))
+    }
+    
+    private func getElementBox<T: Decodable>(for type: T.Type, _ elements: [KeyedBox.Element], _ key: Key) throws -> Box {
+        guard elements.isEmpty else { return elements }
+        if type is AnyOptional.Type || type is XMLDecodableSequence.Type { return elements }
+
+        throw DecodingError.keyNotFound(key, DecodingError.Context(
+            codingPath: decoder.codingPath,
+            debugDescription: "No element found for key \(_errorDescription(of: key))."
+        ))
     }
 
     private func getAttributeOrElementBox(_ attributes: [KeyedBox.Attribute], _ elements: [KeyedBox.Element], _ key: Key) throws -> Box {
