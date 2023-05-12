@@ -246,9 +246,10 @@ extension XMLKeyedDecodingContainer {
             )
         }
 
+        let inlined = key.stringValue == ""
         let elements = container
             .withShared { keyedBox -> [KeyedBox.Element] in
-                keyedBox.elements[key.stringValue].map {
+                return (inlined ? keyedBox.elements.values : keyedBox.elements[key.stringValue]).map {
                     if let singleKeyed = $0 as? SingleKeyedBox {
                         return singleKeyed.element.isNull ? singleKeyed : singleKeyed.element
                     } else {
@@ -258,7 +259,7 @@ extension XMLKeyedDecodingContainer {
             }
 
         let attributes = container.withShared { keyedBox in
-            keyedBox.attributes[key.stringValue]
+            inlined ? keyedBox.attributes.values : keyedBox.attributes[key.stringValue]
         }
 
         decoder.codingPath.append(key)
@@ -271,7 +272,6 @@ extension XMLKeyedDecodingContainer {
             _ = decoder.nodeDecodings.removeLast()
             decoder.codingPath.removeLast()
         }
-        let box: Box
 
         // You can't decode sequences from attributes, but other strategies
         // need special handling for empty sequences.
@@ -292,22 +292,27 @@ extension XMLKeyedDecodingContainer {
             return ((cdata as? StringBox)?.unboxed as? T) ?? emptyString
         }
 
-        switch strategy(key) {
-        case .attribute?:
-            box = try getAttributeBox(for: type, attributes, key)
-        case .element?:
-            box = try getElementBox(for: type, elements, key)
-        case .elementOrAttribute?:
-            box = try getAttributeOrElementBox(attributes, elements, key)
-        default:
-            switch type {
-            case is XMLAttributeProtocol.Type:
+        let box: Box
+        if key.stringValue != "" {
+            switch strategy(key) {
+            case .attribute?:
                 box = try getAttributeBox(for: type, attributes, key)
-            case is XMLElementProtocol.Type:
+            case .element?:
                 box = try getElementBox(for: type, elements, key)
-            default:
+            case .elementOrAttribute?:
                 box = try getAttributeOrElementBox(attributes, elements, key)
+            default:
+                switch type {
+                case is XMLAttributeProtocol.Type:
+                    box = try getAttributeBox(for: type, attributes, key)
+                case is XMLElementProtocol.Type:
+                    box = try getElementBox(for: type, elements, key)
+                default:
+                    box = try getAttributeOrElementBox(attributes, elements, key)
+                }
             }
+        } else {
+            box = container.typeErasedUnbox()
         }
 
         let value: T?

@@ -187,5 +187,16 @@ final class SimpleChoiceTests: XCTestCase {
             """
         )
     }
+
+    func testInlineChoiceDecoding() throws {
+        let encoder = XMLEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        encoder.prettyPrintIndentation = .spaces(4)
+        
+        let original = InlineChoice.nested(.init(), labeled: .init())
+        let encoded = try encoder.encode(original)
+        let decoded = try XMLDecoder().decode(InlineChoice.self, from: encoded)
+        XCTAssertEqual(original, decoded)
+    }
 #endif
 }
