@@ -6,6 +6,8 @@
 //  Created by James Bean on 7/15/19.
 //
 
+#if swift(>=5.5)
+
 import XCTest
 import XMLCoder
 
@@ -58,30 +60,9 @@ extension Entry: Codable {
         case run, properties, br
     }
 
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        do {
-            self = .run(try container.decode(Run.self, forKey: .run))
-        } catch {
-            do {
-                self = .properties(try container.decode(Properties.self, forKey: .properties))
-            } catch {
-                self = .br(try container.decode(Break.self, forKey: .br))
-            }
-        }
-    }
-
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        switch self {
-        case let .run(value):
-            try container.encode(value, forKey: .run)
-        case let .properties(value):
-            try container.encode(value, forKey: .properties)
-        case let .br(value):
-            try container.encode(value, forKey: .br)
-        }
-    }
+    private enum RunCodingKeys: String, CodingKey { case _0 = "" }
+    private enum PropertiesCodingKeys: String, CodingKey { case _0 = "" }
+    private enum BrCodingKeys: String, CodingKey { case _0 = "" }
 }
 
 final class NestedChoiceTests: XCTestCase {
@@ -293,3 +274,5 @@ final class NestedChoiceTests: XCTestCase {
         XCTAssertEqual(decoded, original)
     }
 }
+
+#endif

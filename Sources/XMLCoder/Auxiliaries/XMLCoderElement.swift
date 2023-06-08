@@ -32,7 +32,7 @@ struct XMLCoderElement: Equatable {
         return isStringNode || isCDATANode
     }
 
-    private var isInlided: Bool {
+    private var isInlined: Bool {
         return key.isEmpty
     }
 
@@ -180,9 +180,9 @@ struct XMLCoderElement: Equatable {
         }
 
         var string = ""
-        let indentLevel = !isInlided ? level + 1 : level
+        let indentLevel = isInlined ? level : level + 1
         string += element._toXMLString(indented: indentLevel, escapedCharacters, formatting, indentation)
-        string += prettyPrinted && !isInlided ? "\n" : ""
+        string += prettyPrinted && !isInlined ? "\n" : ""
         return string
     }
 
@@ -282,9 +282,9 @@ struct XMLCoderElement: Equatable {
         let prettyPrinted = formatting.contains(.prettyPrinted)
         let prefix: String
         switch indentation {
-        case let .spaces(count) where prettyPrinted && !isInlided:
+        case let .spaces(count) where prettyPrinted && !isInlined:
             prefix = String(repeating: " ", count: level * count)
-        case let .tabs(count) where prettyPrinted && !isInlided:
+        case let .tabs(count) where prettyPrinted && !isInlined:
             prefix = String(repeating: "\t", count: level * count)
         default:
             prefix = ""

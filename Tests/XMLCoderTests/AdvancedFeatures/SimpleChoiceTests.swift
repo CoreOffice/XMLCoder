@@ -9,33 +9,6 @@
 import XCTest
 import XMLCoder
 
-#if swift(>=5.5)
-private enum InlineChoice: Equatable, Codable {
-    case nested(Nested1, labeled: Nested2)
-    
-    enum NestedCodingKeys: String, CodingKey {
-        case _0 = ""
-        case labeled
-    }
-    
-    struct Nested1: Equatable, Codable, DynamicNodeEncoding {
-        var attr = "n1_a1"
-        var val = "n1_v1"
-        
-        public static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
-            switch key {
-            case CodingKeys.attr: return .attribute
-            default: return .element
-            }
-        }
-    }
-    
-    struct Nested2: Equatable, Codable {
-        var val = "n2_val"
-    }
-}
-#endif
-
 final class SimpleChoiceTests: XCTestCase {
     func testIntOrStringIntDecoding() throws {
         let xml = """
@@ -164,39 +137,6 @@ final class SimpleChoiceTests: XCTestCase {
             </container>
             """
         )
-    }
-
-    func testInlineChoiceOutput() throws {
-        let encoder = XMLEncoder()
-        encoder.outputFormatting = .prettyPrinted
-        encoder.prettyPrintIndentation = .spaces(4)
-        
-        let original = InlineChoice.nested(.init(), labeled: .init())
-        let encoded = try encoder.encode(original, withRootKey: "container")
-        XCTAssertEqual(
-            String(data: encoded, encoding: .utf8),
-            """
-            <container>
-                <nested attr="n1_a1">
-                    <val>n1_v1</val>
-                    <labeled>
-                        <val>n2_val</val>
-                    </labeled>
-                </nested>
-            </container>
-            """
-        )
-    }
-
-    func testInlineChoiceDecoding() throws {
-        let encoder = XMLEncoder()
-        encoder.outputFormatting = .prettyPrinted
-        encoder.prettyPrintIndentation = .spaces(4)
-        
-        let original = InlineChoice.nested(.init(), labeled: .init())
-        let encoded = try encoder.encode(original)
-        let decoded = try XMLDecoder().decode(InlineChoice.self, from: encoded)
-        XCTAssertEqual(original, decoded)
     }
 #endif
 }
