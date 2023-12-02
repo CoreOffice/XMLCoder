@@ -115,9 +115,25 @@ struct XMLCoderElement: Equatable {
         let attributes = KeyedStorage(self.attributes.map { attribute in
             (key: attribute.key, value: StringBox(attribute.value) as SimpleBox)
         })
-        let storage = KeyedStorage<String, Box>()
-        let elements = self.elements.reduce(storage) { $0.merge(element: $1) }
-        return KeyedBox(elements: elements, attributes: attributes)
+
+        var storage = KeyedStorage<String, Box>()
+
+        for element in self.elements {
+
+            let hasElements = !element.elements.isEmpty
+            let hasAttributes = !element.attributes.isEmpty
+            let hasText = element.stringValue != nil
+            
+            if hasElements || hasAttributes {
+                storage.append(element.transformToBoxTree(), at: element.key)
+            } else if hasText {
+                storage.append(element.transformToBoxTree(), at: element.key)
+            } else {
+                storage.append(SingleKeyedBox(key: element.key, element: NullBox()), at: element.key)
+            }
+        }
+
+        return KeyedBox(elements: storage, attributes: attributes)
     }
 
     func toXMLString(
