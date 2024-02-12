@@ -3,7 +3,9 @@
 
 import PackageDescription
 
-#if swift(>=5.7)
+#if swift(>=5.9)
+let platforms: [PackageDescription.SupportedPlatform] = [.macOS(.v10_13), .iOS(.v12), .watchOS(.v4), .tvOS(.v12)]
+#elseif swift(>=5.7)
 let platforms: [PackageDescription.SupportedPlatform] = [.macOS(.v10_13), .iOS(.v11), .watchOS(.v4), .tvOS(.v11)]
 #elseif swift(>=5.0)
 let platforms: [PackageDescription.SupportedPlatform]? = nil
