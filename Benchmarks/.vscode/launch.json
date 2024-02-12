@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:Benchmarks}",
+            "name": "Debug XMLCoderBenchmarks",
+            "program": "${workspaceFolder:Benchmarks}/.build/debug/XMLCoderBenchmarks",
+            "preLaunchTask": "swift: Build Debug XMLCoderBenchmarks"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:Benchmarks}",
+            "name": "Release XMLCoderBenchmarks",
+            "program": "${workspaceFolder:Benchmarks}/.build/release/XMLCoderBenchmarks",
+            "preLaunchTask": "swift: Build Release XMLCoderBenchmarks"
+        }
+    ]
+}

@@ -59,6 +59,11 @@ struct KeyedStorage<Key: Hashable & Comparable, Value> {
         return try buffer.compactMap(transform)
     }
 
+    mutating func reserveCapacity(_ capacity: Int) {
+        buffer.reserveCapacity(capacity)
+        keyMap.reserveCapacity(capacity)
+    }
+
     init() {}
 }
 
@@ -73,25 +78,5 @@ extension KeyedStorage: CustomStringConvertible {
         let result = buffer.map { "\"\($0)\": \($1)" }.joined(separator: ", ")
 
         return "[\(result)]"
-    }
-}
-
-extension KeyedStorage where Key == String, Value == Box {
-    func merge(element: XMLCoderElement) -> KeyedStorage<String, Box> {
-        var result = self
-
-        let hasElements = !element.elements.isEmpty
-        let hasAttributes = !element.attributes.isEmpty
-        let hasText = element.stringValue != nil
-
-        if hasElements || hasAttributes {
-            result.append(element.transformToBoxTree(), at: element.key)
-        } else if hasText {
-            result.append(element.transformToBoxTree(), at: element.key)
-        } else {
-            result.append(SingleKeyedBox(key: element.key, element: NullBox()), at: element.key)
-        }
-
-        return result
     }
 }
