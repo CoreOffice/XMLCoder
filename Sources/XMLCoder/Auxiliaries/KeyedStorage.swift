@@ -59,6 +59,11 @@ struct KeyedStorage<Key: Hashable & Comparable, Value> {
         return try buffer.compactMap(transform)
     }
 
+    mutating func reserveCapacity(_ capacity: Int) {
+        buffer.reserveCapacity(capacity)
+        keyMap.reserveCapacity(capacity)
+    }
+
     init() {}
 }
 

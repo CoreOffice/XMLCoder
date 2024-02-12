@@ -117,6 +117,7 @@ struct XMLCoderElement: Equatable {
         })
 
         var storage = KeyedStorage<String, Box>()
+        // storage.reserveCapacity(self.elements)
 
         for element in self.elements {
 
