@@ -59,11 +59,24 @@ struct XMLChoiceDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol 
     public func nestedContainer<NestedKey>(
         keyedBy _: NestedKey.Type, forKey key: Key
     ) throws -> KeyedDecodingContainer<NestedKey> {
-        throw DecodingError.typeMismatch(
-            at: codingPath,
-            expectation: NestedKey.self,
-            reality: container
-        )
+        guard container.unboxed.key == key.stringValue else {
+            throw DecodingError.typeMismatch(
+                at: codingPath,
+                expectation: NestedKey.self,
+                reality: container
+            )
+        }
+        
+        let value = container.unboxed.element
+        guard let container = XMLKeyedDecodingContainer<NestedKey>(box: value, decoder: decoder) else {
+            throw DecodingError.typeMismatch(
+                at: codingPath,
+                expectation: [String: Any].self,
+                reality: value
+            )
+        }
+        
+        return KeyedDecodingContainer(container)
     }
 
     public func nestedUnkeyedContainer(forKey key: Key) throws -> UnkeyedDecodingContainer {

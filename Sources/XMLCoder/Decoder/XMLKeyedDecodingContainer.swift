@@ -133,25 +133,7 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
             ))
         }
 
-        let container: XMLKeyedDecodingContainer<NestedKey>
-        if let keyedContainer = value as? KeyedContainer {
-            container = XMLKeyedDecodingContainer<NestedKey>(
-                referencing: decoder,
-                wrapping: keyedContainer
-            )
-        } else if let keyedContainer = value as? KeyedBox {
-            container = XMLKeyedDecodingContainer<NestedKey>(
-                referencing: decoder,
-                wrapping: SharedBox(keyedContainer)
-            )
-        } else if let singleBox = value as? SingleKeyedBox {
-            let element = (singleBox.key, singleBox.element)
-            let keyedContainer = KeyedBox(elements: [element], attributes: [])
-            container = XMLKeyedDecodingContainer<NestedKey>(
-                referencing: decoder,
-                wrapping: SharedBox(keyedContainer)
-            )
-        } else {
+        guard let container = XMLKeyedDecodingContainer<NestedKey>(box: value, decoder: decoder) else {
             throw DecodingError.typeMismatch(
                 at: codingPath,
                 expectation: [String: Any].self,
@@ -189,6 +171,32 @@ struct XMLKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerProtocol {
 
     public func superDecoder(forKey key: Key) throws -> Decoder {
         return try _superDecoder(forKey: key)
+    }
+}
+
+extension XMLKeyedDecodingContainer {
+    internal init?(box: Box, decoder: XMLDecoderImplementation) {
+        switch box {
+        case let keyedContainer as KeyedContainer:
+            self.init(
+                referencing: decoder,
+                wrapping: keyedContainer
+            )
+        case let keyedBox as KeyedBox:
+            self.init(
+                referencing: decoder,
+                wrapping: SharedBox(keyedBox)
+            )
+        case let singleBox as SingleKeyedBox:
+            let element = (singleBox.key, singleBox.element)
+            let keyedContainer = KeyedBox(elements: [element], attributes: [])
+            self.init(
+                referencing: decoder,
+                wrapping: SharedBox(keyedContainer)
+            )
+        default:
+            return nil
+        }
     }
 }
 
@@ -248,7 +256,7 @@ extension XMLKeyedDecodingContainer {
 
         let elements = container
             .withShared { keyedBox -> [KeyedBox.Element] in
-                keyedBox.elements[key.stringValue].map {
+                return (key.isInlined ? keyedBox.elements.values : keyedBox.elements[key.stringValue]).map {
                     if let singleKeyed = $0 as? SingleKeyedBox {
                         return singleKeyed.element.isNull ? singleKeyed : singleKeyed.element
                     } else {
@@ -258,7 +266,7 @@ extension XMLKeyedDecodingContainer {
             }
 
         let attributes = container.withShared { keyedBox in
-            keyedBox.attributes[key.stringValue]
+            key.isInlined ? keyedBox.attributes.values : keyedBox.attributes[key.stringValue]
         }
 
         decoder.codingPath.append(key)
@@ -271,7 +279,6 @@ extension XMLKeyedDecodingContainer {
             _ = decoder.nodeDecodings.removeLast()
             decoder.codingPath.removeLast()
         }
-        let box: Box
 
         // You can't decode sequences from attributes, but other strategies
         // need special handling for empty sequences.
@@ -292,21 +299,26 @@ extension XMLKeyedDecodingContainer {
             return ((cdata as? StringBox)?.unboxed as? T) ?? emptyString
         }
 
-        switch strategy(key) {
-        case .attribute?:
-            box = try getAttributeBox(for: type, attributes, key)
-        case .element?:
-            box = try getElementBox(for: type, elements, key)
-        case .elementOrAttribute?:
-            box = try getAttributeOrElementBox(attributes, elements, key)
-        default:
-            switch type {
-            case is XMLAttributeProtocol.Type:
+        let box: Box
+        if key.isInlined {
+            box = container.typeErasedUnbox()
+        } else {
+            switch strategy(key) {
+            case .attribute?:
                 box = try getAttributeBox(for: type, attributes, key)
-            case is XMLElementProtocol.Type:
+            case .element?:
                 box = try getElementBox(for: type, elements, key)
-            default:
+            case .elementOrAttribute?:
                 box = try getAttributeOrElementBox(attributes, elements, key)
+            default:
+                switch type {
+                case is XMLAttributeProtocol.Type:
+                    box = try getAttributeBox(for: type, attributes, key)
+                case is XMLElementProtocol.Type:
+                    box = try getElementBox(for: type, elements, key)
+                default:
+                    box = try getAttributeOrElementBox(attributes, elements, key)
+                }
             }
         }
 

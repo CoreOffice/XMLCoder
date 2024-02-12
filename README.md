@@ -226,8 +226,8 @@ set a property `removeWhitespaceElements` to `true` (the default value is `false
 
 Starting with [version 0.8](https://github.com/CoreOffice/XMLCoder/releases/tag/0.8.0),
 you can encode and decode `enum`s with associated values by conforming your
-`CodingKey` type additionally to `XMLChoiceCodingKey`. This allows decoding
-XML elements similar in structure to this example:
+`CodingKey` type additionally to `XMLChoiceCodingKey`. This allows encoding 
+and decoding XML elements similar in structure to this example:
 
 ```xml
 <container>
@@ -242,40 +242,75 @@ XML elements similar in structure to this example:
 To decode these elements you can use this type:
 
 ```swift
-enum IntOrString: Equatable {
+enum IntOrString: Codable {
     case int(Int)
     case string(String)
-}
-
-extension IntOrString: Codable {
+    
     enum CodingKeys: String, XMLChoiceCodingKey {
         case int
         case string
     }
-
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        switch self {
-        case let .int(value):
-            try container.encode(value, forKey: .int)
-        case let .string(value):
-            try container.encode(value, forKey: .string)
-        }
-    }
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        do {
-            self = .int(try container.decode(Int.self, forKey: .int))
-        } catch {
-            self = .string(try container.decode(String.self, forKey: .string))
-        }
-    }
+    
+    enum IntCodingKeys: String, CodingKey { case _0 = "" }
+    enum StringCodingKeys: String, CodingKey { case _0 = "" }
 }
 ```
 
 This is described in more details in PR [\#119](https://github.com/CoreOffice/XMLCoder/pull/119)
 by [@jsbean](https://github.com/jsbean) and [@bwetherfield](https://github.com/bwetherfield).
+
+#### Choice elements with (inlined) complex associated values
+
+Lets extend previous example replacing simple types with complex 
+in assosiated values. This example would cover XML like:
+
+```xml
+<container>
+    <nested attr="n1_a1">
+        <val>n1_v1</val>
+        <labeled>
+            <val>n2_val</val>
+        </labeled>
+    </nested>
+    <simple attr="n1_a1">
+        <val>n1_v1</val>
+    </simple>
+</container>
+```
+
+```swift
+enum InlineChoice: Equatable, Codable {
+    case simple(Nested1)
+    case nested(Nested1, labeled: Nested2)
+    
+    enum CodingKeys: String, CodingKey, XMLChoiceCodingKey {
+        case simple, nested
+    }
+    
+    enum SimpleCodingKeys: String, CodingKey { case _0 = "" }
+    
+    enum NestedCodingKeys: String, CodingKey {
+        case _0 = ""
+        case labeled
+    }
+    
+    struct Nested1: Equatable, Codable, DynamicNodeEncoding {
+        var attr = "n1_a1"
+        var val = "n1_v1"
+        
+        public static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+            switch key {
+            case CodingKeys.attr: return .attribute
+            default: return .element
+            }
+        }
+    }
+
+    struct Nested2: Equatable, Codable {
+        var val = "n2_val"
+    }
+}
+```
 
 ### Integrating with [Combine](https://developer.apple.com/documentation/combine)
 
