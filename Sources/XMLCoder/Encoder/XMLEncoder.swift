@@ -13,7 +13,7 @@ open class XMLEncoder {
     // MARK: Options
 
     /// The formatting of the output XML data.
-    public struct OutputFormatting: OptionSet {
+    public struct OutputFormatting: OptionSet, Sendable {
         /// The format's default value.
         public let rawValue: UInt
 
@@ -39,7 +39,7 @@ open class XMLEncoder {
     }
 
     /// A node's encoding type. Specifies how a node will be encoded.
-    public enum NodeEncoding {
+    public enum NodeEncoding: Sendable {
         case attribute
         case element
         case both
