@@ -19,7 +19,7 @@ let package = Package(
         .target(
             name: "XMLCoder",
             swiftSettings: [
-              .swiftLanguageMode(.v5)
+                .swiftLanguageMode(.v5)
             ]
         ),
         .testTarget(
