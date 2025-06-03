@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 import XMLCoder
 
-private struct Book: Codable, Equatable {
+private struct Book: Codable, Equatable, Sendable {
     @Attribute var id: Int
     @Element var name: String
     @ElementAndAttribute var authorID: Int

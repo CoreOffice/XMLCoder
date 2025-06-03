@@ -40,3 +40,4 @@ extension Element: Codable where Value: Codable {
 
 extension Element: Equatable where Value: Equatable {}
 extension Element: Hashable where Value: Hashable {}
+extension Element: Sendable where Value: Sendable {}
