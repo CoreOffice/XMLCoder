@@ -34,7 +34,6 @@ final class CustomEncoder: XMLEncoder {
     }
 }
 
-@available(iOS 13.0, macOS 10.15.0, tvOS 13.0, watchOS 6.0, *)
 final class CombineTests: XCTestCase {
     func testDecode() {
         var foo: Foo?
