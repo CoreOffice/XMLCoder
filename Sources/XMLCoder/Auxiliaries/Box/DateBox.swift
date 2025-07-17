@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct DateBox: Equatable {
+struct DateBox: Equatable, Sendable {
     enum Format: Equatable {
         case secondsSince1970
         case millisecondsSince1970
@@ -44,7 +44,7 @@ struct DateBox: Equatable {
 
     init?(iso8601 string: String) {
         if #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
-            guard let unboxed = _iso8601Formatter.date(from: string) else {
+            guard let unboxed =  ISO8601DateFormatter.xmlCoderFormatter().date(from: string) else {
                 return nil
             }
             self.init(unboxed, format: .iso8601)
@@ -70,7 +70,7 @@ struct DateBox: Equatable {
             return milliseconds.description
         case .iso8601:
             if #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
-                return _iso8601Formatter.string(from: self.unboxed)
+                return ISO8601DateFormatter.xmlCoderFormatter().string(from: self.unboxed)
             } else {
                 fatalError("ISO8601DateFormatter is unavailable on this platform.")
             }
