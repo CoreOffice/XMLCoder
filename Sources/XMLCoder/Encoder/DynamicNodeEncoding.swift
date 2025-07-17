@@ -40,7 +40,7 @@
  </book>
  ```
  */
-public protocol DynamicNodeEncoding: Encodable {
+public protocol DynamicNodeEncoding: Encodable, Sendable {
     static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding
 }
 
