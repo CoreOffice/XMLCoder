@@ -9,7 +9,7 @@
 import Foundation
 
 /// Shared Key Types
-struct XMLKey: CodingKey {
+struct XMLKey: CodingKey, Sendable {
     public let stringValue: String
     public let intValue: Int?
 
