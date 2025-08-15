@@ -11,7 +11,7 @@ import Foundation
 /// Type that allows overriding XML header during encoding. Pass a value of this type to the `encode`
 /// function of `XMLEncoder` to specify the exact value of the header you'd like to see in the encoded
 /// data.
-public struct XMLHeader {
+public struct XMLHeader: Sendable {
     /// The XML standard that the produced document conforms to.
     public let version: Double?
 

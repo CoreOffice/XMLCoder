@@ -40,6 +40,7 @@ extension Attribute: Codable where Value: Codable {
 
 extension Attribute: Equatable where Value: Equatable {}
 extension Attribute: Hashable where Value: Hashable {}
+extension Attribute: Sendable where Value: Sendable {}
 
 extension Attribute: ExpressibleByIntegerLiteral where Value: ExpressibleByIntegerLiteral {
     public typealias IntegerLiteralType = Value.IntegerLiteralType

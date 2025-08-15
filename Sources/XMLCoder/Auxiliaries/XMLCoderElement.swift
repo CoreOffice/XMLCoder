@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct XMLCoderElement: Equatable {
-    struct Attribute: Equatable {
+struct XMLCoderElement: Equatable, Sendable {
+    struct Attribute: Equatable, Sendable {
         let key: String
         let value: String
     }
