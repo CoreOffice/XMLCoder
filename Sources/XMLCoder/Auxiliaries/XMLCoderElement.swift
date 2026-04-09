@@ -314,7 +314,10 @@ struct XMLCoderElement: Equatable, Sendable {
         }
 
         if !elements.isEmpty || formatting.contains(.noEmptyElements) {
-            let prettyPrintElements = prettyPrinted && !containsTextNodes
+            let hasOnlyIntrinsicContent = elements.allSatisfy { element in
+                element.key.isEmpty && !element.elements.contains { !$0.key.isEmpty }
+            }
+            let prettyPrintElements = prettyPrinted && !containsTextNodes && !hasOnlyIntrinsicContent
             if !key.isEmpty {
                 string += prettyPrintElements ? ">\n" : ">"
             }
