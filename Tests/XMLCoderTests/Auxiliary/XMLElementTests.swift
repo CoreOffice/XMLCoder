@@ -94,7 +94,7 @@ class XMLElementTests: XCTestCase {
         )
 
         XCTAssertEqual(result, """
-        <Input xmlns="https://example.com"><Nested xmlns:xsi="https://example.com" xsi:someName="nestedAttrValue"></Nested></Input>
+        <Input xmlns="https://example.com"><Nested xmlns:xsi="https://example.com" xsi:someName="nestedAttrValue" /></Input>
         """)
     }
 

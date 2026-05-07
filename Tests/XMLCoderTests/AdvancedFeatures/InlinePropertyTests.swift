@@ -15,22 +15,25 @@ import XCTest
 private enum InlineChoice: Equatable, Codable {
     case simple(Nested1)
     case nested(Nested1, labeled: Nested2)
-    
+    case attributesOnly(AttributesOnly)
+
     enum CodingKeys: String, CodingKey, XMLChoiceCodingKey {
-        case simple, nested
+        case simple, nested, attributesOnly
     }
-    
+
     enum SimpleCodingKeys: String, CodingKey { case _0 = "" }
-    
+
     enum NestedCodingKeys: String, CodingKey {
         case _0 = ""
         case labeled
     }
-    
+
+    enum AttributesOnlyCodingKeys: String, CodingKey { case _0 = "" }
+
     struct Nested1: Equatable, Codable, DynamicNodeEncoding {
         var attr = "n1_a1"
         var val = "n1_v1"
-        
+
         public static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
             switch key {
             case CodingKeys.attr: return .attribute
@@ -41,6 +44,18 @@ private enum InlineChoice: Equatable, Codable {
 
     struct Nested2: Equatable, Codable {
         var val = "n2_val"
+    }
+
+    struct AttributesOnly: Equatable, Codable, DynamicNodeEncoding {
+        var name = "attr"
+
+        enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+
+        public static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+            return .attribute
+        }
     }
 }
 
@@ -75,9 +90,12 @@ final class InlinePropertyTests: XCTestCase {
         encoder.outputFormatting = .prettyPrinted
         encoder.prettyPrintIndentation = .spaces(4)
         
-        let original: [InlineChoice] = [.nested(.init(), labeled: .init()), .simple(.init())]
+        let original: [InlineChoice] = [
+            .nested(.init(), labeled: .init()),
+            .simple(.init()),
+            .attributesOnly(.init())
+        ]
         let encoded = try encoder.encode(original, withRootKey: "container")
-        print(String(data: encoded, encoding: .utf8)!)
         XCTAssertEqual(
             String(data: encoded, encoding: .utf8),
             """
@@ -91,6 +109,7 @@ final class InlinePropertyTests: XCTestCase {
                 <simple attr="n1_a1">
                     <val>n1_v1</val>
                 </simple>
+                <attributesOnly Name="attr" />
             </container>
             """
         )

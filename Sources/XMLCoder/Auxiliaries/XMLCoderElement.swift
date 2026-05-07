@@ -36,6 +36,11 @@ struct XMLCoderElement: Equatable, Sendable {
         return key.isEmpty
     }
 
+    private var isPracticallyEmpty: Bool {
+        guard stringValue == nil else { return false }
+        return elements.allSatisfy { $0.key.isEmpty && $0.isPracticallyEmpty }
+    }
+
     init(
         key: String,
         elements: [XMLCoderElement] = [],
@@ -313,7 +318,7 @@ struct XMLCoderElement: Equatable, Sendable {
             formatXMLAttributes(formatting, &string, escapedCharacters.attributes)
         }
 
-        if !elements.isEmpty || formatting.contains(.noEmptyElements) {
+        if !isPracticallyEmpty || formatting.contains(.noEmptyElements) {
             let hasOnlyIntrinsicContent = elements.allSatisfy { element in
                 element.key.isEmpty && !element.elements.contains { !$0.key.isEmpty }
             }
