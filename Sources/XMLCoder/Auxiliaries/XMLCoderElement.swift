@@ -147,7 +147,8 @@ struct XMLCoderElement: Equatable, Sendable {
     }
 
     func toXMLString(
-        with header: XMLHeader?,
+        header: XMLHeader?,
+        stylesheet: XMLStylesheet?,
         doctype: XMLDocumentType?,
         escapedCharacters: (elements: [(String, String)], attributes: [(String, String)]),
         formatting: XMLEncoder.OutputFormatting,
@@ -157,6 +158,10 @@ struct XMLCoderElement: Equatable, Sendable {
         
         if let header = header, let headerXML = header.toXML() {
             base += headerXML
+        }
+        
+        if let stylesheet = stylesheet, let stylesheetXML = stylesheet.toXML() {
+            base += stylesheetXML
         }
         
         if let doctype = doctype {

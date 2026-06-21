@@ -13,9 +13,9 @@ final class RootLevetExtraAttributesTests: XCTestCase {
         let policy = Policy(name: "test", initial: "extra root attributes")
 
         let extraRootAttributes = [
-            "xmlns": "http://www.nrf-arts.org/IXRetail/namespace",
-            "xmlns:xsd": "http://www.w3.org/2001/XMLSchema",
-            "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+            ("xmlns", "http://www.nrf-arts.org/IXRetail/namespace"),
+            ("xmlns:xsd", "http://www.w3.org/2001/XMLSchema"),
+            ("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance"),
         ]
 
         encoder.keyEncodingStrategy = .lowercased

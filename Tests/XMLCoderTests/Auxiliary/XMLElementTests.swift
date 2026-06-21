@@ -85,7 +85,8 @@ class XMLElementTests: XCTestCase {
                             attributes: [inputNamespace])
 
         let result = input.toXMLString(
-            with: nil,
+            header: nil,
+            stylesheet: nil,
             doctype: nil,
             escapedCharacters: (elements: XMLEncoder().charactersEscapedInElements,
                                 attributes: XMLEncoder().charactersEscapedInAttributes),
@@ -122,7 +123,8 @@ class XMLElementTests: XCTestCase {
                             attributes: [inputNamespace])
 
         let result = input.toXMLString(
-            with: nil,
+            header: nil,
+            stylesheet: nil,
             doctype: nil,
             escapedCharacters: (elements: XMLEncoder().charactersEscapedInElements,
                                 attributes: XMLEncoder().charactersEscapedInAttributes),
