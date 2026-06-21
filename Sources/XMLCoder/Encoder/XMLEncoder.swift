@@ -360,7 +360,7 @@ open class XMLEncoder {
     /// - throws: An error if any value throws an error during encoding.
     open func encode<T: Encodable>(_ value: T,
                                    withRootKey rootKey: String? = nil,
-                                   rootAttributes: [String: String]? = nil,
+                                   rootAttributes: [(key: String, value: String)]? = nil,
                                    header: XMLHeader? = nil,
                                    doctype: XMLDocumentType? = nil) throws -> Data
     {
