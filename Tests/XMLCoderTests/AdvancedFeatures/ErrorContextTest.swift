@@ -41,18 +41,10 @@ final class ErrorContextTest: XCTestCase {
             at line 1, column 7:
             `ah //>`
             """
-            let column10 = """
-            \(underlying.localizedDescription) \
-            at line 1, column 10:
-            `//>`
-            """
-
-            #if os(Linux) && swift(<5.4)
-            // XML Parser returns a different column on Linux and iOS 16+
-            // https://bugs.swift.org/browse/SR-11192
+            #if os(Windows) || os(Linux)
+            // Input is fed to the parser as a stream, so the reported column
+            // is the position of the error rather than the end of the input.
             XCTAssertEqual(ctx.debugDescription, column7)
-            #elseif os(Windows) || os(Linux)
-            XCTAssertEqual(ctx.debugDescription, column10)
             #else
             if #available(iOS 16.0, tvOS 16.0, macOS 13.0, *) {
                 XCTAssertEqual(ctx.debugDescription, column7)
