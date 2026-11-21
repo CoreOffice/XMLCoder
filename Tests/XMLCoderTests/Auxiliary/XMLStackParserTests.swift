@@ -158,4 +158,30 @@ class XMLStackParserTests: XCTestCase {
         XCTAssertEqual(root.elements[1].elements[0].stringValue, "escaped data: &lt;\r\n")
         XCTAssertEqual(root.elements[2].stringValue, "\n")
     }
+
+    // libxml2 rejects a single input chunk larger than 10 MB unless
+    // XML_PARSE_HUGE is set, so the parser must not receive all data at once.
+    func testDecodeDocumentLargerThan10MB() throws {
+        struct Catalog: Decodable {
+            let item: [Item]
+        }
+        struct Item: Decodable, Equatable {
+            let id: Int
+            let name: String
+        }
+
+        let count = 100
+        let name = String(repeating: "a", count: 110_000)
+        var xmlString = "<catalog>"
+        for i in 0..<count {
+            xmlString += "<item><id>\(i)</id><name>\(name)</name></item>"
+        }
+        xmlString += "</catalog>"
+        let xmlData = xmlString.data(using: .utf8)!
+        XCTAssertGreaterThan(xmlData.count, 10_000_000)
+
+        let catalog = try XMLDecoder().decode(Catalog.self, from: xmlData)
+        XCTAssertEqual(catalog.item.count, count)
+        XCTAssertEqual(catalog.item.last, Item(id: count - 1, name: name))
+    }
 }
